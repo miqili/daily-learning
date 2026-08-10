@@ -15,8 +15,8 @@ export const usePlanStore = defineStore('plan', {
       this.day = { day_number: today.day_number, task_date: today.task_date, tasks: today.tasks };
       this.overdue = today.overdue;
     },
-    async initialize(examDate: string) {
-      await initPlan(examDate);
+    async initialize(examDate: string, startDate?: string) {
+      await initPlan(examDate, startDate);
       await this.loadSummary();
       await this.loadDay(this.summary?.current_day ?? 1);
     },

@@ -7,6 +7,8 @@ import { VocabularyLevelsPhrases1785715400000 } from './migrations/2026080303-vo
 import { Essays1785715500000 } from './migrations/2026080304-essays';
 import { Papers1785715600000 } from './migrations/2026080305-papers';
 import { PapersPassage1785716400000 } from './migrations/2026080406-papers-passage';
+import { VocabExtras1785716500000 } from './migrations/2026080407-vocab-extras';
+import { PaperProvenance1785716600000 } from './migrations/2026080408-paper-provenance';
 import { EssayTemplate } from '../entities/essay-template.entity';
 import { ExamPaper } from '../entities/exam-paper.entity';
 import { ExamQuestion } from '../entities/exam-question.entity';
@@ -51,6 +53,6 @@ export const AppDataSource = new DataSource({
     StudyPlan,
     StudySession,
   ],
-  migrations: [InitialSchema1785715200000, PersonalLearningSystem1785715300000, VocabularyLevelsPhrases1785715400000, Essays1785715500000, Papers1785715600000, PapersPassage1785716400000],
+  migrations: [InitialSchema1785715200000, PersonalLearningSystem1785715300000, VocabularyLevelsPhrases1785715400000, Essays1785715500000, Papers1785715600000, PapersPassage1785716400000, VocabExtras1785716500000, PaperProvenance1785716600000],
   synchronize: false,
 });

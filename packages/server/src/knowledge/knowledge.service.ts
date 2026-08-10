@@ -19,7 +19,8 @@ export class KnowledgeService {
     if (dto.keyword) {
       query.andWhere('(item.title LIKE :kw OR item.content LIKE :kw)', { kw: `%${dto.keyword.trim()}%` });
     }
-    const limit = Math.min(dto.limit ?? 50, 100);
+    // 当前是个人备考知识库，默认返回完整的常用规模；仍保留上限防止误请求。
+    const limit = Math.min(dto.limit ?? 200, 500);
     const [list, total] = await query.take(limit).getManyAndCount();
     return { total, list: list.map((item) => this.view(item)) };
   }

@@ -4,6 +4,7 @@ import { showSuccessToast, showToast } from 'vant';
 import { VOCAB_LEVEL_LABELS } from '@shck/shared';
 import { apiError } from '@/api/client';
 import { createPhrase, deletePhrase, listPhrases, type Phrase } from '@/api/vocabulary';
+import MobilePageHeader from '@/components/mobile/MobilePageHeader.vue';
 import { speak, warmupVoices } from '@/utils/speech';
 
 const LEVELS = [1, 2, 3];
@@ -16,10 +17,6 @@ const error = ref('');
 const busy = ref(false);
 
 const filtered = computed(() => phrases.value);
-
-function levelColor(level: number): string {
-  return level === 1 ? '#3b82f6' : level === 2 ? '#8b5cf6' : '#f59e0b';
-}
 
 async function loadAll() {
   error.value = '';
@@ -52,76 +49,46 @@ onMounted(() => { warmupVoices(); loadAll(); });
 </script>
 
 <template>
-  <div class="m-page">
-    <van-nav-bar title="短语" fixed placeholder>
-      <template #right><span class="nav-add" @click="showForm = !showForm">{{ showForm ? '收起' : '添加' }}</span></template>
-    </van-nav-bar>
+  <main class="study-page phrases-page">
+    <div class="study-screen">
+      <MobilePageHeader title="短语簿" eyebrow="英语固定表达" back :action-label="showForm ? '收起' : '添加'" @action="showForm = !showForm" />
 
-    <div class="m-body">
-      <!-- 添加 -->
-      <div v-if="showForm" class="form-card">
-        <div class="form-title">添加短语</div>
+      <div v-if="showForm" class="study-form">
+        <h2 class="study-form-title">添加短语</h2>
         <van-field v-model="form.phrase" label="短语" placeholder="如：make a difference" maxlength="200" />
         <van-field v-model="form.meaning" label="释义" placeholder="如：产生影响" />
-        <div class="level-row">
-          <span>分级</span>
-          <van-tabs v-model:active="form.level" shrink line-width="20">
-            <van-tab v-for="l in LEVELS" :key="l" :name="l" :title="VOCAB_LEVEL_LABELS[l]" />
-          </van-tabs>
+        <div class="form-levels">
+          <span>分级</span><button v-for="level in LEVELS" :key="level" :class="{ active: form.level === level }" @click="form.level = level">{{ VOCAB_LEVEL_LABELS[level] }}</button>
         </div>
-        <van-button block round type="primary" style="margin-top:12px" @click="addPhrase">保存</van-button>
+        <button class="study-primary save-phrase" @click="addPhrase">保存短语</button>
       </div>
 
-      <!-- 筛选 -->
-      <div class="filter-row">
-        <van-tabs v-model:active="levelFilter" shrink line-width="20" @change="loadAll">
-          <van-tab :name="0" title="全部" />
-          <van-tab v-for="l in LEVELS" :key="l" :name="l" :title="VOCAB_LEVEL_LABELS[l]" />
-        </van-tabs>
-        <van-search v-model="keyword" placeholder="搜索短语/释义" shape="round" @search="loadAll" @clear="loadAll" />
+      <van-search v-model="keyword" show-action action-text="查找" placeholder="搜索短语或释义" @search="loadAll" @click-action="loadAll" />
+      <div class="study-filter-row">
+        <button class="study-filter" :class="{ active: levelFilter === 0 }" @click="levelFilter = 0; loadAll()">全部</button>
+        <button v-for="level in LEVELS" :key="level" class="study-filter" :class="{ active: levelFilter === level }" @click="levelFilter = level; loadAll()">{{ VOCAB_LEVEL_LABELS[level] }}</button>
       </div>
 
-      <p v-if="error" class="m-error">{{ error }}</p>
+      <p v-if="error" class="study-error">{{ error }}</p>
 
-      <div v-if="busy && !phrases.length" class="m-loading"><van-loading size="24">加载中…</van-loading></div>
+      <div v-if="busy && !phrases.length" class="study-loading"><van-loading size="24">正在翻阅短语簿…</van-loading></div>
       <div v-else-if="filtered.length" class="phrase-list">
-        <div v-for="p in filtered" :key="p.id" class="phrase-card">
+        <article v-for="(p, index) in filtered" :key="p.id" class="phrase-card">
           <div class="phrase-top">
-            <span class="phrase" @click="speak(p.phrase)">{{ p.phrase }}</span>
-            <div class="phrase-right">
-              <van-tag round plain :color="levelColor(p.level)">{{ VOCAB_LEVEL_LABELS[p.level] ?? '高频' }}</van-tag>
-              <van-icon name="cross" color="#c0c4cc" @click="remove(p.id)" />
-            </div>
+            <span class="phrase-no">{{ String(index + 1).padStart(2, '0') }}</span>
+            <button class="phrase" @click="speak(p.phrase)">{{ p.phrase }}</button>
+            <button class="phrase-remove" aria-label="删除短语" @click="remove(p.id)">×</button>
           </div>
           <p v-if="p.meaning" class="phrase-meaning">{{ p.meaning }}</p>
-          <div v-if="p.word || p.deck" class="phrase-meta">
-            <van-tag v-if="p.word" round plain color="#3b82f6">来自单词：{{ p.word.word }}</van-tag>
-            <van-tag v-if="p.deck" round plain color="#94a3b8">{{ p.deck.name }}</van-tag>
-          </div>
-        </div>
+          <div class="phrase-foot"><span>{{ VOCAB_LEVEL_LABELS[p.level] ?? '高频' }}</span><span v-if="p.word">源词 {{ p.word.word }}</span><span v-if="p.deck">{{ p.deck.name }}</span></div>
+        </article>
       </div>
-      <van-empty v-else description="还没有短语，点右上角「添加」记录一条" />
+      <div v-else class="study-empty">还没有短语。<br>点击右上角「添加」记录一条。</div>
     </div>
-  </div>
+  </main>
 </template>
 
 <style scoped>
-.m-page { max-width: 640px; margin: 0 auto; min-height: 100vh; background: var(--van-background); }
-.nav-add { color: #3b82f6; font-size: 14px; font-weight: 600; }
-.m-body { padding: 16px; }
-.form-card { background: var(--van-background-2); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
-.form-title { font-size: 15px; font-weight: 700; color: var(--van-text-color); margin-bottom: 10px; }
-.level-row { display: flex; align-items: center; gap: 12px; padding: 10px 14px; }
-.level-row > span { font-size: 13px; color: var(--van-text-color); font-weight: 600; }
-.filter-row { margin-bottom: 4px; }
-.filter-row .van-search { padding: 8px 0; }
-.phrase-list { display: grid; gap: 12px; }
-.phrase-card { background: var(--van-background-2); border-radius: 16px; padding: 15px 16px; box-shadow: 0 1px 3px rgba(16,24,40,.04); }
-.phrase-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.phrase { font-size: 17px; font-weight: 800; color: var(--van-text-color); cursor: pointer; text-decoration: underline dotted; text-underline-offset: 4px; }
-.phrase-right { display: flex; align-items: center; gap: 10px; }
-.phrase-meaning { font-size: 13px; color: var(--van-text-color-2); margin-top: 8px; line-height: 1.6; }
-.phrase-meta { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
-.m-error { color: var(--van-danger-color); font-size: 13px; margin: 12px 4px; }
-.m-loading { display: grid; place-items: center; padding: 48px 0; color: var(--van-text-color-3); font-size: 13px; }
+.form-levels { display: flex; align-items: center; gap: 7px; padding: 10px 14px; }.form-levels > span { margin-right: 3px; color: var(--study-muted); font-size: 12px; }.form-levels button { min-height:44px; padding: 0 12px; border: 1px solid var(--app-border-strong); border-radius: 99px; background: transparent; color: var(--study-muted); font-size: 12px; }.form-levels button.active { border-color: var(--app-primary); background: var(--app-primary); color: #fff; }.save-phrase { width: 100%; margin-top: 12px; }
+.phrase-list { display: grid; gap: 9px; margin-top: 10px; }.phrase-card { padding: 15px 14px 12px; border: 1px solid var(--study-line); border-radius: 12px; background: var(--app-surface); }.phrase-top { display: grid; grid-template-columns: 27px 1fr 44px; align-items: center; gap: 8px; }.phrase-no { color: var(--study-accent); font-family: inherit; font-size: 12px; }.phrase { min-height:44px; padding: 0; border: 0; background: transparent; color: var(--study-ink); text-align: left; font-family: inherit; font-size: 18px; font-weight: 600; }.phrase-remove { width: 44px; height: 44px; border: 0; background: transparent; color: var(--study-faint); font-size: 20px; }.phrase-meaning { margin: 5px 0 0 35px; color: var(--study-muted); font-size: 13px; line-height: 1.6; }.phrase-foot { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 8px 0 0 35px; padding-top: 9px; border-top: 1px solid var(--app-border); color: var(--study-faint); font-size: 12px; }
 </style>

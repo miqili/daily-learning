@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
+import { Button, Checkbox, Input, InputNumber, Select, SelectOption, Textarea } from 'ant-design-vue';
 import { VOCAB_LEVEL_LABELS } from '@shck/shared';
 import { apiError } from '@/api/client';
+import AppEmptyState from '@/components/common/AppEmptyState.vue';
+import DesktopPageHeader from '@/components/common/DesktopPageHeader.vue';
+import StatusBadge from '@/components/common/StatusBadge.vue';
 import {
   addWord, createDeck, importBuiltinDeck, importWords, listDecks, listWords, reviewWord, todayQueue, updateVocabularySettings, updateWord, vocabularyStats,
   type Deck, type ProgressItem, type VocabularyStats, type VocabularyWord, type WordInput,
@@ -187,33 +191,32 @@ onMounted(() => { warmupVoices(); loadAll(); });
 </script>
 
 <template>
-  <section class="page" style="max-width:1080px">
-    <div class="page-heading">
-      <div><h1>单词</h1><p class="muted" style="margin:8px 0 0">每日新词 + 间隔复习，美式发音与音标。</p></div>
-      <div v-if="stats" class="badge amber">今日待复习 {{ stats.due_today }}</div>
-    </div>
+  <section class="page vocabulary-page">
+    <DesktopPageHeader eyebrow="英语学习" title="单词" description="通过每日新词和间隔复习，稳定积累成人本科英语核心词汇。">
+      <template #actions><StatusBadge v-if="stats" tone="warning">今日待复习 {{ stats.due_today }}</StatusBadge></template>
+    </DesktopPageHeader>
     <p v-if="error" class="error">{{ error }}</p>
 
-    <div v-if="stats" class="stat-grid" style="margin-bottom:24px">
+    <div v-if="stats" class="stat-grid vocab-summary">
       <div class="stat"><span class="caption">总单词数</span><div class="stat-value">{{ stats.total_words }}</div></div>
       <div class="stat"><span class="caption">已学 / 剩余</span><div class="stat-value">{{ stats.learned }}<small style="font-size:14px;color:#64748b"> / {{ stats.remaining }}</small></div></div>
       <div class="stat"><span class="caption">已掌握</span><div class="stat-value">{{ stats.mastered }}<small style="font-size:14px;color:#64748b">（{{ stats.progress_pct }}%）</small></div></div>
       <div class="stat"><span class="caption">预计完成（当前词库）</span><div class="stat-value">{{ stats.estimated_days }}<small style="font-size:14px;color:#64748b"> 天</small></div></div>
     </div>
-    <section v-if="stats" class="card card-pad" style="margin-bottom:24px">
+    <section v-if="stats" class="card card-pad vocab-goal">
       <div style="display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
         <span class="caption">每日新词目标</span>
         <div style="display:flex;gap:8px;align-items:center">
-          <input v-model.number="dailyTargetInput" class="input" type="number" min="1" max="500" style="width:90px" />
-          <button class="button secondary" style="min-height:32px;padding:0 12px" :disabled="savingTarget" @click="saveDailyTarget">保存</button>
+          <InputNumber v-model:value="dailyTargetInput" :min="1" :max="500" style="width:90px" />
+          <Button :loading="savingTarget" @click="saveDailyTarget">保存</Button>
         </div>
       </div>
       <div class="progress-track"><div class="progress-value" :style="{ width: `${stats.progress_pct}%` }" /></div>
       <p class="caption" style="margin-top:8px">按当前目标，每天 {{ stats?.daily_target }} 个新词，约 <strong>{{ stats?.estimated_days }}</strong> 天学完当前词库剩余 {{ stats?.remaining }} 个。成考英语建议覆盖 <strong>1500+ 高频核心词</strong>，词库会继续扩充，也可导入你自己的词表。</p>
     </section>
 
-    <section class="card card-pad" style="margin-bottom:24px">
-      <h2 style="margin-bottom:16px">今日单词（新词 {{ queueNewCount }} + 复习 {{ queueDueCount }}）</h2>
+    <section class="card card-pad vocab-section today-vocabulary">
+      <div class="vocab-section-heading"><div><h2>今日单词</h2><p>新词 {{ queueNewCount }} · 到期复习 {{ queueDueCount }}</p></div><span>{{ queueTotal }} 个</span></div>
       <div v-if="queue.length" class="result-list">
         <div v-for="item in queue" :key="item.id" class="task-row" style="align-items:flex-start">
           <div class="task-content" style="flex:1">
@@ -222,7 +225,7 @@ onMounted(() => { warmupVoices(); loadAll(); });
               <span v-if="item.word.phonetic" class="caption" style="font-family:monospace">{{ item.word.phonetic }}</span>
               <span class="badge blue">L{{ item.mastery_level }}</span>
               <span class="badge" :style="{ background: `${levelColor(item.word.level)}1a`, color: levelColor(item.word.level) }">{{ VOCAB_LEVEL_LABELS[item.word.level] ?? '高频' }}</span>
-              <button class="text-button" style="font-size:16px" title="美式发音" @click="speak(item.word.word)">🔊</button>
+              <button class="text-button" title="美式发音" @click="speak(item.word.word)">播放</button>
             </div>
             <p v-if="reveal.has(item.id)" class="muted" style="margin:8px 0 0;font-size:14px">{{ item.word.meaning }}</p>
             <div v-if="reveal.has(item.id)" style="margin-top:6px">
@@ -232,20 +235,20 @@ onMounted(() => { warmupVoices(); loadAll(); });
           </div>
           <div style="display:flex;gap:8px;flex:0 0 auto">
             <button class="button secondary" style="min-height:32px;padding:0 12px" @click="reveal.has(item.id) ? reveal.delete(item.id) : reveal.add(item.id)">{{ reveal.has(item.id) ? '隐藏释义' : '显示释义' }}</button>
-            <button class="button success" style="min-height:32px;padding:0 12px" @click="doReview(item, true)">✔ 认识</button>
-            <button class="button danger" style="min-height:32px;padding:0 12px" @click="doReview(item, false)">✘ 忘了</button>
+            <button class="button success" style="min-height:32px;padding:0 12px" @click="doReview(item, true)">认识</button>
+            <button class="button danger" style="min-height:32px;padding:0 12px" @click="doReview(item, false)">忘了</button>
           </div>
         </div>
       </div>
-      <div v-else class="caption">今日没有要学的单词，先添加词库吧。</div>
+      <AppEmptyState v-else title="今日单词已完成" description="当前没有需要学习或复习的单词，可以继续其他学习任务。" />
     </section>
 
-    <section class="card card-pad" style="margin-bottom:24px">
-      <h2 style="margin-bottom:16px">词库与单词</h2>
+    <section class="card card-pad vocab-section word-library">
+      <div class="vocab-section-heading"><div><h2>词库与单词</h2><p>管理内置词库和你自己的备考词表。</p></div><span>{{ words.length }} 个单词</span></div>
       <div style="display:flex;gap:12px;align-items:end;margin-bottom:16px;flex-wrap:wrap">
-        <label style="display:grid;gap:6px;flex:1;min-width:200px"><span class="caption">新建词库</span><input v-model.trim="newDeckName" class="input" placeholder="如：成考高频词" @keyup.enter="addDeck" /></label>
-        <button class="button secondary" @click="addDeck">创建词库</button>
-        <button class="button" @click="loadBuiltin">{{ importingBuiltin ? '导入中…' : '导入内置词库（120 词·含音标/短语/分级）' }}</button>
+        <label style="display:grid;gap:6px;flex:1;min-width:200px"><span class="caption">新建词库</span><Input v-model:value="newDeckName" placeholder="如：成考高频词" @press-enter="addDeck" /></label>
+        <Button @click="addDeck">创建词库</Button>
+        <Button type="primary" :loading="importingBuiltin" @click="loadBuiltin">{{ importingBuiltin ? '导入中…' : '导入内置词库（120 词·含音标/短语/分级）' }}</Button>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
         <button v-for="deck in decks" :key="deck.id" class="button" :class="selectedDeck === deck.id ? '' : 'secondary'" style="min-height:32px;padding:0 12px" @click="selectDeck(deck.id)">{{ deck.name }}（{{ deck.word_count }}）</button>
@@ -256,25 +259,25 @@ onMounted(() => { warmupVoices(); loadAll(); });
           <button v-for="l in [0, ...LEVELS]" :key="l" class="button" :class="levelFilter === l ? '' : 'secondary'" style="min-height:28px;padding:0 10px;font-size:12px" @click="levelFilter = l">{{ l === 0 ? '全部' : VOCAB_LEVEL_LABELS[l] }}</button>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
-          <label style="display:grid;gap:6px"><span class="caption">单词</span><input v-model.trim="newWord.word" class="input" placeholder="word" @keyup.enter="addNewWord" /></label>
-          <label style="display:grid;gap:6px"><span class="caption">释义</span><input v-model="newWord.meaning" class="input" placeholder="中文释义" @keyup.enter="addNewWord" /></label>
+          <label style="display:grid;gap:6px"><span class="caption">单词</span><Input v-model:value="newWord.word" placeholder="word" @press-enter="addNewWord" /></label>
+          <label style="display:grid;gap:6px"><span class="caption">释义</span><Input v-model:value="newWord.meaning" placeholder="中文释义" @press-enter="addNewWord" /></label>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
-          <label style="display:grid;gap:6px"><span class="caption">音标（美式）</span><div style="display:flex;gap:8px"><input v-model="newWord.phonetic" class="input" placeholder="/.../" /><button class="button secondary" style="min-height:40px;padding:0 12px;flex:0 0 auto" :disabled="phoneticLoading" @click="fetchPhoneticForForm">{{ phoneticLoading ? '…' : '自动获取' }}</button></div></label>
-          <label style="display:grid;gap:6px"><span class="caption">分级</span><select v-model="newWord.level" class="select"><option v-for="l in LEVELS" :key="l" :value="l">{{ VOCAB_LEVEL_LABELS[l] }}</option></select></label>
-          <label style="display:grid;gap:6px"><span class="caption">附带短语</span><input v-model="newWord.phrase" class="input" placeholder="如：give up" /></label>
+          <label style="display:grid;gap:6px"><span class="caption">音标（美式）</span><div style="display:flex;gap:8px"><Input v-model:value="newWord.phonetic" placeholder="/.../" /><Button style="flex:0 0 auto" :loading="phoneticLoading" @click="fetchPhoneticForForm">自动获取</Button></div></label>
+          <label style="display:grid;gap:6px"><span class="caption">分级</span><Select v-model:value="newWord.level"><SelectOption v-for="l in LEVELS" :key="l" :value="l">{{ VOCAB_LEVEL_LABELS[l] }}</SelectOption></Select></label>
+          <label style="display:grid;gap:6px"><span class="caption">附带短语</span><Input v-model:value="newWord.phrase" placeholder="如：give up" /></label>
         </div>
-        <label style="display:grid;gap:6px;margin-bottom:12px"><span class="caption">短语释义（可选）</span><input v-model="newWord.phrase_meaning" class="input" placeholder="如：放弃" /></label>
-        <button class="button" @click="addNewWord">添加单词</button>
+        <label style="display:grid;gap:6px;margin-bottom:12px"><span class="caption">短语释义（可选）</span><Input v-model:value="newWord.phrase_meaning" placeholder="如：放弃" /></label>
+        <Button type="primary" @click="addNewWord">添加单词</Button>
 
         <details style="margin:16px 0">
           <summary class="caption" style="cursor:pointer">批量导入（每行：单词 | 释义 | 音标 | 短语 | 短语释义；也可简写：单词 释义）</summary>
-          <textarea v-model="importText" class="textarea" style="margin-top:8px" placeholder="abandon | 放弃 | /əˈbændən/ | abandon ship | 弃船&#10;ability | 能力 | /əˈbɪləti/" />
+          <Textarea v-model:value="importText" :rows="5" style="margin-top:8px" placeholder="abandon | 放弃 | /əˈbændən/ | abandon ship | 弃船&#10;ability | 能力 | /əˈbɪləti/" />
           <div style="display:flex;gap:14px;align-items:center;margin-top:8px;flex-wrap:wrap">
             <span class="caption">导入默认分级</span>
-            <select v-model="importLevel" class="select" style="width:120px"><option v-for="l in LEVELS" :key="l" :value="l">{{ VOCAB_LEVEL_LABELS[l] }}</option></select>
-            <label style="display:flex;gap:6px;align-items:center"><input v-model="autoPhonetic" type="checkbox" class="check" style="width:16px;height:16px" /><span class="caption">自动补音标（联网）</span></label>
-            <button class="button secondary" @click="doImport">导入</button>
+            <Select v-model:value="importLevel" style="width:120px"><SelectOption v-for="l in LEVELS" :key="l" :value="l">{{ VOCAB_LEVEL_LABELS[l] }}</SelectOption></Select>
+            <Checkbox v-model:checked="autoPhonetic"><span class="caption">自动补音标（联网）</span></Checkbox>
+            <Button @click="doImport">导入</Button>
           </div>
         </details>
 
@@ -285,8 +288,8 @@ onMounted(() => { warmupVoices(); loadAll(); });
                 <strong style="font-size:16px">{{ w.word }}</strong>
                 <span v-if="w.phonetic" class="caption" style="font-family:monospace">{{ w.phonetic }}</span>
                 <span class="badge" :style="{ background: `${levelColor(w.level)}1a`, color: levelColor(w.level) }">{{ VOCAB_LEVEL_LABELS[w.level] ?? '高频' }}</span>
-                <button class="text-button" style="font-size:15px" title="美式发音" @click="speak(w.word)">🔊</button>
-                <button v-if="!w.phonetic" class="button secondary" style="min-height:26px;padding:0 10px;font-size:12px" @click="patchPhonetic(w)">补音标</button>
+                <button class="text-button" title="美式发音" @click="speak(w.word)">播放</button>
+                <Button v-if="!w.phonetic" size="small" @click="patchPhonetic(w)">补音标</Button>
               </div>
               <p class="muted" style="margin:6px 0 0;font-size:14px">{{ w.meaning }}</p>
               <div v-if="w.phrases.length" style="margin-top:8px">
@@ -295,8 +298,15 @@ onMounted(() => { warmupVoices(); loadAll(); });
             </div>
           </div>
         </div>
-        <div v-else class="caption">该词库还没有单词。</div>
+        <AppEmptyState v-else title="这个词库还没有单词" description="可以添加单词或使用批量导入。" />
       </template>
     </section>
   </section>
 </template>
+
+<style scoped>
+.vocabulary-page{max-width:1160px}.vocab-summary{grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:16px;overflow:hidden;border:1px solid var(--app-border);border-radius:10px;background:#fff;box-shadow:var(--app-shadow-sm)}.vocab-summary .stat{border:0;border-left:1px solid var(--app-border);border-radius:0;box-shadow:none;padding:17px 20px}.vocab-summary .stat:first-child{border-left:0}.vocab-summary .stat::after{display:none}.vocab-summary .stat-value{font-size:28px;font-weight:600}.vocab-goal,.vocab-section{margin-bottom:16px;border-radius:10px;box-shadow:var(--app-shadow-sm)}.vocab-goal{padding:17px 18px}.vocab-section{padding:0;overflow:hidden}.vocab-section-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;padding:14px 18px;border-bottom:1px solid var(--app-border)}.vocab-section-heading h2{font-size:16px;font-weight:600}.vocab-section-heading p{margin:4px 0 0;color:var(--app-muted);font-size:12px}.vocab-section-heading>span{color:var(--app-muted);font-size:12px}.today-vocabulary>.result-list{padding:0 18px}.today-vocabulary .task-row{padding:16px 0}.today-vocabulary .task-row strong{font-weight:600}.today-vocabulary .button{min-height:34px!important;border-radius:7px}.word-library>div:not(.vocab-section-heading),.word-library>template{padding-right:18px;padding-left:18px}.word-library>.vocab-section-heading+div{margin:0!important;padding-top:16px}.word-library details{padding:14px 0;border-top:1px solid var(--app-border);border-bottom:1px solid var(--app-border)}.word-library .result-list{padding:0 18px}.word-library .task-row{padding:15px 0}.word-library label>.caption{font-size:12px}.progress-value{background:var(--app-primary)}
+.word-library .result-list{max-height:720px;overflow:auto}
+@media(max-width:900px){.vocab-summary{grid-template-columns:1fr 1fr}.vocab-summary .stat:nth-child(3){border-left:0}.vocab-summary .stat:nth-child(n+3){border-top:1px solid var(--app-border)}.today-vocabulary .task-row{align-items:flex-start;flex-direction:column}.today-vocabulary .task-row>div:last-child{width:100%;flex-wrap:wrap}.today-vocabulary .task-row>div:last-child button{flex:1}}
+@media(max-width:520px){.vocab-summary{grid-template-columns:1fr}.vocab-summary .stat{border-top:1px solid var(--app-border);border-left:0}.vocab-summary .stat:first-child{border-top:0}}
+</style>

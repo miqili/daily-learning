@@ -4,6 +4,7 @@ import { showSuccessToast, showToast } from 'vant';
 import { ESSAY_TYPES, ESSAY_TYPE_LABELS } from '@shck/shared';
 import { apiError } from '@/api/client';
 import { createEssay, deleteEssay, listMyEssays, listTemplates, updateEssay, type EssayTemplate, type MyEssay } from '@/api/essays';
+import MobilePageHeader from '@/components/mobile/MobilePageHeader.vue';
 
 const tab = ref(0);
 const templates = ref<EssayTemplate[]>([]);
@@ -81,52 +82,46 @@ async function copyTemplate(t: EssayTemplate) {
   } catch { showToast('复制失败，请手动复制'); }
 }
 
+function toggleTemplate(id: number) {
+  expanded.value = expanded.value.includes(id) ? expanded.value.filter((itemId) => itemId !== id) : [...expanded.value, id];
+}
+
 onMounted(loadAll);
 </script>
 
 <template>
-  <div class="m-page">
-    <van-nav-bar title="作文" fixed placeholder />
+  <main class="study-page essays-page">
+    <div class="study-screen">
+      <MobilePageHeader title="作文册" eyebrow="英语写作训练" back :action-label="tab === 1 ? (showForm ? '收起' : '新建') : ''" @action="showForm ? showForm = false : startNew()" />
 
-    <div class="m-body">
-      <van-tabs v-model:active="tab" shrink line-width="24">
-        <van-tab :name="0" title="模板" />
-        <van-tab :name="1" title="我的作文" />
-      </van-tabs>
+      <div class="study-segmented"><button :class="{ active: tab === 0 }" @click="tab = 0">作文模板</button><button :class="{ active: tab === 1 }" @click="tab = 1">我的作文</button></div>
 
-      <p v-if="error" class="m-error">{{ error }}</p>
+      <p v-if="error" class="study-error">{{ error }}</p>
 
-      <!-- 模板 -->
       <template v-if="tab === 0">
-        <van-notice-bar left-icon="info-o" color="#3b82f6" background="#eff6ff" text="使用说明：［方括号］= 待替换成你自己的内容；A / B / C = 任选其一" style="margin-top:8px" />
-        <van-tabs v-model:active="typeFilter" shrink line-width="20" style="margin-top:8px">
-          <van-tab v-for="(label, key) in typeLabels" :key="key" :name="key" :title="label" />
-        </van-tabs>
-        <div v-if="busy && !templates.length" class="m-loading"><van-loading size="24">加载中…</van-loading></div>
-        <van-collapse v-model="expanded" style="margin-top:14px">
-          <van-collapse-item v-for="t in filteredTemplates" :key="t.id" :name="t.id">
-            <template #title>
-              <div class="tpl-title">
-                <span>{{ t.title }}</span>
-                <van-tag round plain color="#3b82f6">{{ ESSAY_TYPE_LABELS[t.type as keyof typeof ESSAY_TYPE_LABELS] ?? t.type }}</van-tag>
-              </div>
-            </template>
-            <div class="tpl-outline"><strong>结构：</strong>{{ t.outline }}</div>
-            <div class="md" style="margin-top:10px">{{ t.content }}</div>
-            <div class="tpl-kw">
-              <strong>高分句型：</strong>
-              <div v-for="(kw, i) in t.keywords" :key="i" class="kw-item">{{ i + 1 }}. {{ kw }}</div>
+        <aside class="template-note">［方括号］替换为自己的内容；A / B / C 表示任选其一。</aside>
+        <div class="study-filter-row">
+          <button v-for="(label, key) in typeLabels" :key="key" class="study-filter" :class="{ active: typeFilter === key }" @click="typeFilter = String(key)">{{ label }}</button>
+        </div>
+        <div v-if="busy && !templates.length" class="study-loading"><van-loading size="24">正在整理模板…</van-loading></div>
+        <section v-else class="template-list">
+          <article v-for="(template, index) in filteredTemplates" :key="template.id" class="template-card" :class="{ open: expanded.includes(template.id) }">
+            <button class="template-summary" @click="toggleTemplate(template.id)">
+              <span>{{ String(index + 1).padStart(2, '0') }}</span><strong>{{ template.title }}</strong><small>{{ ESSAY_TYPE_LABELS[template.type as keyof typeof ESSAY_TYPE_LABELS] ?? template.type }}</small><i>›</i>
+            </button>
+            <div v-if="expanded.includes(template.id)" class="template-content">
+              <p class="template-outline"><strong>结构</strong>{{ template.outline }}</p>
+              <div class="template-body md">{{ template.content }}</div>
+              <div class="template-keywords"><strong>高分句型</strong><p v-for="(keywordItem, keywordIndex) in template.keywords" :key="keywordIndex"><span>{{ keywordIndex + 1 }}</span>{{ keywordItem }}</p></div>
+              <button class="study-secondary copy-template" @click="copyTemplate(template)">复制模板</button>
             </div>
-            <van-button size="small" round type="primary" plain style="margin-top:12px" @click="copyTemplate(t)">复制模板</van-button>
-          </van-collapse-item>
-        </van-collapse>
+          </article>
+        </section>
       </template>
 
-      <!-- 我的作文 -->
       <template v-else>
-        <van-button block round type="primary" icon="plus" style="margin:14px 0" @click="startNew">写一篇作文</van-button>
-
-        <div v-if="showForm" class="form-card">
+        <div v-if="showForm" class="study-form essay-form">
+          <h2 class="study-form-title">{{ editing.id ? '编辑作文' : '写一篇作文' }}</h2>
           <van-field v-model="editing.title" label="标题" placeholder="如：My Dream" maxlength="200" />
           <van-field v-model="editing.essay_type" label="类型" is-link readonly @click="showTypePicker = true" />
           <van-popup v-model:show="showTypePicker" position="bottom">
@@ -134,51 +129,28 @@ onMounted(loadAll);
           </van-popup>
           <van-field v-model="editing.content" label="正文" type="textarea" rows="8" autosize placeholder="写作文…（可用模板内容起笔）" />
           <div class="word-count">约 {{ countWords(editing.content) }} 词</div>
-          <div style="display:flex;gap:10px;margin-top:12px">
-            <van-button block round type="primary" @click="saveEssay">保存</van-button>
-            <van-button block round plain @click="showForm = false">取消</van-button>
-          </div>
+          <div class="essay-form-actions"><button class="study-primary" @click="saveEssay">保存作文</button><button class="study-secondary" @click="showForm = false">取消</button></div>
         </div>
 
+        <button v-else class="new-essay" @click="startNew"><span>＋</span><strong>写一篇新作文</strong><small>从标题开始，记录一次完整练习</small></button>
+
         <div v-if="mine.length" class="essay-list">
-          <div v-for="e in mine" :key="e.id" class="essay-card">
+          <article v-for="(essay, index) in mine" :key="essay.id" class="essay-card">
             <div class="essay-top">
-              <strong>{{ e.title }}</strong>
-              <van-tag round plain color="#3b82f6">{{ ESSAY_TYPE_LABELS[e.essay_type as keyof typeof ESSAY_TYPE_LABELS] ?? e.essay_type }}</van-tag>
+              <span>{{ String(index + 1).padStart(2, '0') }}</span><strong>{{ essay.title }}</strong><small>{{ ESSAY_TYPE_LABELS[essay.essay_type as keyof typeof ESSAY_TYPE_LABELS] ?? essay.essay_type }}</small>
             </div>
-            <p class="essay-preview">{{ e.content.slice(0, 80) }}…</p>
+            <p class="essay-preview">{{ essay.content.slice(0, 100) }}{{ essay.content.length > 100 ? '…' : '' }}</p>
             <div class="essay-meta">
-              <span>{{ e.word_count }} 词</span>
-              <span>{{ String(e.updated_at).slice(0, 10) }}</span>
-              <div class="essay-ops">
-                <van-button size="mini" plain type="primary" @click="startEdit(e)">编辑</van-button>
-                <van-button size="mini" plain type="danger" @click="removeEssay(e.id)">删除</van-button>
-              </div>
+              <span>{{ essay.word_count }} 词 · {{ String(essay.updated_at).slice(0, 10) }}</span><button @click="startEdit(essay)">编辑</button><button class="danger" @click="removeEssay(essay.id)">删除</button>
             </div>
-          </div>
+          </article>
         </div>
-        <van-empty v-else-if="!showForm" description="还没有作文，点上方「写一篇作文」" />
+        <div v-else-if="!showForm" class="study-empty">还没有作文。<br>从第一篇完整练习开始。</div>
       </template>
     </div>
-  </div>
+  </main>
 </template>
 <style scoped>
-.m-page { max-width: 640px; margin: 0 auto; min-height: 100vh; background: var(--van-background); }
-.m-body { padding: 16px; }
-.tpl-title { display: flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 600; color: var(--van-text-color); }
-.tpl-outline { font-size: 12.5px; color: var(--van-text-color-2); line-height: 1.6; }
-.tpl-kw { margin-top: 12px; font-size: 12.5px; color: var(--van-text-color-2); }
-.tpl-kw strong { color: var(--van-text-color); }
-.kw-item { margin-top: 6px; line-height: 1.6; }
-.form-card { background: var(--van-background-2); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
-.word-count { font-size: 12px; color: var(--van-text-color-3); text-align: right; margin-top: 6px; }
-.essay-list { display: grid; gap: 12px; }
-.essay-card { background: var(--van-background-2); border-radius: 16px; padding: 15px 16px; box-shadow: 0 1px 3px rgba(16,24,40,.04); }
-.essay-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.essay-top strong { font-size: 15px; color: var(--van-text-color); }
-.essay-preview { font-size: 12.5px; color: var(--van-text-color-2); margin-top: 8px; line-height: 1.6; }
-.essay-meta { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 11px; color: var(--van-text-color-3); }
-.essay-ops { margin-left: auto; display: flex; gap: 8px; }
-.m-error { color: var(--van-danger-color); font-size: 13px; margin: 12px 4px; }
-.m-loading { display: grid; place-items: center; padding: 48px 0; color: var(--van-text-color-3); font-size: 13px; }
+.template-note { margin-top: 14px; padding: 10px 12px; border-left: 3px solid var(--app-primary); background:var(--app-primary-soft); color: var(--study-muted); font-family: inherit; font-size: 12px; line-height: 1.6; }.template-list { display: grid; gap: 9px; margin-top: 9px; }.template-card { overflow: hidden; border: 1px solid var(--study-line); border-radius: 12px; background: var(--app-surface); }.template-card.open { background: var(--app-surface); box-shadow: var(--app-shadow-sm); }.template-summary { width: 100%; min-height:58px; display: grid; grid-template-columns: 26px 1fr auto 12px; align-items: center; gap: 8px; padding: 14px; border: 0; background: transparent; color: var(--study-text); text-align: left; }.template-summary > span { color: var(--study-accent); font-family: inherit; font-size: 12px; }.template-summary strong { font-family: inherit; font-size: 14px; }.template-summary small { color: var(--study-muted); font-size: 12px; }.template-summary i { color: var(--study-muted); font-style: normal; transition: transform .2s ease; }.template-card.open .template-summary i { transform: rotate(90deg); }.template-content { padding: 15px 16px 17px 48px; border-top: 1px solid var(--app-border); }.template-outline { margin: 0; color: var(--study-muted); font-size: 12px; line-height: 1.65; }.template-outline strong, .template-keywords > strong { display: block; margin-bottom: 4px; color: var(--study-accent); font-family: inherit; font-size: 12px; }.template-body { margin-top: 13px; white-space: pre-wrap; }.template-keywords { margin-top: 14px; color: var(--study-muted); font-size: 12px; }.template-keywords p { display: grid; grid-template-columns: 20px 1fr; gap: 5px; margin: 7px 0 0; line-height: 1.55; }.template-keywords p span { color: var(--study-accent); font-family: inherit; }.copy-template { min-height: 44px; margin-top: 14px; font-size: 12px; }
+.word-count { margin-top: 6px; color: var(--study-muted); text-align: right; font-size: 12px; }.essay-form-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 12px; }.new-essay { width: 100%; min-height:64px; display: grid; grid-template-columns: 36px 1fr; gap: 2px 10px; margin: 14px 0; padding: 15px; border: 1px dashed var(--app-border-strong); border-radius: 12px; background: transparent; color: var(--study-text); text-align: left; }.new-essay > span { grid-row: 1 / span 2; display: grid; place-items: center; color: var(--study-accent); font-family: inherit; font-size: 28px; }.new-essay strong { font-family: inherit; font-size: 14px; }.new-essay small { color: var(--study-muted); font-size: 12px; }.essay-list { display: grid; gap: 9px; }.essay-card { padding: 15px 14px 12px; border: 1px solid var(--study-line); border-radius: 12px; background: var(--app-surface); }.essay-top { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 8px; }.essay-top > span { color: var(--study-accent); font-family: inherit; font-size: 12px; }.essay-top strong { color: var(--study-ink); font-family: inherit; font-size: 14px; }.essay-top small { color: var(--study-muted); font-size: 12px; }.essay-preview { margin: 10px 0 0 34px; color: var(--study-muted); font-size: 13px; line-height: 1.65; }.essay-meta { display: flex; align-items: center; gap: 6px; margin: 11px 0 0 34px; padding-top: 5px; border-top: 1px solid var(--app-border); color: var(--study-faint); font-size: 12px; }.essay-meta > span { flex: 1; }.essay-meta button { min-width:44px; min-height:44px; padding: 0; border: 0; background: transparent; color: var(--study-ink); font-size: 12px; }.essay-meta button.danger { color: var(--app-danger); }
 </style>

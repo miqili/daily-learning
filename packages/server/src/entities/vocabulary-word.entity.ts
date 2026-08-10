@@ -25,6 +25,18 @@ export class VocabularyWord {
   @Column({ type: 'text' })
   meaning!: string;
 
+  @Column({ type: 'text', nullable: true })
+  root!: string | null;
+
+  @Column({ name: 'synonyms_json', type: 'json', nullable: true })
+  synonymsJson!: string[] | null;
+
+  @Column({ name: 'antonyms_json', type: 'json', nullable: true })
+  antonymsJson!: string[] | null;
+
+  @Column({ name: 'collocations_json', type: 'json', nullable: true })
+  collocationsJson!: { phrase: string; meaning?: string }[] | null;
+
   @Column({ name: 'example_sentence', type: 'text', nullable: true })
   exampleSentence!: string | null;
 

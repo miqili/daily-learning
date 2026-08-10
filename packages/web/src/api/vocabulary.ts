@@ -19,6 +19,10 @@ export interface VocabularyWord {
   word: string;
   phonetic: string | null;
   meaning: string;
+  root: string | null;
+  synonyms: string[];
+  antonyms: string[];
+  collocations: Array<{ phrase: string; meaning?: string }>;
   example_sentence: string | null;
   level: number;
   phrases: WordPhrase[];
@@ -52,6 +56,8 @@ export interface VocabularyStats {
   remaining: number;
   estimated_days: number;
   progress_pct: number;
+  streak_days: number;
+  today_target_done: boolean;
 }
 
 export interface WordInput {

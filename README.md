@@ -1,61 +1,52 @@
-# 70 天备考计划
+# Study
 
-**自己用的成人本科（理工类 · 2026）备考工具**：70 天倒计时 + 个性化学习计划 + 每日打卡 + 错题/单词/学习时长闭环。
+面向 2026 年成人本科考试的个人学习系统。当前正式计划从 2026-08-10 学习到 2026-10-16，考试日为 2026-10-17；工作日安排轻量任务，周六、周日安排深度学习与真题。
 
-## 功能
+## 当前能力
 
-| 模块 | 说明 |
-| --- | --- |
-| 今日任务 | 70 天倒计时、三科每日任务、打卡、全局与分科进度 |
-| 计划配置 | 考试日期、科目增删、按权重重新生成计划 |
-| 错题本 | 手动录入 + 错因标注 + L0–L4 间隔复习队列 |
-| 单词 | 词库 + 美式发音（TTS）+ 美式音标（可自动获取）+ 分级（高频/核心/拓展）+ 短语 + 每日新词目标与完成估算 |
-| 短语 | 独立短语库，与单词可关联，支持分级与筛选 |
-| 学习统计 | 今日学习时长、近 7 天柱状图（study_sessions） |
-| 手机端 | 底部四栏（首页/任务/检索/我的），按屏幕宽度自动切换；首页倒计时+今日任务+科目直达知识点；每科全部完成才打卡成功；任务页科目 Tab；检索页搜索知识点 |
+- 68 天学习时间轴与每日任务直达
+- 政治、英语、高等数学（一）知识库
+- 真题题库、来源核验与完整度标记
+- 错题复习、词汇与短语、英语作文
+- 学习时长记录和完成进度
+- 独立适配的桌面端与移动端界面
 
 ## 技术栈
 
-- pnpm workspace + TypeScript
-- 前端：Vue 3 + Vite + Pinia + Tailwind
-- 后端：NestJS + TypeORM + MySQL 8
-- 鉴权：JWT + bcryptjs（保留注册/登录）
+- Web：Vue 3、Vue Router、Pinia、Vant、KaTeX、Vite
+- API：NestJS、TypeORM、MySQL、JWT
+- 工程：TypeScript、pnpm workspace、Docker Compose
 
-## 快速开始
+## 本地启动
 
 ```bash
-# 1. 环境变量
-cp .env.example .env   # 填入本地 MySQL 连接
-
-# 2. 依赖
+cp .env.example .env
 pnpm install
-
-# 3. 数据库迁移 + 种子（demo 用户 / 三科 / 70 天计划 / 内置 120 词词库）
 pnpm db:migrate
 pnpm db:seed
-
-# 4. 启动
-pnpm dev              # 后端 :3000 + 前端 :5173
+pnpm dev
 ```
 
-打开 http://localhost:5173，体验账号：`demo` / `Study70Days!`
+- Web：http://localhost:5173
+- API：http://localhost:3000/api/v1
+- 体验账号：`demo` / `Study70Days!`
 
-> 新用户注册后会自动创建默认三科（政治 / 英语 / 高等数学（一）），内置词库可在「单词」页一键导入。
+常用检查：
 
-## 目录结构
-
-```
-daily-learning/
-├── docs/                    # 文档（00-产品方向 / 07-执行计划 等）
-├── docker/                  # Docker 构建与编排
-├── packages/
-│   ├── shared/              # 共享类型、计划模板、复习间隔算法、分级常量
-│   ├── server/              # NestJS 后端（auth/plan/subjects/mistakes/vocabulary/sessions）
-│   └── web/                 # Vue 3 前端
-└── .github/workflows/ci.yml # CI（lint + build）
+```bash
+pnpm lint
+pnpm build
+pnpm db:papers:sync
 ```
 
-## 文档
+## 项目结构
 
-- [00-产品方向](./docs/00-product-vision.md) — 目标与范围
-- [07-执行计划](./docs/execution-plan.md) — 阶段化执行状态
+```text
+packages/shared  前后端共享类型与正式学习计划
+packages/server  NestJS REST API、迁移与内置数据（README.md）
+packages/web     当前唯一 Web UI（Vue 单页应用，README.md）
+docker           容器构建与 Nginx 配置
+docs/README.md   当前项目完整说明
+```
+
+详细架构、模块、数据与维护约定见 [项目文档](./docs/README.md)。开发入口分别见 [Server 项目索引](./packages/server/README.md) 和 [Web 项目索引](./packages/web/README.md)。

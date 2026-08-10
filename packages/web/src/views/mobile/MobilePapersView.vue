@@ -33,6 +33,15 @@ function subjectColor(name: string): string {
   return subjects.value.find((s) => s.name === name)?.color ?? '#64748b';
 }
 
+function sourceLabel(paper: PaperSummary): string {
+  if (paper.source_type === 'OFFICIAL') return '官方原卷';
+  if (paper.source_type === 'VERIFIED_RECALL') return '多源核验回忆版';
+  if (paper.source_type === 'SINGLE_SOURCE_RECALL') return '单源回忆版';
+  if (paper.source_type === 'USER_PROVIDED') return '自行录入';
+  if (paper.source_type === 'SIMULATION') return '模拟题';
+  return '来源待核验';
+}
+
 function onPickSubject({ selectedOptions }: { selectedOptions: Array<{ text: string }> }) {
   createForm.value.subject = selectedOptions[0]?.text ?? '';
   showSubjectPicker.value = false;
@@ -131,73 +140,67 @@ onMounted(load);
 </script>
 
 <template>
-  <div class="m-page">
-    <van-nav-bar :title="detail ? `${detail.year} 年${detail.subject}` : '历年真题'" fixed placeholder @click-left="back">
-      <template v-if="detail" #left><van-icon name="arrow-left" size="18" /></template>
-      <template #right>
-        <span v-if="!detail" class="nav-add" @click="showCreate = true">＋ 新建试卷</span>
-        <span v-else class="nav-add" @click="showAdd = true">＋ 录入题目</span>
-      </template>
-    </van-nav-bar>
+  <main class="study-page papers-page">
+    <div class="study-screen">
+      <header class="study-header">
+        <button v-if="detail" class="study-header-back" aria-label="返回试卷列表" @click="back"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6" /></svg></button>
+        <div class="study-header-copy"><span class="study-header-eyebrow">Past papers</span><h1>{{ detail ? `${detail.year} 年${detail.subject}` : '历年真题' }}</h1></div>
+        <button class="study-header-action" @click="detail ? showAdd = true : showCreate = true">{{ detail ? '录入题目' : '新建试卷' }}</button>
+      </header>
 
-    <div class="m-body">
-      <p v-if="error" class="m-error">{{ error }}</p>
+      <p v-if="error" class="study-error">{{ error }}</p>
 
-      <!-- 列表 -->
       <template v-if="!detail">
-        <van-tabs v-model:active="activeSubject" shrink line-width="20">
-          <van-tab v-for="t in subjectTabs" :key="t.name" :name="t.name" :title="t.label" />
-        </van-tabs>
-        <div v-if="busy && !papers.length" class="m-loading"><van-loading size="24">加载中…</van-loading></div>
+        <div class="study-filter-row"><button v-for="tabItem in subjectTabs" :key="tabItem.name" class="study-filter" :class="{ active: activeSubject === tabItem.name }" @click="activeSubject = tabItem.name">{{ tabItem.label }}</button></div>
+        <div v-if="busy && !papers.length" class="study-loading"><van-loading size="24">正在加载试卷…</van-loading></div>
         <div v-else class="paper-list">
-          <div v-for="paper in filteredPapers" :key="paper.id" class="paper-card" @click="openPaper(paper.id)">
-            <span class="paper-year">{{ paper.year }}</span>
+          <button v-for="paper in filteredPapers" :key="paper.id" class="paper-card" @click="openPaper(paper.id)">
+            <span class="paper-year"><strong>{{ paper.year }}</strong><small>YEAR</small></span>
             <div class="paper-meta">
               <strong>{{ paper.title }}</strong>
-              <span>{{ paper.question_count }} 题</span>
+              <span>{{ paper.subject }} · {{ paper.question_count }}<template v-if="paper.expected_question_count">/{{ paper.expected_question_count }}</template> 题</span>
+              <span class="paper-trust" :class="{ verified: paper.source_type === 'OFFICIAL' || paper.source_type === 'VERIFIED_RECALL', incomplete: !paper.is_complete }">{{ sourceLabel(paper) }} · {{ paper.is_complete ? '题量完整' : '内容不全' }}</span>
             </div>
-            <van-tag v-if="paper.source" round plain color="#94a3b8">{{ paper.source }}</van-tag>
-            <van-icon name="arrow" color="#c0c4cc" />
-          </div>
-          <van-empty v-if="!filteredPapers.length" description="暂无试卷，点右上角「新建试卷」" />
+            <i :style="{ background: subjectColor(paper.subject) }" />
+            <span class="paper-arrow">›</span>
+          </button>
+          <div v-if="!filteredPapers.length" class="study-empty">暂无试卷。<br>点击右上角「新建试卷」。</div>
         </div>
       </template>
 
-      <!-- 详情 -->
       <template v-else>
         <div class="paper-head">
-          <span class="dot" :style="{ background: subjectColor(detail.subject) }">{{ detail.subject[0] }}</span>
-          <div>
-            <strong>{{ detail.title }}</strong>
-            <span>{{ detail.question_count }} 题 · 共 {{ detail.questions.reduce((s, q) => s + q.score, 0) }} 分</span>
-          </div>
+          <span class="paper-seal" :style="{ borderColor: subjectColor(detail.subject), color: subjectColor(detail.subject) }">{{ detail.subject[0] }}</span>
+          <div><small>{{ detail.year }} · {{ detail.subject }}</small><strong>{{ detail.title }}</strong><span>{{ detail.question_count }} 题 · 共 {{ detail.questions.reduce((sum, question) => sum + question.score, 0) }} 分</span></div>
         </div>
-        <div class="source-note">{{ detail.source || '考生回忆版' }} · 收录于本系统，可右上角继续录入/修正</div>
+        <div class="source-note">
+          <span>真实性</span>{{ sourceLabel(detail) }} · {{ detail.is_complete ? '题量完整' : `当前 ${detail.question_count}/${detail.expected_question_count ?? '?'} 题` }}
+          <br><span>来源</span><a v-if="detail.source_url" :href="detail.source_url" target="_blank" rel="noreferrer">{{ detail.source || '打开原始资料' }}</a><template v-else>{{ detail.source || '未保留来源链接' }}</template>
+          <template v-if="detail.verification_notes"><br><span>核验</span>{{ detail.verification_notes }}</template>
+        </div>
         <div class="q-list">
-          <div v-for="(q, idx) in detail.questions" :key="q.id" class="q-card">
-            <div class="q-no">{{ idx + 1 }}.</div>
+          <article v-for="(question, index) in detail.questions" :key="question.id" class="q-card">
+            <div class="q-no">{{ String(index + 1).padStart(2, '0') }}</div>
             <div class="q-body">
-              <div v-if="q.passage" class="passage md" v-html="renderMarkdown(q.passage)" />
-              <div class="md" v-html="renderMarkdown(q.content)" />
-              <div v-if="q.options" class="opts">
-                <div v-for="opt in q.options" :key="opt.key" class="opt"><span class="opt-key">{{ opt.key }}</span>{{ opt.text }}</div>
+              <div v-if="question.passage" class="passage md" v-html="renderMarkdown(question.passage)" />
+              <div class="md question-copy" v-html="renderMarkdown(question.content)" />
+              <div v-if="question.options" class="opts">
+                <div v-for="option in question.options" :key="option.key" class="opt"><span class="opt-key">{{ option.key }}</span>{{ option.text }}</div>
               </div>
               <div class="q-actions">
-                <van-button size="small" round plain type="primary" @click="revealed.has(q.id) ? revealed.delete(q.id) : revealed.add(q.id)">
-                  {{ revealed.has(q.id) ? '收起答案' : '查看答案' }}
-                </van-button>
-                <span class="q-score">{{ q.score }} 分</span>
+                <button class="answer-button" @click="revealed.has(question.id) ? revealed.delete(question.id) : revealed.add(question.id)">{{ revealed.has(question.id) ? '收起答案' : '查看答案' }}</button>
+                <span class="q-score">{{ question.score }} 分</span>
               </div>
-              <div v-if="revealed.has(q.id)" class="q-answer md" v-html="renderMarkdown(`答案：${q.answer ?? '（略）'}`)" />
+              <div v-if="revealed.has(question.id)" class="q-answer md" v-html="renderMarkdown(`答案：${question.answer ?? '（略）'}`)" />
             </div>
-          </div>
-          <van-empty v-if="!detail.questions.length" description="还没有题目，点右上角「录入题目」" />
+          </article>
+          <div v-if="!detail.questions.length" class="study-empty">还没有题目。<br>点击右上角「录入题目」。</div>
         </div>
       </template>
     </div>
 
     <!-- 新建试卷 -->
-    <van-popup v-model:show="showCreate" position="bottom" round>
+    <van-popup v-model:show="showCreate" position="bottom" round class="study-popup">
       <div class="pop-title">新建试卷</div>
       <van-field v-model="createForm.subject" label="科目" is-link readonly @click="showSubjectPicker = true" />
       <van-field v-model.number="createForm.year" label="年份" type="number" />
@@ -208,7 +211,7 @@ onMounted(load);
     </van-popup>
 
     <!-- 录入题目 -->
-    <van-popup v-model:show="showAdd" position="bottom" round style="max-height:86%">
+    <van-popup v-model:show="showAdd" position="bottom" round class="study-popup" style="max-height:86%">
       <div class="pop-title">录入题目</div>
       <van-tabs>
         <van-tab title="单题录入">
@@ -239,10 +242,10 @@ onMounted(load);
     </van-popup>
 
     <!-- 科目选择器 -->
-    <van-popup v-model:show="showSubjectPicker" position="bottom" round>
+    <van-popup v-model:show="showSubjectPicker" position="bottom" round class="study-popup">
       <van-picker :columns="subjects.map((s) => ({ text: s.name }))" @confirm="onPickSubject" @cancel="showSubjectPicker = false" />
     </van-popup>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
@@ -251,35 +254,8 @@ export default defineComponent({ name: 'MobilePapersView' });
 </script>
 
 <style scoped>
-.m-page { max-width: 640px; margin: 0 auto; min-height: 100vh; background: var(--van-background); }
-.nav-add { color: #3b82f6; font-size: 13px; font-weight: 600; }
-.m-body { padding: 16px; }
-.paper-list { display: grid; gap: 12px; margin-top: 14px; }
-.paper-card { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--van-background-2); border-radius: 14px; box-shadow: 0 1px 3px rgba(16,24,40,.04); cursor: pointer; }
-.paper-year { font-size: 18px; font-weight: 800; color: #3b82f6; width: 56px; }
-.paper-meta { flex: 1; min-width: 0; display: grid; gap: 3px; }
-.paper-meta strong { font-size: 14px; color: var(--van-text-color); }
-.paper-meta span { font-size: 12px; color: var(--van-text-color-3); }
-.paper-head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--van-background-2); border-radius: 14px; margin-bottom: 10px; }
-.paper-head .dot { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; color: #fff; font-weight: 800; }
-.paper-head strong { display: block; font-size: 15px; color: var(--van-text-color); }
-.paper-head span { font-size: 12px; color: var(--van-text-color-3); }
-.source-note { font-size: 12px; color: #f59e0b; margin-bottom: 12px; }
-.q-list { display: grid; gap: 12px; }
-.q-card { display: flex; gap: 10px; padding: 15px 16px; background: var(--van-background-2); border-radius: 14px; box-shadow: 0 1px 3px rgba(16,24,40,.04); }
-.q-no { font-size: 14px; font-weight: 800; color: #3b82f6; flex: 0 0 auto; }
-.q-body { flex: 1; min-width: 0; }
-.opts { display: grid; gap: 8px; margin-top: 10px; }
-.opt { display: flex; gap: 8px; align-items: flex-start; padding: 9px 12px; border: 1px solid var(--van-border-color); border-radius: 10px; font-size: 13px; color: var(--van-text-color); }
-.opt-key { font-weight: 700; color: #3b82f6; }
-.q-actions { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
-.q-score { font-size: 12px; color: var(--van-text-color-3); }
-.q-answer { margin-top: 10px; padding: 10px 12px; background: #ecfdf5; border-radius: 10px; }
-.passage { margin: 0 0 10px; padding: 12px; background: #f0f7ff; border-left: 3px solid #3b82f6; border-radius: 8px; font-size: 13px; color: var(--van-text-color-2); }
-.m-error { color: var(--van-danger-color); font-size: 13px; margin: 12px 4px; }
-.m-loading { display: grid; place-items: center; padding: 48px 0; color: var(--van-text-color-3); font-size: 13px; }
-.pop-title { padding: 16px 16px 4px; font-size: 16px; font-weight: 700; color: var(--van-text-color); }
-.pop-actions { padding: 12px 16px 20px; }
-.opt-grid { display: grid; grid-template-columns: 1fr 1fr; }
-.batch-tip { padding: 8px 16px 0; font-size: 12px; color: #f59e0b; }
+.paper-list { display: grid; gap: 9px; margin-top: 10px; }.paper-card { width: 100%; min-height:78px; display: grid; grid-template-columns: 54px 1fr 6px 12px; align-items: center; gap: 11px; padding: 14px; border: 1px solid var(--study-line); border-radius: 12px; background: var(--app-surface); color: var(--study-text); text-align: left; }.paper-year { display: grid; gap: 1px; text-align: center; }.paper-year strong { color: var(--study-accent); font-family: inherit; font-size: 20px; font-weight: 600; }.paper-year small { color: var(--study-faint); font-size: 12px; }.paper-meta { display: grid; gap: 4px; min-width: 0; }.paper-meta strong { color: var(--study-ink); font-family: inherit; font-size: 14px; line-height: 1.4; }.paper-meta span { color: var(--study-muted); font-size: 12px; }.paper-meta .paper-trust { width: fit-content; padding: 2px 6px; border-radius: 6px; background: #fff7ed; color: #9a5b13; }.paper-meta .paper-trust.verified { background: #ecfdf3; color: #18794e; }.paper-meta .paper-trust.incomplete { background: #fff1f0; color: #b42318; }.paper-card > i { width: 6px; height: 30px; border-radius: 2px; }.paper-arrow { color: var(--study-muted); }
+.paper-head { display: flex; align-items: center; gap: 13px; margin-top: 14px; padding: 16px; border: 1px solid var(--app-border); border-radius: 12px; background: var(--app-surface); }.paper-seal { width: 44px; height: 44px; display: grid; place-items: center; border: 0!important; border-radius: 10px; background: var(--app-primary); color: #fff!important; font-family: inherit; font-size: 16px; font-weight: 700; }.paper-head div { display: grid; gap: 3px; }.paper-head small, .paper-head span { color: var(--study-muted); font-size: 12px; }.paper-head strong { color: var(--study-ink); font-family: inherit; font-size: 15px; }.source-note { margin: 10px 1px 15px; color: var(--study-muted); font-size: 12px; line-height: 1.7; }.source-note span { margin-right: 7px; color: var(--study-accent); font-family: inherit; font-weight: 700; }.source-note a { color: var(--study-accent); text-decoration: underline; text-underline-offset: 2px; }.q-list { display: grid; gap: 10px; }.q-card { display: flex; gap: 10px; padding: 15px 14px; border: 1px solid var(--study-line); border-radius: 12px; background: var(--app-surface); }.q-no { flex: 0 0 25px; color: var(--study-accent); font-family: inherit; font-size: 12px; font-weight: 700; }.q-body { min-width: 0; flex: 1; }.question-copy { font-size: 14px; }.passage { margin-bottom: 11px; padding: 10px 12px; border-left: 3px solid var(--study-accent); border-radius: 0 8px 8px 0; background: var(--app-primary-soft); color: var(--study-muted); font-size: 13px; }.opts { display: grid; gap: 7px; margin-top: 10px; }.opt { display: flex; align-items: flex-start; gap: 8px; padding: 10px; border: 1px solid var(--study-line); border-radius: 9px; color: var(--study-text); font-size: 13px; }.opt-key { color: var(--study-accent); font-family: inherit; font-weight: 700; }.q-actions { display: flex; align-items: center; gap: 10px; margin-top: 12px; }.answer-button { min-height: 44px; padding: 0 13px; border: 1px solid var(--app-border-strong); border-radius: 9px; background: #fff; color: var(--app-primary); font-size: 12px; font-weight: 600; }.q-score { color: var(--study-muted); font-size: 12px; }.q-answer { margin-top: 10px; padding: 10px 12px; border: 1px solid #a6f4c5; border-radius: 9px; background: #ecfdf3; }
+.pop-title { padding: 18px 16px 7px; color: var(--study-ink); font-family: inherit; font-size: 18px; font-weight: 600; }.pop-actions { padding: 12px 16px calc(20px + env(safe-area-inset-bottom)); }.opt-grid { display: grid; grid-template-columns: 1fr 1fr; }.batch-tip { padding: 8px 16px 0; color: var(--study-warning); font-size: 12px; }
+:global(.study-popup) { background: var(--study-card); }
 </style>

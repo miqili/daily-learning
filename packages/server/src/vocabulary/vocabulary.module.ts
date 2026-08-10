@@ -6,11 +6,12 @@ import { VocabularyPhrase } from '../entities/vocabulary-phrase.entity';
 import { UserSettings } from '../entities/user-settings.entity';
 import { VocabularyProgress } from '../entities/vocabulary-progress.entity';
 import { VocabularyWord } from '../entities/vocabulary-word.entity';
+import { StudySession } from '../entities/study-session.entity';
 import { VocabularyController } from './vocabulary.controller';
 import { VocabularyService } from './vocabulary.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([VocabularyDeck, VocabularyWord, VocabularyPhrase, VocabularyProgress, UserSettings]), AuthModule],
+  imports: [TypeOrmModule.forFeature([VocabularyDeck, VocabularyWord, VocabularyPhrase, VocabularyProgress, UserSettings, StudySession]), AuthModule],
   controllers: [VocabularyController],
   providers: [VocabularyService],
   exports: [VocabularyService],

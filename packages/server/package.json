@@ -9,6 +9,7 @@
     "migration:run": "pnpm build && typeorm migration:run -d dist/database/data-source.js",
     "migration:revert": "pnpm build && typeorm migration:revert -d dist/database/data-source.js",
     "seed": "pnpm build && node dist/database/seed.js",
+    "papers:sync": "pnpm build && node dist/database/import-verified-papers.js",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

@@ -1,8 +1,9 @@
 import * as bcrypt from 'bcryptjs';
-import { DEFAULT_EXAM_DATE, PLAN_DAYS, getPlanTasksForDay } from '@shck/shared';
+import { buildFormalStudyPlan, FORMAL_EXAM_DATE, FORMAL_PLAN_START_DATE } from '@shck/shared';
 import { ALL_BUILTIN_VOCABULARY, BUILTIN_DECK_NAME } from './builtin-vocabulary';
 import { BUILTIN_ESSAY_TEMPLATES } from './builtin-essay-templates';
 import { BUILTIN_KNOWLEDGE } from './builtin-knowledge';
+import { syncVerifiedPapers } from './sync-verified-papers';
 import { AppDataSource } from './data-source';
 import { EssayTemplate } from '../entities/essay-template.entity';
 import { ExamPaper } from '../entities/exam-paper.entity';
@@ -47,7 +48,7 @@ async function seed() {
 
   // 2. 用户设置（考试日）
   if (!(await settings.existsBy({ userId: demo.id }))) {
-    await settings.save(settings.create({ userId: demo.id, examDate: DEFAULT_EXAM_DATE }));
+    await settings.save(settings.create({ userId: demo.id, examDate: FORMAL_EXAM_DATE }));
   }
 
   // 3. 三科科目（幂等）
@@ -109,7 +110,8 @@ async function seed() {
     if (existing) {
       existing.content = item.content;
       existing.subjectId = subjectRow.id;
-      existing.tags = [item.subject];
+      existing.tags = item.tags ?? [item.subject];
+      existing.source = item.source ?? null;
       await knowledge.save(existing);
     } else {
       await knowledge.save(
@@ -119,74 +121,44 @@ async function seed() {
           title: item.title,
           content: item.content,
           itemType: 'NOTE',
-          tags: [item.subject],
+          tags: item.tags ?? [item.subject],
+          source: item.source ?? null,
         }),
       );
     }
   }
 
-  // 4.7 历年真题（近 9 年，示例题）
-  const PAPER_YEARS = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
-  const PAPER_SUBJECTS = ['政治', '英语', '高等数学（一）'];
+  // 4.7 只同步有明确来源、经过核验的公开回忆版；不再生成“真题”示例占位数据。
+  await syncVerifiedPapers(AppDataSource);
 
-  const sampleQuestions: Record<string, Array<{ content: string; options?: { key: string; text: string }[]; answer: string; score: number }>> = {
-    政治: [
-      { content: '我国社会主义现代化建设的根本保证是（　）。', options: [{ key: 'A', text: '改革开放' }, { key: 'B', text: '党的领导' }, { key: 'C', text: '科技创新' }, { key: 'D', text: '扩大开放' }], answer: 'B', score: 5 },
-      { content: '简述中国特色社会主义进入新时代的主要依据。', answer: '可从社会主要矛盾转化、历史性成就、发展阶段变化三方面作答（参考"知识点"答题框架）。', score: 10 },
-    ],
-    英语: [
-      { content: '选择最恰当的选项填空：He _____ to Beijing yesterday. (　)', options: [{ key: 'A', text: 'goes' }, { key: 'B', text: 'went' }, { key: 'C', text: 'has gone' }, { key: 'D', text: 'go' }], answer: 'B', score: 5 },
-      { content: '写作：请以"My Favorite Sport"为题，写一篇 100 词左右的短文。', answer: '（参考"作文"模块的议论文模板起笔，写爱好、原因、收获三部分。）', score: 10 },
-    ],
-    '高等数学（一）': [
-      { content: '求极限 $\lim_{x \to 0}\dfrac{\sin x}{x}$ 的值。 (　)', options: [{ key: 'A', text: '0' }, { key: 'B', text: '1/2' }, { key: 'C', text: '1' }, { key: 'D', text: '不存在' }], answer: 'C', score: 5 },
-      { content: '求函数 $f(x)=x^3-3x$ 的单调区间与极值。', answer: "令 $f'(x)=3x^2-3=0$，得 $x=\pm 1$；$x<-1$ 增、$-1<x<1$ 减、$x>1$ 增；极大值 $f(-1)=2$，极小值 $f(1)=-2$。", score: 10 },
-    ],
-  };
-
-  for (const year of PAPER_YEARS) {
-    for (const subject of PAPER_SUBJECTS) {
-      let paper = await papers.findOneBy({ subject, year });
-      if (!paper) {
-        paper = await papers.save(
-          papers.create({ subject, year, title: `${year} 年${subject} 真题`, source: '示例' }),
-        );
-      }
-      if (await paperQuestions.existsBy({ paperId: paper.id })) continue;
-      const items = sampleQuestions[subject] ?? [];
-      await paperQuestions.save(
-        items.map((q, i) =>
-          paperQuestions.create({ paperId: paper.id, sortOrder: i, content: q.content, optionsJson: q.options ?? null, answer: q.answer, score: q.score }),
-        ),
-      );
-    }
-  }
-
-  // 5. 生成 demo 的 70 天计划（考试日以用户设置优先）
+  // 5. 生成 demo 的正式计划：2026-08-10 至 2026-10-16，10-17 考试。
   if (await plans.existsBy({ userId: demo.id })) {
     await plans.delete({ userId: demo.id });
   }
   const demoSettings = await settings.findOneBy({ userId: demo.id });
-  const examDate = demoSettings?.examDate ?? DEFAULT_EXAM_DATE;
-  const start = new Date(`${examDate}T00:00:00.000Z`);
-  start.setUTCDate(start.getUTCDate() - (PLAN_DAYS - 1));
-  const inputs = subjectRows.map((s) => ({ id: s.id, name: s.name, color: s.color }));
-  const rows: StudyPlan[] = [];
-  for (let day = 1; day <= PLAN_DAYS; day += 1) {
-    const planDate = new Date(start.getTime() + (day - 1) * 86_400_000);
-    for (const template of getPlanTasksForDay(day, inputs)) {
-      rows.push(
-        plans.create({
-          userId: demo.id,
-          planDate: planDate.toISOString().slice(0, 10),
-          subjectId: template.subjectId,
-          title: template.title,
-          description: template.description,
-          taskType: template.taskType,
-        }),
-      );
-    }
+  const examDate = FORMAL_EXAM_DATE;
+  if (demoSettings) {
+    demoSettings.examDate = examDate;
+    await settings.save(demoSettings);
   }
+  const inputs = subjectRows.map((s) => ({ id: s.id, name: s.name, color: s.color }));
+  const canonicalKnowledge = new Map(BUILTIN_KNOWLEDGE.map((item) => [item.title, item]));
+  const templates = buildFormalStudyPlan({
+    startDate: FORMAL_PLAN_START_DATE,
+    examDate,
+    subjects: inputs,
+    knowledge: [...canonicalKnowledge.values()].map((item) => ({ subject: item.subject, title: item.title, tags: item.tags })),
+  });
+  const rows: StudyPlan[] = templates.map((template) =>
+    plans.create({
+      userId: demo.id,
+      planDate: template.planDate,
+      subjectId: template.subjectId,
+      title: template.title,
+      description: template.description,
+      taskType: template.taskType,
+    }),
+  );
   await plans.save(rows);
 
   const builtinWordCount = await vocabWords.countBy({ deckId: builtinDeck.id });

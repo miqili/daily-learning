@@ -47,7 +47,12 @@ export const MASTERY_MAX = 4;
 
 /** 计划核心常量：70 天、默认考试日 */
 export const PLAN_DAYS = 70;
-export const DEFAULT_EXAM_DATE = '2026-10-24';
+export const DEFAULT_EXAM_DATE = '2026-10-17';
+export const FORMAL_PLAN_START_DATE = '2026-08-10';
+export const FORMAL_EXAM_DATE = '2026-10-17';
+export const FORMAL_PLAN_END_DATE = '2026-10-16';
+
+export * from './formal-study-plan';
 
 /** 计划阶段：基础夯实 → 强化训练 → 真题冲刺 → 错题清零 */
 export const PLAN_PHASES = [

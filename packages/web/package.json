@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@shck/shared": "workspace:*",
+    "ant-design-vue": "4.2.6",
     "axios": "^1.9.0",
     "katex": "^0.16.22",
     "pinia": "^3.0.2",

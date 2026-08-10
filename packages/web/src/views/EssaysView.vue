@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { showSuccessToast, showToast } from 'vant';
+import { Alert, Button, Collapse, CollapsePanel, Input, Select, SelectOption, TabPane, Tabs, Textarea, message } from 'ant-design-vue';
 import { ESSAY_TYPES, ESSAY_TYPE_LABELS } from '@shck/shared';
 import { apiError } from '@/api/client';
+import AppEmptyState from '@/components/common/AppEmptyState.vue';
+import DesktopPageHeader from '@/components/common/DesktopPageHeader.vue';
+import StatusBadge from '@/components/common/StatusBadge.vue';
 import { createEssay, deleteEssay, listMyEssays, listTemplates, updateEssay, type EssayTemplate, type MyEssay } from '@/api/essays';
 
 const templates = ref<EssayTemplate[]>([]);
@@ -11,18 +14,9 @@ const typeFilter = ref('ALL');
 const expanded = ref<number[]>([]);
 const editing = ref({ id: null as number | null, title: '', essay_type: 'ARGUMENT', content: '' });
 const showForm = ref(false);
-const showTypePicker = ref(false);
 const error = ref('');
 const busy = ref(false);
-
-const typeColumns = ESSAY_TYPES.map((t) => ({ text: ESSAY_TYPE_LABELS[t] }));
-
-function onPickType({ selectedOptions }: { selectedOptions: Array<{ text: string }> }) {
-  const label = selectedOptions[0]?.text;
-  const idx = ESSAY_TYPES.findIndex((t) => ESSAY_TYPE_LABELS[t] === label);
-  if (idx >= 0) editing.value.essay_type = ESSAY_TYPES[idx];
-  showTypePicker.value = false;
-}
+const activeTab = ref(0);
 
 const filteredTemplates = computed(() =>
   typeFilter.value === 'ALL' ? templates.value : templates.value.filter((t) => t.type === typeFilter.value),
@@ -45,6 +39,7 @@ async function loadAll() {
 function startNew() {
   editing.value = { id: null, title: '', essay_type: 'ARGUMENT', content: '' };
   showForm.value = true;
+  activeTab.value = 1;
 }
 
 function startEdit(essay: MyEssay) {
@@ -53,90 +48,84 @@ function startEdit(essay: MyEssay) {
 }
 
 async function saveEssay() {
-  if (!editing.value.title.trim() || !editing.value.content.trim()) { showToast('请填写标题和内容'); return; }
+  if (!editing.value.title.trim() || !editing.value.content.trim()) { message.warning('请填写标题和内容'); return; }
   try {
     const payload = { title: editing.value.title.trim(), essay_type: editing.value.essay_type, content: editing.value.content };
     if (editing.value.id) await updateEssay(editing.value.id, payload);
     else await createEssay(payload);
-    showSuccessToast('已保存');
+    message.success('已保存');
     showForm.value = false;
     await loadAll();
-  } catch (cause) { showToast(apiError(cause)); }
+  } catch (cause) { message.error(apiError(cause)); }
 }
 
 async function removeEssay(id: number) {
-  try { await deleteEssay(id); showSuccessToast('已删除'); await loadAll(); }
-  catch (cause) { showToast(apiError(cause)); }
+  try { await deleteEssay(id); message.success('已删除'); await loadAll(); }
+  catch (cause) { message.error(apiError(cause)); }
 }
 
 async function copyTemplate(t: EssayTemplate) {
   try {
     await navigator.clipboard.writeText(`【${t.title}】\n${t.outline ?? ''}\n${t.content}\n\n高分句型：\n${t.keywords.join('\n')}`);
-    showSuccessToast('已复制到剪贴板');
-  } catch { showToast('复制失败，请手动复制'); }
+    message.success('已复制到剪贴板');
+  } catch { message.error('复制失败，请手动复制'); }
 }
 
 onMounted(loadAll);
 </script>
 
 <template>
-  <section class="page" style="max-width:960px">
-    <div class="page-heading">
-      <div><h1>作文</h1><p class="muted" style="margin:8px 0 0">模板 + 高分句型 + 我的作文，考前背熟 2-3 套模板。</p></div>
-    </div>
+  <section class="page essays-page">
+    <DesktopPageHeader eyebrow="英语学习" title="作文" description="使用模板和高分句型完成练习，沉淀自己的考场表达。">
+      <template #actions><Button type="primary" @click="startNew">写一篇作文</Button></template>
+    </DesktopPageHeader>
     <p v-if="error" class="error">{{ error }}</p>
 
-    <van-tabs style="margin-bottom:16px">
-      <van-tab title="模板">
-        <van-notice-bar left-icon="info-o" color="#3b82f6" background="#eff6ff" text="使用说明：［方括号］= 待替换成你自己的内容；A / B / C = 任选其一" style="margin:12px 0" />
-        <van-tabs v-model:active="typeFilter" shrink style="margin:12px 0">
-          <van-tab title="全部" name="ALL" />
-          <van-tab v-for="t in ESSAY_TYPES" :key="t" :title="ESSAY_TYPE_LABELS[t]" :name="t" />
-        </van-tabs>
+    <Tabs v-model:active-key="activeTab" class="essay-workspace">
+      <TabPane :key="0" tab="模板">
+        <Alert class="essay-notice" type="info" show-icon message="使用说明：［方括号］= 待替换成你自己的内容；A / B / C = 任选其一" />
+        <Tabs v-model:active-key="typeFilter" class="essay-type-tabs">
+          <TabPane key="ALL" tab="全部" />
+          <TabPane v-for="t in ESSAY_TYPES" :key="t" :tab="ESSAY_TYPE_LABELS[t]" />
+        </Tabs>
         <div v-if="busy && !templates.length" class="empty">加载中…</div>
-        <van-collapse v-model="expanded">
-          <van-collapse-item v-for="t in filteredTemplates" :key="t.id" :name="t.id">
-            <template #title><strong>{{ t.title }}</strong></template>
+        <Collapse v-model:active-key="expanded" class="essay-collapse">
+          <CollapsePanel v-for="t in filteredTemplates" :key="t.id">
+            <template #header><strong>{{ t.title }}</strong></template>
             <p style="margin:0 0 8px"><strong>结构：</strong>{{ t.outline }}</p>
             <pre class="essay-pre">{{ t.content }}</pre>
             <div style="margin-top:10px"><strong>高分句型：</strong></div>
             <div v-for="(kw, i) in t.keywords" :key="i" class="muted" style="margin-top:4px">{{ i + 1 }}. {{ kw }}</div>
-            <van-button size="small" round type="primary" plain style="margin-top:12px" @click="copyTemplate(t)">复制模板</van-button>
-          </van-collapse-item>
-        </van-collapse>
-      </van-tab>
-      <van-tab title="我的作文">
-        <div style="display:flex;justify-content:flex-end;margin:14px 0">
-          <van-button type="primary" round icon="plus" @click="startNew">写一篇作文</van-button>
-        </div>
-        <van-cell-group v-if="showForm" inset style="margin-bottom:14px">
-          <van-field v-model="editing.title" label="标题" placeholder="如：My Dream" maxlength="200" />
-          <van-field v-model="editing.essay_type" label="类型" is-link readonly @click="showTypePicker = true" />
-          <van-field v-model="editing.content" label="正文" type="textarea" rows="8" autosize placeholder="写作文…（可用模板内容起笔）" />
-          <div style="text-align:right;font-size:12px;color:#94a3b8;padding:4px 16px">约 {{ countWords(editing.content) }} 词</div>
-          <div style="display:flex;gap:10px;padding:12px 16px">
-            <van-button block round type="primary" @click="saveEssay">保存</van-button>
-            <van-button block round plain @click="showForm = false">取消</van-button>
+            <Button size="small" style="margin-top:12px" @click="copyTemplate(t)">复制模板</Button>
+          </CollapsePanel>
+        </Collapse>
+      </TabPane>
+      <TabPane :key="1" tab="我的作文">
+        <div v-if="showForm" class="essay-form">
+          <label><span>标题</span><Input v-model:value="editing.title" placeholder="如：My Dream" :maxlength="200" /></label>
+          <label><span>类型</span><Select v-model:value="editing.essay_type"><SelectOption v-for="t in ESSAY_TYPES" :key="t" :value="t">{{ ESSAY_TYPE_LABELS[t] }}</SelectOption></Select></label>
+          <label><span>正文</span><Textarea v-model:value="editing.content" :rows="8" placeholder="写作文…（可用模板内容起笔）" /></label>
+          <div class="essay-word-count">约 {{ countWords(editing.content) }} 词</div>
+          <div class="essay-form-actions">
+            <Button type="primary" @click="saveEssay">保存</Button>
+            <Button @click="showForm = false">取消</Button>
           </div>
-        </van-cell-group>
-        <van-popup v-model:show="showTypePicker" position="bottom">
-          <van-picker :columns="typeColumns" @confirm="onPickType" @cancel="showTypePicker = false" />
-        </van-popup>
-        <div v-if="mine.length" style="display:grid;gap:12px">
-          <div v-for="e in mine" :key="e.id" class="card card-pad">
-            <div style="display:flex;align-items:center;gap:10px">
+        </div>
+        <div v-if="mine.length" class="my-essay-list">
+          <article v-for="e in mine" :key="e.id" class="my-essay-item">
+            <div class="my-essay-heading">
               <strong>{{ e.title }}</strong>
-              <van-tag round plain color="#3b82f6">{{ ESSAY_TYPE_LABELS[e.essay_type as keyof typeof ESSAY_TYPE_LABELS] ?? e.essay_type }}</van-tag>
-              <span class="caption" style="margin-left:auto">{{ e.word_count }} 词 · {{ String(e.updated_at).slice(0, 10) }}</span>
-              <van-button size="small" plain type="primary" @click="startEdit(e)">编辑</van-button>
-              <van-button size="small" plain type="danger" @click="removeEssay(e.id)">删除</van-button>
+              <StatusBadge tone="info">{{ ESSAY_TYPE_LABELS[e.essay_type as keyof typeof ESSAY_TYPE_LABELS] ?? e.essay_type }}</StatusBadge>
+              <span>{{ e.word_count }} 词 · {{ String(e.updated_at).slice(0, 10) }}</span>
+              <Button size="small" @click="startEdit(e)">编辑</Button>
+              <Button size="small" danger @click="removeEssay(e.id)">删除</Button>
             </div>
-            <pre class="essay-pre" style="margin-top:10px">{{ e.content }}</pre>
-          </div>
+            <pre class="essay-pre">{{ e.content }}</pre>
+          </article>
         </div>
-        <van-empty v-else-if="!showForm" description="还没有作文，点上方「写一篇作文」" />
-      </van-tab>
-    </van-tabs>
+        <AppEmptyState v-else-if="!showForm" title="还没有作文练习" description="从一篇短作文开始，把模板逐步转化为自己的表达。"><template #action><Button type="primary" @click="startNew">写第一篇作文</Button></template></AppEmptyState>
+      </TabPane>
+    </Tabs>
   </section>
 </template>
 
@@ -146,5 +135,6 @@ export default defineComponent({ name: 'EssaysView' });
 </script>
 
 <style scoped>
-.essay-pre { white-space: pre-wrap; font-family: inherit; font-size: 14px; line-height: 1.8; color: #334155; margin: 0; }
+.essays-page{max-width:1160px}.essay-workspace{overflow:hidden;border:1px solid var(--app-border);border-radius:10px;background:#fff;box-shadow:var(--app-shadow-sm)}.essay-workspace>:deep(.ant-tabs-nav){height:52px;margin:0;padding:0 18px;border-bottom:1px solid var(--app-border)}.essay-workspace>:deep(.ant-tabs-nav::before){border:0}.essay-workspace>:deep(.ant-tabs-nav .ant-tabs-tab){font-size:13px}.essay-workspace>:deep(.ant-tabs-content-holder){padding-top:14px}.essay-notice{margin:0 18px 12px;border-radius:8px}.essay-type-tabs{margin:0 18px 12px}.essay-type-tabs :deep(.ant-tabs-nav){margin-bottom:0}.essay-collapse{margin:0 18px 18px;border-color:var(--app-border);background:#fff}.essay-collapse :deep(.ant-collapse-header){padding:14px 16px!important;font-size:13px}.essay-collapse :deep(.ant-collapse-content-box){color:var(--app-text);font-size:13px;line-height:1.7}.essay-form{display:grid;gap:14px;margin:2px 18px 16px;padding:18px;border:1px solid var(--app-border);border-radius:8px;background:#fff}.essay-form label{display:grid;gap:6px}.essay-form label>span{color:var(--app-muted);font-size:12px}.essay-word-count{text-align:right;color:var(--app-faint);font-size:12px}.essay-form-actions{display:flex;justify-content:flex-end;gap:10px}.my-essay-list{display:grid;gap:10px;padding:2px 18px 18px}.my-essay-item{padding:17px;border:1px solid var(--app-border);border-radius:8px;background:#fff}.my-essay-heading{display:flex;align-items:center;gap:9px}.my-essay-heading>strong{font-size:14px;font-weight:600}.my-essay-heading>span:not(.status-pill){margin-left:auto;color:var(--app-muted);font-size:11px}.essay-pre{margin:12px 0 0;white-space:pre-wrap;font-family:inherit;font-size:14px;line-height:1.8;color:#344054}.my-essay-item .essay-pre{display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:4}
+@media(max-width:700px){.my-essay-heading{align-items:flex-start;flex-wrap:wrap}.my-essay-heading>span:not(.status-pill){width:100%;margin-left:0}.essay-notice,.essay-type-tabs,.essay-collapse{margin-right:10px;margin-left:10px}}
 </style>

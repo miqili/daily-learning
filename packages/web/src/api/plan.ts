@@ -36,6 +36,8 @@ export interface SubjectProgress {
 export interface PlanSummary {
   exam_date: string;
   plan_start_date: string;
+  plan_end_date: string;
+  study_days: number;
   current_day: number;
   completed_tasks: number;
   total_tasks: number;
@@ -45,8 +47,8 @@ export interface PlanSummary {
   by_subject: SubjectProgress[];
 }
 
-export const initPlan = (exam_date: string, weights?: Record<string, number>) =>
-  unwrap<PlanSummary>(client.post('/plan/init', { exam_date, weights }));
+export const initPlan = (exam_date: string, start_date?: string, weights?: Record<string, number>) =>
+  unwrap<PlanSummary>(client.post('/plan/init', { exam_date, start_date, weights }));
 export interface OverdueTask extends PlanTask {
   due_day: number;
   overdue_days: number;
@@ -62,6 +64,7 @@ export interface TodayPlan {
 export const getSummary = () => unwrap<PlanSummary>(client.get('/plan/summary'));
 export const getTodayPlan = () => unwrap<TodayPlan>(client.get('/plan/today'));
 export const getDay = (day: number) => unwrap<DayPlan>(client.get(`/plan/day/${day}`));
+export const getTask = (id: number) => unwrap<PlanTask>(client.get(`/plan/${id}`));
 export const setTaskCompletion = (id: number, is_completed: boolean) =>
   unwrap<PlanTask>(client.patch(`/plan/${id}/completion`, { is_completed }));
 

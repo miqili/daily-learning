@@ -1,7 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DEFAULT_EXAM_DATE, PLAN_DAYS, getPlanTasksForDay } from '@shck/shared';
+import { buildFormalStudyPlan, DEFAULT_EXAM_DATE, FORMAL_PLAN_START_DATE } from '@shck/shared';
 import { LessThan, Repository } from 'typeorm';
+import { KnowledgeItem } from '../entities/knowledge-item.entity';
 import { StudyPlan } from '../entities/study-plan.entity';
 import { Subject } from '../entities/subject.entity';
 import { UserSettings } from '../entities/user-settings.entity';
@@ -28,13 +29,18 @@ export class PlanService {
     @InjectRepository(StudyPlan) private readonly plans: Repository<StudyPlan>,
     @InjectRepository(Subject) private readonly subjects: Repository<Subject>,
     @InjectRepository(UserSettings) private readonly settings: Repository<UserSettings>,
+    @InjectRepository(KnowledgeItem) private readonly knowledge: Repository<KnowledgeItem>,
   ) {}
 
-  /** 以考试日倒推 70 天生成计划（幂等：先清除旧计划） */
+  /** 按明确的开始日与考试日前一天生成正式计划（幂等：先清除旧计划）。 */
   async init(userId: number, dto: InitPlanDto) {
     const exam = utcDate(dto.exam_date);
     if (Number.isNaN(exam.getTime())) throw new BadRequestException('考试日期格式无效。');
-    const start = new Date(exam.getTime() - (PLAN_DAYS - 1) * MS_PER_DAY);
+    const startDate = dto.start_date ?? FORMAL_PLAN_START_DATE;
+    const start = utcDate(startDate);
+    if (Number.isNaN(start.getTime()) || start.getTime() >= exam.getTime()) {
+      throw new BadRequestException('学习开始日期必须早于考试日期。');
+    }
 
     let settings = await this.settings.findOneBy({ userId });
     if (settings) {
@@ -53,42 +59,51 @@ export class PlanService {
       weight: dto.weights?.[String(s.id)],
     }));
 
+    const knowledgeRows = await this.knowledge.find({
+      where: { userId },
+      relations: { subject: true },
+      order: { id: 'ASC' },
+    });
+    const templates = buildFormalStudyPlan({
+      startDate,
+      examDate: dto.exam_date,
+      subjects,
+      knowledge: knowledgeRows
+        .filter((item) => item.subject)
+        .map((item) => ({ subject: item.subject!.name, title: item.title, tags: item.tags })),
+    });
+
     await this.plans.delete({ userId });
-    const rows: StudyPlan[] = [];
-    for (let day = 1; day <= PLAN_DAYS; day += 1) {
-      const planDate = new Date(start.getTime() + (day - 1) * MS_PER_DAY);
-      for (const template of getPlanTasksForDay(day, subjects)) {
-        rows.push(
-          this.plans.create({
-            userId,
-            planDate: toDateString(planDate),
-            subjectId: template.subjectId,
-            title: template.title,
-            description: template.description,
-            taskType: template.taskType,
-          }),
-        );
-      }
-    }
+    const rows = templates.map((template) =>
+      this.plans.create({
+        userId,
+        planDate: template.planDate,
+        subjectId: template.subjectId,
+        title: template.title,
+        description: template.description,
+        taskType: template.taskType,
+      }),
+    );
     await this.plans.save(rows);
-    return this.buildSummary(userId, settings.examDate ?? dto.exam_date, start);
+    return this.buildSummary(userId, settings.examDate ?? dto.exam_date, start, templates.length ? utcDate(templates[templates.length - 1].planDate) : start);
   }
 
   async summary(userId: number) {
     const settings = await this.settings.findOneBy({ userId });
     const examDate = settings?.examDate ?? DEFAULT_EXAM_DATE;
-    const start = new Date(utcDate(examDate).getTime() - (PLAN_DAYS - 1) * MS_PER_DAY);
-    return this.buildSummary(userId, examDate, start);
+    const range = await this.planRange(userId, examDate);
+    return this.buildSummary(userId, examDate, range.start, range.end);
   }
 
   /** 今日：今天预生成任务 + 所有过期未完成任务（顺延补做） */
   async today(userId: number) {
     const settings = await this.settings.findOneBy({ userId });
     const examDate = settings?.examDate ?? DEFAULT_EXAM_DATE;
-    const start = new Date(utcDate(examDate).getTime() - (PLAN_DAYS - 1) * MS_PER_DAY);
+    const range = await this.planRange(userId, examDate);
+    const { start, totalDays } = range;
     const today = startOfToday();
     const dayDiff = Math.floor((today.getTime() - start.getTime()) / MS_PER_DAY);
-    const currentDay = Math.min(Math.max(dayDiff + 1, 1), PLAN_DAYS);
+    const currentDay = Math.min(Math.max(dayDiff + 1, 1), totalDays);
     const todayDate = new Date(start.getTime() + (currentDay - 1) * MS_PER_DAY);
     const todayDateStr = toDateString(todayDate);
 
@@ -103,7 +118,7 @@ export class PlanService {
 
     const dueDay = (planDate: string): number => {
       const diff = Math.floor((utcDate(planDate).getTime() - start.getTime()) / MS_PER_DAY);
-      return Math.min(Math.max(diff + 1, 1), PLAN_DAYS);
+      return Math.min(Math.max(diff + 1, 1), totalDays);
     };
 
     return {
@@ -119,12 +134,12 @@ export class PlanService {
   }
 
   async day(userId: number, dayNumber: number) {
-    if (dayNumber < 1 || dayNumber > PLAN_DAYS) {
-      throw new BadRequestException(`dayNumber 仅支持 1 至 ${PLAN_DAYS}。`);
-    }
     const settings = await this.settings.findOneBy({ userId });
     const examDate = settings?.examDate ?? DEFAULT_EXAM_DATE;
-    const start = new Date(utcDate(examDate).getTime() - (PLAN_DAYS - 1) * MS_PER_DAY);
+    const { start, totalDays } = await this.planRange(userId, examDate);
+    if (dayNumber < 1 || dayNumber > totalDays) {
+      throw new BadRequestException(`dayNumber 仅支持 1 至 ${totalDays}。`);
+    }
     const date = new Date(start.getTime() + (dayNumber - 1) * MS_PER_DAY);
     const tasks = await this.plans.find({
       where: { userId, planDate: toDateString(date) },
@@ -132,6 +147,12 @@ export class PlanService {
       order: { id: 'ASC' },
     });
     return { day_number: dayNumber, task_date: toDateString(date), tasks: tasks.map((task) => this.view(task)) };
+  }
+
+  async task(userId: number, id: number) {
+    const task = await this.plans.findOne({ where: { id, userId }, relations: { subject: true } });
+    if (!task) throw new NotFoundException('任务不存在。');
+    return this.view(task);
   }
 
   async setCompletion(userId: number, id: number, dto: CompletionDto) {
@@ -142,12 +163,23 @@ export class PlanService {
     return this.view(await this.plans.save(task));
   }
 
-  private async buildSummary(userId: number, examDate: string, start: Date) {
+  private async planRange(userId: number, examDate: string) {
+    const [first, last] = await Promise.all([
+      this.plans.findOne({ where: { userId }, order: { planDate: 'ASC' } }),
+      this.plans.findOne({ where: { userId }, order: { planDate: 'DESC' } }),
+    ]);
+    const start = first ? utcDate(first.planDate) : utcDate(FORMAL_PLAN_START_DATE);
+    const end = last ? utcDate(last.planDate) : new Date(utcDate(examDate).getTime() - MS_PER_DAY);
+    return { start, end, totalDays: Math.max(1, Math.round((end.getTime() - start.getTime()) / MS_PER_DAY) + 1) };
+  }
+
+  private async buildSummary(userId: number, examDate: string, start: Date, end: Date) {
     const total = await this.plans.countBy({ userId });
     const completed = await this.plans.countBy({ userId, isCompleted: true });
     const today = startOfToday();
     const dayDiff = Math.floor((today.getTime() - start.getTime()) / MS_PER_DAY);
-    const currentDay = Math.min(Math.max(dayDiff + 1, 1), PLAN_DAYS);
+    const totalDays = Math.max(1, Math.round((end.getTime() - start.getTime()) / MS_PER_DAY) + 1);
+    const currentDay = Math.min(Math.max(dayDiff + 1, 1), totalDays);
     const daysRemaining = Math.max(0, Math.ceil((utcDate(examDate).getTime() - today.getTime()) / MS_PER_DAY));
 
     // 按科目统计进度
@@ -179,6 +211,8 @@ export class PlanService {
     return {
       exam_date: examDate,
       plan_start_date: toDateString(start),
+      plan_end_date: toDateString(end),
+      study_days: totalDays,
       current_day: currentDay,
       completed_tasks: completed,
       total_tasks: total,

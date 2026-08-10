@@ -8,6 +8,7 @@ import { VocabularyPhrase } from '../entities/vocabulary-phrase.entity';
 import { UserSettings } from '../entities/user-settings.entity';
 import { VocabularyProgress } from '../entities/vocabulary-progress.entity';
 import { VocabularyWord } from '../entities/vocabulary-word.entity';
+import { StudySession } from '../entities/study-session.entity';
 import { CreateDeckDto, CreatePhraseDto, CreateWordDto, ReviewWordDto, UpdatePhraseDto, UpdateVocabularySettingsDto, UpdateWordDto } from './vocabulary.dto';
 
 const DAY = 86_400_000;
@@ -20,6 +21,7 @@ export class VocabularyService {
     @InjectRepository(VocabularyPhrase) private readonly phrases: Repository<VocabularyPhrase>,
     @InjectRepository(VocabularyProgress) private readonly progress: Repository<VocabularyProgress>,
     @InjectRepository(UserSettings) private readonly settings: Repository<UserSettings>,
+    @InjectRepository(StudySession) private readonly sessions: Repository<StudySession>,
   ) {}
 
   async listDecks(userId: number) {
@@ -301,6 +303,8 @@ export class VocabularyService {
     const remaining = Math.max(0, totalWords - learned);
     const estimatedDays = dailyTarget > 0 ? Math.ceil(remaining / dailyTarget) : 0;
     const progressPct = totalWords === 0 ? 0 : Math.round((mastered / totalWords) * 100);
+    const streakDays = await this.computeStreak(userId);
+    const todayTargetDone = dueToday === 0;
     return {
       total_words: totalWords,
       learned,
@@ -311,7 +315,35 @@ export class VocabularyService {
       remaining,
       estimated_days: estimatedDays,
       progress_pct: progressPct,
+      streak_days: streakDays,
+      today_target_done: todayTargetDone,
     };
+  }
+
+  /** 连续学习天数：按 study_sessions 与背单词复习日期统计 */
+  private async computeStreak(userId: number): Promise<number> {
+    const days = new Set<number>();
+    const addDate = (d: Date | null) => {
+      if (!d) return;
+      const t = new Date(d);
+      t.setHours(0, 0, 0, 0);
+      days.add(t.getTime());
+    };
+    const sessions = await this.sessions.find({ where: { userId }, select: ['recordedAt'] });
+    sessions.forEach((s) => addDate(s.recordedAt));
+    const progresses = await this.progress.find({ where: { userId }, select: ['lastReviewedAt'] });
+    progresses.forEach((p) => addDate(p.lastReviewedAt));
+    const DAY = 86_400_000;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    let cursor = new Date(today);
+    if (!days.has(cursor.getTime())) cursor = new Date(cursor.getTime() - DAY);
+    let streak = 0;
+    while (days.has(cursor.getTime())) {
+      streak += 1;
+      cursor = new Date(cursor.getTime() - DAY);
+    }
+    return streak;
   }
 
   private async loadPhrasesByWord(wordIds: number[]): Promise<Map<number, VocabularyPhrase[]>> {
@@ -360,6 +392,10 @@ export class VocabularyService {
       word: word.word,
       phonetic: word.phonetic,
       meaning: word.meaning,
+      root: word.root,
+      synonyms: word.synonymsJson ?? [],
+      antonyms: word.antonymsJson ?? [],
+      collocations: word.collocationsJson ?? [],
       example_sentence: word.exampleSentence,
       level: word.level,
       phrases: phrases.map((p) => ({ id: p.id, phrase: p.phrase, meaning: p.meaning, level: p.level })),

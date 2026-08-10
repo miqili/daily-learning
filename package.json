@@ -11,6 +11,7 @@
     "build:shared": "pnpm --filter @shck/shared build",
     "db:migrate": "pnpm build:shared && pnpm --filter @shck/server migration:run",
     "db:seed": "pnpm build:shared && pnpm --filter @shck/server seed",
+    "db:papers:sync": "pnpm build:shared && pnpm --filter @shck/server papers:sync",
     "lint": "pnpm --recursive run lint"
   },
   "devDependencies": {

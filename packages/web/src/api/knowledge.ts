@@ -13,7 +13,7 @@ export interface KnowledgeItem {
   updated_at: string;
 }
 
-export const searchKnowledge = (params?: { subject_id?: number; keyword?: string; tag?: string }) =>
+export const searchKnowledge = (params?: { subject_id?: number; keyword?: string; tag?: string; limit?: number }) =>
   unwrap<{ total: number; list: KnowledgeItem[] }>(client.get('/knowledge', { params }));
 export const getKnowledge = (id: number) => unwrap<KnowledgeItem>(client.get(`/knowledge/${id}`));
 export const createKnowledge = (payload: { title: string; content: string; subject_id?: number }) =>

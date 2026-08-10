@@ -6,6 +6,11 @@ export interface PaperSummary {
   year: number;
   title: string;
   source: string | null;
+  source_url: string | null;
+  source_type: 'OFFICIAL' | 'VERIFIED_RECALL' | 'SINGLE_SOURCE_RECALL' | 'USER_PROVIDED' | 'SIMULATION' | 'UNVERIFIED';
+  is_complete: boolean;
+  expected_question_count: number | null;
+  verification_notes: string | null;
   question_count: number;
 }
 

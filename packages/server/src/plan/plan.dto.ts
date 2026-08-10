@@ -5,6 +5,10 @@ export class InitPlanDto {
   @IsNotEmpty()
   exam_date!: string;
 
+  @IsOptional()
+  @IsDateString()
+  start_date?: string;
+
   /** 科目权重：{ [subjectId]: 0-100 }，weight=0 表示该科不安排任务 */
   @IsOptional()
   @IsObject()

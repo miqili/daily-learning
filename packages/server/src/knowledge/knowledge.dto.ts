@@ -1,4 +1,4 @@
-import { IsArray, IsEnum, IsInt, IsOptional, IsString, MaxLength } from 'class-validator';
+import { IsArray, IsEnum, IsInt, IsOptional, IsString, Max, MaxLength, Min } from 'class-validator';
 import { KNOWLEDGE_TYPES } from '@shck/shared';
 
 export class CreateKnowledgeDto {
@@ -72,5 +72,7 @@ export class SearchKnowledgeDto {
 
   @IsOptional()
   @IsInt()
+  @Min(1)
+  @Max(500)
   limit?: number;
 }

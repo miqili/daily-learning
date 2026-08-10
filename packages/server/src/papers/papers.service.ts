@@ -20,7 +20,7 @@ export class PapersService {
     const result = [];
     for (const paper of list) {
       const count = await this.questions.countBy({ paperId: paper.id });
-      result.push({ id: paper.id, subject: paper.subject, year: paper.year, title: paper.title, source: paper.source, question_count: count });
+      result.push(this.paperView(paper, count));
     }
     return result;
   }
@@ -30,12 +30,7 @@ export class PapersService {
     if (!paper) throw new NotFoundException('试卷不存在。');
     const questions = await this.questions.find({ where: { paperId: id }, order: { sortOrder: 'ASC', id: 'ASC' } });
     return {
-      id: paper.id,
-      subject: paper.subject,
-      year: paper.year,
-      title: paper.title,
-      source: paper.source,
-      question_count: questions.length,
+      ...this.paperView(paper, questions.length),
       questions: questions.map((q) => this.questionView(q)),
     };
   }
@@ -48,6 +43,8 @@ export class PapersService {
           subject: dto.subject,
           year: dto.year,
           title: dto.title ?? `${dto.year} 年${dto.subject}真题`,
+          sourceType: 'USER_PROVIDED',
+          isComplete: false,
         }),
       );
     }
@@ -123,6 +120,22 @@ export class PapersService {
       options: q.optionsJson as QuestionOption[] | null,
       answer: q.answer,
       score: q.score,
+    };
+  }
+
+  private paperView(paper: ExamPaper, questionCount: number) {
+    return {
+      id: paper.id,
+      subject: paper.subject,
+      year: paper.year,
+      title: paper.title,
+      source: paper.source,
+      source_url: paper.sourceUrl,
+      source_type: paper.sourceType,
+      is_complete: paper.isComplete,
+      expected_question_count: paper.expectedQuestionCount,
+      verification_notes: paper.verificationNotes,
+      question_count: questionCount,
     };
   }
 }

@@ -30,6 +30,11 @@ export class PlanController {
     return success(await this.planService.day(user.id, dayNumber));
   }
 
+  @Get(':id')
+  async task(@CurrentUser() user: AuthUser, @Param('id', ParseIntPipe) id: number) {
+    return success(await this.planService.task(user.id, id));
+  }
+
   @Patch(':id/completion')
   async setCompletion(@CurrentUser() user: AuthUser, @Param('id', ParseIntPipe) id: number, @Body() dto: CompletionDto) {
     return success(await this.planService.setCompletion(user.id, id, dto), '任务状态已更新');

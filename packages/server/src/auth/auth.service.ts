@@ -4,6 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DEFAULT_EXAM_DATE } from '@shck/shared';
 import * as bcrypt from 'bcryptjs';
 import { Repository } from 'typeorm';
+import { BUILTIN_KNOWLEDGE } from '../database/builtin-knowledge';
+import { KnowledgeItem } from '../entities/knowledge-item.entity';
 import { Subject } from '../entities/subject.entity';
 import { UserSettings } from '../entities/user-settings.entity';
 import { User } from '../entities/user.entity';
@@ -15,6 +17,7 @@ export class AuthService {
     @InjectRepository(User) private readonly users: Repository<User>,
     @InjectRepository(UserSettings) private readonly settings: Repository<UserSettings>,
     @InjectRepository(Subject) private readonly subjects: Repository<Subject>,
+    @InjectRepository(KnowledgeItem) private readonly knowledge: Repository<KnowledgeItem>,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -37,7 +40,26 @@ export class AuthService {
       { name: '英语', color: '#2563eb', sortOrder: 1 },
       { name: '高等数学（一）', color: '#16a34a', sortOrder: 2 },
     ];
-    await this.subjects.save(defaults.map((s, i) => this.subjects.create({ userId: user.id, ...s, sortOrder: i })));
+    const subjectRows = await this.subjects.save(
+      defaults.map((s, i) => this.subjects.create({ userId: user.id, ...s, sortOrder: i })),
+    );
+
+    // 每个账号拥有独立副本，既能开箱使用，也不会让个人修改影响其他用户。
+    const subjectIds = new Map(subjectRows.map((subject) => [subject.name, subject.id]));
+    const canonical = new Map(BUILTIN_KNOWLEDGE.map((item) => [item.title, item]));
+    await this.knowledge.save(
+      [...canonical.values()].map((item) =>
+        this.knowledge.create({
+          userId: user.id,
+          subjectId: subjectIds.get(item.subject) ?? null,
+          title: item.title,
+          content: item.content,
+          itemType: 'NOTE',
+          tags: item.tags ?? [item.subject],
+          source: item.source ?? null,
+        }),
+      ),
+    );
     return this.session(user, examDate);
   }
 
