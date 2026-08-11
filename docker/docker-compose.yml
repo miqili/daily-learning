@@ -7,6 +7,9 @@ services:
     env_file:
       - ../.env
 
+    ports:
+      - '43306:3306'
+
     volumes:
       - mysql_data:/var/lib/mysql
 
@@ -46,8 +49,9 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile.web
-      args:
-        VITE_API_BASE_URL: /api/v1
+
+    args:
+      VITE_API_BASE_URL: /api/v1
 
     container_name: daily-learning-web
     restart: unless-stopped
