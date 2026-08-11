@@ -1,17 +1,32 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DEFAULT_DAILY_WORD_TARGET, MASTERY_MAX, VOCAB_LEVELS, reviewIntervalDays } from '@shck/shared';
 import { ALL_BUILTIN_VOCABULARY, BUILTIN_DECK_NAME } from '../database/builtin-vocabulary';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, LessThan, LessThanOrEqual, Repository } from 'typeorm';
+import { In, IsNull, LessThan, MoreThanOrEqual, Repository } from 'typeorm';
 import { VocabularyDeck } from '../entities/vocabulary-deck.entity';
 import { VocabularyPhrase } from '../entities/vocabulary-phrase.entity';
 import { UserSettings } from '../entities/user-settings.entity';
 import { VocabularyProgress } from '../entities/vocabulary-progress.entity';
 import { VocabularyWord } from '../entities/vocabulary-word.entity';
 import { StudySession } from '../entities/study-session.entity';
-import { CreateDeckDto, CreatePhraseDto, CreateWordDto, ReviewWordDto, UpdatePhraseDto, UpdateVocabularySettingsDto, UpdateWordDto } from './vocabulary.dto';
+import { AnswerVocabularyDto, CreateDeckDto, CreatePhraseDto, CreateWordDto, ReviewWordDto, UpdatePhraseDto, UpdateVocabularySettingsDto, UpdateWordDto } from './vocabulary.dto';
+import { vocabularyMemory } from './vocabulary-memory';
 
 const DAY = 86_400_000;
+const SHANGHAI_OFFSET = 8 * 60 * 60 * 1000;
+
+function studyDateString(value = new Date()): string {
+  return new Date(value.getTime() + SHANGHAI_OFFSET).toISOString().slice(0, 10);
+}
+
+function startOfStudyDay(value = new Date()): Date {
+  const [year, month, day] = studyDateString(value).split('-').map(Number);
+  return new Date(Date.UTC(year, month - 1, day) - SHANGHAI_OFFSET);
+}
+
+function startOfNextStudyDay(value = new Date()): Date {
+  return new Date(startOfStudyDay(value).getTime() + DAY);
+}
 
 @Injectable()
 export class VocabularyService {
@@ -231,40 +246,160 @@ export class VocabularyService {
     return { daily_target: settings.dailyWordTarget };
   }
 
-  async todayQueue(userId: number, limit = 50) {
+  async todayQueue(userId: number, limit = 60) {
     const settings = await this.settings.findOneBy({ userId });
     const dailyTarget = settings?.dailyWordTarget ?? DEFAULT_DAILY_WORD_TARGET;
+    const queueDate = studyDateString();
+    let queued = await this.loadDailyQueue(userId, queueDate);
 
-    const due = await this.progress.find({
-      where: { userId, nextReviewAt: LessThanOrEqual(new Date()), masteryLevel: LessThan(MASTERY_MAX) },
-      relations: { word: true },
-      order: { nextReviewAt: 'ASC' },
-      take: limit,
-    });
+    // 每日队列只在当天第一次进入时生成。此后只读取，不因刷新、退出或后台改目标而换词。
+    if (!queued.length) {
+      const reviewCapacity = Math.min(60, Math.max(1, Number.isFinite(limit) ? Math.round(limit) : 60));
+      const capacity = Math.min(560, dailyTarget + reviewCapacity);
+      // 兼容升级当天的旧记录：先把今天已经完成的卡片接入新队列，避免进度从 0 重新显示。
+      const reviewedToday = await this.progress.find({
+        where: { userId, lastReviewedAt: MoreThanOrEqual(startOfStudyDay()) },
+        order: { lastReviewedAt: 'ASC', id: 'ASC' },
+        take: capacity,
+      });
+      let position = 0;
+      reviewedToday.forEach((record) => {
+        record.queueDate = queueDate;
+        record.queueKind = record.reviewCount <= 1 ? 'NEW' : 'REVIEW';
+        record.queuePosition = position++;
+        record.queueCompletedAt = record.lastReviewedAt;
+        record.learningStage = record.queueKind === 'NEW' ? 'TODAY_DONE' : 'REVIEW';
+      });
+      if (reviewedToday.length) await this.progress.save(reviewedToday);
 
-    // 今日新词 = 每日目标，最多补满 limit
-    let newCount = dailyTarget;
-    const capacity = limit - due.length;
-    if (capacity < newCount) newCount = Math.max(0, capacity);
+      const alreadyReviewedDue = reviewedToday.filter((record) => record.queueKind === 'REVIEW').length;
+      const dueCapacity = Math.max(0, reviewCapacity - alreadyReviewedDue);
+      const due = dueCapacity
+        ? await this.progress.find({
+            where: { userId, nextReviewAt: LessThan(startOfNextStudyDay()), masteryLevel: LessThan(MASTERY_MAX) },
+            order: { nextReviewAt: 'ASC', id: 'ASC' },
+            take: dueCapacity,
+          })
+        : [];
 
-    const learnedIds = (await this.progress.find({ where: { userId }, select: ['wordId'] })).map((p) => p.wordId);
-    const qb = this.words.createQueryBuilder('w').innerJoin('w.deck', 'd').where('d.userId = :userId', { userId });
-    if (learnedIds.length) qb.andWhere('w.id NOT IN (:...learnedIds)', { learnedIds });
-    const newWords = newCount > 0 ? await qb.orderBy('w.id', 'ASC').take(newCount).getMany() : [];
+      due.forEach((record) => {
+        record.queueDate = queueDate;
+        record.queueKind = 'REVIEW';
+        record.queuePosition = position++;
+        record.queueCompletedAt = null;
+        record.learningStage = 'REVIEW';
+        record.sameDayAttempts = 0;
+        record.sameDayCorrectCount = 0;
+      });
+      if (due.length) await this.progress.save(due);
 
-    const newProgress = newWords.map((word) =>
-      this.progress.create({ userId, wordId: word.id, masteryLevel: 0, nextReviewAt: new Date(), reviewCount: 0 }),
-    );
-    const saved = newProgress.length ? await this.progress.save(newProgress) : [];
-    const withWords = saved.length
-      ? await this.progress.find({ where: saved.map((p) => ({ id: p.id })), relations: { word: true } })
-      : [];
+      const inferredNewCount = reviewedToday.filter((record) => record.reviewCount <= 1).length
+        + due.filter((record) => record.reviewCount === 0).length;
+      const requestedNewCount = reviewedToday.length ? Math.max(0, dailyTarget - inferredNewCount) : dailyTarget;
+      const newCount = Math.min(requestedNewCount, Math.max(0, capacity - reviewedToday.length - due.length));
+      const learnedIds = (await this.progress.find({ where: { userId }, select: ['wordId'] })).map((p) => p.wordId);
+      const qb = this.words.createQueryBuilder('w').innerJoin('w.deck', 'd').where('d.userId = :userId', { userId });
+      if (learnedIds.length) qb.andWhere('w.id NOT IN (:...learnedIds)', { learnedIds });
+      const newWords = newCount > 0 ? await qb.orderBy('w.id', 'ASC').take(newCount).getMany() : [];
+      const assignedAt = new Date();
+      const newProgress = newWords.map((word) =>
+        this.progress.create({
+          userId,
+          wordId: word.id,
+          masteryLevel: 0,
+          nextReviewAt: assignedAt,
+          reviewCount: 0,
+          lastReviewedAt: null,
+          queueDate,
+          queueKind: 'NEW',
+          queuePosition: position++,
+          queueCompletedAt: null,
+          learningStage: 'INTRO',
+          sameDayAttempts: 0,
+          sameDayCorrectCount: 0,
+          lastGrade: null,
+          stableReviewCount: 0,
+        }),
+      );
+      if (newProgress.length) await this.progress.save(newProgress);
+      queued = await this.loadDailyQueue(userId, queueDate);
+    }
 
+    // 兼容快速模式上线当天：旧版本可能已经固定了“只有复习、没有新词”的队列。
+    // 不动已有复习和完成记录，只在队列完全没有 NEW 时补入当天目标数量的新词。
+    if (queued.length && queued.every((record) => record.queueKind === 'REVIEW')) {
+      const learnedIds = (await this.progress.find({ where: { userId }, select: ['wordId'] })).map((record) => record.wordId);
+      const qb = this.words.createQueryBuilder('w').innerJoin('w.deck', 'd').where('d.userId = :userId', { userId });
+      if (learnedIds.length) qb.andWhere('w.id NOT IN (:...learnedIds)', { learnedIds });
+      const newWords = await qb.orderBy('w.id', 'ASC').take(dailyTarget).getMany();
+      const nextPosition = Math.max(-1, ...queued.map((record) => record.queuePosition ?? -1)) + 1;
+      const assignedAt = new Date();
+      const additions = newWords.map((word, index) =>
+        this.progress.create({
+          userId,
+          wordId: word.id,
+          masteryLevel: 0,
+          nextReviewAt: assignedAt,
+          reviewCount: 0,
+          lastReviewedAt: null,
+          queueDate,
+          queueKind: 'NEW',
+          queuePosition: nextPosition + index,
+          queueCompletedAt: null,
+          learningStage: 'INTRO',
+          sameDayAttempts: 0,
+          sameDayCorrectCount: 0,
+          lastGrade: null,
+          stableReviewCount: 0,
+        }),
+      );
+      if (additions.length) {
+        await this.progress.save(additions);
+        queued = await this.loadDailyQueue(userId, queueDate);
+      }
+    }
+
+    const unstaged = queued.filter((record) => !record.learningStage);
+    for (const record of unstaged) record.learningStage = this.defaultLearningStage(record);
+    if (unstaged.length) await this.progress.save(unstaged);
+
+    const newRecords = queued.filter((record) => record.queueKind === 'NEW').sort((a, b) => (a.queuePosition ?? 0) - (b.queuePosition ?? 0));
+    const newOrder = new Map(newRecords.map((record, index) => [record.id, index]));
+    const pending = queued
+      .filter((record) => !record.queueCompletedAt && record.learningStage !== 'TODAY_DONE')
+      .sort((a, b) => this.learningFlowRank(a, newOrder.get(a.id)) - this.learningFlowRank(b, newOrder.get(b.id)) || a.id - b.id);
+    const phraseMap = await this.loadPhrasesByWord(queued.map((record) => record.wordId));
+    const groups = [];
+    for (let index = 0; index < newRecords.length; index += 5) {
+      const records = newRecords.slice(index, index + 5);
+      const memories = records.map((record) => vocabularyMemory(record.word, phraseMap.get(record.wordId) ?? []));
+      const reviewedFamily = memories.find((memory) => memory.reviewed && memory.family_key)?.family_key;
+      groups.push({
+        index: groups.length + 1,
+        label: reviewedFamily ? `词族 ${reviewedFamily}` : '高频词与常用搭配',
+        total: records.length,
+        completed: records.filter((record) => Boolean(record.queueCompletedAt)).length,
+      });
+    }
+    const newCompleted = queued.filter((record) => record.queueKind === 'NEW' && record.queueCompletedAt).length;
+    const dueCompleted = queued.filter((record) => record.queueKind === 'REVIEW' && record.queueCompletedAt).length;
     return {
-      total: due.length + withWords.length,
-      new_count: withWords.length,
-      due_count: due.length,
-      list: [...due.map((p) => this.progressView(p)), ...withWords.map((p) => this.progressView(p))],
+      queue_date: queueDate,
+      mode: 'RAPID_BEGINNER',
+      total: queued.length,
+      completed_count: queued.length - pending.length,
+      remaining_count: pending.length,
+      new_count: newRecords.length,
+      new_completed_count: newCompleted,
+      new_remaining_count: newRecords.length - newCompleted,
+      due_count: queued.filter((record) => record.queueKind === 'REVIEW').length,
+      due_completed_count: dueCompleted,
+      due_remaining_count: queued.filter((record) => record.queueKind === 'REVIEW').length - dueCompleted,
+      once_pass_count: newRecords.filter((record) => record.queueCompletedAt && record.sameDayAttempts <= 1 && record.sameDayCorrectCount > 0).length,
+      retry_pass_count: newRecords.filter((record) => record.queueCompletedAt && record.sameDayAttempts >= 2 && record.sameDayCorrectCount > 0).length,
+      tomorrow_focus_count: newRecords.filter((record) => record.queueCompletedAt && record.lastGrade === 'AGAIN').length,
+      groups,
+      list: pending.map((record) => this.progressView(record, phraseMap.get(record.wordId) ?? [])),
     };
   }
 
@@ -276,14 +411,79 @@ export class VocabularyService {
     const correct = dto.correct !== false;
     if (!correct) {
       record.masteryLevel = 0;
-      record.nextReviewAt = new Date();
+      record.nextReviewAt = new Date(Date.now() + DAY);
+      record.lastGrade = 'AGAIN';
+      record.stableReviewCount = 0;
     } else {
       record.masteryLevel = Math.min(MASTERY_MAX, record.masteryLevel + 1);
+      record.lastGrade = 'GOOD';
+      record.stableReviewCount += 1;
       const interval = reviewIntervalDays(record.masteryLevel);
       record.nextReviewAt =
         interval === null ? new Date(Date.now() + 3650 * DAY) : new Date(Date.now() + interval * DAY);
     }
-    return this.progressView(await this.progress.save(record));
+    if (record.queueDate === studyDateString()) {
+      record.queueCompletedAt = record.lastReviewedAt;
+      record.learningStage = record.queueKind === 'NEW' ? 'TODAY_DONE' : 'REVIEW';
+    }
+    const saved = await this.progress.save(record);
+    const phrases = (await this.loadPhrasesByWord([saved.wordId])).get(saved.wordId) ?? [];
+    return this.progressView(saved, phrases);
+  }
+
+  async introduceWord(userId: number, progressId: number) {
+    const record = await this.findProgress(userId, progressId);
+    if (record.queueDate !== studyDateString() || record.queueKind !== 'NEW') {
+      throw new BadRequestException('只有今天的新词可以进入首次学习。');
+    }
+    const stage = record.learningStage ?? this.defaultLearningStage(record);
+    if (stage === 'CHECK') return this.progressView(record, await this.phrasesForProgress(record));
+    if (stage !== 'INTRO') throw new BadRequestException('该单词当前不在首次学习阶段。');
+    record.learningStage = 'CHECK';
+    const saved = await this.progress.save(record);
+    return this.progressView(saved, await this.phrasesForProgress(saved));
+  }
+
+  async answerWord(userId: number, progressId: number, dto: AnswerVocabularyDto) {
+    const record = await this.findProgress(userId, progressId);
+    if (record.queueDate !== studyDateString() || record.queueKind !== 'NEW') {
+      throw new BadRequestException('只有今天的新词可以提交即时检测。');
+    }
+    const stage = record.learningStage ?? this.defaultLearningStage(record);
+    if (stage === 'TODAY_DONE' || record.queueCompletedAt) {
+      return this.progressView(record, await this.phrasesForProgress(record));
+    }
+    if (stage !== 'CHECK' && stage !== 'RETRY') throw new BadRequestException('请先完成首次学习。');
+
+    const now = new Date();
+    record.sameDayAttempts += 1;
+    record.reviewCount += 1;
+    record.lastReviewedAt = now;
+    if (dto.correct) {
+      record.sameDayCorrectCount += 1;
+      record.lastGrade = 'GOOD';
+      record.masteryLevel = Math.min(MASTERY_MAX, record.masteryLevel + 1);
+      record.stableReviewCount += 1;
+      const interval = reviewIntervalDays(record.masteryLevel);
+      record.nextReviewAt = interval === null ? new Date(now.getTime() + 3650 * DAY) : new Date(now.getTime() + interval * DAY);
+      record.learningStage = 'TODAY_DONE';
+      record.queueCompletedAt = now;
+    } else if (record.sameDayAttempts < 2) {
+      record.lastGrade = 'AGAIN';
+      record.masteryLevel = 0;
+      record.stableReviewCount = 0;
+      record.nextReviewAt = new Date(now.getTime() + DAY);
+      record.learningStage = 'RETRY';
+    } else {
+      record.lastGrade = 'AGAIN';
+      record.masteryLevel = 0;
+      record.stableReviewCount = 0;
+      record.nextReviewAt = new Date(now.getTime() + DAY);
+      record.learningStage = 'TODAY_DONE';
+      record.queueCompletedAt = now;
+    }
+    const saved = await this.progress.save(record);
+    return this.progressView(saved, await this.phrasesForProgress(saved));
   }
 
   async stats(userId: number) {
@@ -294,9 +494,13 @@ export class VocabularyService {
       .getCount();
     const learned = await this.progress.countBy({ userId });
     const mastered = await this.progress.count({ where: { userId, masteryLevel: MASTERY_MAX } });
-    const dueToday = await this.progress.count({
-      where: { userId, nextReviewAt: LessThanOrEqual(new Date()), masteryLevel: LessThan(MASTERY_MAX) },
-    });
+    const queueDate = studyDateString();
+    const queuedToday = await this.progress.countBy({ userId, queueDate });
+    const dueToday = queuedToday
+      ? await this.progress.countBy({ userId, queueDate, queueCompletedAt: IsNull() })
+      : await this.progress.count({
+          where: { userId, nextReviewAt: LessThan(startOfNextStudyDay()), masteryLevel: LessThan(MASTERY_MAX) },
+        });
     const totalPhrases = await this.phrases.countBy({ userId });
     const settings = await this.settings.findOneBy({ userId });
     const dailyTarget = settings?.dailyWordTarget ?? DEFAULT_DAILY_WORD_TARGET;
@@ -304,7 +508,7 @@ export class VocabularyService {
     const estimatedDays = dailyTarget > 0 ? Math.ceil(remaining / dailyTarget) : 0;
     const progressPct = totalWords === 0 ? 0 : Math.round((mastered / totalWords) * 100);
     const streakDays = await this.computeStreak(userId);
-    const todayTargetDone = dueToday === 0;
+    const todayTargetDone = queuedToday ? dueToday === 0 : dueToday === 0 && remaining === 0;
     return {
       total_words: totalWords,
       learned,
@@ -358,6 +562,41 @@ export class VocabularyService {
     return map;
   }
 
+  private loadDailyQueue(userId: number, queueDate: string) {
+    return this.progress.find({
+      where: { userId, queueDate },
+      relations: { word: true },
+      order: { queuePosition: 'ASC', id: 'ASC' },
+    });
+  }
+
+  private defaultLearningStage(record: VocabularyProgress): NonNullable<VocabularyProgress['learningStage']> {
+    if (record.queueCompletedAt) return 'TODAY_DONE';
+    return record.queueKind === 'NEW' ? 'INTRO' : 'REVIEW';
+  }
+
+  private learningFlowRank(record: VocabularyProgress, newIndex?: number): number {
+    if (record.queueKind !== 'NEW') return 100_000 + (record.queuePosition ?? record.id);
+    const index = newIndex ?? record.queuePosition ?? 0;
+    const group = Math.floor(index / 5);
+    const withinGroup = index % 5;
+    const stage = record.learningStage ?? this.defaultLearningStage(record);
+    if (stage === 'INTRO') return group * 100 + withinGroup;
+    if (stage === 'CHECK') return group * 100 + 50 + withinGroup;
+    if (stage === 'RETRY') return (group + 1) * 100 + 25 + withinGroup;
+    return 90_000 + index;
+  }
+
+  private async findProgress(userId: number, progressId: number) {
+    const record = await this.progress.findOne({ where: { id: progressId, userId }, relations: { word: true } });
+    if (!record) throw new NotFoundException('单词记录不存在。');
+    return record;
+  }
+
+  private async phrasesForProgress(record: VocabularyProgress) {
+    return (await this.loadPhrasesByWord([record.wordId])).get(record.wordId) ?? [];
+  }
+
   private async findOnePhrase(userId: number, id: number) {
     const phrase = await this.phrases.findOne({ where: { id, userId }, relations: { word: true, deck: true } });
     if (!phrase) throw new NotFoundException('短语不存在。');
@@ -399,6 +638,7 @@ export class VocabularyService {
       example_sentence: word.exampleSentence,
       level: word.level,
       phrases: phrases.map((p) => ({ id: p.id, phrase: p.phrase, meaning: p.meaning, level: p.level })),
+      memory: vocabularyMemory(word, phrases),
     };
   }
 
@@ -414,13 +654,19 @@ export class VocabularyService {
     };
   }
 
-  private progressView(record: VocabularyProgress) {
+  private progressView(record: VocabularyProgress, phrases: VocabularyPhrase[] = []) {
     return {
       id: record.id,
       mastery_level: record.masteryLevel,
       next_review_at: record.nextReviewAt,
       review_count: record.reviewCount,
-      word: this.wordView(record.word),
+      queue_kind: record.queueKind,
+      queue_position: record.queuePosition,
+      learning_stage: record.learningStage ?? this.defaultLearningStage(record),
+      same_day_attempts: record.sameDayAttempts,
+      same_day_correct_count: record.sameDayCorrectCount,
+      last_grade: record.lastGrade,
+      word: this.wordView(record.word, phrases),
     };
   }
 }

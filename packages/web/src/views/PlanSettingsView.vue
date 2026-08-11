@@ -29,6 +29,8 @@ const weeklyCapacity = computed(() => availability.value.weekdayMinutes * 5 + av
 
 async function load() {
   try {
+    await scheduleStore.loadAvailability();
+    availability.value = { ...scheduleStore.availability };
     subjects.value = await listSubjects();
     examDate.value = store.summary?.exam_date ?? user.user?.exam_date ?? FORMAL_EXAM_DATE;
     startDate.value = store.summary?.plan_start_date ?? FORMAL_PLAN_START_DATE;
@@ -61,7 +63,7 @@ async function regenerate() {
   } catch (cause) { error.value = apiError(cause); } finally { busy.value = false; }
 }
 
-function saveAvailability() {
+async function saveAvailability() {
   const next = {
     ...availability.value,
     weekdayMinutes: Math.max(30, Math.min(240, Number(availability.value.weekdayMinutes))),
@@ -70,14 +72,19 @@ function saveAvailability() {
     sundayMinutes: Math.max(60, Math.min(600, Number(availability.value.sundayMinutes))),
   };
   availability.value = next;
-  scheduleStore.saveAvailability(next);
-  availabilitySaved.value = true;
+  try {
+    await scheduleStore.saveAvailability(next);
+    availability.value = { ...scheduleStore.availability };
+    availabilitySaved.value = true;
+  } catch (cause) { error.value = apiError(cause); }
 }
 
-function resetAvailability() {
-  scheduleStore.resetAvailability();
-  availability.value = { ...scheduleStore.availability };
-  availabilitySaved.value = true;
+async function resetAvailability() {
+  try {
+    await scheduleStore.resetAvailability();
+    availability.value = { ...scheduleStore.availability };
+    availabilitySaved.value = true;
+  } catch (cause) { error.value = apiError(cause); }
 }
 
 onMounted(load);

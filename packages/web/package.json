@@ -10,6 +10,7 @@
     "lint": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "7.0.1",
     "@shck/shared": "workspace:*",
     "ant-design-vue": "4.2.6",
     "axios": "^1.9.0",

@@ -33,7 +33,7 @@ const completionStandard = computed(() => task.value?.description?.split('\nå®Œæ
 const portalPath = computed(() => {
   if (!destination.value) return mobile.value ? '/m/tasks' : '/';
   const prefix = mobile.value ? '/m/' : '/';
-  if (destination.value.kind === 'vocabulary') return `${prefix}vocabulary`;
+  if (destination.value.kind === 'vocabulary') return mobile.value ? '/m/vocabulary?autostart=1' : '/vocabulary';
   if (destination.value.kind === 'essays') return `${prefix}essays`;
   if (destination.value.kind === 'mistakes') return mobile.value ? '/m/me' : '/mistakes';
   return mobile.value ? '/m/search' : '/';

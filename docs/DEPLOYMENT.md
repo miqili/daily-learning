@@ -2,6 +2,14 @@
 
 本文记录 Daily Learning 当前生产环境的实际部署与后续更新流程。
 
+当前待部署版本的专用步骤见：
+
+- [2026-08-11 版本发布说明：每日词单与配置集中管理](./releases/2026-08-11-stable-vocabulary-queue.md)
+- [2026-08-11 版本发布说明：零基础快速词汇模式](./releases/2026-08-11-rapid-vocabulary-mode.md)
+- [2026-08-11 版本发布说明：移动端学习空间 UI 更新](./releases/2026-08-11-mobile-ui-refresh.md)
+
+这两个版本包含前后依赖的数据库 Migration。必须先构建新 API 镜像，再使用新镜像按顺序执行全部 Migration，最后才能启动新 API。
+
 ## 1. 部署架构
 
 项目生产环境使用 Docker Compose 管理三个服务：
@@ -486,6 +494,8 @@ docker compose \
 ## 7.3 执行 Migration
 
 如果版本可能包含数据库 migration：
+
+> 2026-08-11 版本必须执行本步骤，并确认输出包含 `StableVocabularyQueue1786406400000`。否则新 API 会因缺少 `study_availability_json` 字段导致登录失败。
 
 ```bash
 docker compose \

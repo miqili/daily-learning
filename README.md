@@ -7,7 +7,7 @@
 - 68 天学习时间轴与每日任务直达
 - 政治、英语、高等数学（一）知识库
 - 真题题库、来源核验与完整度标记
-- 错题复习、词汇与短语、英语作文
+- 错题复习、每日 20 个新词快速学习、词汇与短语、英语作文
 - 学习时长记录和完成进度
 - 独立适配的桌面端与移动端界面
 
@@ -49,4 +49,4 @@ docker           容器构建与 Nginx 配置
 docs/README.md   当前项目完整说明
 ```
 
-详细架构、模块、数据与维护约定见 [项目文档](./docs/README.md)。开发入口分别见 [Server 项目索引](./packages/server/README.md) 和 [Web 项目索引](./packages/web/README.md)。
+详细架构、模块、数据与维护约定见 [项目文档](./docs/README.md)，生产更新见 [部署文档](./docs/DEPLOYMENT.md)。开发入口分别见 [Server 项目索引](./packages/server/README.md) 和 [Web 项目索引](./packages/web/README.md)。

@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsInt, IsOptional, IsString, MaxLength, Min, ValidateNested } from 'class-validator';
+import { IsArray, IsBoolean, IsInt, IsOptional, IsString, MaxLength, Min, ValidateNested } from 'class-validator';
 
 export class CreateDeckDto {
   @IsString()
@@ -116,7 +116,18 @@ export class UpdateVocabularySettingsDto {
 
 export class ReviewWordDto {
   @IsOptional()
+  @IsBoolean()
   correct?: boolean;
+}
+
+export class AnswerVocabularyDto {
+  @IsBoolean()
+  correct!: boolean;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(40)
+  answer_type?: string;
 }
 
 export class ImportWordsDto {

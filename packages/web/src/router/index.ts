@@ -50,7 +50,7 @@ const router = createRouter({
         { path: 'search', name: 'm-search', component: MobileSearchView, meta: { navKey: 'search' } },
         { path: 'me', name: 'm-me', component: MobileMeView, meta: { navKey: 'me' } },
         { path: 'subject/:subjectId', name: 'm-subject', component: MobileSubjectView, meta: { navKey: 'me' } },
-        { path: 'vocabulary', name: 'm-vocabulary', component: MobileVocabularyView, meta: { navKey: 'me' } },
+        { path: 'vocabulary', name: 'm-vocabulary', component: MobileVocabularyView, meta: { navKey: 'me', hideTabbar: true } },
         { path: 'phrases', name: 'm-phrases', component: MobilePhrasesView, meta: { navKey: 'me' } },
         { path: 'essays', name: 'm-essays', component: MobileEssaysView, meta: { navKey: 'me' } },
         { path: 'papers', name: 'm-papers', component: MobilePapersView, meta: { navKey: 'me' } },

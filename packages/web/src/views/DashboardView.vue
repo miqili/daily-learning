@@ -131,6 +131,7 @@ async function load() {
   error.value = '';
   busy.value = true;
   try {
+    await scheduleStore.loadAvailability();
     subjects.value = await listSubjects();
     await store.loadSummary();
     if (store.summary?.initialized) {

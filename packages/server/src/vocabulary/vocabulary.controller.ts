@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query,
 import { success } from '../common/api-response';
 import { CurrentUser, AuthUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { CreateDeckDto, CreatePhraseDto, CreateWordDto, ImportWordsDto, ReviewWordDto, UpdatePhraseDto, UpdateVocabularySettingsDto, UpdateWordDto } from './vocabulary.dto';
+import { AnswerVocabularyDto, CreateDeckDto, CreatePhraseDto, CreateWordDto, ImportWordsDto, ReviewWordDto, UpdatePhraseDto, UpdateVocabularySettingsDto, UpdateWordDto } from './vocabulary.dto';
 import { VocabularyService } from './vocabulary.service';
 
 @Controller('vocabulary')
@@ -77,7 +77,7 @@ export class VocabularyController {
 
   @Get('today')
   async todayQueue(@CurrentUser() user: AuthUser, @Query('limit') limit?: number) {
-    return success(await this.vocabularyService.todayQueue(user.id, limit ? Number(limit) : 20));
+    return success(await this.vocabularyService.todayQueue(user.id, limit ? Number(limit) : undefined));
   }
 
   @Get('stats')
@@ -88,5 +88,15 @@ export class VocabularyController {
   @Patch('progress/:id/review')
   async reviewWord(@CurrentUser() user: AuthUser, @Param('id', ParseIntPipe) id: number, @Body() dto: ReviewWordDto) {
     return success(await this.vocabularyService.reviewWord(user.id, id, dto), '复习记录已保存');
+  }
+
+  @Patch('progress/:id/introduce')
+  async introduceWord(@CurrentUser() user: AuthUser, @Param('id', ParseIntPipe) id: number) {
+    return success(await this.vocabularyService.introduceWord(user.id, id), '首次学习已记录');
+  }
+
+  @Patch('progress/:id/answer')
+  async answerWord(@CurrentUser() user: AuthUser, @Param('id', ParseIntPipe) id: number, @Body() dto: AnswerVocabularyDto) {
+    return success(await this.vocabularyService.answerWord(user.id, id, dto), '检测结果已保存');
   }
 }

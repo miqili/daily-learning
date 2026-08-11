@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>快速词汇模式 · 移动端设计评审稿</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    :root {
+      --canvas: #e6eaf0;
+      --screen: #f3f5f7;
+      --surface: #ffffff;
+      --surface-subtle: #f8fafc;
+      --ink: #0c1a2e;
+      --navy: #0b1f3a;
+      --navy-soft: #132b4c;
+      --text: #253247;
+      --muted: #5d6b7d;
+      --faint: #8a96a6;
+      --border: #dbe2ea;
+      --border-strong: #c7d0dc;
+      --blue: #155eef;
+      --blue-soft: #edf4ff;
+      --teal: #087e65;
+      --teal-soft: #ecfdf6;
+      --amber: #b54708;
+      --amber-soft: #fff8eb;
+      --red: #b42318;
+      --red-soft: #fff3f2;
+      --radius-sm: 9px;
+      --radius: 13px;
+      --radius-lg: 18px;
+      --shadow-sm: 0 1px 2px rgba(12, 26, 46, .04), 0 5px 14px rgba(12, 26, 46, .035);
+      --shadow: 0 16px 38px rgba(12, 26, 46, .12);
+    }
+
+    html, body {
+      min-width: 320px;
+      min-height: 100%;
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      text-rendering: optimizeLegibility;
+    }
+
+    button { font: inherit; }
+
+    .review-board {
+      width: 1920px;
+      min-height: 1080px;
+      padding: 27px 48px 30px;
+      margin: 0 auto;
+    }
+
+    .review-header {
+      height: 76px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .review-title { display: flex; align-items: flex-start; gap: 15px; }
+
+    .review-mark {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--navy);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: -.04em;
+    }
+
+    .review-header h1 {
+      margin: 0 0 5px;
+      font-size: 27px;
+      font-weight: 780;
+      letter-spacing: -.04em;
+      line-height: 1.15;
+    }
+
+    .review-header p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    .review-meta { display: flex; gap: 8px; padding-top: 4px; }
+
+    .review-meta span {
+      min-height: 31px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 11px;
+      border: 1px solid var(--border-strong);
+      border-radius: 9px;
+      background: rgba(255,255,255,.52);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .review-meta span:last-child { border-color: #a9bde7; color: #174ea6; background: var(--blue-soft); }
+
+    .screens {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    .screen-column { min-width: 0; }
+
+    .screen-caption {
+      height: 37px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .screen-caption b {
+      display: inline-flex;
+      width: 25px;
+      height: 25px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 7px;
+      background: var(--navy);
+      color: #fff;
+      font-size: 10px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .phone {
+      position: relative;
+      height: 904px;
+      overflow: hidden;
+      border: 1px solid #c4ccd7;
+      border-radius: 23px;
+      background: var(--screen);
+      box-shadow: var(--shadow);
+    }
+
+    .phone::after {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      border: 1px solid rgba(255,255,255,.72);
+      border-radius: inherit;
+      pointer-events: none;
+      content: "";
+    }
+
+    .appbar {
+      height: 64px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 17px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.97);
+    }
+
+    .appbar-side { color: var(--muted); font-size: 11px; font-weight: 650; }
+    .appbar-side.end { text-align: right; }
+    .appbar h2 { margin: 0; font-size: 15px; font-weight: 760; letter-spacing: -.02em; }
+
+    .brandline { display: flex; align-items: center; gap: 7px; }
+    .brandline i { width: 14px; height: 2px; border-radius: 99px; background: var(--blue); }
+    .brandline span { letter-spacing: .08em; }
+
+    .page {
+      height: calc(100% - 64px);
+      overflow: hidden;
+      padding: 15px;
+    }
+
+    .surface {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .micro-label {
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 780;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .button {
+      min-height: 46px;
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      border: 1px solid var(--border-strong);
+      border-radius: 11px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .button.primary { border-color: var(--blue); background: var(--blue); color: #fff; }
+    .button.navy { border-color: var(--navy); background: var(--navy); color: #fff; }
+    .actions { display: flex; gap: 9px; }
+
+    /* Screen 01 */
+    .today-panel {
+      padding: 17px;
+      border: 0;
+      border-radius: var(--radius-lg);
+      background: var(--navy);
+      color: #fff;
+      box-shadow: 0 13px 28px rgba(11,31,58,.18);
+    }
+
+    .today-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+    .today-panel .micro-label { color: #9fb0c8; }
+    .today-title { margin: 5px 0 0; font-size: 20px; font-weight: 760; letter-spacing: -.03em; }
+    .today-total { display: flex; align-items: baseline; gap: 3px; color: #fff; }
+    .today-total strong { color: #78a9ff; font-size: 32px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .today-total span { color: #b9c7da; font-size: 12px; }
+
+    .progress { height: 6px; overflow: hidden; border-radius: 99px; background: rgba(255,255,255,.13); }
+    .progress i { display: block; height: 100%; border-radius: inherit; background: #4f8cff; }
+    .today-panel .progress { margin-top: 14px; }
+    .progress-meta { display: flex; justify-content: space-between; margin-top: 7px; color: #9fb0c8; font-size: 10px; }
+
+    .next-block {
+      margin-top: 15px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 13px;
+      background: rgba(255,255,255,.055);
+    }
+
+    .next-head { display: flex; justify-content: space-between; color: #8fb8ff; font-size: 9px; font-weight: 780; letter-spacing: .08em; text-transform: uppercase; }
+    .next-block h3 { margin: 8px 0 4px; color: #fff; font-size: 16px; font-weight: 720; }
+    .next-block p { margin: 0 0 12px; color: #b9c7da; font-size: 11px; }
+    .next-block .button { min-height: 43px; border-color: #fff; background: #fff; color: var(--navy); }
+
+    .ledger {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-top: 11px;
+    }
+
+    .ledger-card { min-height: 72px; padding: 12px; }
+    .ledger-card span { display: block; margin-bottom: 6px; color: var(--muted); font-size: 10px; }
+    .ledger-card strong { font-size: 19px; font-variant-numeric: tabular-nums; }
+    .ledger-card strong small { color: var(--muted); font-size: 10px; font-weight: 600; }
+
+    .section-title { display: flex; align-items: baseline; justify-content: space-between; margin: 18px 2px 9px; }
+    .section-title h3 { margin: 0; font-size: 14px; font-weight: 760; }
+    .section-title span { color: var(--muted); font-size: 10px; }
+
+    .group-list { overflow: hidden; }
+
+    .group-row {
+      min-height: 63px;
+      display: grid;
+      grid-template-columns: 31px minmax(0,1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .group-row:last-child { border-bottom: 0; }
+    .group-no { color: var(--blue); font-size: 11px; font-weight: 780; font-variant-numeric: tabular-nums; }
+    .group-copy strong { display: block; margin-bottom: 3px; font-size: 12px; }
+    .group-copy span { display: block; overflow: hidden; color: var(--muted); font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+    .group-status { color: var(--faint); font-size: 10px; font-variant-numeric: tabular-nums; }
+    .fixed-note { display: flex; gap: 7px; margin-top: 10px; color: var(--muted); font-size: 9px; line-height: 1.5; }
+
+    /* Learning and quiz shared */
+    .session-page { display: flex; flex-direction: column; }
+
+    .session-progress {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 11px;
+    }
+
+    .session-progress > span { color: var(--muted); font-size: 10px; font-weight: 700; }
+    .segment-track { display: flex; gap: 5px; }
+    .segment-track i { width: 25px; height: 4px; border-radius: 99px; background: #d8dfe8; }
+    .segment-track i.on { background: var(--blue); }
+
+    .word-surface { padding: 18px; }
+    .word-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .word-title { margin: 6px 0 3px; color: var(--navy); font-size: 32px; font-weight: 790; letter-spacing: -.055em; }
+    .phonetic { color: var(--muted); font-size: 11px; }
+
+    .icon-button {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      flex: 0 0 40px;
+      place-items: center;
+      border: 1px solid #b8caed;
+      border-radius: 10px;
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .icon-button svg { width: 18px; height: 18px; }
+
+    .core-meaning { margin-top: 15px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .core-meaning span { display: block; margin-bottom: 5px; color: var(--muted); font-size: 9px; }
+    .core-meaning strong { font-size: 19px; }
+
+    .construction { margin-top: 10px; padding: 14px; }
+    .construction-head { display: flex; justify-content: space-between; align-items: center; }
+    .construction-head strong { font-size: 12px; }
+    .method-tag { padding: 4px 7px; border-radius: 6px; background: var(--blue-soft); color: var(--blue); font-size: 8px; font-weight: 780; }
+
+    .formula-row {
+      display: grid;
+      grid-template-columns: 1fr 18px 1fr 18px 1.25fr;
+      align-items: center;
+      gap: 5px;
+      margin-top: 12px;
+    }
+
+    .formula-part { min-width: 0; padding: 10px 8px; border: 1px solid #cbd8ef; border-radius: 9px; background: #f7faff; }
+    .formula-part b { display: block; overflow: hidden; color: #174ea6; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+    .formula-part small { display: block; margin-top: 3px; color: var(--muted); font-size: 8px; }
+    .formula-op { color: var(--faint); text-align: center; font-size: 14px; }
+    .formula-result { border-color: #9bb5e9; background: var(--blue-soft); }
+
+    .memory-bridge { margin-top: 9px; padding: 10px 11px; border-left: 3px solid var(--blue); border-radius: 0 9px 9px 0; background: var(--surface-subtle); color: var(--text); font-size: 10px; line-height: 1.55; }
+
+    .family-surface { margin-top: 10px; padding: 13px; }
+    .family-surface > strong { display: block; margin-bottom: 8px; font-size: 11px; }
+    .family-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .family-item { padding: 8px; border: 1px solid var(--border); border-radius: 8px; background: #fbfcfd; }
+    .family-item b { display: block; margin-bottom: 3px; font-size: 10px; }
+    .family-item span { color: var(--muted); font-size: 8px; }
+
+    .example-line { margin-top: 10px; padding: 11px 12px; border-left: 3px solid #9bb5e9; background: #f8fafc; color: var(--text); font-size: 10px; line-height: 1.55; }
+    .example-line span { color: var(--muted); }
+    .session-actions { margin-top: auto; padding-top: 12px; }
+
+    /* Quiz */
+    .quiz-card { padding: 18px 16px 16px; }
+    .quiz-card .micro-label { margin-bottom: 9px; }
+    .quiz-card h3 { margin: 0 0 4px; color: var(--navy); font-size: 29px; letter-spacing: -.04em; }
+    .quiz-card > p { margin: 0; color: var(--muted); font-size: 10px; }
+
+    .answer-list { display: grid; gap: 8px; margin-top: 13px; }
+
+    .answer {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 11px;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .answer-mark { width: 23px; height: 23px; display: grid; flex: 0 0 23px; place-items: center; border: 1px solid var(--border-strong); border-radius: 50%; color: var(--muted); font-size: 9px; }
+    .answer.correct { border-color: #75c9b3; background: var(--teal-soft); color: #076451; }
+    .answer.correct .answer-mark { border-color: var(--teal); background: var(--teal); color: #fff; }
+    .answer.wrong { border-color: #e7a7a2; background: var(--red-soft); color: var(--red); }
+    .answer.wrong .answer-mark { border-color: var(--red); background: var(--red); color: #fff; }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 13px;
+      border: 1px solid #edc891;
+      border-radius: 11px;
+      background: var(--amber-soft);
+    }
+
+    .feedback strong { display: block; margin-bottom: 6px; color: var(--amber); font-size: 11px; }
+    .feedback p { margin: 0; color: #7a4216; font-size: 10px; line-height: 1.55; }
+    .requeue-note { display: flex; align-items: center; gap: 8px; margin-top: 9px; padding: 10px; border-radius: 9px; background: #e9eef4; color: var(--muted); font-size: 9px; line-height: 1.45; }
+    .requeue-note svg { width: 15px; height: 15px; flex: 0 0 15px; color: var(--blue); }
+
+    /* Done */
+    .done-page { display: flex; flex-direction: column; }
+    .completion-visual { position: relative; height: 210px; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: #eef2f7; }
+    .completion-visual img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; }
+    .completion-badge { position: absolute; right: 12px; top: 12px; padding: 6px 9px; border-radius: 8px; background: rgba(11,31,58,.9); color: #fff; font-size: 9px; font-weight: 750; }
+
+    .done-copy { padding: 17px 3px 0; text-align: center; }
+    .done-copy .micro-label { color: var(--teal); }
+    .done-copy h3 { margin: 6px 0 5px; color: var(--navy); font-size: 21px; font-weight: 780; letter-spacing: -.03em; }
+    .done-copy p { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
+
+    .done-progress { margin-top: 13px; padding: 13px; }
+    .done-progress-head { display: flex; align-items: center; justify-content: space-between; }
+    .done-progress-head strong { font-size: 11px; }
+    .done-progress-head span { color: var(--teal); font-size: 11px; font-weight: 780; }
+    .done-progress .progress { margin-top: 9px; background: #dce5e1; }
+    .done-progress .progress i { width: 100%; background: var(--teal); }
+
+    .result-ledger { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 8px; }
+    .result-cell { padding: 11px 5px; text-align: center; }
+    .result-cell strong { display: block; margin-bottom: 4px; font-size: 18px; font-variant-numeric: tabular-nums; }
+    .result-cell span { color: var(--muted); font-size: 8px; }
+
+    .root-summary { margin-top: 10px; padding: 13px; }
+    .root-summary h4 { margin: 0 0 4px; font-size: 11px; }
+    .root-summary > p { margin: 0; color: var(--muted); font-size: 9px; }
+    .root-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+    .root-tags span { padding: 6px 8px; border: 1px solid #b9cae9; border-radius: 7px; background: var(--blue-soft); color: #174ea6; font-size: 8px; font-weight: 750; }
+    .done-actions { margin-top: auto; padding-top: 11px; }
+    .done-actions .button + .button { margin-top: 8px; }
+
+    @media (max-width: 1100px) {
+      .review-board { width: max-content; min-width: 100%; }
+      .review-header { position: sticky; left: 48px; width: calc(100vw - 96px); }
+      .screens { grid-template-columns: repeat(4, 390px); }
+    }
+
+    @media (max-width: 720px) {
+      body { background: #dfe4ea; }
+      .review-board { width: 100%; min-width: 320px; padding: 18px 12px 30px; }
+      .review-header { position: static; width: 100%; height: auto; margin-bottom: 16px; }
+      .review-mark, .review-meta { display: none; }
+      .review-header h1 { font-size: 22px; }
+      .review-header p { font-size: 12px; line-height: 1.55; }
+      .screens { display: grid; grid-template-columns: 1fr; gap: 20px; }
+      .screen-column { width: min(100%, 430px); margin: 0 auto; }
+      .phone { height: 850px; }
+    }
+
+    @media (max-width: 370px) {
+      .review-board { padding-inline: 8px; }
+      .page { padding-inline: 12px; }
+      .phone { height: 838px; border-radius: 18px; }
+      .today-panel { padding: 15px; }
+      .formula-row { grid-template-columns: 1fr 13px 1fr; }
+      .formula-row .formula-op:nth-of-type(2), .formula-result { display: none; }
+      .family-item { padding-inline: 6px; }
+      .completion-visual { height: 190px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="review-board">
+    <header class="review-header">
+      <div class="review-title">
+        <div class="review-mark">V20</div>
+        <div>
+          <h1>快速词汇模式 · 移动端设计评审稿</h1>
+          <p>围绕碎片时间学习重新组织：任务量清楚、进度可追踪、下一步行动唯一明确</p>
+        </div>
+      </div>
+      <div class="review-meta"><span>390px 基准</span><span>支持 360–430px</span><span>新视觉 v2</span></div>
+    </header>
+
+    <section class="screens">
+      <article class="screen-column">
+        <div class="screen-caption"><b>01</b> 今日任务 · 先看下一步</div>
+        <div class="phone">
+          <header class="appbar">
+            <div class="appbar-side brandline"><i></i><span>STUDY</span></div>
+            <h2>英语词汇</h2>
+            <div class="appbar-side end">8月11日</div>
+          </header>
+          <div class="page">
+            <section class="today-panel">
+              <div class="today-top">
+                <div><span class="micro-label">TODAY'S MISSION</span><h3 class="today-title">今日词汇</h3></div>
+                <div class="today-total"><strong>0</strong><span>/ 20</span></div>
+              </div>
+              <div class="progress"><i style="width:0%"></i></div>
+              <div class="progress-meta"><span>尚未开始</span><span>预计 25–35 分钟</span></div>
+              <div class="next-block">
+                <div class="next-head"><span>下一步</span><span>第 1 / 4 组</span></div>
+                <h3>词根 port · 携带</h3>
+                <p>5 个核心词 · 学习后立即检测</p>
+                <div class="button">开始第 1 组
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                </div>
+              </div>
+            </section>
+
+            <div class="ledger">
+              <div class="surface ledger-card"><span>到期复习</span><strong>12 <small>个 · 约 8 分钟</small></strong></div>
+              <div class="surface ledger-card"><span>今日词单</span><strong>已固定 <small>退出不重置</small></strong></div>
+            </div>
+
+            <div class="section-title"><h3>今日分组</h3><span>每组 5 个</span></div>
+            <section class="surface group-list">
+              <div class="group-row"><span class="group-no">01</span><div class="group-copy"><strong>port · 携带</strong><span>transport / import / export</span></div><span class="group-status">0/5</span></div>
+              <div class="group-row"><span class="group-no">02</span><div class="group-copy"><strong>dict · 说</strong><span>predict / dictionary / contradict</span></div><span class="group-status">0/5</span></div>
+              <div class="group-row"><span class="group-no">03</span><div class="group-copy"><strong>spect · 看</strong><span>respect / inspect / perspective</span></div><span class="group-status">0/5</span></div>
+              <div class="group-row"><span class="group-no">04</span><div class="group-copy"><strong>基础高频表达</strong><span>常用短语与场景记忆</span></div><span class="group-status">0/5</span></div>
+            </section>
+            <div class="fixed-note">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#155eef" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+              <span>今日新词、顺序和完成状态已保存；刷新或换设备不会重新抽取。</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen-column">
+        <div class="screen-caption"><b>02</b> 首次学习 · 建立一条记忆线索</div>
+        <div class="phone">
+          <header class="appbar">
+            <div class="appbar-side">‹ 退出</div>
+            <h2>首次学习</h2>
+            <div class="appbar-side end">1 / 5</div>
+          </header>
+          <div class="page session-page">
+            <div class="session-progress"><span>第 1 组 · 词根 port</span><div class="segment-track"><i class="on"></i><i></i><i></i><i></i><i></i></div></div>
+
+            <section class="surface word-surface">
+              <div class="word-head">
+                <div><span class="micro-label">CORE WORD</span><h3 class="word-title">transport</h3><span class="phonetic">/trænˈspɔːrt/</span></div>
+                <button class="icon-button" aria-label="播放发音">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 10v4h3l4 3V7l-4 3H5Z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg>
+                </button>
+              </div>
+              <div class="core-meaning"><span>本轮只记住这个核心意思</span><strong>运输；运送</strong></div>
+            </section>
+
+            <section class="surface construction">
+              <div class="construction-head"><strong>构词路径</strong><span class="method-tag">拆解理解</span></div>
+              <div class="formula-row">
+                <div class="formula-part"><b>trans-</b><small>跨越</small></div>
+                <span class="formula-op">+</span>
+                <div class="formula-part"><b>port</b><small>携带</small></div>
+                <span class="formula-op">=</span>
+                <div class="formula-part formula-result"><b>transport</b><small>运送到另一处</small></div>
+              </div>
+              <div class="memory-bridge">记忆桥梁：把东西“携带到另一处” → 运输、运送</div>
+            </section>
+
+            <section class="surface family-surface">
+              <strong>同一词根，只浏览不计入 20 个新词</strong>
+              <div class="family-row">
+                <div class="family-item"><b>import</b><span>进口</span></div>
+                <div class="family-item"><b>export</b><span>出口</span></div>
+                <div class="family-item"><b>portable</b><span>便携的</span></div>
+              </div>
+            </section>
+
+            <div class="example-line">Public transport is convenient.<br><span>公共交通很方便。</span></div>
+
+            <div class="actions session-actions">
+              <button class="button">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 10v4h3l4 3V7l-4 3H5Z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg>
+                再听一遍
+              </button>
+              <button class="button navy">完成首次学习</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen-column">
+        <div class="screen-caption"><b>03</b> 即时检测 · 答错不制造挫败</div>
+        <div class="phone">
+          <header class="appbar">
+            <div class="appbar-side">‹ 退出</div>
+            <h2>第 1 组检测</h2>
+            <div class="appbar-side end">2 / 5</div>
+          </header>
+          <div class="page session-page">
+            <div class="session-progress"><span>英文选中文</span><div class="segment-track"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+
+            <section class="surface quiz-card">
+              <span class="micro-label">选择最常用的中文含义</span>
+              <h3>transport</h3>
+              <p>/trænˈspɔːrt/</p>
+              <div class="answer-list">
+                <div class="answer correct"><span class="answer-mark">✓</span><span>运输；运送</span></div>
+                <div class="answer wrong"><span class="answer-mark">×</span><span>预测；预言</span></div>
+                <div class="answer"><span class="answer-mark">C</span><span>改善；提高</span></div>
+              </div>
+            </section>
+
+            <section class="feedback">
+              <strong>这次没有记住，学习进度不回退</strong>
+              <p>正确答案：运输；运送<br>trans- 跨越 + port 携带 → 携带到另一处</p>
+            </section>
+
+            <div class="requeue-note">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7v5h-5"/><path d="M19 12a7 7 0 1 0-2 5"/></svg>
+              <span>系统会在至少 4 张卡片后再次检测；同一单词今天最多检测两次。</span>
+            </div>
+
+            <div class="actions session-actions"><button class="button navy">继续下一题</button></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen-column">
+        <div class="screen-caption"><b>04</b> 学习完成 · 反馈结果与下一步</div>
+        <div class="phone">
+          <header class="appbar">
+            <div class="appbar-side brandline"><i></i><span>STUDY</span></div>
+            <h2>今日完成</h2>
+            <div class="appbar-side end">8月11日</div>
+          </header>
+          <div class="page done-page">
+            <div class="completion-visual">
+              <img src="./assets/learning-complete-v2.png" alt="学习资料、进度图表与完成标记组成的专业学习完成插画" />
+              <span class="completion-badge">SESSION COMPLETE</span>
+            </div>
+
+            <div class="done-copy">
+              <span class="micro-label">PROGRESS SAVED</span>
+              <h3>20 个新词学习完成</h3>
+              <p>今天的学习与检测已记录。暂时没记住的单词，明天会优先复习。</p>
+            </div>
+
+            <section class="surface done-progress">
+              <div class="done-progress-head"><strong>今日新词</strong><span>20 / 20</span></div>
+              <div class="progress"><i></i></div>
+            </section>
+
+            <div class="result-ledger">
+              <div class="surface result-cell"><strong>14</strong><span>一次通过</span></div>
+              <div class="surface result-cell"><strong>3</strong><span>稍后记住</span></div>
+              <div class="surface result-cell"><strong>3</strong><span>明日重点</span></div>
+            </div>
+
+            <section class="surface root-summary">
+              <h4>今天建立的构词线索</h4>
+              <p>后续复习中会继续强化，不要求今天一次全部记住。</p>
+              <div class="root-tags"><span>port · 携带</span><span>dict · 说</span><span>spect · 看</span><span>form · 形状</span></div>
+            </section>
+
+            <div class="done-actions">
+              <button class="button primary">继续复习到期词 12</button>
+              <button class="button">返回今日任务</button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

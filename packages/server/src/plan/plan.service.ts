@@ -5,10 +5,20 @@ import { LessThan, Repository } from 'typeorm';
 import { KnowledgeItem } from '../entities/knowledge-item.entity';
 import { StudyPlan } from '../entities/study-plan.entity';
 import { Subject } from '../entities/subject.entity';
-import { UserSettings } from '../entities/user-settings.entity';
-import { CompletionDto, InitPlanDto } from './plan.dto';
+import { StudyAvailabilitySettings, UserSettings } from '../entities/user-settings.entity';
+import { CompletionDto, InitPlanDto, StudyAvailabilityDto } from './plan.dto';
 
 const MS_PER_DAY = 86_400_000;
+
+const DEFAULT_STUDY_AVAILABILITY: StudyAvailabilitySettings = {
+  weekdayMinutes: 90,
+  weekdayMorningMinutes: 20,
+  saturdayMinutes: 360,
+  sundayMinutes: 360,
+  weekdayEveningStart: '20:30',
+  weekendStart: '09:00',
+  weekendEnd: '17:30',
+};
 
 function utcDate(value: string): Date {
   return new Date(`${value}T00:00:00.000Z`);
@@ -31,6 +41,23 @@ export class PlanService {
     @InjectRepository(UserSettings) private readonly settings: Repository<UserSettings>,
     @InjectRepository(KnowledgeItem) private readonly knowledge: Repository<KnowledgeItem>,
   ) {}
+
+  async getAvailability(userId: number): Promise<StudyAvailabilitySettings> {
+    const settings = await this.settings.findOneBy({ userId });
+    return { ...DEFAULT_STUDY_AVAILABILITY, ...(settings?.studyAvailabilityJson ?? {}) };
+  }
+
+  async updateAvailability(userId: number, dto: StudyAvailabilityDto): Promise<StudyAvailabilitySettings> {
+    if (dto.weekdayMorningMinutes > dto.weekdayMinutes) {
+      throw new BadRequestException('早间时间不能超过工作日总时间。');
+    }
+    const availability: StudyAvailabilitySettings = { ...dto };
+    let settings = await this.settings.findOneBy({ userId });
+    if (!settings) settings = this.settings.create({ userId });
+    settings.studyAvailabilityJson = availability;
+    await this.settings.save(settings);
+    return availability;
+  }
 
   /** 按明确的开始日与考试日前一天生成正式计划（幂等：先清除旧计划）。 */
   async init(userId: number, dto: InitPlanDto) {

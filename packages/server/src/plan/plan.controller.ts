@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, UseGuards } fr
 import { success } from '../common/api-response';
 import { AuthUser, CurrentUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { CompletionDto, InitPlanDto } from './plan.dto';
+import { CompletionDto, InitPlanDto, StudyAvailabilityDto } from './plan.dto';
 import { PlanService } from './plan.service';
 
 @Controller('plan')
@@ -23,6 +23,16 @@ export class PlanController {
   @Get('today')
   async today(@CurrentUser() user: AuthUser) {
     return success(await this.planService.today(user.id));
+  }
+
+  @Get('settings/availability')
+  async availability(@CurrentUser() user: AuthUser) {
+    return success(await this.planService.getAvailability(user.id));
+  }
+
+  @Patch('settings/availability')
+  async updateAvailability(@CurrentUser() user: AuthUser, @Body() dto: StudyAvailabilityDto) {
+    return success(await this.planService.updateAvailability(user.id, dto), '可用时间已更新');
   }
 
   @Get('day/:dayNumber')

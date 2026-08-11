@@ -212,11 +212,11 @@ onMounted(() => { warmupVoices(); loadAll(); });
         </div>
       </div>
       <div class="progress-track"><div class="progress-value" :style="{ width: `${stats.progress_pct}%` }" /></div>
-      <p class="caption" style="margin-top:8px">按当前目标，每天 {{ stats?.daily_target }} 个新词，约 <strong>{{ stats?.estimated_days }}</strong> 天学完当前词库剩余 {{ stats?.remaining }} 个。成考英语建议覆盖 <strong>1500+ 高频核心词</strong>，词库会继续扩充，也可导入你自己的词表。</p>
+      <p class="caption" style="margin-top:8px">按当前目标，每天最多安排 {{ stats?.daily_target }} 个新词，约 <strong>{{ stats?.estimated_days }}</strong> 天学完当前词库剩余 {{ stats?.remaining }} 个。目标调整从次日词单开始生效，当日词单不会刷新。</p>
     </section>
 
     <section class="card card-pad vocab-section today-vocabulary">
-      <div class="vocab-section-heading"><div><h2>今日单词</h2><p>新词 {{ queueNewCount }} · 到期复习 {{ queueDueCount }}</p></div><span>{{ queueTotal }} 个</span></div>
+      <div class="vocab-section-heading"><div><h2>今日单词</h2><p>固定词单 · 新词 {{ queueNewCount }} · 到期复习 {{ queueDueCount }}</p></div><span>{{ queue.length }} / {{ queueTotal }} 待完成</span></div>
       <div v-if="queue.length" class="result-list">
         <div v-for="item in queue" :key="item.id" class="task-row" style="align-items:flex-start">
           <div class="task-content" style="flex:1">

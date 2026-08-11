@@ -26,6 +26,24 @@ export interface VocabularyWord {
   example_sentence: string | null;
   level: number;
   phrases: WordPhrase[];
+  memory: VocabularyMemory;
+}
+
+export interface VocabularyMemoryPart {
+  text: string;
+  type: 'PREFIX' | 'ROOT' | 'SUFFIX' | 'BASE';
+  meaning: string;
+}
+
+export interface VocabularyMemory {
+  strategy: 'MORPHEME' | 'FAMILY' | 'PHRASE';
+  family_key: string | null;
+  parts: VocabularyMemoryPart[];
+  literal_bridge: string | null;
+  memory_note: string;
+  family_words: Array<{ word: string; meaning: string }>;
+  phrase: { text: string; meaning: string | null } | null;
+  reviewed: boolean;
 }
 
 export interface Phrase {
@@ -43,6 +61,12 @@ export interface ProgressItem {
   mastery_level: number;
   next_review_at: string;
   review_count: number;
+  queue_kind: 'NEW' | 'REVIEW' | null;
+  queue_position: number | null;
+  learning_stage: 'INTRO' | 'CHECK' | 'RETRY' | 'TODAY_DONE' | 'REVIEW';
+  same_day_attempts: number;
+  same_day_correct_count: number;
+  last_grade: 'AGAIN' | 'GOOD' | null;
   word: VocabularyWord;
 }
 
@@ -80,9 +104,32 @@ export const updateWord = (id: number, payload: Partial<Pick<WordInput, 'meaning
   unwrap<VocabularyWord>(client.patch(`/vocabulary/words/${id}`, payload));
 export const importWords = (deckId: number, words: WordInput[]) =>
   unwrap<{ imported: number }>(client.post(`/vocabulary/decks/${deckId}/import`, { words }));
-export const todayQueue = (limit = 50) => unwrap<{ total: number; new_count: number; due_count: number; list: ProgressItem[] }>(client.get('/vocabulary/today', { params: { limit } }));
+export interface TodayVocabularyQueue {
+  queue_date: string;
+  mode: 'RAPID_BEGINNER';
+  total: number;
+  completed_count: number;
+  remaining_count: number;
+  new_count: number;
+  new_completed_count: number;
+  new_remaining_count: number;
+  due_count: number;
+  due_completed_count: number;
+  due_remaining_count: number;
+  once_pass_count: number;
+  retry_pass_count: number;
+  tomorrow_focus_count: number;
+  groups: Array<{ index: number; label: string; total: number; completed: number }>;
+  list: ProgressItem[];
+}
+
+export const todayQueue = () => unwrap<TodayVocabularyQueue>(client.get('/vocabulary/today'));
 export const reviewWord = (id: number, correct: boolean) =>
   unwrap<ProgressItem>(client.patch(`/vocabulary/progress/${id}/review`, { correct }));
+export const introduceWord = (id: number) =>
+  unwrap<ProgressItem>(client.patch(`/vocabulary/progress/${id}/introduce`));
+export const answerWord = (id: number, correct: boolean, answer_type = 'MEANING_CHOICE') =>
+  unwrap<ProgressItem>(client.patch(`/vocabulary/progress/${id}/answer`, { correct, answer_type }));
 export const vocabularyStats = () => unwrap<VocabularyStats>(client.get('/vocabulary/stats'));
 export const importBuiltinDeck = () => unwrap<{ deck_id: number; imported: number; already: boolean }>(client.post('/vocabulary/import-builtin'));
 export const getVocabularySettings = () => unwrap<{ daily_target: number }>(client.get('/vocabulary/settings'));

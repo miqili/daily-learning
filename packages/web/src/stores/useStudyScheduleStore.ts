@@ -1,15 +1,7 @@
 import { defineStore } from 'pinia';
-import type { PlanTask } from '@/api/plan';
+import { getStudyAvailability, updateStudyAvailability, type PlanTask, type StudyAvailability } from '@/api/plan';
 
-export interface StudyAvailability {
-  weekdayMinutes: number;
-  weekdayMorningMinutes: number;
-  saturdayMinutes: number;
-  sundayMinutes: number;
-  weekdayEveningStart: string;
-  weekendStart: string;
-  weekendEnd: string;
-}
+export type { StudyAvailability } from '@/api/plan';
 
 export interface DeferredStudyTask {
   task: PlanTask;
@@ -61,12 +53,18 @@ export const useStudyScheduleStore = defineStore('study-schedule', {
       + state.availability.sundayMinutes,
   },
   actions: {
-    saveAvailability(next: StudyAvailability) {
-      this.availability = { ...next };
+    async loadAvailability() {
+      this.availability = await getStudyAvailability();
       localStorage.setItem(AVAILABILITY_KEY, JSON.stringify(this.availability));
+      return this.availability;
     },
-    resetAvailability() {
-      this.saveAvailability({ ...defaultAvailability });
+    async saveAvailability(next: StudyAvailability) {
+      this.availability = await updateStudyAvailability(next);
+      localStorage.setItem(AVAILABILITY_KEY, JSON.stringify(this.availability));
+      return this.availability;
+    },
+    async resetAvailability() {
+      return this.saveAvailability({ ...defaultAvailability });
     },
     capacityForDate(date: string): number {
       const day = new Date(`${date}T12:00:00`).getDay();

@@ -6,10 +6,10 @@ const route = useRoute();
 
 <template>
   <div class="m-shell">
-    <main class="m-main">
+    <main class="m-main" :class="{ immersive: route.meta.hideTabbar }">
       <RouterView />
     </main>
-    <nav class="mobile-tabbar" aria-label="主导航">
+    <nav v-if="!route.meta.hideTabbar" class="mobile-tabbar" aria-label="主导航">
       <RouterLink :class="{ 'is-active': route.meta.navKey === 'tasks' }" to="/m/tasks" replace>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5" /></svg>
         <span>今日</span>
@@ -29,6 +29,7 @@ const route = useRoute();
 <style scoped>
 .m-shell { min-height: 100vh; min-height: 100dvh; background: var(--app-bg); }
 .m-main { min-height: 100vh; min-height: 100dvh; padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+.m-main.immersive { padding-bottom: 0; }
 .mobile-tabbar {
   position: fixed;
   right: 0;
