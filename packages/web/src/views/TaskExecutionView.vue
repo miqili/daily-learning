@@ -6,7 +6,7 @@ import { searchKnowledge, type KnowledgeItem } from '@/api/knowledge';
 import { listMistakes, reviewMistake, type Mistake } from '@/api/mistakes';
 import { getTask, setTaskCompletion, type PlanTask } from '@/api/plan';
 import { getPaper, listPapers, type PaperDetail, type PaperSummary } from '@/api/papers';
-import { renderMarkdown } from '@/utils/markdown';
+import { renderInlineMarkdown, renderMarkdown } from '@/utils/markdown';
 import { taskDestination } from '@/utils/taskDestination';
 
 const route = useRoute();
@@ -197,7 +197,7 @@ onMounted(load);
                     <article v-for="(question, index) in paperDetail.questions" :key="question.id">
                       <span class="question-no">{{ String(index + 1).padStart(2, '0') }}</span>
                       <div><div v-if="question.passage" class="md passage" v-html="renderMarkdown(question.passage)" /><div class="md" v-html="renderMarkdown(question.content)" />
-                        <div v-if="question.options" class="options"><p v-for="option in question.options" :key="option.key"><b>{{ option.key }}</b>{{ option.text }}</p></div>
+                        <div v-if="question.options" class="options"><p v-for="option in question.options" :key="option.key"><b>{{ option.key }}</b><span v-html="renderInlineMarkdown(option.text)" /></p></div>
                         <button class="answer-toggle" @click="toggleAnswer(question.id)">{{ revealedAnswers.has(question.id) ? '收起答案' : '核对答案' }}</button>
                         <div v-if="revealedAnswers.has(question.id)" class="answer md" v-html="renderMarkdown(question.answer ?? '暂无答案')" />
                       </div>
@@ -336,4 +336,56 @@ onMounted(load);
 .execution-aside dt { color: var(--app-muted); }
 .execution-aside dd { margin: 0; font-weight: 600; }
 @media(max-width:900px){.execution-page{min-height:calc(100vh - 64px);min-height:calc(100dvh - 64px);padding:10px 16px 34px}.execution-shell{width:min(100%,560px)}.back-button{min-height:44px;display:inline-flex;align-items:center;margin-bottom:6px}.execution-header{gap:10px}.execution-header h1{font-size:20px}.execution-header>div>p:last-child{font-size:12px}.execution-layout{grid-template-columns:1fr}.execution-aside{position:static}.execution-aside dl{display:none}.brief-card{padding:15px}.brief-card>p{font-size:14px}.brief-card small,.resource-heading small,.execution-aside small,.standard span{font-size:12px}.standard strong{font-size:13px}.resource-heading{align-items:flex-start;flex-direction:column;padding:14px}.resource-heading p{text-align:left;font-size:13px}.paper-grid{grid-template-columns:1fr}.paper-grid>button{min-height:64px}.paper-detail-head button,.answer-toggle{min-height:44px}.options{grid-template-columns:1fr}.knowledge-stack summary{min-height:58px;grid-template-columns:26px 1fr}.knowledge-stack summary span{font-size:12px}.knowledge-stack summary em{display:none}.resource-content{padding:4px 10px 18px;font-size:14px}.mistake-stack article{align-items:stretch;flex-direction:column}.mistake-actions button{min-height:44px;flex:1}.portal-button{min-height:44px}.complete-button{min-height:46px;height:auto}.execution-page.mobile .execution-header>div>p:last-child{display:none}}
+
+/* ==========================================================================
+   PC 端换肤（2026-09-16 对齐历年真题页）
+   本组件 PC 与移动端共用，因此换肤全部限定在 .execution-page:not(.mobile)：
+   移动端 /m/task/:id 继续沿用上面的 --app-* 蓝色体系，一行不受影响。
+   做法是把 --app-* 语义令牌在本作用域内重指到 --wb-*，下方既有规则无需改写。
+   ========================================================================== */
+.execution-page:not(.mobile) {
+  --app-primary: var(--wb-brand);
+  --app-primary-hover: var(--wb-brand-deep);
+  --app-primary-soft: var(--wb-brand-soft);
+  --app-border: var(--wb-line-soft);
+  --app-border-strong: var(--wb-line);
+  --app-text: var(--wb-ink);
+  --app-muted: var(--wb-muted);
+  --app-faint: var(--wb-faint);
+  --app-bg: var(--wb-surface-2);
+  --app-surface-subtle: var(--wb-surface-2);
+  --app-success: var(--wb-brand-deep);
+  --app-danger: var(--wb-danger);
+  --app-shadow-sm: var(--wb-shadow-sm);
+  --app-shadow: var(--wb-shadow);
+}
+/* 三处淡蓝底/描边是硬编码值，令牌重指覆盖不到，单独替换 */
+.execution-page:not(.mobile) .standard { background: var(--wb-brand-soft); }
+.execution-page:not(.mobile) .paper-grid > button:hover { border-color: var(--wb-brand-bright); background: var(--wb-brand-soft); }
+.execution-page:not(.mobile) .portal-card { background: var(--wb-brand-soft); }
+.execution-page:not(.mobile) .brief-card > p { color: var(--wb-ink-2); }
+.execution-page:not(.mobile) .status-badge.done { background: var(--wb-brand-soft); }
+/* 页头层级对齐其他页面 */
+.execution-page:not(.mobile) .execution-header h1 { max-width: 850px; color: var(--wb-ink); font-size: 26px; font-weight: 700; letter-spacing: -.03em; }
+.execution-page:not(.mobile) .execution-eyebrow { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 12px; padding: 3px 10px; border-radius: 999px; background: var(--wb-brand-soft); color: var(--wb-brand-deep); font-size: 12px; font-weight: 600; }
+.execution-page:not(.mobile) .execution-eyebrow::before { width: 6px; height: 6px; border-radius: 50%; content: ""; background: var(--wb-brand); }
+.execution-page:not(.mobile) .brief-card,
+.execution-page:not(.mobile) .resource-card,
+.execution-page:not(.mobile) .execution-aside > section,
+.execution-page:not(.mobile) .execution-aside dl { border-radius: var(--wb-radius-lg); }
+.execution-page:not(.mobile) .paper-grid > button,
+.execution-page:not(.mobile) .options p,
+.execution-page:not(.mobile) .answer-toggle,
+.execution-page:not(.mobile) .mistake-actions button,
+.execution-page:not(.mobile) .checklist label,
+.execution-page:not(.mobile) .complete-button,
+.execution-page:not(.mobile) .portal-button { border-radius: var(--wb-radius); }
+.execution-page:not(.mobile) .paper-grid > button,
+.execution-page:not(.mobile) .answer-toggle,
+.execution-page:not(.mobile) .mistake-actions button,
+.execution-page:not(.mobile) .portal-button,
+.execution-page:not(.mobile) .complete-button,
+.execution-page:not(.mobile) .back-button { transition: border-color var(--wb-dur) var(--wb-ease), background var(--wb-dur) var(--wb-ease), color var(--wb-dur) var(--wb-ease); }
+.execution-page:not(.mobile) .portal-button:hover { background: var(--wb-brand-deep); }
+
 </style>

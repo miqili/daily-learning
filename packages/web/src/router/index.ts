@@ -7,6 +7,8 @@ import LoginView from '@/views/LoginView.vue';
 
 const EssaysView = () => import('@/views/EssaysView.vue');
 const MistakesView = () => import('@/views/MistakesView.vue');
+const PapersView = () => import('@/views/PapersView.vue');
+const MustReadView = () => import('@/views/MustReadView.vue');
 const PhrasesView = () => import('@/views/PhrasesView.vue');
 const PlanSettingsView = () => import('@/views/PlanSettingsView.vue');
 const VocabularyView = () => import('@/views/VocabularyView.vue');
@@ -15,6 +17,7 @@ const MobilePhrasesView = () => import('@/views/mobile/MobilePhrasesView.vue');
 const MobileEssaysView = () => import('@/views/mobile/MobileEssaysView.vue');
 const MobileMeView = () => import('@/views/mobile/MobileMeView.vue');
 const MobilePapersView = () => import('@/views/mobile/MobilePapersView.vue');
+const MobilePaperPracticeView = () => import('@/views/mobile/MobilePaperPracticeView.vue');
 const MobileSearchView = () => import('@/views/mobile/MobileSearchView.vue');
 const MobileSubjectView = () => import('@/views/mobile/MobileSubjectView.vue');
 const MobileTasksView = () => import('@/views/mobile/MobileTasksView.vue');
@@ -38,6 +41,9 @@ const router = createRouter({
         { path: 'vocabulary', name: 'vocabulary', component: VocabularyView, meta: { navKey: 'vocabulary' } },
         { path: 'phrases', name: 'phrases', component: PhrasesView, meta: { navKey: 'phrases' } },
         { path: 'essays', name: 'essays', component: EssaysView, meta: { navKey: 'essays' } },
+        { path: 'papers', name: 'papers', component: PapersView, meta: { navKey: 'papers' } },
+        { path: 'papers/:paperId', name: 'paper-detail', component: PapersView, meta: { navKey: 'papers' } },
+        { path: 'must-read', name: 'must-read', component: MustReadView, meta: { navKey: 'mustRead' } },
       ],
     },
     {
@@ -54,6 +60,7 @@ const router = createRouter({
         { path: 'phrases', name: 'm-phrases', component: MobilePhrasesView, meta: { navKey: 'me' } },
         { path: 'essays', name: 'm-essays', component: MobileEssaysView, meta: { navKey: 'me' } },
         { path: 'papers', name: 'm-papers', component: MobilePapersView, meta: { navKey: 'me' } },
+        { path: 'papers/:paperId', name: 'm-paper-practice', component: MobilePaperPracticeView, meta: { navKey: 'me', hideTabbar: true } },
       ],
     },
   ],

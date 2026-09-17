@@ -31,6 +31,14 @@ export class KnowledgeItem {
   @Column({ type: 'varchar', length: 200, nullable: true })
   source!: string | null;
 
+  /** 文档顺序。必背考点模块按它排序（先按章节、再按分组、再按组内顺序）。 */
+  @Column({ name: 'sort_order', type: 'int', nullable: true })
+  sortOrder!: number | null;
+
+  /** 结构化附加数据：真题卡数组 / 音标点读 / LaTeX 原串等，避免为每种形态各开一列。 */
+  @Column({ name: 'extra_json', type: 'json', nullable: true })
+  extraJson!: Record<string, unknown> | null;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
 

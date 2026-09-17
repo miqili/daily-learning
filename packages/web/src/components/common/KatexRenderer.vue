@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import katex from 'katex';
 
-const props = defineProps<{ content: string }>();
+const props = defineProps<{ content: string; display?: boolean; breakLines?: boolean }>();
 
 function escapeHtml(value: string) {
   return value.replace(/[&<>'"]/g, (character) => ({
@@ -13,14 +13,29 @@ function escapeHtml(value: string) {
 function render(content: string) {
   const renderMath = (source: string, displayMode: boolean) =>
     katex.renderToString(source, { throwOnError: false, displayMode });
-  const blocks: string[] = [];
-  const withBlocks = content.replace(/\$\$([\s\S]+?)\$\$/g, (_, formula) => {
-    blocks.push(renderMath(formula.trim(), true));
-    return `@@BLOCK_${blocks.length - 1}@@`;
-  });
-  return escapeHtml(withBlocks)
-    .replace(/\$([^$\n]+?)\$/g, (_, formula) => renderMath(formula.trim(), false))
-    .replace(/@@BLOCK_(\d+)@@/g, (_, index) => blocks[Number(index)]);
+  // display=true：内容本身就是**裸 LaTeX**（不含 $ 定界符）的块级公式，例如必背公式卡。
+  if (props.display) return renderMath(content, true);
+
+  // 默认（带 $ / $$ 定界符的混合文本）：先按定界符切分，只对**非公式段**做 HTML 转义，
+  // 公式段原样交给 KaTeX —— 否则公式里的 `'`（如 y'）、`<`（如 x<1）会被转义破坏。
+  // breakLines=true 时只在文本段把换行换成 <br>（KaTeX 输出里的换行绝不能动，
+  // 否则会把 <br> 塞进 SVG path 的 d 属性导致渲染错误）。
+  const textOf = (raw: string) => {
+    const escaped = escapeHtml(raw);
+    return props.breakLines ? escaped.replace(/\n/g, '<br>') : escaped;
+  };
+  const segments: string[] = [];
+  const re = /\$\$([\s\S]+?)\$\$|\$([^$\n]+?)\$/g;
+  let last = 0;
+  let match: RegExpExecArray | null;
+  while ((match = re.exec(content)) !== null) {
+    if (match.index > last) segments.push(textOf(content.slice(last, match.index)));
+    if (match[1] !== undefined) segments.push(renderMath(match[1].trim(), true));
+    else segments.push(renderMath(match[2].trim(), false));
+    last = match.index + match[0].length;
+  }
+  if (last < content.length) segments.push(textOf(content.slice(last)));
+  return segments.join('');
 }
 
 const html = computed(() => render(props.content));

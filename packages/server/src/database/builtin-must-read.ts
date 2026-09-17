@@ -1,0 +1,14231 @@
+/**
+ * 必背考点模块的内置数据 —— 由 outputs/ 下三份「5 周冲刺保底方案」HTML 抽取而来。
+ *
+ * 本文件请勿手改：重量级内容改动请改 HTML 后重跑 /tmp/mr_*_extract.py 与
+ * /tmp/mr_build_ts.py 再生成。权威源是 HTML，不是 /tmp/gen_*_sprint.py
+ * （后者落后 6 条补录考点，详见 outputs/必背考点模块-迁移工作量审计.html「坑 1」）。
+ */
+
+export interface MustReadItem {
+  /** 卡片标题：政治=考点题面 / 英语=单词 / 数学=公式名 */
+  title: string;
+  /** 卡片正文：政治=答案 / 英语=释义 / 数学=LaTeX 原串；MATERIAL 条目为章节 HTML */
+  content: string;
+  /** MUST_READ=必背卡，MATERIAL=章节正文 */
+  itemType: 'MUST_READ' | 'MATERIAL';
+  /** 文档顺序：章节 → 分组 → 组内，页面按它排序 */
+  sortOrder: number;
+  /** 出处（政治为「2025 年 · 第 11 题 · 正确项「…」」） */
+  source: string | null;
+  tags: string[];
+  /** 结构化附加数据：公共 chapter/chapterIntro/section/group；政治 refs=关联真题卡；英语 ipa/say/cn；数学 tex/note/tail */
+  extra: Record<string, unknown>;
+}
+
+export interface MustReadSubject {
+  /** 必须与 subjects 表里的名字一致（高等数学一在库里带全角括号） */
+  subjectName: string;
+  /** 展示名（前端统一用不带括号的「高等数学一」） */
+  display: string;
+  sourceFile: string;
+  items: MustReadItem[];
+}
+
+export const BUILTIN_MUST_READ: MustReadSubject[] = [
+  {
+    "subjectName": "政治",
+    "display": "政治",
+    "sourceFile": "政治-5周冲刺保底方案.html",
+    "items": [
+      {
+        "title": "政治 · 5 周冲刺保底方案",
+        "content": "<div><p>基于 12 年真题（2014-2025 / 526 题）的数据分析 · 目标：选择题稳拿 50 分</p></div>",
+        "itemType": "MATERIAL",
+        "sortOrder": -1,
+        "source": null,
+        "tags": [
+          "政治",
+          "概览"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": true,
+          "chapter": "政治 · 5 周冲刺保底方案",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "一、直接回答：选择题能拿多少分？",
+        "content": "<div><div><div>选择题满分</div>\n<div>70 <small>分 / 35 题</small></div></div>\n<div><div>完全裸考（纯蒙）</div>\n<div>17.5 <small>分左右</small></div></div>\n<div><div>只背高频考点</div>\n<div>45-55 <small>分</small></div></div>\n<div><div>目标</div>\n<div>50+ <small>分</small></div></div></div>\n<div><b>结论：50 分不是\"拼运气\"，是一道可以算出来的算术题。</b><br>选择题 35 题每题 2 分，四选一。纯蒙期望 = 35 × 25% × 2 ≈ <b>17.5 分</b>。而政治选择题里有 <b>50 分（25 题）是\"背了就会\"的记忆型题目</b>——毛中特 20 分 + 习概 20 分 + 时政 10 分。这 50 分背下来，选择题就已经摸到 50 分线；哲学 20 分再靠\"抓高频 5-6 类 + 排除法\"捞 10 分左右，<b>选择题 55-60 分是可以做到的</b>。</div>\n<div><b>只剩 5 周（今天 9/12 → 考试 10/17），所以策略必须极端：</b><br>❌ 不要从头学哲学、不要啃教材、不要追求理解全部原理<br>✅ 只做一件事：<b>把\"背了就得分\"的 50 分记忆型考点背熟</b></div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 0,
+        "source": null,
+        "tags": [
+          "政治",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "一、直接回答：选择题能拿多少分？",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "二、政治试卷结构（2021 年起新结构，2026 沿用）",
+        "content": "<table><tr><th>题型</th><th>题数</th><th>每题</th><th>分值</th><th>说明</th></tr><tr><td>单项选择题</td><td>35</td><td>2 分</td><td><b>70</b></td><td>1-35 题，<b>保底主战场</b></td></tr><tr><td>简答题</td><td>4</td><td>10 分</td><td><b>40</b></td><td>36-39 题</td></tr><tr><td>论述题</td><td>2</td><td>20 分</td><td><b>40</b></td><td>40-41 题</td></tr><tr><td><b>合计</b></td><td><b>41</b></td><td>—</td><td><b>150</b></td><td>考试时间 150 分钟</td></tr></table>\n选择题 35 题的板块配额（2021-2025 五年完全一致，这是最硬的规律）\n<table><tr><th>题号</th><th>板块</th><th>题数</th><th>分值</th><th>特征</th></tr><tr><td>第 1-10 题</td><td><b>马克思主义哲学</b></td><td>10</td><td>20</td><td>理解型，最难速成</td></tr><tr><td>第 11-20 题</td><td><b>毛泽东思想与中特理论体系</b></td><td>10</td><td>20</td><td><span>背诵型</span> 性价比最高</td></tr><tr><td>第 21-30 题</td><td><b>习近平新时代中国特色社会主义思想</b></td><td>10</td><td>20</td><td><span>背诵型</span> 性价比高</td></tr><tr><td>第 31-35 题</td><td><b>时事政治</b></td><td>5</td><td>10</td><td>考前 1 年国内外大事</td></tr><tr><td><b>合计</b></td><td><b>35</b></td><td><b>70</b></td><td>配额固定，可精确规划</td></tr></table>\n<div><b>这个配额表是本次分析最重要的发现。</b>2021、2022、2023、2024、2025 五年按题号位置法完全对应 10/10/10/5（2023 只是录入顺序错乱，题量结构仍一致）。<b>意味着你可以按题号定位：第 11-35 题（共 50 分）全部是\"背了就对\"的内容，第 1-10 题才是需要理解的部分。</b></div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 100000,
+        "source": null,
+        "tags": [
+          "政治",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "二、政治试卷结构（2021 年起新结构，2026 沿用）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "三、保底 50 分怎么拆（按投入产出比排序）",
+        "content": "<table><tr><th>板块</th><th>题数</th><th>满分</th><th>目标做对</th><th>目标得分</th><th>拿分难度</th></tr>\n<tr><td><b>毛中特</b></td><td>10</td><td>20</td><td>7-8 题</td><td>14-16 分</td><td>背诵型·最高性价比</td></tr>\n<tr><td><b>习概</b></td><td>10</td><td>20</td><td>7-8 题</td><td>14-16 分</td><td>背诵+理解·性价比高</td></tr>\n<tr><td><b>时政</b></td><td>5</td><td>10</td><td>3 题</td><td>6 分</td><td>考前突击+排除法</td></tr>\n<tr><td><b>哲学</b></td><td>10</td><td>20</td><td>5-6 题</td><td>10-12 分</td><td>理解型·只抓高频</td></tr>\n<tr><td><b>合计</b></td><td><b>22-25 题</b></td><td><b>44-50 分</b></td><td>再加上蒙题兜底 → <b>稳过 50</b></td></tr></table>\n<div><b>更省力的走法：</b>把全部精力压在 <b>毛中特 + 习概 = 40 分</b>上（这两块全是固定考点，背熟就能 90% 正确率），再用考前一周背时政（5 题争取对 3 题 = 6 分），哲学 10 题就算只对 4 题（8 分）——合计 <b>18 + 18 + 6 + 8 = 50 分</b>。哲学可以\"半放弃\"，只背下面列出的高频 6 类。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 200000,
+        "source": null,
+        "tags": [
+          "政治",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "三、保底 50 分怎么拆（按投入产出比排序）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "马克思主义中国化命题的正式提出",
+        "content": "毛泽东在党的六届六中全会上",
+        "itemType": "MUST_READ",
+        "sortOrder": 300000,
+        "source": "2025 年 · 第 11 题 · 正确项「马克思主义的中国化这一命题的正式提出」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "A. 毛泽东思想 · 形成与灵魂"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "A. 毛泽东思想 · 形成与灵魂",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 11 题",
+              "year": 2025,
+              "number": 11,
+              "score": "（2 分）",
+              "stem": "毛泽东在党的六届六中全会上强调：没有抽象的马克思主义，只有具体的马克思主义。……按照中国的特点去应用它，成为全党亟待了解并须解决的问题。这标志着",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "马克思主义开始传入中国",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "马克思主义在中国得到广泛传播",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "马克思主义自此成为中国共产党的指导思想",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "马克思主义的中国化这一命题的正式提出",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "毛泽东思想确立为党的指导思想的会议",
+        "content": "党的七大（七大把毛泽东思想写入党章）",
+        "itemType": "MUST_READ",
+        "sortOrder": 300010,
+        "source": "2024 年 · 第 11 题 · 正确项「党的七大」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "A. 毛泽东思想 · 形成与灵魂"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "A. 毛泽东思想 · 形成与灵魂",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 11 题",
+              "year": 2024,
+              "number": 11,
+              "score": "（2 分）",
+              "stem": "毛泽东思想是马克思主义中国化时代化的第一次历史性飞跃。把毛泽东思想写人党章并确立为党的指导思想的会议是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "八七会议",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "遵义会议",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "党的七大",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "党的八大",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "毛泽东思想的精髓",
+        "content": "实事求是",
+        "itemType": "MUST_READ",
+        "sortOrder": 300020,
+        "source": "2024 年 · 第 12 题 · 正确项「实事求是」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "A. 毛泽东思想 · 形成与灵魂"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "A. 毛泽东思想 · 形成与灵魂",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 12 题",
+              "year": 2024,
+              "number": 12,
+              "score": "（2 分）",
+              "stem": "毛泽东思想是党的宝贵精神财富，其精髓是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "实事求是",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "群众路线",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "独立自主",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "推陈出新",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "毛泽东思想开始萌芽的标志",
+        "content": "关于新民主主义革命基本思想的提出",
+        "itemType": "MUST_READ",
+        "sortOrder": 300030,
+        "source": "2023 年 · 第 6 题 · 正确项「关于新民主主义革命基本思想的提出」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "A. 毛泽东思想 · 形成与灵魂"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "A. 毛泽东思想 · 形成与灵魂",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 6 题",
+              "year": 2023,
+              "number": 6,
+              "score": "（2 分）",
+              "stem": "毛泽东思想开始萌芽的标志是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "人民民主专政理论的形成",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "关于新民主主义革命基本思想的提出",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "农村包围城市、武装夺取政权道路的开辟",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "马克思主义中国化第一次历史性飞跃的实现",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "毛泽东思想初步形成的标志",
+        "content": "农村包围城市、武装夺取政权道路思想的提出和阐述",
+        "itemType": "MUST_READ",
+        "sortOrder": 300040,
+        "source": "2022 年 · 第 11 题 · 正确项「农村包围城市，武装夺取政权道路思想的提出和阐述」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "A. 毛泽东思想 · 形成与灵魂"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "A. 毛泽东思想 · 形成与灵魂",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 11 题",
+              "year": 2022,
+              "number": 11,
+              "score": "（2 分）",
+              "stem": "毛泽东思想初步形成的标志是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "《中国社会各阶级的分析》的发表",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "农村包围城市，武装夺取政权道路思想的提出和阐述",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "中国七届二中全会提出党的工作重心由农村转为城市",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "第一届全国人民代表大会的召开",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2022 年 · 第 37 题",
+              "year": 2022,
+              "number": 37,
+              "score": "（10 分）",
+              "stem": "简述毛泽东思想活的灵魂及其内涵。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)实事求是：一切从客观实际出发，理论联系实际，坚持在实践中检验和发展真理。是毛泽东思想的世界观和方法论的基础，是毛泽东思想的精髓。(2)群众路线：一切为了群众，一切依靠群众，从群众中来，到群众中去…"
+            }
+          ]
+        }
+      },
+      {
+        "title": "马克思主义中国化第一次历史性飞跃的理论成果",
+        "content": "毛泽东思想",
+        "itemType": "MUST_READ",
+        "sortOrder": 300050,
+        "source": "2021 年 · 第 15 题 · 正确项「毛泽东思想」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "A. 毛泽东思想 · 形成与灵魂"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "A. 毛泽东思想 · 形成与灵魂",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 15 题",
+              "year": 2021,
+              "number": 15,
+              "score": "（2 分）",
+              "stem": "在中国革命、建设、改革的历史进程中，马克思主义中国化实现了两次历史性飞跃。其中，第一次历史性飞跃的理论成果是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "毛泽东思想",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "邓小平理论",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "“三个代表”重要思想",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "科学发展观",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2021 年 · 第 37 题",
+              "year": 2021,
+              "number": 37,
+              "score": "（10 分）",
+              "stem": "毛泽东思想的科学内涵是什么?",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)毛泽东思想是马克思列宁主义在中国的运用和发展。(3分)(2)毛泽东思想是被实践证明了的关于中国革命和建设的正确的理论原则和经验总结。(4分)(3)毛泽东思想是中国共产党集体智慧的结晶。(3分)"
+            }
+          ]
+        }
+      },
+      {
+        "title": "中国革命战胜敌人的三大法宝",
+        "content": "统一战线、武装斗争、党的建设",
+        "itemType": "MUST_READ",
+        "sortOrder": 301000,
+        "source": "2024 年 · 第 13 题 · 正确项「统一战线、武装斗争、党的建设」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "B. 毛泽东思想 · 新民主主义革命"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "B. 毛泽东思想 · 新民主主义革命",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 13 题",
+              "year": 2024,
+              "number": 13,
+              "score": "（2 分）",
+              "stem": "毛泽东在《（共产党人）发刊词》中总结了中国共产党在中国革命中战胜敌人的三大法宝。三大法宝指的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "统一战线、武装斗争、党的建设",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "土地革命、武装斗争、农村革命根据地建设",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "发展进步势力、争取中间势力、孤立顽固势力",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "理论联系实际、密切联系群众、批评与自我批评",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "三大优良作风（区别于其他政党的显著标志）",
+        "content": "理论联系实际、密切联系群众、批评与自我批评",
+        "itemType": "MUST_READ",
+        "sortOrder": 301010,
+        "source": "2025 年 · 第 13 题 · 正确项「理论联系实际、密切联系群众、批评与自我批评」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "B. 毛泽东思想 · 新民主主义革命"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "B. 毛泽东思想 · 新民主主义革命",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 13 题",
+              "year": 2025,
+              "number": 13,
+              "score": "（2 分）",
+              "stem": "党在领导新民主主义革命的过程中，把党的建设作为一项伟大的工程，逐步形成了三大优良作风，这是中国共产党区别于其他任何政党的显著标志。三大优良作风是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "土地革命、武装斗争、根据地建设",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "统一战线、武装斗争、党的建设",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "官兵一致、军民一致、瓦解敌军和优待俘虏",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "理论联系实际、密切联系群众、批评与自我批评",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 14 题",
+              "year": 2021,
+              "number": 14,
+              "score": "（2 分）",
+              "stem": "新民主主义革命时期，中国共产党总结概括出的三大优良作风是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "个人服从组织、下级服从上级、少数服从多数",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "理论联系实际、密切联系群众、批评和自我批评",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "实事求是、群众路线、独立自主",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "勤俭节约、艰苦奋斗、清正廉洁",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "中国革命进入新民主主义革命阶段的标志",
+        "content": "五四运动",
+        "itemType": "MUST_READ",
+        "sortOrder": 301020,
+        "source": "2021 年 · 第 10 题 · 正确项「五四运动」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "B. 毛泽东思想 · 新民主主义革命"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "B. 毛泽东思想 · 新民主主义革命",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 10 题",
+              "year": 2021,
+              "number": 10,
+              "score": "（2 分）",
+              "stem": "中国革命进入新民主主义革命阶段的标志是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "辛亥革命",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "五四运动",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "抗日战争",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "北伐战争",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "新民主主义革命的首要对象",
+        "content": "帝国主义",
+        "itemType": "MUST_READ",
+        "sortOrder": 301030,
+        "source": "2024 年 · 第 14 题 · 正确项「帝国主义」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "B. 毛泽东思想 · 新民主主义革命"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "B. 毛泽东思想 · 新民主主义革命",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 14 题",
+              "year": 2024,
+              "number": 14,
+              "score": "（2 分）",
+              "stem": "分清敌友，这是革命的首要问题。中国民主革命的首要对象是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "民族资产阶级",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "官僚资产阶级",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "地主阶级",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "帝国主义",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "新民主主义革命的最基本动力",
+        "content": "无产阶级",
+        "itemType": "MUST_READ",
+        "sortOrder": 301040,
+        "source": "2022 年 · 第 13 题 · 正确项「无产阶级」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "B. 毛泽东思想 · 新民主主义革命"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "B. 毛泽东思想 · 新民主主义革命",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 13 题",
+              "year": 2022,
+              "number": 13,
+              "score": "（2 分）",
+              "stem": "我国新民主主义革命的最基本动力是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "城市小资产阶级",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "农民阶级",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "民族资产阶级",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "无产阶级",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "新民主主义革命的主力军",
+        "content": "农民",
+        "itemType": "MUST_READ",
+        "sortOrder": 301050,
+        "source": "2023 年 · 第 7 题 · 正确项「农民」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "B. 毛泽东思想 · 新民主主义革命"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "B. 毛泽东思想 · 新民主主义革命",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 7 题",
+              "year": 2023,
+              "number": 7,
+              "score": "（2 分）",
+              "stem": "新民主主义革命的主力军是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "无产阶级",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "小资产阶级",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "农民",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "知识分子",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "中国革命的战略阵地",
+        "content": "农村革命根据地",
+        "itemType": "MUST_READ",
+        "sortOrder": 301060,
+        "source": "2022 年 · 第 14 题 · 正确项「农村革命根据地」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "B. 毛泽东思想 · 新民主主义革命"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "B. 毛泽东思想 · 新民主主义革命",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 14 题",
+              "year": 2022,
+              "number": 14,
+              "score": "（2 分）",
+              "stem": "在土地革命，武装斗争，农村革命根据地建设的相互关系中，中国革命的战略阵地是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "土地革命",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "农村革命根据地",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "武装斗争",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "城市隐蔽战线",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "新民主主义经济纲领中标志主要内容的一项",
+        "content": "没收封建地主阶级的土地归农民所有",
+        "itemType": "MUST_READ",
+        "sortOrder": 301070,
+        "source": "2025 年 · 第 12 题 · 正确项「没收封建地主阶级的土地归农民所有」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "B. 毛泽东思想 · 新民主主义革命"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "B. 毛泽东思想 · 新民主主义革命",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 12 题",
+              "year": 2025,
+              "number": 12,
+              "score": "（2 分）",
+              "stem": "一个政党的纲领，是公开树立起来的一面旗帜。在新民主主义的经济纲领中，标明新民主主义革命主要内容的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "没收帝国主义在华企业归新生的人民政权所有",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "没收封建地主阶级的土地归农民所有",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "没收官僚资产阶级的垄断资本归新民主主义的国家所有",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "保护民族工商业",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "党在过渡时期总路线的主要内容",
+        "content": "“一化三改”（“一体”＝社会主义工业化）",
+        "itemType": "MUST_READ",
+        "sortOrder": 302000,
+        "source": "2024 年 · 第 15 题 · 正确项「“一化三改”」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "C. 社会主义改造与建设探索"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "C. 社会主义改造与建设探索",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 15 题",
+              "year": 2024,
+              "number": 15,
+              "score": "（2 分）",
+              "stem": "中国必须走社会主义道路，新民主主义社会必然要过渡到社会主义社会。党在过渡时期总路线的主要内容被概括为（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "“两参一改三结合”",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "“两个转变”",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "“两条腿走路”",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "“一化三改”",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 11 题",
+              "year": 2021,
+              "number": 11,
+              "score": "（2 分）",
+              "stem": "党在过渡时期总路线的主要内容被比喻为“一体两翼”。“一体”指的是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "对农业的社会主义改造",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "对手工业的社会主义改造",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "对资本主义工商业的社会主义改造",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "社会主义工业化",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2022 年 · 第 38 题",
+              "year": 2022,
+              "number": 38,
+              "score": "（10 分）",
+              "stem": "简述确立社会主义基本制度的重大意义。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)极大地提高了工人阶级和广大劳动人民的积极性、创造性，极大地促进了我国社会生产力的发展。(2)是我国历史上最深刻最伟大的社会变革，使广大劳动人民真正成为国家的主人。(3)使占世界人口四分之一的东方…"
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2024 年 · 第 36 题",
+              "year": 2024,
+              "number": 36,
+              "score": "（10 分）",
+              "stem": "确立社会主义基本制度的重大意义是什么?",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：社会主义基本制度的确立，是中国共产党领导人民在百年奋斗中实现的一次具有里程碑意义的伟大变革，它从根本上扭转了近代以来中国积贫积弱的发展命运，为当代中国的发展进步筑牢了制度根基，也为中国特色社会主义道路…"
+            }
+          ]
+        }
+      },
+      {
+        "title": "“过渡时期”的界定",
+        "content": "从中华人民共和国成立到社会主义改造基本完成",
+        "itemType": "MUST_READ",
+        "sortOrder": 302010,
+        "source": "2023 年 · 第 8 题 · 正确项「从中华人民共和国成立到社会主义改造基本完成」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "C. 社会主义改造与建设探索"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "C. 社会主义改造与建设探索",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 8 题",
+              "year": 2023,
+              "number": 8,
+              "score": "（2 分）",
+              "stem": "过渡时期总路线中，“过渡时期”是指（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "从资本主义社会向社会主义社会过渡",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "从封建社会向半殖民地半封建社会演变",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "从半殖民地半封建社会向资本主义社会转变",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "从中华人民共和国成立到社会主义改造基本完成",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 15 题",
+              "year": 2022,
+              "number": 15,
+              "score": "（2 分）",
+              "stem": "从中华人民共和国成立到社会主义改造基本完成的历史时期是指（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "从封建社会向资本主义社会转变的时期",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "从旧民主主义革命的时期向新民主主义革命转变的时期",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "从新民主主义到社会主义过渡的时期",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "从社会主义向共产主义的过渡时期",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2022 年 · 第 38 题",
+              "year": 2022,
+              "number": 38,
+              "score": "（10 分）",
+              "stem": "简述确立社会主义基本制度的重大意义。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)极大地提高了工人阶级和广大劳动人民的积极性、创造性，极大地促进了我国社会生产力的发展。(2)是我国历史上最深刻最伟大的社会变革，使广大劳动人民真正成为国家的主人。(3)使占世界人口四分之一的东方…"
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2024 年 · 第 36 题",
+              "year": 2024,
+              "number": 36,
+              "score": "（10 分）",
+              "stem": "确立社会主义基本制度的重大意义是什么?",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：社会主义基本制度的确立，是中国共产党领导人民在百年奋斗中实现的一次具有里程碑意义的伟大变革，它从根本上扭转了近代以来中国积贫积弱的发展命运，为当代中国的发展进步筑牢了制度根基，也为中国特色社会主义道路…"
+            }
+          ]
+        }
+      },
+      {
+        "title": "新民主主义社会五种经济成分中具社会主义性质的",
+        "content": "国营经济",
+        "itemType": "MUST_READ",
+        "sortOrder": 302020,
+        "source": "2021 年 · 第 13 题 · 正确项「国营经济」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "C. 社会主义改造与建设探索"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "C. 社会主义改造与建设探索",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 13 题",
+              "year": 2021,
+              "number": 13,
+              "score": "（2 分）",
+              "stem": "新民主主义社会存在五种经济成分，其中具有社会主义性质的经济成分是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "私人资本主义经济",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "国营经济",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "个体经济",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "合作社经济",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "社会主义社会两类矛盾的正确表述",
+        "content": "性质不同，解决方法也不同（人民内部矛盾用民主方法解决）",
+        "itemType": "MUST_READ",
+        "sortOrder": 302030,
+        "source": "2025 年 · 第 14 题 · 正确项「两类矛盾的性质不同，解决的方法也不同」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "C. 社会主义改造与建设探索"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "C. 社会主义改造与建设探索",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 14 题",
+              "year": 2025,
+              "number": 14,
+              "score": "（2 分）",
+              "stem": "社会主义社会存在敌我矛盾和人民内部矛盾。下列关于社会主义社会这两类矛盾的表述，正确的是（）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "敌我矛盾是非对抗性的矛盾",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "人民内部矛盾是对抗性的矛盾",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "两类不同性质的矛盾是固定不变的",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "两类矛盾的性质不同，解决的方法也不同",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 16 题",
+              "year": 2024,
+              "number": 16,
+              "score": "（2 分）",
+              "stem": "毛泽东强调，在我们面前有两类社会矛盾，这就是敌我矛盾和人民内部矛盾，这是两类性质完全不同的矛盾。解决人民内部矛盾的方法是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "专政",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "民主",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "斗争",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "改造",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "工人阶级同民族资产阶级的矛盾属于",
+        "content": "人民内部矛盾",
+        "itemType": "MUST_READ",
+        "sortOrder": 302040,
+        "source": "2023 年 · 第 9 题 · 正确项「人民内部矛盾」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "C. 社会主义改造与建设探索"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "C. 社会主义改造与建设探索",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 9 题",
+              "year": 2023,
+              "number": 9,
+              "score": "（2 分）",
+              "stem": "在社会主义社会两类社会矛盾中，工人阶级同民族资产阶级的矛盾是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "敌我矛盾",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "人民内部矛盾",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "基本矛盾",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "社会主要矛盾",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "《论十大关系》前五个方面主要讨论",
+        "content": "经济领域问题",
+        "itemType": "MUST_READ",
+        "sortOrder": 302050,
+        "source": "2022 年 · 第 16 题 · 正确项「经济领域问题」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "C. 社会主义改造与建设探索"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "C. 社会主义改造与建设探索",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 16 题",
+              "year": 2022,
+              "number": 16,
+              "score": "（2 分）",
+              "stem": "《论十大关系》从十个方面论述了我国社会主义建设需要重点把握的一系列重大关系，前五个方面主要讨论的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "经济领域问题",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "国际战略问题",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "政治生活问题",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "思想文化问题",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "实现四个现代化的关键",
+        "content": "科学技术现代化",
+        "itemType": "MUST_READ",
+        "sortOrder": 302060,
+        "source": "2023 年 · 第 10 题 · 正确项「科学技术现代化」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "C. 社会主义改造与建设探索"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "C. 社会主义改造与建设探索",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 10 题",
+              "year": 2023,
+              "number": 10,
+              "score": "（2 分）",
+              "stem": "毛泽东中国工业化道路思想强调，实现四个现代化关键在于（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "农业现代化",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "工业现代化",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "国防现代化",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "科学技术现代化",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "三个世界中属于第三世界的是",
+        "content": "亚洲、非洲、拉丁美洲的广大发展中国家",
+        "itemType": "MUST_READ",
+        "sortOrder": 302070,
+        "source": "2025 年 · 第 15 题 · 正确项「亚洲、非洲、拉丁美洲的广大发展中国家」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "C. 社会主义改造与建设探索"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "C. 社会主义改造与建设探索",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 15 题",
+              "year": 2025,
+              "number": 15,
+              "score": "（2 分）",
+              "stem": "在社会主义建设道路初步探索中，毛泽东提出三个世界划分的战略思想。三个世界中，属于第三世界的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "苏美两个超级大国",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "苏美以外的西方发达国家",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "东欧国家",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "亚洲、非洲、拉丁美洲的广大发展中国家",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "邓小平反复思考的首要的基本理论问题",
+        "content": "什么是社会主义、怎样建设社会主义",
+        "itemType": "MUST_READ",
+        "sortOrder": 303000,
+        "source": "2021 年 · 第 12 题 · 正确项「什么是社会主义、怎样建设社会主义」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "D. 邓小平理论"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "D. 邓小平理论",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 12 题",
+              "year": 2021,
+              "number": 12,
+              "score": "（2 分）",
+              "stem": "邓小平在领导改革开放和现代化建设过程中，不断提出和反复思考的首要的基本理论问题是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "建设什么样的党、怎样建设党",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "什么是社会主义、怎样建设社会主义",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "什么是马克思主义、怎样坚持马克思主义",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "实现什么样的发展、怎样发展",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2021 年 · 第 38 题",
+              "year": 2021,
+              "number": 38,
+              "score": "（10 分）",
+              "stem": "邓小平社会主义本质论的主要内容是什么?",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：邓小平社会主义本质论的主要内容是：解放生产力，发展生产力，消灭剥削，消除两极分化，最终达到共同富裕。(10分)"
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2024 年 · 第 37 题",
+              "year": 2024,
+              "number": 37,
+              "score": "（10 分）",
+              "stem": "简述邓小平理论的历史地位。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：（1）邓小平理论是马克思列宁主义、毛泽东思想的继承和发展。（2）邓小平理论是中国特色社会主义理论体系的开篇之作。（3）邓小平理论是改革开放和社会主义现代化建设的科学指南。"
+            }
+          ]
+        }
+      },
+      {
+        "title": "贯穿邓小平理论的思想路线",
+        "content": "解放思想、实事求是",
+        "itemType": "MUST_READ",
+        "sortOrder": 303010,
+        "source": "2022 年 · 第 17 题 · 正确项「解放思想实事求是」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "D. 邓小平理论"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "D. 邓小平理论",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 17 题",
+              "year": 2022,
+              "number": 17,
+              "score": "（2 分）",
+              "stem": "贯穿邓小平理论的思想路线是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "放下包袱轻装入阵",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "开拓创新与时俱进",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "开放脑筋集思广益",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "解放思想实事求是",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "检验一切工作是非得失的根本标准",
+        "content": "三个有利于",
+        "itemType": "MUST_READ",
+        "sortOrder": 303020,
+        "source": "2025 年 · 第 16 题 · 正确项「三个有利于」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "D. 邓小平理论"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "D. 邓小平理论",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 16 题",
+              "year": 2025,
+              "number": 16,
+              "score": "（2 分）",
+              "stem": "在改革开放和社会主义现代化建设新时期，邓小平提出的检验一切工作是非得失的根本标准是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "三个有利于",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "姓社姓资",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "九个善于",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "姓公姓私",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "我国改革的性质",
+        "content": "社会主义制度的自我完善和发展",
+        "itemType": "MUST_READ",
+        "sortOrder": 303030,
+        "source": "2024 年 · 第 18 题 · 正确项「社会主义制度的自我完善和发展」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "D. 邓小平理论"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "D. 邓小平理论",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 18 题",
+              "year": 2024,
+              "number": 18,
+              "score": "（2 分）",
+              "stem": "党的十一届三中全会作出实行改革开放的历史性决策。我国改革的性质是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "对原有经济体制的细枝末节的修补",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "否定和抛弃社会主义基本经济制度",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "社会主义制度的自我完善和发展",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "一个阶级推翻另一个阶级的革命",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "社会主义初级阶段基本路线最主要的内容",
+        "content": "“一个中心、两个基本点”（回答根本任务的是“以经济建设为中心”）",
+        "itemType": "MUST_READ",
+        "sortOrder": 303040,
+        "source": "2022 年 · 第 18 题 · 正确项「一个中心，两个基本点」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "D. 邓小平理论"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "D. 邓小平理论",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 18 题",
+              "year": 2022,
+              "number": 18,
+              "score": "（2 分）",
+              "stem": "社会主义初级阶段基本路线最主要的内容可概括为（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "抓革命促生产",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "一要吃饭二要建设",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "两手抓，两手都要硬",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "一个中心，两个基本点",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 17 题",
+              "year": 2024,
+              "number": 17,
+              "score": "（2 分）",
+              "stem": "“一个中心、两个基本点”是党在社会主义初级阶段基本路线的简明概括，其中回答社会主义根本任务问题的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "以经济建设为中心",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "坚持四项基本原则",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "坚持改革开放",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "自力更生，艰苦创业",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "党和国家生存发展的政治基石",
+        "content": "四项基本原则",
+        "itemType": "MUST_READ",
+        "sortOrder": 303050,
+        "source": "2023 年 · 第 11 题 · 正确项「四项基本原则」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "D. 邓小平理论"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "D. 邓小平理论",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 11 题",
+              "year": 2023,
+              "number": 11,
+              "score": "（2 分）",
+              "stem": "改革开放以来，我们党和国家生存发展的政治基石是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "四项基本原则",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "以德治国",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "国际政治秩序",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "依宪治国",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "党的十四大确立的经济体制改革目标",
+        "content": "建立社会主义市场经济体制",
+        "itemType": "MUST_READ",
+        "sortOrder": 303060,
+        "source": "2021 年 · 第 17 题 · 正确项「建立社会主义市场经济体制」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "D. 邓小平理论"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "D. 邓小平理论",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 17 题",
+              "year": 2021,
+              "number": 17,
+              "score": "（2 分）",
+              "stem": "党的十四大确立的我国经济体制改革的目标是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "建立社会主义市场经济体制",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "建立有计划的商品经济",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "建立计划经济为主、市场调节为辅的经济体制",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "建立计划与市场内在统一的体制",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2022 年 · 第 39 题",
+              "year": 2022,
+              "number": 39,
+              "score": "（10 分）",
+              "stem": "邓小平社会主义市场经济理论要点有哪些?",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)计划经济和市场经济不是区分社会主义和资本主义的标志，计划经济不等于社会主义，市场经济也不等于资本主义。市场经济作为资源配置的一种方式，本身不具有制度属性，可以和不同社会制度结合，从而表现出不同性…"
+            }
+          ]
+        }
+      },
+      {
+        "title": "“三个代表”重要思想中党执政兴国的第一要务",
+        "content": "发展",
+        "itemType": "MUST_READ",
+        "sortOrder": 304000,
+        "source": "2024 年 · 第 19 题 · 正确项「发展」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "E. 三个代表 / 科学发展观 / 价值观"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "E. 三个代表 / 科学发展观 / 价值观",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 19 题",
+              "year": 2024,
+              "number": 19,
+              "score": "（2 分）",
+              "stem": "在“三个代表”重要思想的主要内容中，党执政兴国的第一要务是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "调整",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "发展",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "巩固",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "提高",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2024 年 · 第 38 题",
+              "year": 2024,
+              "number": 38,
+              "score": "（10 分）",
+              "stem": "“三个代表”重要思想的集中概括是什么?",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：“三个代表”重要思想的集中概括是：（1）我们党必须始终代表中国先进生产力的发展要求。（2）我们党必须始终代表中国先进文化的前进方向。（3）我们党必须始终代表中国最广大人民的根本利益。"
+            }
+          ]
+        }
+      },
+      {
+        "title": "党进行的一切奋斗归根到底都是为了",
+        "content": "最广大人民的根本利益",
+        "itemType": "MUST_READ",
+        "sortOrder": 304010,
+        "source": "2023 年 · 第 13 题 · 正确项「最广大人民的根本利益」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "E. 三个代表 / 科学发展观 / 价值观"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "E. 三个代表 / 科学发展观 / 价值观",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 13 题",
+              "year": 2023,
+              "number": 13,
+              "score": "（2 分）",
+              "stem": "“三个代表”重要思想强调，我们党进行的一切奋斗，归根到底都是为了（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "社会生产力的快速发展",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "社会主义和谐社会的建成",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "最广大人民的根本利益",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "社会主义市场经济的完善",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "发展先进文化、实现人民根本利益的基础条件",
+        "content": "发展先进生产力",
+        "itemType": "MUST_READ",
+        "sortOrder": 304020,
+        "source": "2025 年 · 第 17 题 · 正确项「发展先进生产力」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "E. 三个代表 / 科学发展观 / 价值观"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "E. 三个代表 / 科学发展观 / 价值观",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 17 题",
+              "year": 2025,
+              "number": 17,
+              "score": "（2 分）",
+              "stem": "三个代表重要思想是统一的整体，相互联系、相互促进。发展先进文化、实现最广大人民根本利益的基础条件是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "坚持与时俱进",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "发展先进生产力",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "坚持执政为民",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "保持党的纯洁性",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "科学发展观的核心立场 / 基本要求 / 根本方法",
+        "content": "以人为本 / 全面协调可持续 / 统筹兼顾",
+        "itemType": "MUST_READ",
+        "sortOrder": 304030,
+        "source": "2021 年 · 第 22 题 · 正确项「以人为本」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "E. 三个代表 / 科学发展观 / 价值观"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "E. 三个代表 / 科学发展观 / 价值观",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 22 题",
+              "year": 2021,
+              "number": 22,
+              "score": "（2 分）",
+              "stem": "科学发展观的核心立场是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "统筹兼顾",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "以人为本",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "全面协调可持续",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "经济社会发展",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 20 题",
+              "year": 2022,
+              "number": 20,
+              "score": "（2 分）",
+              "stem": "在全面建设小康社会进程中形成的科学发展观，其基本要求是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "推动经济社会发展",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "以人为本",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "全面协调可持续",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "统筹兼顾",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 20 题",
+              "year": 2024,
+              "number": 20,
+              "score": "（2 分）",
+              "stem": "科学发展观是在新世纪新阶段全面建设小康社会进程中形成和发展起来的。科学发展观的根本方法是（）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "以人为本",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "坚持可持续发展",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "统筹兼顾",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "转变经济发展方式",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2023 年 · 第 38 题",
+              "year": 2023,
+              "number": 38,
+              "score": "（10 分）",
+              "stem": "简述科学发展观的科学内涵。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)科学发展观的第一要义是发展。(3分)(2)科学发展观的核心是以人为本。(3分)(3)科学发展观的基本要求是全面协调可持续。(2分)(4)科学发展观的根本方法是统筹兼顾。(2分)"
+            }
+          ]
+        }
+      },
+      {
+        "title": "转变经济发展方式的出发点和落脚点",
+        "content": "保障和改善民生",
+        "itemType": "MUST_READ",
+        "sortOrder": 304040,
+        "source": "2025 年 · 第 19 题 · 正确项「保障和改善民生」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "E. 三个代表 / 科学发展观 / 价值观"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "E. 三个代表 / 科学发展观 / 价值观",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 19 题",
+              "year": 2025,
+              "number": 19,
+              "score": "（2 分）",
+              "stem": "科学发展观认为，加快转变经济发展方式是一项紧迫而重大的战略任务，是顺应我国发展新的阶段性特征的必然要求。转变经济发展方式的出发点和落脚点是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "科技进步和创新",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "经济结构战略性调整",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "保障和改善民生",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "建设环境友好型社会",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "社会主义核心价值观（国家层面 / 社会层面）",
+        "content": "富强民主文明和谐 / 自由平等公正法治",
+        "itemType": "MUST_READ",
+        "sortOrder": 304050,
+        "source": "2023 年 · 第 15 题 · 正确项「国家层面的价值要求」；2022 年 · 第 25 题 · 正确项「自由、平等、公正、法治」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "E. 三个代表 / 科学发展观 / 价值观"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "E. 三个代表 / 科学发展观 / 价值观",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 15 题",
+              "year": 2023,
+              "number": 15,
+              "score": "（2 分）",
+              "stem": "社会主义核心价值观中，富强、民主、文明、和谐体现的是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "国家层面的价值要求",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "社会层面的价值要求",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "公民层面的价值要求",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "组织层面的价值要求",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 25 题",
+              "year": 2022,
+              "number": 25,
+              "score": "（2 分）",
+              "stem": "在社会主义核心价值观的基本内容中，作为社会层面价值要求的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "富强、民主、文明、和谐",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "自由、平等、公正、法治",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "博学、明辨、慎思、笃行",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "爱国、敬业、诚信、友善",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "社会主义核心价值体系中的基本道德规范 / 民族精神的核心",
+        "content": "社会主义荣辱观 / 爱国主义",
+        "itemType": "MUST_READ",
+        "sortOrder": 304060,
+        "source": "2025 年 · 第 20 题 · 正确项「社会主义荣辱观」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "E. 三个代表 / 科学发展观 / 价值观"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "E. 三个代表 / 科学发展观 / 价值观",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 20 题",
+              "year": 2025,
+              "number": 20,
+              "score": "（2 分）",
+              "stem": "社会主义核心价值体系是根源于民族优秀文化和社会主义先进文化并吸收人类文明成果发展起来的。在社会主义核心价值体系的基本内容中，属于基本道德规范的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "马克思主义指导思想",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "民族精神和时代精神",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "中国特色社会主义共同理想",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "社会主义荣辱观",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 23 题",
+              "year": 2021,
+              "number": 23,
+              "score": "（2 分）",
+              "stem": "在社会主义核心价值体系的基本内容中，民族精神的核心是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "集体主义",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "爱国主义",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "国际主义",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "为人民服务",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "遵义会议的历史地位",
+        "content": "遵义会议（开始确立以毛泽东为主要代表的马克思主义正确路线在党中央的领导地位）",
+        "itemType": "MUST_READ",
+        "sortOrder": 305000,
+        "source": "2022 年 · 第 12 题 · 正确项「遵义会议」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "F. 补录 · 党史与党建（本轮补齐的缺口考点）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "F. 补录 · 党史与党建（本轮补齐的缺口考点）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 12 题",
+              "year": 2022,
+              "number": 12,
+              "score": "（2 分）",
+              "stem": "开始确立以毛泽东为主要代表的马克思主义正确路线在党中央的领导地位的会议是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "八七会议",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "古田会议",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "遵义会议",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "瓦窑堡会议",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "党的全部工作和战斗力的基础",
+        "content": "党的基层组织",
+        "itemType": "MUST_READ",
+        "sortOrder": 305010,
+        "source": "2025 年 · 第 18 题 · 正确项「党的基层组织」",
+        "tags": [
+          "政治",
+          "毛中特",
+          "F. 补录 · 党史与党建（本轮补齐的缺口考点）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "四、必背清单 · 毛中特（20 分）",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "section": "毛中特",
+          "group": "F. 补录 · 党史与党建（本轮补齐的缺口考点）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 18 题",
+              "year": 2025,
+              "number": 18,
+              "score": "（2 分）",
+              "stem": "九层之台，起于累土。党的全部工作和战斗力的基础是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "党员个体",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "党的基层组织",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "党员领导干部",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "党的地方组织",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "“两个结合”中的第二个结合",
+        "content": "马克思主义基本原理同中华优秀传统文化相结合",
+        "itemType": "MUST_READ",
+        "sortOrder": 400000,
+        "source": "2025 年 · 第 21 题 · 正确项「马克思主义基本原理同中华优秀传统文化相结合」",
+        "tags": [
+          "政治",
+          "习概",
+          "A. 新时代 · 方位与布局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "A. 新时代 · 方位与布局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 21 题",
+              "year": 2025,
+              "number": 21,
+              "score": "（2 分）",
+              "stem": "中国特色社会主义之所以不一样，之所以生机勃勃、充满活力，关键就在于中国特色，中国特色的关键就在于两个结合。两个结合中的第二个结合是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "马克思主义基本原理同中华悠久历史传统相结合",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "马克思主义基本原理同中华优秀传统文化相结合",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "马克思主义基本原理同中国具体实际相结合",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "马克思主义基本原理同中国传统文化相结合",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "集中体现习近平新时代中国特色社会主义思想主要观点和基本精神的",
+        "content": "“十个明确”",
+        "itemType": "MUST_READ",
+        "sortOrder": 400010,
+        "source": "2025 年 · 第 22 题 · 正确项「十个明确」",
+        "tags": [
+          "政治",
+          "习概",
+          "A. 新时代 · 方位与布局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "A. 新时代 · 方位与布局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 22 题",
+              "year": 2025,
+              "number": 22,
+              "score": "（2 分）",
+              "stem": "习近平新时代中国特色社会主义思想是完整的科学体系。其中，集中体现这一思想体系主要观点和基本精神的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "十个明确",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "十四个坚持",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "十三个方面成就",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "六个必须坚持",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "新时代坚持和发展中国特色社会主义的基本方略",
+        "content": "“十四个坚持”",
+        "itemType": "MUST_READ",
+        "sortOrder": 400020,
+        "source": "2024 年 · 第 21 题 · 正确项「“十四个坚持”」",
+        "tags": [
+          "政治",
+          "习概",
+          "A. 新时代 · 方位与布局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "A. 新时代 · 方位与布局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 21 题",
+              "year": 2024,
+              "number": 21,
+              "score": "（2 分）",
+              "stem": "在习近平新时代中国特色社会主义思想的主要内容中，新时代坚持和发展中国特色社会主义基本方略概括为（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "“十个明确”",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "“十四个坚持”",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "“六个必须坚持”",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "“十三个方面成就”",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "新时代我国社会主要矛盾",
+        "content": "人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾",
+        "itemType": "MUST_READ",
+        "sortOrder": 400030,
+        "source": "2025 年 · 第 23 题 · 正确项「人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾」",
+        "tags": [
+          "政治",
+          "习概",
+          "A. 新时代 · 方位与布局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "A. 新时代 · 方位与布局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 23 题",
+              "year": 2025,
+              "number": 23,
+              "score": "（2 分）",
+              "stem": "社会主要矛盾是各种社会矛盾的主要根源和集中反映。新时代我国社会主要矛盾是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "人民对于经济文化迅速发展的需要问经济文化不能满足人民需要的状况之间的矛盾",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "人民对于建立先进的工业国的要求和落后的农业国的现实之间的矛盾",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "人民日益增长的物质文化需要同落后的社会生产之间的矛盾",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 18 题",
+              "year": 2021,
+              "number": 18,
+              "score": "（2 分）",
+              "stem": "中国特色社会主义进入新时代，我国社会主要矛盾已转化为（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "人民日益增长的物质文化需要同落后的社会生产之间的矛盾",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "生产力和生产关系、经济基础和上层建筑之间的矛盾",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "人民对于建立先进的工业国的要求同落后的农业国的现实之间的矛盾",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "中国特色社会主义事业的总体布局和战略布局",
+        "content": "“五位一体”和“四个全面”",
+        "itemType": "MUST_READ",
+        "sortOrder": 400040,
+        "source": "2023 年 · 第 17 题 · 正确项「“五位一体”和“四个全面”」",
+        "tags": [
+          "政治",
+          "习概",
+          "A. 新时代 · 方位与布局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "A. 新时代 · 方位与布局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 17 题",
+              "year": 2023,
+              "number": 17,
+              "score": "（2 分）",
+              "stem": "中国特色社会主义事业总体布局和战略布局分别是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "“两个转变”和“一体两翼”",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "“五位一体”和“四个全面”",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "“八个明确”和“四面八方”",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "“一个中心”和“五湖四海”",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 21 题",
+              "year": 2022,
+              "number": 21,
+              "score": "（2 分）",
+              "stem": "新时代中国特色社会主义事业总体布局是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "一根红线",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "两个大局",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "四个全面",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "五位一体",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "习近平新时代中国特色社会主义思想的根本立场",
+        "content": "人民立场",
+        "itemType": "MUST_READ",
+        "sortOrder": 400050,
+        "source": "2023 年 · 第 18 题 · 正确项「人民立场」",
+        "tags": [
+          "政治",
+          "习概",
+          "A. 新时代 · 方位与布局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "A. 新时代 · 方位与布局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 18 题",
+              "year": 2023,
+              "number": 18,
+              "score": "（2 分）",
+              "stem": "习近平新时代中国特色社会主义思想的根本立场是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "人民立场",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "阶级立场",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "历史自觉",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "求真务实",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "新时代坚持和发展中国特色社会主义的根本动力",
+        "content": "全面深化改革开放",
+        "itemType": "MUST_READ",
+        "sortOrder": 400060,
+        "source": "2024 年 · 第 24 题 · 正确项「全面深化改革开放」",
+        "tags": [
+          "政治",
+          "习概",
+          "A. 新时代 · 方位与布局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "A. 新时代 · 方位与布局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 24 题",
+              "year": 2024,
+              "number": 24,
+              "score": "（2 分）",
+              "stem": "新时代坚持和发展中国特色社会主义的根本动力是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "不断增进民生福祉",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "安全稳定",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "全面深化改革开放",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "反腐倡廉",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "关系党的事业兴衰成败第一位的问题",
+        "content": "道路问题",
+        "itemType": "MUST_READ",
+        "sortOrder": 400070,
+        "source": "2024 年 · 第 22 题 · 正确项「道路问题」",
+        "tags": [
+          "政治",
+          "习概",
+          "A. 新时代 · 方位与布局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "A. 新时代 · 方位与布局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 22 题",
+              "year": 2024,
+              "number": 22,
+              "score": "（2 分）",
+              "stem": "党百余年的奋斗历程表明，关系党的事业兴衰成败第一位的问题是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "文化问题",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "制度问题",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "理论问题",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "道路问题",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "中华民族伟大复兴的形象表达",
+        "content": "中国梦",
+        "itemType": "MUST_READ",
+        "sortOrder": 401000,
+        "source": "2022 年 · 第 22 题 · 正确项「中国梦」",
+        "tags": [
+          "政治",
+          "习概",
+          "B. 中国式现代化与两步走"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "B. 中国式现代化与两步走",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 22 题",
+              "year": 2022,
+              "number": 22,
+              "score": "（2 分）",
+              "stem": "中华民族伟大复兴的形象表达是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "工业化",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "中国梦",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "小康社会",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "天下大同",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "实现中国梦的“中国力量”指的是",
+        "content": "全国各族人民大团结的力量",
+        "itemType": "MUST_READ",
+        "sortOrder": 401010,
+        "source": "2023 年 · 第 19 题 · 正确项「全国各族人民大团结的力量」",
+        "tags": [
+          "政治",
+          "习概",
+          "B. 中国式现代化与两步走"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "B. 中国式现代化与两步走",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 19 题",
+              "year": 2023,
+              "number": 19,
+              "score": "（2 分）",
+              "stem": "习近平指出：“实现中国梦必须走中国道路、弘扬中国精神、凝聚中国力量。”中国力量指的是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "科技创新的力量",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "文化创新的力量",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "全国各族人民大团结的力量",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "全世界人民大团结的力量",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "全面建设社会主义现代化国家的首要任务",
+        "content": "推动高质量发展",
+        "itemType": "MUST_READ",
+        "sortOrder": 401020,
+        "source": "2024 年 · 第 25 题 · 正确项「推动高质量发展」",
+        "tags": [
+          "政治",
+          "习概",
+          "B. 中国式现代化与两步走"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "B. 中国式现代化与两步走",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 25 题",
+              "year": 2024,
+              "number": 25,
+              "score": "（2 分）",
+              "stem": "全面建设社会主义现代化国家的首要任务是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "推动高质量发展",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "把握新发展阶段",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "贯彻新发展理念",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "构建新发展格局",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "中国式现代化的战略性支撑中“人才”的定位",
+        "content": "第一资源",
+        "itemType": "MUST_READ",
+        "sortOrder": 401030,
+        "source": "2024 年 · 第 26 题 · 正确项「第一资源」",
+        "tags": [
+          "政治",
+          "习概",
+          "B. 中国式现代化与两步走"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "B. 中国式现代化与两步走",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 26 题",
+              "year": 2024,
+              "number": 26,
+              "score": "（2 分）",
+              "stem": "教育、科技、人才是中国式现代化的基础性、战略性支撑。其中，人才是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "根本优势",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "组织保障",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "第一资源",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "第一动力",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2024 年 · 第 39 题",
+              "year": 2024,
+              "number": 39,
+              "score": "（10 分）",
+              "stem": "中国式现代化的中国特色有哪些?",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：（1）中国式现代化是人口规模巨大的现代化。（2）中国式现代化是全体人民共同富裕的现代化。（3）中国式现代化是物质文明和精神文明相协调的现代化。（4）中国式现代化是人与自然和谐共生的现代化。（5）中国式…"
+            }
+          ]
+        }
+      },
+      {
+        "title": "“两步走”第一步 / 第二步",
+        "content": "2020—2035 基本实现现代化 / 到本世纪中叶建成富强民主文明和谐美丽的社会主义现代化强国",
+        "itemType": "MUST_READ",
+        "sortOrder": 401040,
+        "source": "2022 年 · 第 23 题 · 正确项「到本世纪中叶，把我国建成富强文明民主和谐美丽的社会主义现代化强国」",
+        "tags": [
+          "政治",
+          "习概",
+          "B. 中国式现代化与两步走"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "B. 中国式现代化与两步走",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 20 题",
+              "year": 2021,
+              "number": 20,
+              "score": "（2 分）",
+              "stem": "党的十九大提出实现社会主义现代化强国“两步走”的战略安排，第一步是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "从2020年到2035年，基本实现社会主义现代化",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "从2035年到2050年，基本实现社会主义现代化",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "从2020年到2035年，建成社会主义现代化国家",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "从2035年到2050年，建成社会主义现代化国家",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 20 题",
+              "year": 2023,
+              "number": 20,
+              "score": "（2 分）",
+              "stem": "全面建设社会主义现代化国家的进程分两个阶段来安排，其中第二个阶段的目标是到本世纪中叶（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "实现总体小康",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "消除绝对贫困",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "人均国内生产总值达到中等发达国家的水平",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "把我国建成富强民主文明和谐美丽的社会主义现代化强国",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 23 题",
+              "year": 2022,
+              "number": 23,
+              "score": "（2 分）",
+              "stem": "党的十九大提出的“两步走”战略安排的第二步是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "到2035年，基本实现现代化",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "到2035年，全体人民共同富裕取得更为明显的实质性进展",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "到本世纪中叶，把我国建成富强文明民主和谐的社会主义现代化国家",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "到本世纪中叶，把我国建成富强文明民主和谐美丽的社会主义现代化强国",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2024 年 · 第 39 题",
+              "year": 2024,
+              "number": 39,
+              "score": "（10 分）",
+              "stem": "中国式现代化的中国特色有哪些?",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：（1）中国式现代化是人口规模巨大的现代化。（2）中国式现代化是全体人民共同富裕的现代化。（3）中国式现代化是物质文明和精神文明相协调的现代化。（4）中国式现代化是人与自然和谐共生的现代化。（5）中国式…"
+            }
+          ]
+        }
+      },
+      {
+        "title": "新发展理念中解决“发展动力问题 / 不平衡问题”的",
+        "content": "创新发展 / 协调发展",
+        "itemType": "MUST_READ",
+        "sortOrder": 402000,
+        "source": "2025 年 · 第 24 题 · 正确项「创新发展、协调发展」",
+        "tags": [
+          "政治",
+          "习概",
+          "C. 发展理念与格局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "C. 发展理念与格局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 24 题",
+              "year": 2025,
+              "number": 24,
+              "score": "（2 分）",
+              "stem": "新时代抓发展，必须坚定不移贯彻新发展理念。在新发展理念中，注重解决发展动力问题、不平衡问题的分别是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "开放发展、绿色发展",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "创新发展、协调发展",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "开放发展、协调发展",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "创新发展、绿色发展",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 21 题",
+              "year": 2023,
+              "number": 21,
+              "score": "（2 分）",
+              "stem": "在新发展理念中，注重解决发展不平衡问题的是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "创新发展",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "协调发展",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "绿色发展",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "共享发展",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "构建新发展格局指的是",
+        "content": "以国内大循环为主体、国内国际双循环相互促进",
+        "itemType": "MUST_READ",
+        "sortOrder": 402010,
+        "source": "2023 年 · 第 22 题 · 正确项「以国内大循环为主体、国内国际双循环相互促进」",
+        "tags": [
+          "政治",
+          "习概",
+          "C. 发展理念与格局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "C. 发展理念与格局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 22 题",
+              "year": 2023,
+              "number": 22,
+              "score": "（2 分）",
+              "stem": "构建新发展格局明确了我国经济现代化的路径选择。新发展格局指的是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "坚持“两个毫不动摇”",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "市场和资源“两头在外”的发展格局",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "以国内大循环为主体、国内国际双循环相互促进",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "发挥市场在资源配置中的决定性作用和更好发挥政府作用",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "属于公有制经济的是",
+        "content": "集体经济",
+        "itemType": "MUST_READ",
+        "sortOrder": 402020,
+        "source": "2025 年 · 第 25 题 · 正确项「集体经济」",
+        "tags": [
+          "政治",
+          "习概",
+          "C. 发展理念与格局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "C. 发展理念与格局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 25 题",
+              "year": 2025,
+              "number": 25,
+              "score": "（2 分）",
+              "stem": "公有制经济和非公有制经济都是社会主义市场经济的重要组成部分。下列选项中属于公有制经济的是（）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "集体经济",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "私营经济",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "民营经济",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "外商投资经济",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "现阶段我国经济发展的基本特征",
+        "content": "由高速增长阶段转向高质量发展阶段",
+        "itemType": "MUST_READ",
+        "sortOrder": 402030,
+        "source": "2021 年 · 第 19 题 · 正确项「高质量发展阶段」",
+        "tags": [
+          "政治",
+          "习概",
+          "C. 发展理念与格局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "C. 发展理念与格局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 19 题",
+              "year": 2021,
+              "number": 19,
+              "score": "（2 分）",
+              "stem": "现阶段，我国经济发展的基本特征就是由高速增长阶段转向（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "低速增长阶段",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "高质量发展阶段",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "规模速度型发展阶段",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "要素投入驱动型发展阶段",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "当前和今后一个时期经济发展和经济工作的主线",
+        "content": "推进供给侧结构性改革",
+        "itemType": "MUST_READ",
+        "sortOrder": 402040,
+        "source": "2021 年 · 第 28 题 · 正确项「推进供给侧结构性改革」",
+        "tags": [
+          "政治",
+          "习概",
+          "C. 发展理念与格局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "C. 发展理念与格局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 28 题",
+              "year": 2021,
+              "number": 28,
+              "score": "（2 分）",
+              "stem": "当前和今后一个时期经济发展和经济工作的主线是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "实施创新驱动发展战略",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "激发各类市场主体活力",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "推动城乡区域协调发展",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "推进供给侧结构性改革",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "中国特色社会主义政治经济学的最新成就",
+        "content": "习近平经济思想",
+        "itemType": "MUST_READ",
+        "sortOrder": 402050,
+        "source": "2022 年 · 第 26 题 · 正确项「习近平经济思想」",
+        "tags": [
+          "政治",
+          "习概",
+          "C. 发展理念与格局"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "C. 发展理念与格局",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 26 题",
+              "year": 2022,
+              "number": 26,
+              "score": "（2 分）",
+              "stem": "中国特色社会主义政治经济学的最新成就是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "毛泽东思想",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "周恩来经济思想",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "邓小平经济思想",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "习近平经济思想",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "新时代我国民主政治领域具有重大创新意义的标志性成果",
+        "content": "全过程人民民主",
+        "itemType": "MUST_READ",
+        "sortOrder": 403000,
+        "source": "2025 年 · 第 26 题 · 正确项「全过程人民民主」",
+        "tags": [
+          "政治",
+          "习概",
+          "D. 政治 · 法治 · 党建"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "D. 政治 · 法治 · 党建",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 26 题",
+              "year": 2025,
+              "number": 26,
+              "score": "（2 分）",
+              "stem": "民主是全人类共同价值，人民民主是社会主义的生命。下列选项中，属于新时代我国民主政治领域具有重大创新意义的标志性成果是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "全过程人民民主",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "直接民主",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "无产阶级专政",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "间接民主",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            },
+            {
+              "qtype": "论述题",
+              "typeClass": "p-amb",
+              "label": "2024 年 · 第 41 题",
+              "year": 2024,
+              "number": 41,
+              "score": "（20 分）",
+              "stem": "党的十八大以来，以习近平同志为核心的党中央积极回应人民对民主政治的新要求新期待，提出全过程人民民主重大理念。全过程人民民主是新时代我国民主政治领域具有重大创新意义的标志性成果。如何理解全过程人民民主是社会主义民主政治的本质属性？",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：全过程人民民主是社会主义民主政治的本质属性，可以从以下几个方面理解：（1）全过程人民民主是社会主义民主政治的伟大创造。全过程人民民主是中国共产党团结带领人民追求民主、发展民主、实现民主的伟大创造，是党…"
+            }
+          ]
+        }
+      },
+      {
+        "title": "维护社会公平正义的最后一道防线",
+        "content": "公正司法",
+        "itemType": "MUST_READ",
+        "sortOrder": 403010,
+        "source": "2025 年 · 第 27 题 · 正确项「公正司法」",
+        "tags": [
+          "政治",
+          "习概",
+          "D. 政治 · 法治 · 党建"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "D. 政治 · 法治 · 党建",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 27 题",
+              "year": 2025,
+              "number": 27,
+              "score": "（2 分）",
+              "stem": "从建设更高水平的法治中国的角度来说，维护社会公平正义的最后一道防线是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "科学立法",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "严格执法",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "公正司法",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "全民守法",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "全面推进依法治国的总目标",
+        "content": "建设中国特色社会主义法治体系、建设社会主义法治国家",
+        "itemType": "MUST_READ",
+        "sortOrder": 403020,
+        "source": "2024 年 · 第 27 题 · 正确项「建设中国特色社会主义法治体系、建设社会主义法治国家」",
+        "tags": [
+          "政治",
+          "习概",
+          "D. 政治 · 法治 · 党建"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "D. 政治 · 法治 · 党建",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 27 题",
+              "year": 2024,
+              "number": 27,
+              "score": "（2 分）",
+              "stem": "党的十八大以来，党中央明确提出全面依法治国，并将其纳入“四个全面”战略布局予以有力推进。全面推进依法治国的总目标是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "坚持依宪治国、依宪执政",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "全面建成法治国家、法治政府、法治社会",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "全面推进科学立法、严格执法、公正司法、全民守法",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "建设中国特色社会主义法治体系、建设社会主义法治国家",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "新时代推进全面依法治国的总抓手",
+        "content": "建设中国特色社会主义法治体系",
+        "itemType": "MUST_READ",
+        "sortOrder": 403030,
+        "source": "2023 年 · 第 23 题 · 正确项「建设中国特色社会主义法治体系」",
+        "tags": [
+          "政治",
+          "习概",
+          "D. 政治 · 法治 · 党建"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "D. 政治 · 法治 · 党建",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 23 题",
+              "year": 2023,
+              "number": 23,
+              "score": "（2 分）",
+              "stem": "新时代推进全面依法治国的总抓手是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "坚持以人民为中心",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "建设中国特色社会主义法治体系",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "坚持统筹推进国内法治和涉外法治",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "坚持依法治国、依法执政、依法行政共同推进",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "中国特色社会主义法治最根本的保证",
+        "content": "党的领导",
+        "itemType": "MUST_READ",
+        "sortOrder": 403040,
+        "source": "2021 年 · 第 24 题 · 正确项「党的领导」",
+        "tags": [
+          "政治",
+          "习概",
+          "D. 政治 · 法治 · 党建"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "D. 政治 · 法治 · 党建",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 24 题",
+              "year": 2021,
+              "number": 24,
+              "score": "（2 分）",
+              "stem": "中国特色社会主义法治最根本的保证是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "党的领导",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "以德治国",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "人民当家作主",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "经济发展",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2021 年 · 第 39 题",
+              "year": 2021,
+              "number": 39,
+              "score": "（10 分）",
+              "stem": "为什么说中国共产党是最高政治领导力量?",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)党是政治方向的引领者。(3分)(2)党是政治体系的统领者。(3分)(3)党是重大决策的决断者。(4分)"
+            },
+            {
+              "qtype": "论述题",
+              "typeClass": "p-amb",
+              "label": "2022 年 · 第 41 题",
+              "year": 2022,
+              "number": 41,
+              "score": "（20 分）",
+              "stem": "2021年7月1日，习近平在庆祝中国共产党成立100周年大会上的讲话中强调：“中国共产党领导是中国特色社会主义最本质的特征，中国特色社会主义制度的最大优势，是党和国家的根本所在，命脉所有，是全国各族人民利益所系，命运所系。”如何理解中国共产党领导是中国特色社会主义制度的最大优势?",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)中国共产党是中国特色社会主义制度的创建者。没有党就没有中国特色社会主义制度，制度优势也就无从谈起。在党的领导下通过改革不断完善和发展中国特色社会主义制度，推进国家治理体系和治理能力现代化，使中国…"
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2023 年 · 第 39 题",
+              "year": 2023,
+              "number": 39,
+              "score": "（10 分）",
+              "stem": "为什么说党的领导是中国特色社会主义最本质的特征？",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)这是由中国特色社会主义迈向新征程的实践逻辑所决定的。(4分)(2)这是由科学社会主义的理论逻辑所决定的。(3分)(3)这是由中国特色社会主义产生与发展的历史逻辑所决定的。(3分)"
+            }
+          ]
+        }
+      },
+      {
+        "title": "新时代党的建设总体布局中摆在首位的",
+        "content": "政治建设",
+        "itemType": "MUST_READ",
+        "sortOrder": 403050,
+        "source": "2024 年 · 第 30 题 · 正确项「政治建设」",
+        "tags": [
+          "政治",
+          "习概",
+          "D. 政治 · 法治 · 党建"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "D. 政治 · 法治 · 党建",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 30 题",
+              "year": 2024,
+              "number": 30,
+              "score": "（2 分）",
+              "stem": "把党的建设作为一项伟大工程来推进，是我们党的一大创举。新时代党的建设总体布局中，摆在首位的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "纪律建设",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "思想建设",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "组织建设",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "政治建设",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 27 题",
+              "year": 2022,
+              "number": 27,
+              "score": "（2 分）",
+              "stem": "全面从严治党摆在首位的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "政治建设",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "思想建设",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "组织建设",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "作风建设",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "我们党做好一切工作的价值取向和根本标准",
+        "content": "让群众满意",
+        "itemType": "MUST_READ",
+        "sortOrder": 403060,
+        "source": "2024 年 · 第 23 题 · 正确项「让群众满意」",
+        "tags": [
+          "政治",
+          "习概",
+          "D. 政治 · 法治 · 党建"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "D. 政治 · 法治 · 党建",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 23 题",
+              "year": 2024,
+              "number": 23,
+              "score": "（2 分）",
+              "stem": "党的执政水平和执政成效都不是由自己说了算，我们党做好一切工作的价值取向和根本标准是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "让世界满意",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "让群众满意",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "制度完善",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "社会和谐",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "党执政后最大的危险",
+        "content": "脱离群众",
+        "itemType": "MUST_READ",
+        "sortOrder": 403070,
+        "source": "2021 年 · 第 30 题 · 正确项「脱离群众」",
+        "tags": [
+          "政治",
+          "习概",
+          "D. 政治 · 法治 · 党建"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "D. 政治 · 法治 · 党建",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 30 题",
+              "year": 2021,
+              "number": 30,
+              "score": "（2 分）",
+              "stem": "习近平在纪念毛泽东同志诞辰120周年座谈会上的讲话中指出，党执政后最大的危险是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "脱离群众",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "因循守旧",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "骄傲自满",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "缺乏自信",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "中国共产党人精神谱系的源头",
+        "content": "伟大建党精神",
+        "itemType": "MUST_READ",
+        "sortOrder": 404000,
+        "source": "2025 年 · 第 28 题 · 正确项「伟大建党精神」",
+        "tags": [
+          "政治",
+          "习概",
+          "E. 文化 · 安全 · 强军 · 外交"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "E. 文化 · 安全 · 强军 · 外交",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 28 题",
+              "year": 2025,
+              "number": 28,
+              "score": "（2 分）",
+              "stem": "人无精神不立，国无精神则不强。中国共产党人精神谱系的源头是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "伟大建党精神",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "井冈山精神",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "长征精神",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "延安精神",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "人民军队建军之本、强军之魂",
+        "content": "党对人民军队的绝对领导",
+        "itemType": "MUST_READ",
+        "sortOrder": 404010,
+        "source": "2025 年 · 第 29 题 · 正确项「党对人民军队的绝对领导」",
+        "tags": [
+          "政治",
+          "习概",
+          "E. 文化 · 安全 · 强军 · 外交"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "E. 文化 · 安全 · 强军 · 外交",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 29 题",
+              "year": 2025,
+              "number": 29,
+              "score": "（2 分）",
+              "stem": "党的十八大以来，在习近平强军思想指引下，人民军队实现整体性革命性重塑、重整行装再出发，中国特色强军之路越走越宽广。人民军队建军之本、强军之魂是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "党对人民军队的绝对领导",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "科学技术",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "军民融合发展",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "依法治军",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 29 题",
+              "year": 2022,
+              "number": 29,
+              "score": "（2 分）",
+              "stem": "习近平强军思想强调，人民军队建军之本、强军之魂是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "党对军队的绝对领导",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "能打仗，打胜仗",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "作风优良",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "军民融合发展",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "新时代强军目标中决定军队建设政治方向的",
+        "content": "听党指挥",
+        "itemType": "MUST_READ",
+        "sortOrder": 404020,
+        "source": "2024 年 · 第 29 题 · 正确项「听党指挥」",
+        "tags": [
+          "政治",
+          "习概",
+          "E. 文化 · 安全 · 强军 · 外交"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "E. 文化 · 安全 · 强军 · 外交",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 29 题",
+              "year": 2024,
+              "number": 29,
+              "score": "（2 分）",
+              "stem": "强国必须强军，军强才能国安。新时代强军目标中，决定军队建设政治方向的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "听党指挥",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "能打胜仗",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "作风优良",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "纪律严明",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "反映军队根本职能和军队建设根本指向的",
+        "content": "能打胜仗",
+        "itemType": "MUST_READ",
+        "sortOrder": 404030,
+        "source": "2023 年 · 第 25 题 · 正确项「能打胜仗」",
+        "tags": [
+          "政治",
+          "习概",
+          "E. 文化 · 安全 · 强军 · 外交"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "E. 文化 · 安全 · 强军 · 外交",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 25 题",
+              "year": 2023,
+              "number": 25,
+              "score": "（2 分）",
+              "stem": "习近平强军思想中，反映军队的根本职能和军队建设的根本指向的是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "能打胜仗",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "作风优良",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "听党指挥",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "军民融合",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "总体国家安全观的宗旨 / 根本",
+        "content": "人民安全 / 政治安全",
+        "itemType": "MUST_READ",
+        "sortOrder": 404040,
+        "source": "2024 年 · 第 28 题 · 正确项「人民安全」",
+        "tags": [
+          "政治",
+          "习概",
+          "E. 文化 · 安全 · 强军 · 外交"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "E. 文化 · 安全 · 强军 · 外交",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 28 题",
+              "year": 2024,
+              "number": 28,
+              "score": "（2 分）",
+              "stem": "总体国家安全观为维护和塑造新时代国家安全提供了基本遵循。总体国家安全观的宗旨是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "经济安全",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "网络安全",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "人民安全",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "政治安全",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 24 题",
+              "year": 2023,
+              "number": 24,
+              "score": "（2 分）",
+              "stem": "总体国家安全观明确，国家安全的宗旨和根本分别是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "人民安全和政治安全",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "科技安全和网络安全",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "经济安全和生态安全",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "资源安全和太空安全",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 28 题",
+              "year": 2022,
+              "number": 28,
+              "score": "（2 分）",
+              "stem": "坚持总体国家安全观，必须坚持人民安全、政治安全、国家利益至上有机统一。其中，国家安全的根本是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "人民安全",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "政治安全",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "国家利益至上",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "生态安全",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2025 年 · 第 39 题",
+              "year": 2025,
+              "number": 39,
+              "score": "（10 分）",
+              "stem": "新安全格局中，政治安全包括哪些内容？",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：（1）政治安全是国家安全的根本，统领经济、社会、军事等各领域安全。（2）政权安全：坚持、巩固中国共产党长期执政地位，牢牢把握正确政治方向，防范颠覆性风险。（3）制度安全：坚持完善中国特色社会主义制度，…"
+            }
+          ]
+        }
+      },
+      {
+        "title": "推动构建新型国际关系的原则",
+        "content": "相互尊重、公平正义、合作共赢",
+        "itemType": "MUST_READ",
+        "sortOrder": 404050,
+        "source": "2025 年 · 第 30 题 · 正确项「相互尊重、公平正义、合作共赢」",
+        "tags": [
+          "政治",
+          "习概",
+          "E. 文化 · 安全 · 强军 · 外交"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "E. 文化 · 安全 · 强军 · 外交",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 30 题",
+              "year": 2025,
+              "number": 30,
+              "score": "（2 分）",
+              "stem": "推动构建新型国际关系是新时代中国外交理论和实践的重要创新。推动构建新型国际关系的原则是（）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "和平共处、总体稳定、均衡发展",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "相互尊重、公平正义、合作共赢",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "相互信任、平等协商、互利互惠",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "求同存异、相互尊重、互学互鉴",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "论述题",
+              "typeClass": "p-amb",
+              "label": "2021 年 · 第 41 题",
+              "year": 2021,
+              "number": 41,
+              "score": "（20 分）",
+              "stem": "当今世界，各国相互依存、休戚与共。我们要继承和弘扬联合国宪章的宗旨和原则，构建以合作共赢为核心的新型国际关系，打造人类命运共同体。试述构建人类命运共同体思想的科学内涵。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)政治上，要相互尊重、平等协商，坚决摒弃冷战思维和强权政治，走对话而不对抗、结伴而不结盟的国与国交往新路。(4分)(2)安全上，要坚持以对话解决争端、以协商化解分歧，统筹应对传统和非传统安全威胁，…"
+            }
+          ]
+        }
+      },
+      {
+        "title": "新时代中国外交政策的宗旨",
+        "content": "维护世界和平，促进共同发展",
+        "itemType": "MUST_READ",
+        "sortOrder": 404060,
+        "source": "2022 年 · 第 30 题 · 正确项「维护世界和平，促进共同发展」",
+        "tags": [
+          "政治",
+          "习概",
+          "E. 文化 · 安全 · 强军 · 外交"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "E. 文化 · 安全 · 强军 · 外交",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 30 题",
+              "year": 2022,
+              "number": 30,
+              "score": "（2 分）",
+              "stem": "新时代中国外交政策的宗旨仍然是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "重持公道，伸张正义",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "亲仁善邻，协和万邦",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "维护世界和平，促进共同发展",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "弘义融利、扶危济困",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            },
+            {
+              "qtype": "论述题",
+              "typeClass": "p-amb",
+              "label": "2023 年 · 第 41 题",
+              "year": 2023,
+              "number": 41,
+              "score": "（20 分）",
+              "stem": "党的十八大以来，以习近平同志为核心的党中央牢牢把握中国和世界发展大势，深刻思考人类前途命运，积极推进重大外交理论和实践创新，形成了习近平外交思想，指引外交工作取得全方位、开创性历史成就。试述新时代中国独立自主的和平外交政策的主要内涵。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)把国家主权和安全放在第一位，坚定地维护我国的国家利益，反对任何国家损害我国的独立、主权、安全和尊严。(4分)(2)一切从我国人民和世界人民的根本利益出发，根据事情本身的是非曲直决定自己的政治立场…"
+            }
+          ]
+        }
+      },
+      {
+        "title": "进入 21 世纪，时代主题仍然是",
+        "content": "和平与发展",
+        "itemType": "MUST_READ",
+        "sortOrder": 404070,
+        "source": "2021 年 · 第 21 题 · 正确项「和平与发展」",
+        "tags": [
+          "政治",
+          "习概",
+          "E. 文化 · 安全 · 强军 · 外交"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "E. 文化 · 安全 · 强军 · 外交",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 21 题",
+              "year": 2021,
+              "number": 21,
+              "score": "（2 分）",
+              "stem": "进入21世纪，世界处在大发展大变革大调整之中，但时代主题仍然是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "和平与发展",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "联合与对抗",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "防恐与反霸",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "战争与革命",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "被喻为“腾飞的双翼”的是",
+        "content": "“一带一路”",
+        "itemType": "MUST_READ",
+        "sortOrder": 404080,
+        "source": "2021 年 · 第 27 题 · 正确项「“一带一路”」",
+        "tags": [
+          "政治",
+          "习概",
+          "E. 文化 · 安全 · 强军 · 外交"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "E. 文化 · 安全 · 强军 · 外交",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 27 题",
+              "year": 2021,
+              "number": 27,
+              "score": "（2 分）",
+              "stem": "被习近平形象比喻为“像一对腾飞的翅膀，正飞向和平、发展、合作、共赢的远方”的是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "“绿水青山”",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "“两弹一星”",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "“一带一路”",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "“航空航天”",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "改革、发展、稳定三者的关系",
+        "content": "稳定是前提、改革是动力、发展是目的（结合点是改善人民生活）",
+        "itemType": "MUST_READ",
+        "sortOrder": 405000,
+        "source": "2021 年 · 第 25 题 · 正确项「前提」；另 2014/2015/2017/2019 均考",
+        "tags": [
+          "政治",
+          "习概",
+          "F. 补录 · 治国理政（本轮补齐的缺口考点）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "F. 补录 · 治国理政（本轮补齐的缺口考点）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 25 题",
+              "year": 2021,
+              "number": 25,
+              "score": "（2 分）",
+              "stem": "改革、发展、稳定是我国社会主义现代化建设的三个重要支点，其中稳定是改革和发展的（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "重点",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "前提",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "关键",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "动力",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2019 年 · 第 23 题",
+              "year": 2019,
+              "number": 23,
+              "score": "（2 分）",
+              "stem": "改革、发展、稳定是我国社会主义现代化建设的三个重要支点。妥善处理三者关系的结合点是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "扩大对外开放",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "改善人民生活",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "增强综合国力",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "推进依法治国",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "“四个伟大”中起决定性作用的",
+        "content": "伟大工程（党的建设新的伟大工程）",
+        "itemType": "MUST_READ",
+        "sortOrder": 405010,
+        "source": "2021 年 · 第 26 题 · 正确项「伟大工程」",
+        "tags": [
+          "政治",
+          "习概",
+          "F. 补录 · 治国理政（本轮补齐的缺口考点）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "F. 补录 · 治国理政（本轮补齐的缺口考点）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 26 题",
+              "year": 2021,
+              "number": 26,
+              "score": "（2 分）",
+              "stem": "“四个伟大”紧密联系、相互贯通、相互作用，其中起决定性作用的是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "伟大斗争",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "伟大工程",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "伟大事业",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "伟大梦想",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "“三个务必”的内容",
+        "content": "务必不忘初心、牢记使命；务必谦虚谨慎、艰苦奋斗；务必敢于斗争、善于斗争",
+        "itemType": "MUST_READ",
+        "sortOrder": 405020,
+        "source": "2023 年 · 第 27 题 · 正确项「敢于斗争、善于斗争」",
+        "tags": [
+          "政治",
+          "习概",
+          "F. 补录 · 治国理政（本轮补齐的缺口考点）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "F. 补录 · 治国理政（本轮补齐的缺口考点）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 27 题",
+              "year": 2023,
+              "number": 27,
+              "score": "（2 分）",
+              "stem": "党的二十大要求，全党同志务必不忘初心、牢记使命，务必谦虚谨慎、艰苦奋斗，务必（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "敢于斗争、善于斗争",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "增强自信、继续前进",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "自信自强、守正创新",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "踔厉奋发、勇毅前行",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "坚持中国特色社会主义政治发展道路最根本的",
+        "content": "坚持党的领导、人民当家作主、依法治国有机统一",
+        "itemType": "MUST_READ",
+        "sortOrder": 405030,
+        "source": "2023 年 · 第 14 题 · 正确项「坚持党的领导、人民当家作主、依法治国的有机统一」",
+        "tags": [
+          "政治",
+          "习概",
+          "F. 补录 · 治国理政（本轮补齐的缺口考点）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "五、必背清单 · 习概（20 分）",
+          "chapterIntro": "<p>习概的选择题有个规律：<b>越具体的数字/表述越爱考</b>（“十个明确”“十四个坚持”“第一资源”“最后一道防线”）。下面按主题分组，共 40 条，建议先背 A、E 两组（几乎年年出）。</p>",
+          "section": "习概",
+          "group": "F. 补录 · 治国理政（本轮补齐的缺口考点）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 14 题",
+              "year": 2023,
+              "number": 14,
+              "score": "（2 分）",
+              "stem": "坚持中国特色社会主义政治发展道路，最根本的是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "坚持改革、发展、稳定的辩证统一",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "坚持生产发展、生活富裕、生态良好的有机统一",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "坚持党的使命、国家的前途、人民的福祉的辩证统一",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "坚持党的领导、人民当家作主、依法治国的有机统一",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ]
+        }
+      },
+      {
+        "title": "哲学的基本问题",
+        "content": "思维和存在的关系问题（全部哲学的基本问题）",
+        "itemType": "MUST_READ",
+        "sortOrder": 500000,
+        "source": "2021 年 · 第 1 题 · 正确项「思维和存在的关系问题」",
+        "tags": [
+          "政治",
+          "哲学",
+          "A. 唯物论（每年 3-4 题，最高频）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "A. 唯物论（每年 3-4 题，最高频）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 1 题",
+              "year": 2021,
+              "number": 1,
+              "score": "（2 分）",
+              "stem": "哲学的基本问题是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "实践和认识的关系问题",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "思维和存在的关系问题",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "自然和社会的关系问题",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "运动和静止的关系问题",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 31 题",
+              "year": 2023,
+              "number": 31,
+              "score": "（2 分）",
+              "stem": "思维和存在的关系问题是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "全部哲学的基本问题",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "历史观的基本问题",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "思想路线的核心问题",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "辩证法的核心问题",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现2次"
+          }
+        }
+      },
+      {
+        "title": "划分唯物主义和唯心主义的标准",
+        "content": "对思维和存在何者为第一性的不同回答",
+        "itemType": "MUST_READ",
+        "sortOrder": 500010,
+        "source": "2024 年 · 第 1 题 · 正确项「唯物主义和唯心主义」",
+        "tags": [
+          "政治",
+          "哲学",
+          "A. 唯物论（每年 3-4 题，最高频）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "A. 唯物论（每年 3-4 题，最高频）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 1 题",
+              "year": 2024,
+              "number": 1,
+              "score": "（2 分）",
+              "stem": "对存在和思维何者为第一性问题的不同回答形成的哲学派别是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "唯物主义和唯心主义",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "辩证法和形而上学",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "可知论和不可知论",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "经验论和唯理论",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "B",
+            "label": "基础必懂",
+            "tip": "近5年出现1次"
+          }
+        }
+      },
+      {
+        "title": "物质的唯一特性 / 物质范畴的共同特征",
+        "content": "客观实在性",
+        "itemType": "MUST_READ",
+        "sortOrder": 500020,
+        "source": "2022 年 · 第 1 题 · 正确项「客观实在性」；2021 年 · 第 3 题 · 正确项「一切物质的共性」",
+        "tags": [
+          "政治",
+          "哲学",
+          "A. 唯物论（每年 3-4 题，最高频）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "A. 唯物论（每年 3-4 题，最高频）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 1 题",
+              "year": 2022,
+              "number": 1,
+              "score": "（2 分）",
+              "stem": "马克思主义的物质范畴从自然与社会存在中抽象出的共同特征是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "客观实在性",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "可知性",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "时空限定性",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "运动性",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 3 题",
+              "year": 2021,
+              "number": 3,
+              "score": "（2 分）",
+              "stem": "列宁的物质定义表明，客观实在性是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "自然物质的个性",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "具体物质的个性",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "自然物质的共性",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "一切物质的共性",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现3次"
+          }
+        }
+      },
+      {
+        "title": "世界的物质统一性是",
+        "content": "多样性的统一",
+        "itemType": "MUST_READ",
+        "sortOrder": 500030,
+        "source": "2022 年 · 第 2 题 · 正确项「多样性的统一」",
+        "tags": [
+          "政治",
+          "哲学",
+          "A. 唯物论（每年 3-4 题，最高频）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "A. 唯物论（每年 3-4 题，最高频）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 2 题",
+              "year": 2022,
+              "number": 2,
+              "score": "（2 分）",
+              "stem": "世界的物质统一性是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "阶段性的统一",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "条件性的统一",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "多样性的统一",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "历史性的统一",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "B",
+            "label": "基础必懂",
+            "tip": "近5年出现1次"
+          }
+        }
+      },
+      {
+        "title": "意识的能动作用（“笑一笑十年少”体现的）",
+        "content": "意识具有调控人的行为和生理活动的作用（意识对物质有反作用）",
+        "itemType": "MUST_READ",
+        "sortOrder": 500040,
+        "source": "2023 年 · 第 33 题 · 正确项「调控人的行为和生理活动的作用」",
+        "tags": [
+          "政治",
+          "哲学",
+          "A. 唯物论（每年 3-4 题，最高频）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "A. 唯物论（每年 3-4 题，最高频）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 33 题",
+              "year": 2023,
+              "number": 33,
+              "score": "（2 分）",
+              "stem": "“笑一笑十年少，愁一愁白了头”表明意识具有（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "目的性",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "指导实践改造客观世界的作用",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "创造性",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "调控人的行为和生理活动的作用",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 2 题",
+              "year": 2021,
+              "number": 2,
+              "score": "（2 分）",
+              "stem": "意识具有调控人的行为和生理活动的作用。这表明（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "意识对物质具有反作用",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "意识是客观事物本身",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "意识是人脑的分泌物",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "意识对物质具有决定作用",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现3次"
+          }
+        }
+      },
+      {
+        "title": "主观世界具有",
+        "content": "相对独立性",
+        "itemType": "MUST_READ",
+        "sortOrder": 500050,
+        "source": "2024 年 · 第 3 题 · 正确项「相对独立性」",
+        "tags": [
+          "政治",
+          "哲学",
+          "A. 唯物论（每年 3-4 题，最高频）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "A. 唯物论（每年 3-4 题，最高频）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 3 题",
+              "year": 2024,
+              "number": 3,
+              "score": "（2 分）",
+              "stem": "主观世界是从客观世界分化出来的，它具有（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "绝对独立性",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "被动反映性",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "消极从属性",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "相对独立性",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现2次"
+          }
+        }
+      },
+      {
+        "title": "时间和空间是物质运动的存在形式 —— 这是",
+        "content": "辩证唯物主义的观点",
+        "itemType": "MUST_READ",
+        "sortOrder": 500060,
+        "source": "2021 年 · 第 5 题 · 正确项「辩证唯物主义的观点」",
+        "tags": [
+          "政治",
+          "哲学",
+          "A. 唯物论（每年 3-4 题，最高频）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "A. 唯物论（每年 3-4 题，最高频）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 5 题",
+              "year": 2021,
+              "number": 5,
+              "score": "（2 分）",
+              "stem": "时间和空间是物质运动的存在形式，这种观点是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "朴素唯物主义的观点",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "辩证唯物主义的观点",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "庸俗唯物主义的观点",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "形而上学唯物主义的观点",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现2次"
+          }
+        }
+      },
+      {
+        "title": "唯物辩证法的三大规律",
+        "content": "对立统一规律、量变质变规律、否定之否定规律",
+        "itemType": "MUST_READ",
+        "sortOrder": 501000,
+        "source": "2025 年 · 第 4 题 · 正确项「量变质变规律」",
+        "tags": [
+          "政治",
+          "哲学",
+          "B. 辩证法（每年 2-3 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "B. 辩证法（每年 2-3 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 4 题",
+              "year": 2025,
+              "number": 4,
+              "score": "（2 分）",
+              "stem": "唯物辩证法揭示的事物变化发展的一般规律，除了对立统一规律和否定之否定规律外，还包括（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "矛盾分析规律",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "事物的普遍联系规律",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "量变质变规律",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "现象表现本质的规律",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2022 年 · 第 36 题",
+              "year": 2022,
+              "number": 36,
+              "score": "（10 分）",
+              "stem": "简述矛盾的同一性和斗争性。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)矛盾的同一性和斗争性相互区别，相互联结。(2)同一性：矛盾双方相互联系、相互吸引的性质。斗争性：矛盾双方相互排斥、相互对立的性质。矛盾的同一性和斗争性是两种相反的属性。同一性是相对的;斗争性是绝…"
+            }
+          ],
+          "priority": {
+            "level": "B",
+            "label": "基础必懂",
+            "tip": "近5年出现1次"
+          }
+        }
+      },
+      {
+        "title": "“只要功夫深，铁杵磨成针”体现的道理",
+        "content": "量变的积累会引起质变",
+        "itemType": "MUST_READ",
+        "sortOrder": 501010,
+        "source": "2024 年 · 第 4 题 · 正确项「量变的积累会引起质变」",
+        "tags": [
+          "政治",
+          "哲学",
+          "B. 辩证法（每年 2-3 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "B. 辩证法（每年 2-3 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 4 题",
+              "year": 2024,
+              "number": 4,
+              "score": "（2 分）",
+              "stem": "“只要功夫深，铁杵磨成针”体现的唯物辩证法道理是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "矛盾双方可以相互转化",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "矛盾存在于一切事物中",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "量变的积累会引起质变",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "万事万物都是有联系的",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            },
+            {
+              "qtype": "论述题",
+              "typeClass": "p-amb",
+              "label": "2021 年 · 第 40 题",
+              "year": 2021,
+              "number": 40,
+              "score": "（20 分）",
+              "stem": "习近平在纪念五四运动100周年大会上的讲话中指出，民族复兴的使命要靠奋斗来实现，人生理想的风帆要靠奋斗来扬起。试用量变和质变辩证关系的原理，说明在个人成长中必须把远大理想和脚踏实地结合起来。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)量变是质变的必要准备，没有量变的积累，质变就不会发生。(5分)(2)质变是量变的必然结果，量变达到一定程度必然引起质变。(5分)(3)量变和质变相互渗透，在总的量变过程中有部分质变；在质变过程中…"
+            }
+          ],
+          "priority": {
+            "level": "B",
+            "label": "基础必懂",
+            "tip": "近5年出现1次"
+          }
+        }
+      },
+      {
+        "title": "否定之否定规律揭示了",
+        "content": "事物发展是前进性与曲折性的统一（辩证否定的实质是“扬弃”）",
+        "itemType": "MUST_READ",
+        "sortOrder": 501020,
+        "source": "2023 年 · 第 2 题 · 正确项「前进性与曲折性的统一」",
+        "tags": [
+          "政治",
+          "哲学",
+          "B. 辩证法（每年 2-3 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "B. 辩证法（每年 2-3 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 2 题",
+              "year": 2023,
+              "number": 2,
+              "score": "（2 分）",
+              "stem": "否定之否定规律揭示了事物的发展是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "绝对性与相对性的统一",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "有限性与无限性的统一",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "前进性与曲折性的统一",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "稳定性与变动性的统一",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 4 题",
+              "year": 2022,
+              "number": 4,
+              "score": "（2 分）",
+              "stem": "辩证否定的实质（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "全盘否定",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "自我否定",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "回复",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "扬弃",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现2次"
+          }
+        }
+      },
+      {
+        "title": "对立统一规律提供的方法论",
+        "content": "矛盾分析方法",
+        "itemType": "MUST_READ",
+        "sortOrder": 501030,
+        "source": "2023 年 · 第 35 题 · 正确项「矛盾分析方法」",
+        "tags": [
+          "政治",
+          "哲学",
+          "B. 辩证法（每年 2-3 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "B. 辩证法（每年 2-3 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 35 题",
+              "year": 2023,
+              "number": 35,
+              "score": "（2 分）",
+              "stem": "对立统一规律提供的认识世界和改造世界的根本方法是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "阶级分析方法",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "历史分析方法",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "矛盾分析方法",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "逻辑分析方法",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现2次"
+          }
+        }
+      },
+      {
+        "title": "体现因果联系的是",
+        "content": "摩擦生热",
+        "itemType": "MUST_READ",
+        "sortOrder": 501040,
+        "source": "2023 年 · 第 1 题 · 正确项「摩擦生热」",
+        "tags": [
+          "政治",
+          "哲学",
+          "B. 辩证法（每年 2-3 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "B. 辩证法（每年 2-3 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 1 题",
+              "year": 2023,
+              "number": 1,
+              "score": "（2 分）",
+              "stem": "下列选项中体现事物因果联系的是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "有无相生",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "过犹不及",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "冬去春来",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "摩擦生热",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "C",
+            "label": "可放弃",
+            "tip": "近5年出现1次"
+          }
+        }
+      },
+      {
+        "title": "“系统观念”要求",
+        "content": "把事物放在普遍联系的系统中谋划全局、协同推进",
+        "itemType": "MUST_READ",
+        "sortOrder": 501050,
+        "source": "2024 年 · 第 5 题 · 正确项「谋划全局，协同推进」",
+        "tags": [
+          "政治",
+          "哲学",
+          "B. 辩证法（每年 2-3 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "B. 辩证法（每年 2-3 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 5 题",
+              "year": 2024,
+              "number": 5,
+              "score": "（2 分）",
+              "stem": "习近平指出：“系统观念是具有基础性的思想和工作方法。”坚持系统观念，就是要把事物放在普遍联系的系统中来把握。下列各项中最符合这一要求的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "谋划全局，协同推进",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "以史为鉴，知古鉴今",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "坚守底线，有备无患",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "跳出藩篱，开拓创新",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "C",
+            "label": "可放弃",
+            "tip": "近5年出现1次"
+          }
+        }
+      },
+      {
+        "title": "实践的基本特征（三性）",
+        "content": "客观实在性、自觉能动性、社会历史性",
+        "itemType": "MUST_READ",
+        "sortOrder": 502000,
+        "source": "2024 年 · 第 6 题 · 正确项「社会历史性」",
+        "tags": [
+          "政治",
+          "哲学",
+          "C. 认识论（每年 1-2 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "C. 认识论（每年 1-2 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 6 题",
+              "year": 2024,
+              "number": 6,
+              "score": "（2 分）",
+              "stem": "实践具有三个基本特征，除了客观实在性、自觉能动性外，还包括（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "自发性",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "社会历史性",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "机械性",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "主观随意性",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 5 题",
+              "year": 2022,
+              "number": 5,
+              "score": "（2 分）",
+              "stem": "实践是人类能动地改造世界的社会性的物质活动，其基本特征是客观实在性，自觉能动性及（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "社会历史性",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "主观创造性",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "主体多元性",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "目标单一性",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现2次"
+          }
+        }
+      },
+      {
+        "title": "感性认识与理性认识的关系",
+        "content": "理性认识依赖于感性认识（理性认识的特点是抽象性和间接性）",
+        "itemType": "MUST_READ",
+        "sortOrder": 502010,
+        "source": "2021 年 · 第 6 题 · 正确项「理性认识依赖于感性认识」",
+        "tags": [
+          "政治",
+          "哲学",
+          "C. 认识论（每年 1-2 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "C. 认识论（每年 1-2 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 6 题",
+              "year": 2021,
+              "number": 6,
+              "score": "（2 分）",
+              "stem": "下列选项中正确说明感性认识和理性认识关系的是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "理性认识依赖于感性认识",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "理性认识自动上升为感性认识",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "感性认识不包含理性认识",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "感性认识无需上升为理性认识",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 7 题",
+              "year": 2024,
+              "number": 7,
+              "score": "（2 分）",
+              "stem": "理性认识是认识的高级阶段，其特点是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "具体性和直接性",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "抽象性和间接性",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "生动性和直观性",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "个别性和片面性",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "论述题",
+              "typeClass": "p-amb",
+              "label": "2023 年 · 第 40 题",
+              "year": 2023,
+              "number": 40,
+              "score": "（20 分）",
+              "stem": "试述感性认识和理性认识的辩证关系，并说明割裂二者的统一在实际工作中会导致的错误。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：感性认识和理性认识之间是对立统一的辩证关系。(3分)(1)感性认识有待于发展和深化为理性认识。(4分)(2)理性认识依赖于感性认识。(4分)(3)感性认识和理性认识相互渗透、相互包含。(4分)割裂感性…"
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现2次"
+          }
+        }
+      },
+      {
+        "title": "检验一种认识是不是真理的标准",
+        "content": "看它是否符合客观实际",
+        "itemType": "MUST_READ",
+        "sortOrder": 502020,
+        "source": "2021 年 · 第 7 题 · 正确项「是否符合客观实际」",
+        "tags": [
+          "政治",
+          "哲学",
+          "C. 认识论（每年 1-2 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "C. 认识论（每年 1-2 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 7 题",
+              "year": 2021,
+              "number": 7,
+              "score": "（2 分）",
+              "stem": "检验一种认识是不是真理，就是看它（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "是否符合权威的意见",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "是否符合客观实际",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "能否被大多数人认同",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "能否满足人的需要",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "C",
+            "label": "可放弃",
+            "tip": "近5年出现1次"
+          }
+        }
+      },
+      {
+        "title": "辩证唯物主义认识论认为认识的本质",
+        "content": "主体对客体的能动反映",
+        "itemType": "MUST_READ",
+        "sortOrder": 502030,
+        "source": "2021 年 · 第 8 题 · 正确项「主体对客体的能动反映」",
+        "tags": [
+          "政治",
+          "哲学",
+          "C. 认识论（每年 1-2 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "C. 认识论（每年 1-2 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 8 题",
+              "year": 2021,
+              "number": 8,
+              "score": "（2 分）",
+              "stem": "辩证唯物主义认识论认为，认识的本质是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "主体对客体的直观反映",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "主体对客体的被动反映",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "主体对客体的能动反映",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "主体对客体的消极反映",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "B",
+            "label": "基础必懂",
+            "tip": "近5年出现1次"
+          }
+        }
+      },
+      {
+        "title": "一切真知都来源于",
+        "content": "直接经验（直接经验与间接经验的关系）",
+        "itemType": "MUST_READ",
+        "sortOrder": 502040,
+        "source": "2025 年 · 第 7 题 · 正确项「一切真知都是从直接经验发源的」",
+        "tags": [
+          "政治",
+          "哲学",
+          "C. 认识论（每年 1-2 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "C. 认识论（每年 1-2 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 7 题",
+              "year": 2025,
+              "number": 7,
+              "score": "（2 分）",
+              "stem": "习近平指出：\"了解情况的渠道千条万条，但是调查研究要放在第一条，这是不可替代、不会失真的一条。通过二手材料了解情况是必要的，但不能代替亲身调研。这一论述体现的哲学道理是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "直接经验是获得知识的唯一渠道",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "直接经验完全排斥间接经验",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "一切真知都是从直接经验发源的",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "一切事情都必须去直接经验",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "C",
+            "label": "可放弃",
+            "tip": "近5年出现1次"
+          }
+        }
+      },
+      {
+        "title": "社会存在包括的因素 / 决定社会历史发展的",
+        "content": "自然环境、人口因素、物质生产方式 / 物质生产方式",
+        "itemType": "MUST_READ",
+        "sortOrder": 503000,
+        "source": "2025 年 · 第 8 题 · 正确项「物质生产方式」",
+        "tags": [
+          "政治",
+          "哲学",
+          "D. 唯物史观（每年 2-3 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "D. 唯物史观（每年 2-3 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 7 题",
+              "year": 2022,
+              "number": 7,
+              "score": "（2 分）",
+              "stem": "社会存在主要包括自然环境，人口因素以及（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "物质生产方式",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "社会风俗",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "政治文化建设",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "历史传统",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 8 题",
+              "year": 2025,
+              "number": 8,
+              "score": "（2 分）",
+              "stem": "唯物史观坚持社会存在决定社会意识。社会存在包括诸多因素。其中决定整个社会历史发展的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "自然地理环境",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "人口因素",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "物质生产方式",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "意识形态",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2023 年 · 第 36 题",
+              "year": 2023,
+              "number": 36,
+              "score": "（10 分）",
+              "stem": "简述社会存在和社会意识的辩证关系。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)社会存在决定社会意识，社会意识对社会存在具有反作用。(3分)(2)先进的社会意识对社会发展起积极的推动作用，落后的社会意识对社会发展起阻碍作用。(3分)(3)社会意识具有相对独立性。(4分)"
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现2次"
+          }
+        }
+      },
+      {
+        "title": "生产关系中最基本的关系",
+        "content": "生产资料所有制关系",
+        "itemType": "MUST_READ",
+        "sortOrder": 503010,
+        "source": "2022 年 · 第 10 题 · 正确项「生产资料所有制关系」",
+        "tags": [
+          "政治",
+          "哲学",
+          "D. 唯物史观（每年 2-3 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "D. 唯物史观（每年 2-3 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 10 题",
+              "year": 2022,
+              "number": 10,
+              "score": "（2 分）",
+              "stem": "在生产关系中，最基本的是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "生产资料所有制关系",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "政治关系",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "缺",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "家庭关系",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "B",
+            "label": "基础必懂",
+            "tip": "近5年出现1次"
+          }
+        }
+      },
+      {
+        "title": "社会基本矛盾是",
+        "content": "生产力与生产关系、经济基础与上层建筑的矛盾",
+        "itemType": "MUST_READ",
+        "sortOrder": 503020,
+        "source": "2022 年 · 第 9 题 · 正确项「社会基本矛盾」",
+        "tags": [
+          "政治",
+          "哲学",
+          "D. 唯物史观（每年 2-3 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "D. 唯物史观（每年 2-3 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 9 题",
+              "year": 2022,
+              "number": 9,
+              "score": "（2 分）",
+              "stem": "社会领域存在着很多矛盾，其中生产力和生产关系，经济基础和上层建筑的矛盾是（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "社会主要矛盾",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "社会基本矛盾",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "次要矛盾",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "非基本矛盾",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2021 年 · 第 36 题",
+              "year": 2021,
+              "number": 36,
+              "score": "（10 分）",
+              "stem": "简述生产力和生产关系的辩证关系。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)生产力决定生产关系。生产力的状况决定生产关系的性质，生产力的发展决定生产关系的变化。(5分)(2)生产关系对生产力具有能动的反作用。当生产关系适合生产力发展的客观要求时，对生产力的发展起推动作用…"
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2025 年 · 第 37 题",
+              "year": 2025,
+              "number": 37,
+              "score": "（10 分）",
+              "stem": "简述经济基础的基本内涵。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：（1）经济基础是由社会一定发展阶段的生产力所决定的生产关系的总和。（2）一个社会内部会同时存在多种生产关系，其中占支配地位、决定社会性质的生产关系是该社会的核心经济基础。（3）经济基础与经济体制紧密关…"
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现2次"
+          }
+        }
+      },
+      {
+        "title": "上层建筑的核心 / 观念上层建筑指的是",
+        "content": "国家政权 / 意识形态",
+        "itemType": "MUST_READ",
+        "sortOrder": 503030,
+        "source": "2023 年 · 第 3 题 · 正确项「意识形态」",
+        "tags": [
+          "政治",
+          "哲学",
+          "D. 唯物史观（每年 2-3 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "D. 唯物史观（每年 2-3 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 8 题",
+              "year": 2022,
+              "number": 8,
+              "score": "（2 分）",
+              "stem": "政治上层建筑的核心（ ）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "政党",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "国家政权",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "立法司法制度",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "行政制度",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 3 题",
+              "year": 2023,
+              "number": 3,
+              "score": "（2 分）",
+              "stem": "观念上层建筑指的是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "意识形态",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "政治制度",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "法律制度",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "政治组织",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现4次"
+          }
+        }
+      },
+      {
+        "title": "人类社会发展的根本动力 / 社会革命的根源",
+        "content": "社会基本矛盾（生产关系一定要适合生产力状况的规律）",
+        "itemType": "MUST_READ",
+        "sortOrder": 503040,
+        "source": "2021 年 · 第 16 题 · 正确项「社会基本矛盾」",
+        "tags": [
+          "政治",
+          "哲学",
+          "D. 唯物史观（每年 2-3 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "D. 唯物史观（每年 2-3 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 16 题",
+              "year": 2021,
+              "number": 16,
+              "score": "（2 分）",
+              "stem": "人类社会发展的根本动力是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "阶级斗争",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "科学技术革命",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "社会改革",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "社会基本矛盾",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 4 题",
+              "year": 2023,
+              "number": 4,
+              "score": "（2 分）",
+              "stem": "马克思主义认为，社会革命根源于（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "人口数量和结构的变化",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "思想观念斗争的尖锐化",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "自然资源和环境的变化",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "社会基本矛盾的尖锐化",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2021 年 · 第 36 题",
+              "year": 2021,
+              "number": 36,
+              "score": "（10 分）",
+              "stem": "简述生产力和生产关系的辩证关系。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)生产力决定生产关系。生产力的状况决定生产关系的性质，生产力的发展决定生产关系的变化。(5分)(2)生产关系对生产力具有能动的反作用。当生产关系适合生产力发展的客观要求时，对生产力的发展起推动作用…"
+            },
+            {
+              "qtype": "论述题",
+              "typeClass": "p-amb",
+              "label": "2024 年 · 第 40 题",
+              "year": 2024,
+              "number": 40,
+              "score": "（20 分）",
+              "stem": "文化兴则国家兴，文化强则民族强。试从社会历史发展动力的角度论述文化在社会发展中的作用。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：（1）文化是驱动社会历史前进的关键动力之一。文化凝结了人类在长期实践中形成的智慧结晶、价值取向与人文情怀，是国家与民族赖以生存和发展的精神根基。文化的繁荣兴盛直接关系到国家的兴旺发达和民族的强大复兴。…"
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2025 年 · 第 37 题",
+              "year": 2025,
+              "number": 37,
+              "score": "（10 分）",
+              "stem": "简述经济基础的基本内涵。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：（1）经济基础是由社会一定发展阶段的生产力所决定的生产关系的总和。（2）一个社会内部会同时存在多种生产关系，其中占支配地位、决定社会性质的生产关系是该社会的核心经济基础。（3）经济基础与经济体制紧密关…"
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现2次"
+          }
+        }
+      },
+      {
+        "title": "人民群众是历史的创造者 —— 这体现",
+        "content": "群众史观（党的群众观点和群众路线的理论依据）",
+        "itemType": "MUST_READ",
+        "sortOrder": 503050,
+        "source": "2023 年 · 第 5 题 · 正确项「群众史观」；2021 年 · 第 9 题 · 正确项「人民群众是历史的创造者」",
+        "tags": [
+          "政治",
+          "哲学",
+          "D. 唯物史观（每年 2-3 题）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "六、必背清单 · 哲学（20 分，只抓这些就够）",
+          "chapterIntro": "<div><b>重要：哲学不要系统学！</b>近 5 年（2021-2025）哲学题共 49 道，下面 24 条覆盖其中约 41 道，另有 8 道属边角考点（如\"价值\"\"马哲思想渊源\"）。每条已按<b>近 5 年真题频次</b>标了优先级：<span>高频必背</span> 14 条（≥2 次）· <span>基础必懂</span> 6 条（1 次但属总纲）· <span>可放弃</span> 4 条（1 次边角）。<b>时间不够就先背 14 条高频。</b></div>",
+          "section": "哲学",
+          "group": "D. 唯物史观（每年 2-3 题）",
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 5 题",
+              "year": 2023,
+              "number": 5,
+              "score": "（2 分）",
+              "stem": "习近平指出，人民既是历史的创造者、也是历史的见证者，既是历史的“剧中人”、也是历史的“剧作者”。这一论断的理论依据是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "历史宿命论",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "历史决定论",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "英雄史观",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "群众史观",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 9 题",
+              "year": 2021,
+              "number": 9,
+              "score": "（2 分）",
+              "stem": "党的群众观点和群众路线的理论依据是（ ）",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "人口因素是社会发展的必要条件",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "人口因素是社会存在的必要条件",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "人民群众是历史的创造者",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "人民群众是一个历史范畴",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null
+            },
+            {
+              "qtype": "论述题",
+              "typeClass": "p-amb",
+              "label": "2022 年 · 第 40 题",
+              "year": 2022,
+              "number": 40,
+              "score": "（20 分）",
+              "stem": "习近平指出不能用今天的时代条件，发展水平、认识水平去衡量和要求前人，不能苛求前人干出只有后人才能干出来的成绩。试着评价历史人物的正确方法。",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：(1)坚持历史主义的原则和方法，即杰出人物是一定历史条件的产物，将其放到他所在的历史条件下加以评价。不能用今天的时代条件、发展水平、认识水平去衡量和要求前人，不能苛求前人干出只有后人才能干出的业绩来。…"
+            },
+            {
+              "qtype": "简答题",
+              "typeClass": "p-amb",
+              "label": "2025 年 · 第 36 题",
+              "year": 2025,
+              "number": 36,
+              "score": "（10 分）",
+              "stem": "如何理解历史人物的出现是必然性与偶然性的统一？",
+              "options": [],
+              "correct": null,
+              "answerText": "参考答案：（1）历史人物是一定历史事件的主要倡导者、组织领导者或思想理论、科学文化的重要代表人物，他们的出现存在历史必然性。社会发展存在客观规律与客观历史任务，时代发展到特定阶段，客观上需要相应才能的人物完成时…"
+            }
+          ],
+          "priority": {
+            "level": "A",
+            "label": "高频必背",
+            "tip": "近5年出现2次"
+          }
+        }
+      },
+      {
+        "title": "七、时政（10 分）：不要提前背，考前 7 天再说",
+        "content": "<div><b>规律</b>：时政 5 题考的都是\"考试前 1 年内\"的具体事件——2025 年卷考的是 2024 年 7 月—2025 年 2 月的事（上合组织新成员、钱凯港、粮食产量 1.4 万亿斤、四川舰、《哪吒之魔童闹海》）。<b>所以现在背没用，10 月 10 日之后再背。</b></div>\n<table><tr><th>考法</th><th>年均</th><th>典型题（2025）</th><th>应对</th></tr><tr><td>国内·数据成就</td><td>2 题</td><td>粮食产量首次突破 1.4 万亿斤</td><td>背数字型时政清单</td></tr><tr><td>国际·组织/外交</td><td>1-2 题</td><td>上合组织接收白俄罗斯</td><td>记\"中国参与的国际事件\"</td></tr><tr><td>国内·会议/主张</td><td>1 题</td><td>——</td><td>记重要会议与精神</td></tr><tr><td>科技/文化·首次</td><td>1 题</td><td>首部百亿票房影片</td><td>记\"中国第一/首次\"</td></tr></table>\n<div><b>考场技巧</b>：时政题不认识的选项，用两条原则排除——① 与\"中国成就、中国贡献\"基调一致的优先；② 时间、数字明显不符的排除。5 题靠这两条通常能捞到 2-3 题。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 600000,
+        "source": null,
+        "tags": [
+          "政治",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "七、时政（10 分）：不要提前背，考前 7 天再说",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "八、5 周时间表（9/12 → 10/17）",
+        "content": "<p>按每天政治投入 60-90 分钟设计（如果三科并行）；若当天只学政治，时间翻倍即可。</p>\n<div>\n<div><div>第 1 周 · 9/12-9/18 · 毛中特必背清单（上）</div>\n<div>背 A/B 两组（毛泽东思想 14 条）→ 找 2021-2025 真题第 11-20 题做一遍，错题回标到清单</div></div>\n<div><div>第 2 周 · 9/19-9/25 · 毛中特必背清单（下）+ 习概（上）</div>\n<div>背 C/D/E 三组 + 习概 A/B 组 → 做真题第 21-25 题</div></div>\n<div><div>第 3 周 · 9/26-10/2 · 习概收尾 + 哲学高频 24 条</div>\n<div>背习概 C/D/E 组 → 哲学只背唯物论 + 辩证法两组（考试占比最高）</div></div>\n<div><div>第 4 周 · 10/3-10/9 · 哲学收尾 + 二轮背诵 + 主观题模板</div>\n<div>哲学认识论/唯物史观 → 把 4 份必背清单从头过第二遍 → 学简答/论述三段式模板</div></div>\n<div><div>第 5 周 · 10/10-10/17 · 时政突击 + 整套模考</div>\n<div>背考前时政手册（10/10 后才有完整版）→ 做 2-3 套近年真题完整卷，掐表 150 分钟</div></div>\n</div>\n<div><b>背诵节奏建议</b>：不要\"读一遍就过\"。每条清单按 <b>第 1 天背 → 第 2 天回顾 → 第 4 天再回顾 → 第 8 天再回顾</b> 的间隔重复法，每次只看\"问题\"回忆\"答案\"，回忆不出再翻。5 周足够过 4-5 轮。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 700000,
+        "source": null,
+        "tags": [
+          "政治",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "八、5 周时间表（9/12 → 10/17）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "九、主观题（80 分）：不求会，只求\"有分\"",
+        "content": "<div><b>目标是 25-35 分，不是 60 分。</b>选择题 50 分 + 主观题 30 分 = 80 分，已经足够安全（成考专升本政治省控线通常 100-150 分三科合计）。</div>\n<table><tr><th>题型</th><th>分值</th><th>得分口诀</th></tr><tr><td>简答题 ×4</td><td>40</td><td><b>分点写、写满 4-5 点</b>：先抄题干关键词 → 再写\"是什么/为什么/怎么做\"三层 → 每点 1-2 句</td></tr><tr><td>论述题 ×2</td><td>40</td><td><b>三段式</b>：① 亮观点（材料里的原话）② 展开 3-4 点（用必背清单里的大词）③ 收尾扣题 + 结合时政</td></tr></table>\n<div><b>绝对不要空题！</b>主观题按点给分，只要写了相关内容就有分。<b>把材料里的话换个说法抄进去 + 套上必背清单里的术语</b>，每道题拿 5-8 分是常态。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 800000,
+        "source": null,
+        "tags": [
+          "政治",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "九、主观题（80 分）：不求会，只求\"有分\"",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "十、考场答题顺序与时间（150 分钟）",
+        "content": "<table><tr><th>时段</th><th>动作</th><th>目标</th></tr><tr><td>0-40 分钟</td><td>做完全部 35 道选择题，第一遍不纠结难题</td><td>拿下 50 分基本盘</td></tr><tr><td>40-50 分钟</td><td>回头检查选择题，重点看第 1-10 题（哲学）</td><td>哲学题用排除法捞分</td></tr><tr><td>50-90 分钟</td><td>4 道简答，每题 10 分钟，分点写满</td><td>40 分争取 20 分</td></tr><tr><td>90-140 分钟</td><td>2 道论述，每题 25 分钟，三段式展开</td><td>40 分争取 15 分</td></tr><tr><td>140-150 分钟</td><td>通读检查，补空白点</td><td>不留白</td></tr></table>",
+        "itemType": "MATERIAL",
+        "sortOrder": 900000,
+        "source": null,
+        "tags": [
+          "政治",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "十、考场答题顺序与时间（150 分钟）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "十一、一句话行动清单",
+        "content": "<div><ul><li>✅ <b>今天就开始</b>：先把毛中特 A/B 两组（14 条）背掉</li><li>✅ <b>只背三份清单</b>：毛中特 36 条 + 习概 36 条 + 哲学 24 条</li><li>✅ <b>哲学不要系统学</b>，只背 24 条 + 练排除法</li><li>✅ <b>时政 10 月 10 日之后</b>再背，现在背会忘</li><li>✅ <b>主观题不空题</b>，抄材料 + 套术语，每道都要写满</li></ul></div>\n<div>数据来源：本项目真题数据库（政治 2014-2025 共 12 套 / 526 题 / 1780 分），板块配额与必背条目均由真题逐题统计与核对得出。每条清单的\"关联真题\"由库内题目按题干/答案文本相似度自动匹配后再逐条人工校正（选择题一一对应、无重复引用；简答/论述题按同一考点挂接，故一条考点可能对应多道主观题）。题目为考生回忆版整理，个别表述可能与官方原卷有差异，答案以官方为准。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 1000000,
+        "source": null,
+        "tags": [
+          "政治",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "十一、一句话行动清单",
+          "chapterIntro": null
+        }
+      }
+    ]
+  },
+  {
+    "subjectName": "英语",
+    "display": "英语",
+    "sourceFile": "英语-5周冲刺保底方案.html",
+    "items": [
+      {
+        "title": "英语 · 5 周冲刺保底方案",
+        "content": "<div><p>基于 12 年真题（2014-2025 / 732 题）的数据分析 · 目标：稳拿 50 分以上 · 全部英文已标注音标 · 中文 · 可点击发音</p></div>\n<div><b>🔊 本页英文都能点读</b>：凡<span data-say=\"dictionary\">带下划线的单词</span>或<span data-say=\"Read this sentence aloud.\">带浅蓝底的整句</span>，<b>用鼠标点一下就会朗读</b>（使用浏览器内置语音合成，无需联网；建议用 Chrome / Edge 打开）。<br>\n<b>不会读的不要跳过</b>——先点一遍听发音、看音标，再跟着念 3 遍。只需要认，不需要会拼。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": -1,
+        "source": null,
+        "tags": [
+          "英语",
+          "概览"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": true,
+          "chapter": "英语 · 5 周冲刺保底方案",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "一、直接回答：英语是三科里最好保底的一科",
+        "content": "<div><div><div>客观题分值</div>\n<div>125 <small>分 / 150</small></div></div>\n<div><div>阅读题分值</div>\n<div>60 <small>分</small></div></div>\n<div><div>阅读中细节题占比</div>\n<div>75 <small>%</small></div></div>\n<div><div>三招保底</div>\n<div>60 <small>分</small></div></div></div>\n<div><b>结论：不需要背单词书、不需要看懂全文，50 分只要三件事。</b><br>英语卷 61 题 / 150 分，其中 <b>客观题 125 分（83%）</b>，是三科中占比最高的。而最大的两块——<b>阅读理解 60 分</b>里有 <b>75% 是细节事实题</b>（可用定位法做对），<b>补全对话 15 分</b>是套路化的日常交际，<b>写作 25 分</b>背模板就能拿基础分。<br>这三块加起来 100 分，只要拿 60 分就远超目标。</div>\n<div><b>必须放弃的幻想：</b>❌ 背完 3500 词汇表（来不及，且性价比极低）<br>❌ 把完形填空练到高分（它考词义辨析，属于长期积累）<br>✅ 正确做法：<b>把时间全押在\"阅读定位法 + 对话套路 + 写作模板\"上</b>，这三招 5 周足够练熟。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 0,
+        "source": null,
+        "tags": [
+          "英语",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "一、直接回答：英语是三科里最好保底的一科",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "二、英语试卷结构（12 年稳定不变）",
+        "content": "<table><tr><th>题号</th><th>题型</th><th>题数</th><th>每题</th><th>分值</th><th>说明</th></tr><tr><td>1-5</td><td>语音辨析</td><td>5</td><td>1 分</td><td>5</td><td>找划线部分读音不同的</td></tr><tr><td>6-20</td><td>词汇与语法</td><td>15</td><td>1 分</td><td>15</td><td>单选，从句/非谓语/搭配为主</td></tr><tr><td>21-35</td><td>完形填空</td><td>15</td><td>2 分</td><td>30</td><td>一篇短文，考词义辨析</td></tr><tr><td>36-55</td><td><b>阅读理解</b></td><td>20</td><td>3 分</td><td><b>60</b></td><td><b>5 篇文章 × 4 题，最大分值块</b></td></tr><tr><td>56-60</td><td>补全对话</td><td>5</td><td>3 分</td><td>15</td><td>8 个选项选 5 个填入对话</td></tr><tr><td>61</td><td>短文写作</td><td>1</td><td>25 分</td><td>25</td><td>100-120 词，应用文为主</td></tr><tr><td><b>合计</b></td><td><b>61</b></td><td>—</td><td><b>150</b></td><td>考试时间 150 分钟</td></tr></table>\n<div><b>阅读理解占 40%（60/150），是英语的半壁江山。</b>每篇 4 题、每题 3 分，<b>只要每篇做对 2-3 题，就能拿 30-45 分</b>。而 12 年 240 道阅读题里，<b>细节事实题 180 道（75%）</b>、词义题 21 道、主旨题 20 道、推断题 12 道、态度题 7 道。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 100000,
+        "source": null,
+        "tags": [
+          "英语",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "二、英语试卷结构（12 年稳定不变）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "三、保底 50 分怎么拆（先做这 3 块就够）",
+        "content": "<table><tr><th>题型</th><th>满分</th><th>目标</th><th>目标得分</th><th>难度</th></tr>\n<tr><td><b>阅读理解（36-55）</b></td><td>60</td><td>对 12 题</td><td>36 分</td><td>★★ 定位法可破，细节题占 75%</td></tr>\n<tr><td><b>补全对话（56-60）</b></td><td>15</td><td>对 4 题</td><td>12 分</td><td>★ 场景套路化，最容易</td></tr>\n<tr><td><b>短文写作（61）</b></td><td>25</td><td>基础分</td><td>12-15 分</td><td>★ 背模板 + 写满</td></tr>\n<tr><td><b>小计（三招）</b></td><td><b>100</b></td><td>—</td><td><b>60-63 分</b></td><td><b>已超目标 50 分</b></td></tr></table>\n如果还有余力，再加这三块（锦上添花）\n<table><tr><th>题型</th><th>满分</th><th>现实目标</th><th>可得</th><th>说明</th></tr><tr><td>语音辨析（1-5）</td><td>5</td><td>对 3 题</td><td>3 分</td><td>背 8 组易错音就能拿</td></tr><tr><td>词汇与语法（6-20）</td><td>15</td><td>对 6 题</td><td>6 分</td><td>从句 + 非谓语 + 固定搭配</td></tr><tr><td>完形填空（21-35）</td><td>30</td><td>对 5 题</td><td>10 分</td><td>最难，靠上下文线索捞分</td></tr><tr><td><b>英语总分预期</b></td><td><b>150</b></td><td>—</td><td><b>75-80 分</b></td><td>保底 60+，发挥好 80+</td></tr></table>",
+        "itemType": "MATERIAL",
+        "sortOrder": 200000,
+        "source": null,
+        "tags": [
+          "英语",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "三、保底 50 分怎么拆（先做这 3 块就够）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "四、阅读理解 60 分：定位法 4 步（本方案的核心）",
+        "content": "<div><b>为什么定位法管用？</b>因为 12 年 240 道阅读题里 <b>75% 是细节事实题</b>——问\"文中说了什么\"，答案就在原文某一句话里（同义改写）。你不需要读懂全文、不需要看懂每个单词，<b>只需要找到那句话，然后比对选项</b>。</div>\n4 步操作（每篇控制在 6 分钟）\n<table><tr><th>步骤</th><th>动作</th><th>要点</th></tr><tr><td><b>1</b></td><td>先看题干，划关键词</td><td>人名、地名、时间、数字、专有名词、大写词——这些在原文里最好找</td></tr><tr><td><b>2</b></td><td>回到原文扫读定位</td><td>按题号顺序找（出题顺序通常与原文顺序一致），只找关键词出现的那 1-2 句</td></tr><tr><td><b>3</b></td><td>读定位句，做同义替换</td><td>正确答案 = 原文那句话的\"换个说法\"，不是原词照搬</td></tr><tr><td><b>4</b></td><td>比对选项，排除干扰</td><td>含绝对词（<span data-say=\"all\">all</span> / <span data-say=\"only\">only</span> / <span data-say=\"never\">never</span> / <span data-say=\"must\">must</span>）的通常错；原文没提的\"常识正确项\"也错</td></tr></table>\n真题示范（2025 年 Passage One 第 36 题）\n<div id=\"demo36\"><b>题目：</b>What did the author and his friend do in the bar?\n  A. They <b>recalled their time in Thailand</b>.\n  B. They shared experiences in Colorado.\n  C. They talked about the joy of graduation.\n  D. They exchanged views on career success.\n\n<b>题干关键词：</b>author and his friend / do / in the bar\n\n<b>原文定位句：</b>\"He called me and we met up <b>in a bar</b>. ... We <b>retold stories from our time in Thailand</b>, drank a couple beers, and just relaxed...\"\n\n<b>同义替换：</b>retold stories from our time in Thailand  →  recalled their time in Thailand\n<b>答案：A</b>（B/C/D 的 Colorado、graduation、career success 都是原文出现过的\"其他词\"，属于干扰项设计）</div>\n必背：常见的同义替换套路（考场秒选）\n<div><b>这一组就是阅读答案的\"密码本\"</b>——正确答案几乎都是把原文的词<b>换成它的同义词</b>。左列是较难的词，<b>先点读、记住\"意思对得上\"</b>即可，不必会拼。</div>\n<table><tr><th>#</th><th>原文常用词（点读）</th><th>选项替换词（点读）</th><th>中文</th></tr>\n<tr><td>1</td><td><span data-say=\"retell\">retell</span> <span>/ˌriːˈtel/</span></td><td><span data-say=\"recall\">recall</span> <span>/rɪˈkɔːl/</span> · <span data-say=\"remember\">remember</span> <span>/rɪˈmembə(r)/</span></td><td>复述 ≈ 回忆起、记得</td></tr>\n<tr><td>2</td><td><span data-say=\"buy\">buy</span> <span>/baɪ/</span></td><td><span data-say=\"purchase\">purchase</span> <span>/ˈpɜːtʃəs/</span></td><td>买 ≈ 购买</td></tr>\n<tr><td>3</td><td><span data-say=\"need\">need</span> <span>/niːd/</span></td><td><span data-say=\"require\">require</span> <span>/rɪˈkwaɪə(r)/</span></td><td>需要 ≈ 需要、要求</td></tr>\n<tr><td>4</td><td><span data-say=\"help\">help</span> <span>/help/</span></td><td><span data-say=\"assist\">assist</span> <span>/əˈsɪst/</span></td><td>帮助 ≈ 协助</td></tr>\n<tr><td>5</td><td><span data-say=\"important\">important</span> <span>/ɪmˈpɔːtnt/</span></td><td><span data-say=\"significant\">significant</span> <span>/sɪɡˈnɪfɪkənt/</span></td><td>重要的 ≈ 重大的</td></tr>\n<tr><td>6</td><td><span data-say=\"difficult\">difficult</span> <span>/ˈdɪfɪkəlt/</span></td><td><span data-say=\"hard\">hard</span> <span>/hɑːd/</span> · <span data-say=\"tough\">tough</span> <span>/tʌf/</span></td><td>困难的 ≈ 艰难的</td></tr>\n<tr><td>7</td><td><span data-say=\"show\">show</span> <span>/ʃəʊ/</span></td><td><span data-say=\"indicate\">indicate</span> <span>/ˈɪndɪkeɪt/</span> · <span data-say=\"suggest\">suggest</span> <span>/səˈdʒest/</span></td><td>表明 ≈ 表明、暗示</td></tr>\n<tr><td>8</td><td><span data-say=\"cause\">cause</span> <span>/kɔːz/</span></td><td><span data-say=\"lead to\">lead to</span> <span>/liːd tuː/</span> · <span data-say=\"result in\">result in</span> <span>/rɪˈzʌlt ɪn/</span></td><td>引起 ≈ 导致</td></tr>\n<tr><td>9</td><td><span data-say=\"stop\">stop</span> <span>/stɒp/</span></td><td><span data-say=\"prevent\">prevent</span> <span>/prɪˈvent/</span></td><td>阻止 ≈ 阻止、防止</td></tr>\n<tr><td>10</td><td><span data-say=\"use\">use</span> <span>/juːz/</span></td><td><span data-say=\"employ\">employ</span> <span>/ɪmˈplɔɪ/</span></td><td>使用 ≈ 采用</td></tr>\n<tr><td>11</td><td><span data-say=\"get\">get</span> <span>/ɡet/</span></td><td><span data-say=\"obtain\">obtain</span> <span>/əbˈteɪn/</span></td><td>得到 ≈ 获得</td></tr>\n</table>\n<div><span data-say=\"retell recall remember buy purchase need require help assist important significant difficult hard tough show indicate suggest cause lead to result in stop prevent use employ get obtain\">🔊 连读全部替换词</span></div>\n<div><b>主旨题怎么做（占 8.3%）</b>：读<b>首段 + 各段首句 + 末段</b>，把反复出现的关键词串起来，就是主旨。标题题选\"覆盖全文\"的那个，不要选只讲一段的。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 300000,
+        "source": null,
+        "tags": [
+          "英语",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "四、阅读理解 60 分：定位法 4 步（本方案的核心）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "五、补全对话 15 分：零基础\"形状法\"（不认识单词也能做）",
+        "content": "<div><b>先纠正：上一版那套\"12 类功能句型\"对零基础没用，已整节替换。</b><br>\n那套方法的前提是<b>你已经读懂了对话</b>——读懂了才谈得上\"认出这一空在干什么\"。零基础读不懂，所以它帮不上忙。<br>\n下面这套<b>只看\"形状\"、不看意思</b>，是专门为零基础重写的。<b>你不需要背单词，需要练的是\"看形状\"。</b></div>\n5.1 一句话原理：答案就在\"隔壁那句\"的形状里\n<div>补全对话 = <b>5 个空 + 8 个选项</b>，本质是<b>一问一答的链条</b>。每一个空，它隔壁那句话已经把答案的类型告诉你了。<br>\n举个最直接的例子：某空<b>下一句</b>是 <b>\"Eight o'clock in the morning.\"</b>——你一个词都不认识，也能看出这是<b>时间</b>；那这一空就只能是<b>问时间</b>的句子。<br>\n<b>你要认的\"形状\"只有 3 种：数字、大写字母、几个高频小词。</b>这三种不用学英语就能认。</div>\n5.2 核心工具：形状对应表（背下这一张表就够）\n<table><tr><th>空隔壁那句的\"形状\"</th><th>这一空该填什么</th><th>去 8 个选项里找这些开头</th></tr>\n<tr><td><b>数字 / 时间</b>：8 o'clock、9 a.m.、ten minutes、Sunday、tomorrow、3 p.m.、two hours</td><td><b>问时间</b></td><td><b>When</b> / What time / How long</td></tr>\n<tr><td><b>大写名称 / 地名 / 房间号</b>：The Golden Beach、Room 423、the Blue Mountain</td><td><b>问地点或问名字</b></td><td><b>Where</b> / What's the name / Who</td></tr>\n<tr><td><b>一串东西</b>：drinks and sandwiches、coffee, tea or water</td><td>问\"要什么 / 带什么\"</td><td>What (should I take) / Would you like</td></tr>\n<tr><td><b>Yes / No / Sure / Of course / OK / Great</b></td><td><b>前面一定是疑问句或请求</b></td><td>Can you / Could you / Do you / Would you like / How may I help</td></tr>\n<tr><td><b>Thank you</b></td><td><b>前面是\"帮了忙\"或\"给了东西\"</b></td><td>You're welcome / Here you are / No problem</td></tr>\n<tr><td><b>You too</b></td><td>前面是<b>祝福</b></td><td>Have a nice day / The same to you</td></tr>\n<tr><td><b>Sorry + 一句解释</b></td><td>前面是\"请求 / 要找某人\"</td><td>Can I speak to... / Can you tell me...</td></tr>\n<tr><td>出现 <b>Because</b></td><td>前面问原因</td><td>Why</td></tr>\n<tr><td><b>后面没人接话了</b>（这一空是全场最后一句）</td><td><b>告别收尾</b></td><td>See you / Bye / Have a nice day / Good night</td></tr>\n</table>\n5.3 四条\"锁死规则\"（命中率最高，先背这 4 条）\n<table><tr><th>#</th><th>你在对话里看到</th><th>它前面的那一空必然是</th><th>12 年实例</th></tr>\n<tr><td><b>1</b></td><td><b>Sure / Of course / Yes, please / I'd love to</b></td><td><b>邀请或请求</b>（Would you like / Can you / Could you）</td><td>2021 第 57 空、2024 第 58 空、2023 第 59 空、2020 第 57 空</td></tr>\n<tr><td><b>2</b></td><td><b>给出时间或数字</b>（8 o'clock / 9 a.m. / ten minutes / Room 423）</td><td><b>问时间或数量</b>（When / What time / How long / How much）</td><td>2021 第 59 空、2015 第 57 空、2018 第 59 空、2022 第 58 空</td></tr>\n<tr><td><b>3</b></td><td><b>Thank you</b></td><td><b>别人帮了忙 / 给了东西</b>（You're welcome / Here you are / No problem / I'll give him the message）</td><td>2024 第 60 空、2023 第 60 空、2017 第 60 空、2014 第 60 空</td></tr>\n<tr><td><b>4</b></td><td><b>You too</b></td><td><b>一句祝福</b>（Have a nice day 等）</td><td>2015 第 60 空</td></tr>\n</table>\n<div><b>这 4 条的价值</b>：它们<b>不需要你认识任何单词</b>——\"Sure\"\"Thank you\"\"You too\"是整句里最短、最好认的符号。12 年里这 4 条规则<b>年年都有 2-3 个空可以锁死</b>，也就是稳拿 <b>6-9 分</b>。</div>\n5.4 2021 年真题 · 零基础完整复盘（你正在做的那套）\n<div><b>先看对话原文</b>（56-60 是 5 个空，其余都是看得见的句子）：</div>\n<div id=\"dlg2021\">Daniel: How are you doing, Linda?\nLinda : To be honest, I am really tired of my work at the moment.   (56)____\nDaniel: My friends and I are planning a trip on Sunday.            (57)____\nLinda : Sure, I'd love to.                                         (58)____\nDaniel: The Golden Beach. We will have a picnic there. It will be fun!\nLinda : I can't wait!                                              (59)____\nDaniel: Eight o'clock in the morning. We'll pick you up at your place.\nLinda : Great!                                                     (60)____</div>\n<div><span data-read=\"#dlg2021\">🔊 朗读这段对话</span></div>\n<div><b>再看 8 个选项</b>（只需看清它们的\"开头\"）：<br>\n<b>A.</b> I am free on Sunday.　<b>B.</b> See you then!　<b>C.</b> <b>Where</b> are you planning to go?　<b>D.</b> No, thanks.<br>\n<b>E.</b> I need a break!　<b>F.</b> <b>Would you like</b> to join us?　<b>G.</b> That is a lovely place.　<b>H.</b> <b>When</b> shall we leave?<br>\n<b>正确答案</b>：56 = <b>E</b>　57 = <b>F</b>　58 = <b>C</b>　59 = <b>H</b>　60 = <b>B</b>　（多余项：<b>A / D / G</b>）</div>\n逐空推理 · 零基础版\n<div>\n<div><span>56</span><span>填 E \"I need a break!\"</span>\n<div>\n<b>看位置</b>：56 空<b>前面是 Linda</b> 在说 \"really tired of my work\"（很累），<b>后面才轮到 Daniel</b> 开新话题 → 所以 56 是 Linda 的一句<b>感叹</b>，<b>不可能是问句</b>（先把带 \"?\" 的 C、H 划掉）。<br>\n<b>看形状</b>：剩下选项里带 \"!\" 的只有 E、B、H。而 B 是告别、H 是问句，都不像\"接在自己抱怨后面的话\"。<br>\n<b>💡 最省事的办法</b>：这三个词是<b>初中学的</b>——<span data-say=\"tired\">tired</span> <span>/ˈtaɪəd/</span> 累、<span data-say=\"work\">work</span> <span>/wɜːk/</span> 工作、<span data-say=\"break\">break</span> <span>/breɪk/</span> 休息。累了要休息 → <b>E</b>。</div></div>\n<div><span>57</span><span>填 F \"Would you like to join us?\"　⭐ 全场最硬的一题</span>\n<div>\n<b>看形状</b>：57 空的<b>下一句</b>是 Linda 说 <b>\"Sure, I'd love to.\"</b><br>\n<b>零基础怎么看</b>：<span data-say=\"Sure\">Sure</span> <span>/ʃʊə(r)/</span> ＝\"好\"，<span data-say=\"love to\">I'd love to</span> <span>/aɪd lʌv tuː/</span> ＝\"我愿意\"——<b>这是\"答应别人的邀请\"</b>。<br>\n<b>所以 57 空一定是个邀请。</b>8 个选项里唯一像邀请的，是 <b>F</b>（唯一以 <b>Would you like</b> 开头）。<br>\n🎯 <b>这就是锁死规则 1</b>：看到 Sure / Of course → 前面必是邀请或请求。</div></div>\n<div><span>58</span><span>填 C \"Where are you planning to go?\"　⭐ 纯形状</span>\n<div>\n<b>看形状</b>：58 空的<b>下一句</b>是 Daniel 说 <b>\"The Golden Beach.\"</b><br>\n<b>零基础怎么看</b>：<b>The Golden Beach 首字母大写 = 一个\"名字 / 地名\"</b>。一个名字怎么会单独成句？因为它是在<b>回答\"哪里\"</b>。<br>\n<b>所以 58 空必须是问地点的句子</b> → 选项里以 <b>Where</b> 开头的只有 <b>C</b>。<br>\n🎯 <b>规则 2 的地名版</b>：下一句是地名 → 这一空问 Where。</div></div>\n<div><span>59</span><span>填 H \"When shall we leave?\"　⭐ 纯形状</span>\n<div>\n<b>看形状</b>：59 空的<b>下一句</b>是 Daniel 说 <b>\"Eight o'clock in the morning.\"</b><br>\n<b>零基础怎么看</b>：<b>Eight o'clock ＝ 数字 ＋ o'clock ＝ 时间</b>。这个<b>绝对不可能看错</b>。<br>\n<b>所以 59 空必须是问时间的句子</b> → 选项里以 <b>When</b> 开头的只有 <b>H</b>。<br>\n🎯 <b>锁死规则 2</b>：下一句是时间/数字 → 这一空问 When / What time / How long。</div></div>\n<div><span>60</span><span>填 B \"See you then!\"　⭐ 纯形状</span>\n<div>\n<b>看形状</b>：60 空是<b>整段对话的最后一个空</b>——Linda 说完 \"Great!\" 以后，<b>再没有人接话了</b>。<br>\n<b>零基础怎么看</b>：<b>对话的最后一句 ＝ 告别</b>。选项里有 <b>\"See you\"</b> 的只有 <b>B</b>。<br>\n🎯 <b>见 5.2 形状对应表最后一行</b>：最后一空 = 告别（See you / Bye / Have a nice day）。</div></div>\n</div>\n<div><b>那 3 个\"多余项\"为什么是多余的？（这就是排除法的标准动作）</b><br>\n<b>A. \"I am free on Sunday.\"</b>——<b>和对话冲突</b>：Daniel 已经说了 \"planning a trip on Sunday\"，而 Linda 答应时说的是 \"Sure, I'd love to\"，<b>不需要再补一句\"我周日有空\"</b>。<br>\n<b>D. \"No, thanks.\"</b>——这是<b>拒绝</b>。可整段对话里 Linda 是<b>答应</b>的（Sure, I'd love to），<b>没有\"拒绝\"的位置</b>。<br>\n<b>G. \"That is a lovely place.\"</b>——这是<b>夸地点</b>。可地点是 Daniel 说的，Linda 后面接的是 \"I can't wait!\"，<b>不需要再夸一句</b>。</div>\n<div><b>📌 复盘结论</b>：这一题你<b>一个完整句子都不认识</b>，也能靠形状拿到 <b>5/5</b>——<br>\n57、58、59 是<b>纯形状</b>（Sure→邀请、地名→Where、时间→When），60 靠\"最后一空=告别\"，56 靠 tired/work/break 三个初中词。<br>\n<b>真正需要\"读懂整句\"的，只有 56 这一题。</b></div>\n5.5 上考场怎么用（3 步，控制在 8 分钟）\n<table><tr><th>步骤</th><th>动作</th><th>说明</th></tr>\n<tr><td><b>①</b></td><td><b>先不读对话，先把 8 个选项的\"开头\"扫一遍</b></td><td>把带 <b>When / Where / What time / Who / Why</b> 的圈出来（这是\"问句\"选项），把 <b>Sure / Thank you / You too / See you / Here you are</b> 也圈出来（这是\"答句/收尾\"选项）</td></tr>\n<tr><td><b>②</b></td><td><b>扫对话里的\"时间、数字、大写名称、Yes/Sure/Thank you\"</b></td><td>见到数字 → 它前面那空填 When 类；见到大写地点 → 前面填 Where 类；见到 Thank you → 前面填\"帮了忙\"类；见到 Sure → 前面填邀请/请求类。<b>先把这几个稳稳填掉</b></td></tr>\n<tr><td><b>③</b></td><td><b>剩下的空用\"多余项排除法\"</b></td><td>把已用的划掉；剩下选项里，凡<b>和对话内容冲突</b>或<b>凭空提到对话里没出现过的事</b>的，就是多余项</td></tr>\n</table>\n<div><b>时间提醒</b>：这一题只值 15 分，<b>8 分钟必须走人</b>（一题 3 分，比阅读的一题 3 分等价，但阅读更好拿）。<br>\n实在填不出来的空，<b>也一定要涂一个</b>——8 选 5 盲涂也有约 1/8 的概率。</div>\n5.6 钥匙词速查卡（只认形状，带音标 · 点读）\n<div><b>这些是\"锁死规则\"里出现频率最高的词。</b>你<b>不用会拼、不用懂语法</b>，只要看到能认出来就行。点一下听发音，跟着念两遍。</div>\n<div>\n<div><span data-say=\"Sure\">Sure</span><span>/ʃʊə(r)/</span><span>当然（答应）</span></div>\n<div><span data-say=\"Of course\">Of course</span><span>/əv kɔːs/</span><span>当然（答应）</span></div>\n<div><span data-say=\"Yes, please\">Yes, please</span><span>/jes pliːz/</span><span>好的，请（答应）</span></div>\n<div><span data-say=\"Would you like\">Would you like</span><span>/wʊd juː laɪk/</span><span>你想要……吗（邀请）</span></div>\n<div><span data-say=\"Can you\">Can you</span><span>/kæn juː/</span><span>你能……吗（请求）</span></div>\n<div><span data-say=\"Could you\">Could you</span><span>/kʊd juː/</span><span>你能……吗（更客气）</span></div>\n<div><span data-say=\"When\">When</span><span>/wen/</span><span>什么时候</span></div>\n<div><span data-say=\"What time\">What time</span><span>/wɒt taɪm/</span><span>几点</span></div>\n<div><span data-say=\"How long\">How long</span><span>/haʊ lɒŋ/</span><span>多久</span></div>\n<div><span data-say=\"Where\">Where</span><span>/weə(r)/</span><span>哪里</span></div>\n<div><span data-say=\"Who\">Who</span><span>/huː/</span><span>谁</span></div>\n<div><span data-say=\"What\">What</span><span>/wɒt/</span><span>什么</span></div>\n<div><span data-say=\"Why\">Why</span><span>/waɪ/</span><span>为什么</span></div>\n<div><span data-say=\"Thank you\">Thank you</span><span>/θæŋk juː/</span><span>谢谢（→ 前面是帮了忙）</span></div>\n<div><span data-say=\"You're welcome\">You're welcome</span><span>/jɔː(r) ˈwelkəm/</span><span>不客气</span></div>\n<div><span data-say=\"Here you are\">Here you are</span><span>/hɪə(r) juː ɑː(r)/</span><span>给你</span></div>\n<div><span data-say=\"No problem\">No problem</span><span>/nəʊ ˈprɒbləm/</span><span>没问题</span></div>\n<div><span data-say=\"See you\">See you</span><span>/siː juː/</span><span>再见（收尾）</span></div>\n<div><span data-say=\"Have a nice day\">Have a nice day</span><span>/həv ə naɪs deɪ/</span><span>祝你愉快（祝福）</span></div>\n<div><span data-say=\"You too\">You too</span><span>/juː tuː/</span><span>你也是（→ 前面是祝福）</span></div>\n<div><span data-say=\"Just water, please\">Just water, please</span><span>/dʒʌst ˈwɔːtə(r) pliːz/</span><span>就要水，谢谢</span></div>\n<div><span data-say=\"Is that all\">Is that all</span><span>/ɪz ðæt ɔːl/</span><span>就这些吗</span></div>\n<div><span data-say=\"What else\">What else</span><span>/wɒt els/</span><span>还有什么</span></div>\n<div><span data-say=\"I have no idea\">I have no idea</span><span>/aɪ həv nəʊ aɪˈdɪə/</span><span>我不知道</span></div>\n<div><span data-say=\"That's right\">That's right</span><span>/ðæts raɪt/</span><span>没错</span></div>\n<div><span data-say=\"Just a moment\">Just a moment</span><span>/dʒʌst ə ˈməʊmənt/</span><span>请稍等</span></div>\n<div><span data-say=\"Sorry\">Sorry</span><span>/ˈsɒri/</span><span>对不起（→ 前面是请求）</span></div>\n<div><span data-say=\"Great\">Great</span><span>/ɡreɪt/</span><span>太好了</span></div>\n<div><span data-say=\"OK\">OK</span><span>/ˌəʊˈkeɪ/</span><span>好的</span></div>\n<div><span data-say=\"No, thanks\">No, thanks</span><span>/nəʊ θæŋks/</span><span>不用了（拒绝）</span></div>\n<div><span data-say=\"Cheer up\">Cheer up</span><span>/tʃɪə(r) ʌp/</span><span>振作起来（安慰）</span></div>\n<div><span data-say=\"Never mind\">Never mind</span><span>/ˈnevə(r) maɪnd/</span><span>别在意（应答道歉）</span></div>\n<div><span data-say=\"It doesn't matter\">It doesn't matter</span><span>/ɪt ˈdʌznt ˈmætə(r)/</span><span>没关系（应答道歉）</span></div>\n<div><span data-say=\"Don't mention it\">Don't mention it</span><span>/dəʊnt ˈmenʃn ɪt/</span><span>不用谢（应答感谢）</span></div>\n<div><span data-say=\"Take it easy\">Take it easy</span><span>/teɪk ɪt ˈiːzi/</span><span>放轻松（安慰）</span></div>\n</div>\n5.7 诚实的期望值\n<table><tr><th>掌握程度</th><th>能锁死的题数</th><th>预期得分</th><th>说明</th></tr>\n<tr><td>完全不学，纯盲填</td><td>0</td><td>≈ 2 分</td><td>8 选 5 随机涂，5 个空期望只对 0.6 题</td></tr>\n<tr><td><b>背熟 4 条锁死规则</b></td><td><b>2—3 题</b></td><td><b>6—9 分</b></td><td>Sure→邀请、数字→When、Thank you→帮了忙、You too→祝福。<b>零单词量也能做到</b></td></tr>\n<tr><td>再加形状对应表 + 排除法</td><td>3—4 题</td><td><b>9—12 分</b></td><td>本方案的目标值，练 12 年真题即可达成</td></tr>\n<tr><td>能读懂大部分句子</td><td>5 题</td><td>15 分</td><td>不在本次冲刺范围内，性价比低</td></tr>\n</table>\n<div><b>一句提醒</b>：这一节的目标是<b>\"用最少的英语知识，拿稳 6—12 分\"</b>，不是把补全对话题做全对。<br>\n如果时间紧张，<b>先背 4 条锁死规则</b>（半小时就能背完），比刷几十道题更划算。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 400000,
+        "source": null,
+        "tags": [
+          "英语",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "五、补全对话 15 分：零基础\"形状法\"（不认识单词也能做）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "六、短文写作 25 分：4 套模板直接套",
+        "content": "<div><b>历年题型规律</b>：12 年里 <b>11 年考应用文</b>（邀请信、求助信、通知、申请信、邮件），2023 年出现过议论文。人设固定是 <b>Li Yuan（李源）</b>，字数要求 <b>100-120 词</b>。只要模板套得对 + 要点写全 + 字数够，<b>15-18 分是稳的</b>。</div>\n<div><b>评分四条铁律</b>：① 三个要点必须<b>逐条提到</b>（漏一个扣 5 分）② 字数写够 100 词（少于 80 词直接降档）③ 用简单句 + 会写的词，<b>宁可简单不要出错</b> ④ 格式要写对（称呼、结尾、署名）</div>\n<div><b>怎么用这几套范文</b>：① 先点 <b>🔊 朗读这篇范文</b> 听 2 遍 → ② 对照<b>参考译文</b>逐句搞懂意思 → ③ 对照中文尝试默写英文 → ④ 考场上把方括号里的时间、地点、事项换成题目给的即可。</div>\n模板 1 · 通知 NOTICE（2025 真题：旧书交换活动）\n<div id=\"tpl1\">NOTICE\n\nTo enrich our campus life and develop the habit of saving, the Student Union is going to hold a book exchange activity.\n\nThe activity will be held in the school library <b>from 2:00 pm to 5:00 pm on October 20th</b>. Students who want to join can bring their used books, such as textbooks and novels. It is a good chance for us to protect the environment and make new friends.\n\nEveryone is welcome to take part in it. We are looking forward to your coming.\n\nThe Student Union</div>\n<div><span data-read=\"#tpl1\">🔊 朗读这篇范文</span></div>\n<div><b>参考译文：</b>通知——为丰富我们的校园生活、养成节约的习惯，学生会将举办一次旧书交换活动。本次活动将于 <b>10 月 20 日下午 2 点至 5 点</b>在学校图书馆举行。想参加的同学可以带上自己的旧书，比如课本和小说。这是我们保护环境、结交新朋友的好机会。欢迎大家参加。我们期待你的到来。——学生会</div>\n模板 2 · 申请信（2024 真题：加入环保社团）\n<div id=\"tpl2\">Dear Sir or Madam,\n\nI am Li Yuan, a student from Class One. I am writing to apply for a position in the Environmental Club.\n\nI have always been interested in environmental protection. I often take part in activities such as cleaning the park and planting trees. I want to join the club because I hope to do more for our earth and learn from others.\n\nIf I am accepted, I would like to help organize activities and design posters. I suggest that the club hold more outdoor activities to attract more students.\n\nI would appreciate it if you could give me a chance. I am looking forward to your reply.\n\nYours sincerely,\nLi Yuan</div>\n<div><span data-read=\"#tpl2\">🔊 朗读这篇范文</span></div>\n<div><b>参考译文：</b>尊敬的先生／女士：我是李源，一班的学生。我写信是想申请环保社团的一个职位。我一直对环境保护很感兴趣，经常参加打扫公园、植树之类的活动。我想加入社团，因为我希望为我们的地球做更多的事，并向他人学习。如果能被录取，我愿意帮忙组织活动、设计海报。我建议社团多举办一些户外活动，以吸引更多同学。如能给我一个机会，我将不胜感激。期待你的回复。您诚挚的，李源</div>\n模板 3 · 邀请信（2014/2019/2021 真题）\n<div id=\"tpl3\">Dear Professor Smith,\n\nI am Li Yuan, monitor of Class Two. I am writing to invite you to attend our English speech contest.\n\nThe contest will be held in Room 301 of the teaching building at 3:00 pm on May 20th. About 20 students will take part in it. We would be honored if you could come and be one of the judges.\n\nI believe your presence will be a great encouragement to us. Please let me know if you are free at that time.\n\nI am looking forward to your early reply.\n\nYours sincerely,\nLi Yuan</div>\n<div><span data-read=\"#tpl3\">🔊 朗读这篇范文</span></div>\n<div><b>参考译文：</b>尊敬的史密斯教授：我是李源，二班班长。我写信是想邀请您参加我们的英语演讲比赛。比赛将于 5 月 20 日下午 3 点在教学楼 301 室举行，大约有 20 名学生参加。如果您能来担任评委之一，我们将深感荣幸。我相信您的到场对我们将是极大的鼓励。请告知您届时是否有空。期待您早日回复。您诚挚的，李源</div>\n模板 4 · 求助信（2015 真题）\n<div id=\"tpl4\">Dear Jason,\n\nI am Li Yuan. I am writing to ask you for help with my English study.\n\nI have some trouble in learning English. First, I find it hard to remember new words. Second, I always make mistakes in grammar. Third, I am too shy to speak English in public.\n\nCould you give me some advice? I would be grateful if you could help me.\n\nI am looking forward to your reply.\n\nYours,\nLi Yuan</div>\n<div><span data-read=\"#tpl4\">🔊 朗读这篇范文</span></div>\n<div><b>参考译文：</b>亲爱的杰森：我是李源。我写信是想请你帮我补习英语。我在英语学习上有些困难。第一，我觉得记新单词很难；第二，我总是在语法上出错；第三，我太害羞，不敢当众说英语。你能给我一些建议吗？如果你能帮我，我将非常感激。期待你的回复。你的，李源</div>\n<div><b>万能句型（任何应用文都能塞进去，凑字数又加分）</b>：<br>\n<span data-say=\"I am writing to invite you to attend. I am writing to apply for a position. I am writing to ask you for help. I am writing to tell you that.\">开头：I am writing to invite / apply for / ask you for help / tell you that...</span><span>🔊点读</span>（我写信是为了邀请／申请／求助／告诉你……）<br>\n<span data-say=\"First. Second. Third. It is a good chance for us to. I would like to.\">中间：First... Second... Third... ｜ It is a good chance for us to... ｜ I would like to...</span><span>🔊点读</span>（第一……第二……第三……；这对我们是个好机会去……；我想……）<br>\n<span data-say=\"I am looking forward to your reply. I am looking forward to your coming. I would appreciate it if you could.\">结尾：I am looking forward to your reply / your coming. ｜ I would appreciate it if you could...</span><span>🔊点读</span>（期待你的回复／到来；如你能……我将不胜感激）<br>\n<span data-say=\"Yours sincerely, Li Yuan. Yours, Li Yuan.\">署名固定：Yours sincerely, Li Yuan（正式）／ Yours, Li Yuan（朋友）</span><span>🔊点读</span></div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 500000,
+        "source": null,
+        "tags": [
+          "英语",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "六、短文写作 25 分：4 套模板直接套",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "七、语音辨析 5 分：8 组易错音，背完就会",
+        "content": "<div>每题给 4 个单词、划线部分相同（如 <b>ea</b>、<b>ow</b>、<b>th</b>），选读音与另外三个不同的。<b>规律是\"3 个常规 + 1 个例外\"</b>，答案就是那个例外。<br><b>这一节每个单词都可点击朗读</b>——先看音标、再点读，重点记\"例外词\"为什么不一样。</div>\n<table><tr><th>字母组合</th><th>常见读音</th><th>例词（音标 · 中文，点读）</th><th>易考例外</th><th>例外例词（音标 · 中文，点读）</th></tr>\n<tr><td><b>ea</b></td><td>/iː/</td><td><span data-say=\"beam\">beam</span> <span>/biːm/</span> 光束、<span data-say=\"leaf\">leaf</span> <span>/liːf/</span> 叶子、<span data-say=\"heat\">heat</span> <span>/hiːt/</span> 热量、<span data-say=\"teach\">teach</span> <span>/tiːtʃ/</span> 教</td><td>/e/</td><td><span data-say=\"head\">head</span> <span>/hed/</span> 头、<span data-say=\"bread\">bread</span> <span>/bred/</span> 面包、<span data-say=\"weather\">weather</span> <span>/ˈweðə(r)/</span> 天气</td></tr>\n<tr><td><b>ow</b></td><td>/aʊ/</td><td><span data-say=\"cow\">cow</span> <span>/kaʊ/</span> 奶牛、<span data-say=\"how\">how</span> <span>/haʊ/</span> 怎样、<span data-say=\"now\">now</span> <span>/naʊ/</span> 现在、<span data-say=\"allow\">allow</span> <span>/əˈlaʊ/</span> 允许</td><td>/əʊ/</td><td><span data-say=\"low\">low</span> <span>/ləʊ/</span> 低的、<span data-say=\"throw\">throw</span> <span>/θrəʊ/</span> 扔、<span data-say=\"arrow\">arrow</span> <span>/ˈærəʊ/</span> 箭、<span data-say=\"widow\">widow</span> <span>/ˈwɪdəʊ/</span> 寡妇</td></tr>\n<tr><td><b>th</b></td><td>/θ/ 清音</td><td><span data-say=\"tooth\">tooth</span> <span>/tuːθ/</span> 牙齿、<span data-say=\"truth\">truth</span> <span>/truːθ/</span> 真相、<span data-say=\"wealth\">wealth</span> <span>/welθ/</span> 财富</td><td>/ð/ 浊音</td><td><span data-say=\"smooth\">smooth</span> <span>/smuːð/</span> 光滑的、<span data-say=\"this\">this</span> <span>/ðɪs/</span> 这个、<span data-say=\"that\">that</span> <span>/ðæt/</span> 那个</td></tr>\n<tr><td><b>ear</b></td><td>/eə/</td><td><span data-say=\"bear\">bear</span> <span>/beə(r)/</span> 熊、<span data-say=\"wear\">wear</span> <span>/weə(r)/</span> 穿、<span data-say=\"pear\">pear</span> <span>/peə(r)/</span> 梨</td><td>/ɪə/</td><td><span data-say=\"fear\">fear</span> <span>/fɪə(r)/</span> 恐惧、<span data-say=\"hear\">hear</span> <span>/hɪə(r)/</span> 听见、<span data-say=\"near\">near</span> <span>/nɪə(r)/</span> 近的</td></tr>\n<tr><td><b>u</b></td><td>/ʌ/</td><td><span data-say=\"just\">just</span> <span>/dʒʌst/</span> 仅仅、<span data-say=\"lucky\">lucky</span> <span>/ˈlʌki/</span> 幸运的、<span data-say=\"study\">study</span> <span>/ˈstʌdi/</span> 学习</td><td>/uː/</td><td><span data-say=\"truth\">truth</span> <span>/truːθ/</span> 真相、<span data-say=\"rule\">rule</span> <span>/ruːl/</span> 规则、<span data-say=\"June\">June</span> <span>/dʒuːn/</span> 六月</td></tr>\n<tr><td><b>i</b></td><td>/aɪ/</td><td><span data-say=\"arise\">arise</span> <span>/əˈraɪz/</span> 出现、<span data-say=\"pride\">pride</span> <span>/praɪd/</span> 骄傲、<span data-say=\"child\">child</span> <span>/tʃaɪld/</span> 孩子</td><td>/ɪ/</td><td><span data-say=\"brick\">brick</span> <span>/brɪk/</span> 砖、<span data-say=\"rich\">rich</span> <span>/rɪtʃ/</span> 富有的、<span data-say=\"fish\">fish</span> <span>/fɪʃ/</span> 鱼</td></tr>\n<tr><td><b>c</b></td><td>/s/</td><td><span data-say=\"medicine\">medicine</span> <span>/ˈmedsn/</span> 药、<span data-say=\"certain\">certain</span> <span>/ˈsɜːtn/</span> 确定的、<span data-say=\"decide\">decide</span> <span>/dɪˈsaɪd/</span> 决定</td><td>/k/</td><td><span data-say=\"excuse\">excuse</span> <span>/ɪkˈskjuːz/</span> 原谅</td></tr>\n<tr><td><b>s</b></td><td>/s/</td><td><span data-say=\"answer\">answer</span> <span>/ˈɑːnsə(r)/</span> 回答、<span data-say=\"escape\">escape</span> <span>/ɪˈskeɪp/</span> 逃脱、<span data-say=\"absence\">absence</span> <span>/ˈæbsəns/</span> 缺席</td><td>/z/</td><td><span data-say=\"disease\">disease</span> <span>/dɪˈziːz/</span> 疾病、<span data-say=\"possess\">possess</span> <span>/pəˈzes/</span> 拥有、<span data-say=\"reason\">reason</span> <span>/ˈriːzn/</span> 原因</td></tr>\n</table>\n<div><b>考场应急法</b>：如果某个组合你不会，就<b>把 4 个词读出来（不出声地念）</b>，哪个读起来\"别扭\"就是答案。这一类题的答案往往是\"生僻词\"或\"不规则发音词\"。<br><b>练习法</b>：把上表<b>例外词那一列</b>点读 3 遍，只看例词 → 遮住中文回忆意思 → 遮住单词只看音标猜拼写。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 600000,
+        "source": null,
+        "tags": [
+          "英语",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "七、语音辨析 5 分：8 组易错音，背完就会",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "八、词汇与语法 15 分：只攻 3 个必考点",
+        "content": "<div><b>12 年 180 道词汇语法题的考点分布：</b>词义/语境辨析 37.8% · <b>从句 19.4%</b> · <b>固定搭配/介词 16.1%</b> · <b>非谓语动词 11.7%</b> · 时态语态 7.2% · 比较级 3.3% · 其他 4.5%。<b>从句 + 固定搭配 + 非谓语 = 47%，是唯一值得速成的三块。</b>（词义辨析占最大头但靠长期积累，不追）</div>\n必考点 1 · 三大从句（每年约 2.9 题）\n<table><tr><th>类型</th><th>怎么认</th><th>选谁（点读）</th><th>真题例（中文）</th></tr>\n<tr><td>定语从句</td><td>空格在名词后，从句缺主语/宾语/定语</td><td>人：<span data-say=\"who\">who</span> <span>/huː/</span> / <span data-say=\"whom\">whom</span> <span>/huːm/</span> / <span data-say=\"whose\">whose</span> <span>/huːz/</span>；物：<span data-say=\"which\">which</span> <span>/wɪtʃ/</span> / <span data-say=\"that\">that</span> <span>/ðæt/</span>；地点：<span data-say=\"where\">where</span> <span>/weə(r)/</span></td><td>the manager <b>that</b> we had seen（2025Q16）＝我们见过的那位经理</td></tr>\n<tr><td>主语从句</td><td>空格在句首，后面跟着谓语</td><td><span data-say=\"Whoever\">Whoever</span> <span>/huːˈevə(r)/</span>（人，作主语）／ <span data-say=\"What\">What</span> <span>/wɒt/</span>（物）／ <span data-say=\"That\">That</span> <span>/ðæt/</span></td><td><b>Whoever</b> is late for the exam...（2025Q7）＝考试迟到的人……</td></tr>\n<tr><td>状语从句</td><td>两个完整句子之间</td><td>让步用 <span data-say=\"while\">while</span> <span>/waɪl/</span>／<span data-say=\"although\">although</span> <span>/ɔːlˈðəʊ/</span>；条件用 <span data-say=\"unless\">unless</span> <span>/ənˈles/</span>／<span data-say=\"if\">if</span> <span>/ɪf/</span>；地点用 <span data-say=\"wherever\">wherever</span> <span>/weərˈevə(r)/</span></td><td><b>While</b> there was no evidence...（2025Q14）＝尽管没有证据……</td></tr></table>\n必考点 2 · 非谓语动词（每年约 1.8 题）\n<table><tr><th>结构</th><th>含义</th><th>记忆点（点读）</th></tr>\n<tr><td><b>have sth. done</b></td><td>让某事被做</td><td>have my hair <b>cut</b>（2025Q9）<span>/kʌt/</span> ＝让人给我理发</td></tr>\n<tr><td><b>with + 宾语 + 现在分词</b></td><td>主动、正在进行</td><td>With tears <b>streaming</b> down her face（2024Q17）<span>/ˈstriːmɪŋ/</span> ＝泪水从她脸上流下</td></tr>\n<tr><td><b>need doing</b></td><td>＝ need to be done（被动含义）</td><td>his clothes need <b>replacing</b>（2024Q10）<span>/rɪˈpleɪsɪŋ/</span> ＝他的衣服需要换洗</td></tr>\n<tr><td><b>to do 作目的状语</b></td><td>为了……</td><td><b>To complete</b> the project on time...（2025Q8）<span>/kəmˈpliːt/</span> ＝为了按时完成项目……</td></tr></table>\n<div><b>一句话判断法</b>：空格前是名词/代词、且有\"被\"的意思 → 用 <b>done</b>；主动且进行 → 用 <b>doing</b>；表目的 → 用 <b>to do</b>。</div>\n必考点 3 · 高频固定搭配（12 年真题考过的原词，直接背）\n<div>\n<div><span>1</span><span data-say=\"be open to\">be open to</span> <span>/biː ˈəʊpən tuː/</span> — <span>愿意接受</span><span>2024Q13</span></div>\n<div><span>2</span><span data-say=\"be relieved of\">be relieved of</span> <span>/biː rɪˈliːvd ɒv/</span> — <span>解除、摆脱</span><span>2025Q11</span></div>\n<div><span>3</span><span data-say=\"liberate somebody from\">liberate sb. from</span> <span>/ˈlɪbəreɪt</span> ... <span>frəm/</span> — <span>使某人从……中解脱</span><span>2025Q13</span></div>\n<div><span>4</span><span data-say=\"have an effect upon\">have an effect upon</span> <span>/hæv ən ɪˈfekt əˈpɒn/</span> — <span>对……有影响</span><span>2023Q8</span></div>\n<div><span>5</span><span data-say=\"under the shadow of\">under the shadow of</span> <span>/ˈʌndə(r) ðə ˈʃædəʊ ɒv/</span> — <span>在……的阴影下</span><span>2024Q16</span></div>\n<div><span>6</span><span data-say=\"play a role in\">play a role in</span> <span>/pleɪ ə rəʊl ɪn/</span> — <span>在……中起作用</span><span>2020Q7</span></div>\n<div><span>7</span><span data-say=\"differ from\">differ from</span> <span>/ˈdɪfə(r) frəm/</span> — <span>与……不同</span><span>2022Q8</span></div>\n<div><span>8</span><span data-say=\"distinguish A from B\">distinguish A from B</span> <span>/dɪˈstɪŋɡwɪʃ</span> ... <span>frəm/</span> — <span>区分 A 和 B</span><span>2019Q9</span></div>\n<div><span>9</span><span data-say=\"would rather than\">would rather...than</span> <span>/wʊd ˈrɑːðə(r) ðæn/</span> — <span>宁愿……而不愿</span><span>2019Q11</span></div>\n<div><span>10</span><span data-say=\"confronted with\">confronted with</span> <span>/kənˈfrʌntɪd wɪð/</span> — <span>面对……</span><span>2017Q18</span></div>\n<div><span>11</span><span data-say=\"somewhere in one's\">somewhere in one's</span> <span>/ˈsʌmweə(r) ɪn</span> ...<span>/</span> — <span>大约（年龄）……岁</span><span>2018Q11</span></div>\n<div><span>12</span><span data-say=\"of one's own age\">of one's own age</span> <span>/əv wʌnz əʊn eɪdʒ/</span> — <span>同龄的</span><span>2014Q15</span></div>\n</div>\n<div><span data-say=\"be open to. be relieved of. liberate somebody from. have an effect upon. under the shadow of. play a role in. differ from. distinguish A from B. would rather than. confronted with. somewhere in one's. of one's own age.\">🔊 连读 12 条固定搭配</span></div>\n<div><b>虚拟语气的信号词</b>（12 年考了 3 次，看到就选动词原形）：<span data-say=\"recommend\">recommend</span> <span>/ˌrekəˈmend/</span> 建议 / <span data-say=\"require\">require</span> <span>/rɪˈkwaɪə(r)/</span> 要求 / <span data-say=\"suggest\">suggest</span> <span>/səˈdʒest/</span> 建议 / <span data-say=\"demand\">demand</span> <span>/dɪˈmɑːnd/</span> 要求 / <span data-say=\"insist\">insist</span> <span>/ɪnˈsɪst/</span> 坚持 + that + 主语 + <b>(should) + 动词原形</b>。如 2025Q20 \"recommends that the patient <b>follow</b>\"、2024Q7 \"requires that students <b>return</b>\"。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 700000,
+        "source": null,
+        "tags": [
+          "英语",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "八、词汇与语法 15 分：只攻 3 个必考点",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "九、完形填空 30 分：最难，只求拿 10 分",
+        "content": "<div><b>这是全卷最难速成的部分，不要投入过多时间。</b>12 年 180 道完形题的考点：<b>词义辨析 9.67 题/年（64%）</b>、上下文语境 3.08 题/年、语法功能 1.17 题/年、固定搭配 1.08 题/年。词义辨析拼的是词汇量，短期难提升。</div>\n能捞分的 4 个技巧\n<table><tr><th>#</th><th>技巧</th><th>说明</th></tr><tr><td>1</td><td>先通读全文（1 分钟）</td><td>抓大意和时态，不要一上来就填空</td></tr><tr><td>2</td><td>看空格前后 1-2 句</td><td>答案线索 80% 就在前后句，尤其注意 <b>but / however / so / because</b> 这类逻辑词</td></tr><tr><td>3</td><td>固定搭配优先</td><td>像 make / take / have / give + 名词 的搭配，背过就能秒选</td></tr><tr><td>4</td><td>同词性四选一，用感情色彩排除</td><td>先判断该空要\"正面词\"还是\"负面词\"，能砍掉一半选项</td></tr></table>\n<div><b>合理预期</b>：15 题对 5-6 题 = 10-12 分。如果时间不够，<b>不要为了完形放弃阅读</b>——阅读一题 3 分，完形一题只有 2 分。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 800000,
+        "source": null,
+        "tags": [
+          "英语",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "九、完形填空 30 分：最难，只求拿 10 分",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "十、5 周时间表（9/12 → 10/17）",
+        "content": "<p>按每天英语投入 60-90 分钟设计（三科并行）。</p>\n<div>\n<div><div>第 1 周 · 9/12-9/18 · 阅读理解定位法</div>\n<div>学 4 步法 → 每天做 2 篇真题阅读（掐表 6 分钟/篇），专练\"划关键词 + 原文定位\"</div></div>\n<div><div>第 2 周 · 9/19-9/25 · 阅读强化 + 写作模板</div>\n<div>每天 2 篇阅读保持手感 + 背熟通知/申请信两套模板，各动手写 1 篇</div></div>\n<div><div>第 3 周 · 9/26-10/2 · 写作 + 补全对话</div>\n<div>背完邀请信/求助信模板 → 背 12 类对话句型 → 做 5 年对话真题</div></div>\n<div><div>第 4 周 · 10/3-10/9 · 语法三考点 + 语音</div>\n<div>从句/非谓语/固定搭配专项 → 背 8 组易错音 → 高频搭配清单过 2 遍</div></div>\n<div><div>第 5 周 · 10/10-10/17 · 整卷模考 + 作文定稿</div>\n<div>做 2-3 套近年真题完整卷（掐表 150 分钟）→ 把 4 套模板默写一遍</div></div>\n</div>\n<div><b>每日最小任务量（忙的时候也别断）</b>：2 篇阅读 + 背 5 个固定搭配。这三招是\"肌肉记忆\"，<b>靠的是每天碰一点，而不是突击</b>。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 900000,
+        "source": null,
+        "tags": [
+          "英语",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "十、5 周时间表（9/12 → 10/17）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "十一、考场时间分配（150 分钟）",
+        "content": "<table><tr><th>时段</th><th>动作</th><th>目标</th></tr><tr><td>0-8 分钟</td><td>语音 5 题 + 词汇语法 15 题（不会的先蒙一个标记）</td><td>约 12 分</td></tr><tr><td>8-58 分钟</td><td><b>阅读理解 5 篇（每篇 10 分钟，先做定位）</b></td><td>36 分</td></tr><tr><td>58-83 分钟</td><td>完形填空 15 题（通读 + 逐空，超时要果断放弃）</td><td>10 分</td></tr><tr><td>83-95 分钟</td><td>补全对话 5 题（先配对确定的）</td><td>12 分</td></tr><tr><td>95-125 分钟</td><td><b>写作（留足 30 分钟）</b>：列要点 → 套模板 → 写够 110 词 → 检查语法</td><td>15 分</td></tr><tr><td>125-150 分钟</td><td>回头检查：作文的三要点是否齐全、选择题有没有漏涂</td><td>—</td></tr></table>\n<div><b>三条铁律</b>：① <b>写作必须留 30 分钟</b>，25 分一题的性价比高于任何一道选择题；② 阅读卡住超过 3 分钟的题先跳过，最后回来；③ <b>所有选择题不留空</b>，四选一蒙也有 25% 概率。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 1000000,
+        "source": null,
+        "tags": [
+          "英语",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "十一、考场时间分配（150 分钟）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "beam",
+        "content": "光束",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100000,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/biːm/",
+          "say": "beam",
+          "cn": "光束"
+        }
+      },
+      {
+        "title": "leaf",
+        "content": "叶子",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100010,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/liːf/",
+          "say": "leaf",
+          "cn": "叶子"
+        }
+      },
+      {
+        "title": "heat",
+        "content": "热量",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100020,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/hiːt/",
+          "say": "heat",
+          "cn": "热量"
+        }
+      },
+      {
+        "title": "teach",
+        "content": "教",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100030,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/tiːtʃ/",
+          "say": "teach",
+          "cn": "教"
+        }
+      },
+      {
+        "title": "head",
+        "content": "头 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100040,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/hed/",
+          "say": "head",
+          "cn": "头 ▶例外"
+        }
+      },
+      {
+        "title": "bread",
+        "content": "面包 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100050,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/bred/",
+          "say": "bread",
+          "cn": "面包 ▶例外"
+        }
+      },
+      {
+        "title": "weather",
+        "content": "天气 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100060,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ˈweðə(r)/",
+          "say": "weather",
+          "cn": "天气 ▶例外"
+        }
+      },
+      {
+        "title": "cow",
+        "content": "奶牛",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100070,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/kaʊ/",
+          "say": "cow",
+          "cn": "奶牛"
+        }
+      },
+      {
+        "title": "how",
+        "content": "怎样",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100080,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/haʊ/",
+          "say": "how",
+          "cn": "怎样"
+        }
+      },
+      {
+        "title": "now",
+        "content": "现在",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100090,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/naʊ/",
+          "say": "now",
+          "cn": "现在"
+        }
+      },
+      {
+        "title": "allow",
+        "content": "允许",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100100,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/əˈlaʊ/",
+          "say": "allow",
+          "cn": "允许"
+        }
+      },
+      {
+        "title": "low",
+        "content": "低的 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100110,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ləʊ/",
+          "say": "low",
+          "cn": "低的 ▶例外"
+        }
+      },
+      {
+        "title": "throw",
+        "content": "扔 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100120,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/θrəʊ/",
+          "say": "throw",
+          "cn": "扔 ▶例外"
+        }
+      },
+      {
+        "title": "arrow",
+        "content": "箭 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100130,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ˈærəʊ/",
+          "say": "arrow",
+          "cn": "箭 ▶例外"
+        }
+      },
+      {
+        "title": "widow",
+        "content": "寡妇 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100140,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ˈwɪdəʊ/",
+          "say": "widow",
+          "cn": "寡妇 ▶例外"
+        }
+      },
+      {
+        "title": "tooth",
+        "content": "牙齿",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100150,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/tuːθ/",
+          "say": "tooth",
+          "cn": "牙齿"
+        }
+      },
+      {
+        "title": "truth",
+        "content": "真相",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100160,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/truːθ/",
+          "say": "truth",
+          "cn": "真相"
+        }
+      },
+      {
+        "title": "wealth",
+        "content": "财富",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100170,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/welθ/",
+          "say": "wealth",
+          "cn": "财富"
+        }
+      },
+      {
+        "title": "smooth",
+        "content": "光滑的 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100180,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/smuːð/",
+          "say": "smooth",
+          "cn": "光滑的 ▶例外"
+        }
+      },
+      {
+        "title": "this",
+        "content": "这个 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100190,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ðɪs/",
+          "say": "this",
+          "cn": "这个 ▶例外"
+        }
+      },
+      {
+        "title": "that",
+        "content": "那个 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100200,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ðæt/",
+          "say": "that",
+          "cn": "那个 ▶例外"
+        }
+      },
+      {
+        "title": "bear",
+        "content": "熊",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100210,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/beə(r)/",
+          "say": "bear",
+          "cn": "熊"
+        }
+      },
+      {
+        "title": "wear",
+        "content": "穿",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100220,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/weə(r)/",
+          "say": "wear",
+          "cn": "穿"
+        }
+      },
+      {
+        "title": "pear",
+        "content": "梨",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100230,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/peə(r)/",
+          "say": "pear",
+          "cn": "梨"
+        }
+      },
+      {
+        "title": "fear",
+        "content": "恐惧 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100240,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/fɪə(r)/",
+          "say": "fear",
+          "cn": "恐惧 ▶例外"
+        }
+      },
+      {
+        "title": "hear",
+        "content": "听见 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100250,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/hɪə(r)/",
+          "say": "hear",
+          "cn": "听见 ▶例外"
+        }
+      },
+      {
+        "title": "near",
+        "content": "近的 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100260,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/nɪə(r)/",
+          "say": "near",
+          "cn": "近的 ▶例外"
+        }
+      },
+      {
+        "title": "just",
+        "content": "仅仅",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100270,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/dʒʌst/",
+          "say": "just",
+          "cn": "仅仅"
+        }
+      },
+      {
+        "title": "lucky",
+        "content": "幸运的",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100280,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ˈlʌki/",
+          "say": "lucky",
+          "cn": "幸运的"
+        }
+      },
+      {
+        "title": "study",
+        "content": "学习",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100290,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ˈstʌdi/",
+          "say": "study",
+          "cn": "学习"
+        }
+      },
+      {
+        "title": "rule",
+        "content": "规则 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100300,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ruːl/",
+          "say": "rule",
+          "cn": "规则 ▶例外"
+        }
+      },
+      {
+        "title": "June",
+        "content": "六月 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100310,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/dʒuːn/",
+          "say": "June",
+          "cn": "六月 ▶例外"
+        }
+      },
+      {
+        "title": "arise",
+        "content": "出现",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100320,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/əˈraɪz/",
+          "say": "arise",
+          "cn": "出现"
+        }
+      },
+      {
+        "title": "pride",
+        "content": "骄傲",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100330,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/praɪd/",
+          "say": "pride",
+          "cn": "骄傲"
+        }
+      },
+      {
+        "title": "child",
+        "content": "孩子",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100340,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/tʃaɪld/",
+          "say": "child",
+          "cn": "孩子"
+        }
+      },
+      {
+        "title": "brick",
+        "content": "砖 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100350,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/brɪk/",
+          "say": "brick",
+          "cn": "砖 ▶例外"
+        }
+      },
+      {
+        "title": "rich",
+        "content": "富有的 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100360,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/rɪtʃ/",
+          "say": "rich",
+          "cn": "富有的 ▶例外"
+        }
+      },
+      {
+        "title": "fish",
+        "content": "鱼 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100370,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/fɪʃ/",
+          "say": "fish",
+          "cn": "鱼 ▶例外"
+        }
+      },
+      {
+        "title": "medicine",
+        "content": "药",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100380,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ˈmedsn/",
+          "say": "medicine",
+          "cn": "药"
+        }
+      },
+      {
+        "title": "certain",
+        "content": "确定的",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100390,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ˈsɜːtn/",
+          "say": "certain",
+          "cn": "确定的"
+        }
+      },
+      {
+        "title": "decide",
+        "content": "决定",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100400,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/dɪˈsaɪd/",
+          "say": "decide",
+          "cn": "决定"
+        }
+      },
+      {
+        "title": "excuse",
+        "content": "原谅 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100410,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ɪkˈskjuːz/",
+          "say": "excuse",
+          "cn": "原谅 ▶例外"
+        }
+      },
+      {
+        "title": "answer",
+        "content": "回答",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100420,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ˈɑːnsə(r)/",
+          "say": "answer",
+          "cn": "回答"
+        }
+      },
+      {
+        "title": "escape",
+        "content": "逃脱",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100430,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ɪˈskeɪp/",
+          "say": "escape",
+          "cn": "逃脱"
+        }
+      },
+      {
+        "title": "absence",
+        "content": "缺席",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100440,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ˈæbsəns/",
+          "say": "absence",
+          "cn": "缺席"
+        }
+      },
+      {
+        "title": "disease",
+        "content": "疾病 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100450,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/dɪˈziːz/",
+          "say": "disease",
+          "cn": "疾病 ▶例外"
+        }
+      },
+      {
+        "title": "possess",
+        "content": "拥有 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100460,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/pəˈzes/",
+          "say": "possess",
+          "cn": "拥有 ▶例外"
+        }
+      },
+      {
+        "title": "reason",
+        "content": "原因 ▶例外",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100470,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "① 语音辨析必背词（配合第七节，重点记\"例外\"）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "① 语音辨析必背词（配合第七节，重点记\"例外\"）",
+          "ipa": "/ˈriːzn/",
+          "say": "reason",
+          "cn": "原因 ▶例外"
+        }
+      },
+      {
+        "title": "retell",
+        "content": "复述",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101000,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/ˌriːˈtel/",
+          "say": "retell",
+          "cn": "复述"
+        }
+      },
+      {
+        "title": "recall",
+        "content": "回忆起",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101010,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/rɪˈkɔːl/",
+          "say": "recall",
+          "cn": "回忆起"
+        }
+      },
+      {
+        "title": "remember",
+        "content": "记得",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101020,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/rɪˈmembə(r)/",
+          "say": "remember",
+          "cn": "记得"
+        }
+      },
+      {
+        "title": "purchase",
+        "content": "购买",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101030,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/ˈpɜːtʃəs/",
+          "say": "purchase",
+          "cn": "购买"
+        }
+      },
+      {
+        "title": "require",
+        "content": "需要、要求",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101040,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/rɪˈkwaɪə(r)/",
+          "say": "require",
+          "cn": "需要、要求"
+        }
+      },
+      {
+        "title": "assist",
+        "content": "协助",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101050,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/əˈsɪst/",
+          "say": "assist",
+          "cn": "协助"
+        }
+      },
+      {
+        "title": "significant",
+        "content": "重大的",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101060,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/sɪɡˈnɪfɪkənt/",
+          "say": "significant",
+          "cn": "重大的"
+        }
+      },
+      {
+        "title": "tough",
+        "content": "艰难的",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101070,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/tʌf/",
+          "say": "tough",
+          "cn": "艰难的"
+        }
+      },
+      {
+        "title": "indicate",
+        "content": "表明",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101080,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/ˈɪndɪkeɪt/",
+          "say": "indicate",
+          "cn": "表明"
+        }
+      },
+      {
+        "title": "suggest",
+        "content": "暗示、建议",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101090,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/səˈdʒest/",
+          "say": "suggest",
+          "cn": "暗示、建议"
+        }
+      },
+      {
+        "title": "cause",
+        "content": "引起",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101100,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/kɔːz/",
+          "say": "cause",
+          "cn": "引起"
+        }
+      },
+      {
+        "title": "result in",
+        "content": "导致",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101110,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/rɪˈzʌlt ɪn/",
+          "say": "result in",
+          "cn": "导致"
+        }
+      },
+      {
+        "title": "prevent",
+        "content": "阻止",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101120,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/prɪˈvent/",
+          "say": "prevent",
+          "cn": "阻止"
+        }
+      },
+      {
+        "title": "employ",
+        "content": "采用",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101130,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/ɪmˈplɔɪ/",
+          "say": "employ",
+          "cn": "采用"
+        }
+      },
+      {
+        "title": "obtain",
+        "content": "获得",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101140,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/əbˈteɪn/",
+          "say": "obtain",
+          "cn": "获得"
+        }
+      },
+      {
+        "title": "all",
+        "content": "全部（绝对词）",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101150,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/ɔːl/",
+          "say": "all",
+          "cn": "全部（绝对词）"
+        }
+      },
+      {
+        "title": "only",
+        "content": "只有（绝对词）",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101160,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/ˈəʊnli/",
+          "say": "only",
+          "cn": "只有（绝对词）"
+        }
+      },
+      {
+        "title": "never",
+        "content": "从不（绝对词）",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101170,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/ˈnevə(r)/",
+          "say": "never",
+          "cn": "从不（绝对词）"
+        }
+      },
+      {
+        "title": "must",
+        "content": "必须（绝对词）",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101180,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "② 阅读同义替换词（配合第四节，只需认读）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "② 阅读同义替换词（配合第四节，只需认读）",
+          "ipa": "/mʌst/",
+          "say": "must",
+          "cn": "必须（绝对词）"
+        }
+      },
+      {
+        "title": "be open to",
+        "content": "愿意接受",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102000,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/biː ˈəʊpən tuː/",
+          "say": "be open to",
+          "cn": "愿意接受"
+        }
+      },
+      {
+        "title": "be relieved of",
+        "content": "解除、摆脱",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102010,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/biː rɪˈliːvd ɒv/",
+          "say": "be relieved of",
+          "cn": "解除、摆脱"
+        }
+      },
+      {
+        "title": "liberate sb. from",
+        "content": "使某人从……解脱",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102020,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/ˈlɪbəreɪt ... frəm/",
+          "say": "liberate somebody from",
+          "cn": "使某人从……解脱"
+        }
+      },
+      {
+        "title": "have an effect upon",
+        "content": "对……有影响",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102030,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/hæv ən ɪˈfekt əˈpɒn/",
+          "say": "have an effect upon",
+          "cn": "对……有影响"
+        }
+      },
+      {
+        "title": "under the shadow of",
+        "content": "在……的阴影下",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102040,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/ˈʌndə(r) ðə ˈʃædəʊ ɒv/",
+          "say": "under the shadow of",
+          "cn": "在……的阴影下"
+        }
+      },
+      {
+        "title": "play a role in",
+        "content": "在……中起作用",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102050,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/pleɪ ə rəʊl ɪn/",
+          "say": "play a role in",
+          "cn": "在……中起作用"
+        }
+      },
+      {
+        "title": "differ from",
+        "content": "与……不同",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102060,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/ˈdɪfə(r) frəm/",
+          "say": "differ from",
+          "cn": "与……不同"
+        }
+      },
+      {
+        "title": "distinguish A from B",
+        "content": "区分 A 和 B",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102070,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/dɪˈstɪŋɡwɪʃ ... frəm/",
+          "say": "distinguish A from B",
+          "cn": "区分 A 和 B"
+        }
+      },
+      {
+        "title": "would rather...than",
+        "content": "宁愿……而不愿",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102080,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/wʊd ˈrɑːðə(r) ðæn/",
+          "say": "would rather than",
+          "cn": "宁愿……而不愿"
+        }
+      },
+      {
+        "title": "confronted with",
+        "content": "面对……",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102090,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/kənˈfrʌntɪd wɪð/",
+          "say": "confronted with",
+          "cn": "面对……"
+        }
+      },
+      {
+        "title": "of one's own age",
+        "content": "同龄的",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102100,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/əv wʌnz əʊn eɪdʒ/",
+          "say": "of one's own age",
+          "cn": "同龄的"
+        }
+      },
+      {
+        "title": "recommend",
+        "content": "建议（虚拟语气）",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102110,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/ˌrekəˈmend/",
+          "say": "recommend",
+          "cn": "建议（虚拟语气）"
+        }
+      },
+      {
+        "title": "demand",
+        "content": "要求（虚拟语气）",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102120,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/dɪˈmɑːnd/",
+          "say": "demand",
+          "cn": "要求（虚拟语气）"
+        }
+      },
+      {
+        "title": "insist",
+        "content": "坚持（虚拟语气）",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102130,
+        "source": null,
+        "tags": [
+          "英语",
+          "必背词汇",
+          "③ 固定搭配必背词组（配合第八节）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背词汇总表（音标 · 中文 · 点读）",
+          "chapterIntro": "<div><b>这是给\"不认识英语\"的你准备的一页清单。</b>每天抽 10 分钟，<b>点读 → 跟读 → 遮住中文回忆意思</b>。全部只需<b>认读</b>（看到认识），不需要会拼写——除了写作要用的那几句，其余只要\"混个眼熟 + 听得出音\"就够。</div>",
+          "section": "必背词汇",
+          "group": "③ 固定搭配必背词组（配合第八节）",
+          "ipa": "/ɪnˈsɪst/",
+          "say": "insist",
+          "cn": "坚持（虚拟语气）"
+        }
+      },
+      {
+        "title": "十三、一句话行动清单",
+        "content": "<div><ul><li>✅ <b>今天开始</b>：学阅读定位法 4 步，做 2 篇真题</li><li>✅ <b>三招保底 60 分</b>：阅读定位（36 分）+ 对话套路（12 分）+ 写作模板（15 分）</li><li>✅ <b>背 4 套作文模板</b>：通知 / 申请信 / 邀请信 / 求助信（每篇都有译文 + 点读）</li><li>✅ <b>背语音例外词 + 12 组固定搭配</b>，全部带音标、可点读（见第十二节）</li><li>✅ <b>完形不要恋战</b>，它对 5 题就够，时间全留给阅读和作文</li></ul></div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 1200000,
+        "source": null,
+        "tags": [
+          "英语",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "十三、一句话行动清单",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "十四、附录 · 补全对话 12 年真题原文与答案（练习用）",
+        "content": "<div><b>怎么练</b>：遮住下面的答案 → 用第五节\"形状法\"先在每个空旁写下你猜的字母 → 再对答案。<br><b>练的重点不是记住文章，而是练\"看到数字 / 大写 / Yes / Sure / Thank you 时的反应速度\"。</b>做 3-5 年就会形成条件反射。<br>另：2019 年前 PDF 的题号与正文序号有错位，本附录已按原文纠正为 56-60。</div>\n<div>\n<div>2014 年</div>\n<div>Father: How's your day at school, Costa? Costa: <b>（56）____</b> ,Daddy! It's a day I will never forget. Father: Oh, is it? <b>（57）____</b> , my son? Costa: I have been made the chairman of the Students' Association. Father: That' s great. <b>（58）____</b> ! Costa: <b>（59）____</b> . Father: That's really nice.You stood first in the examination and now you have won the chairmanship. <b>（60）____</b> ,my son. Costa: Thank you, Daddy.</div>\n<div><span>正确答案</span><b>56</b>·<b> E </b>It's a wonderful day ｜ <b>57</b>·<b> C </b>What makes the day so important ｜ <b>58</b>·<b> B </b>Congratulations ｜ <b>59</b>·<b> G </b>Thanks, Daddy ｜ <b>60</b>·<b> H </b>I'm proud of you</div>\n<div>多余项：A、D、F</div>\n\n</div>\n<div>\n<div>2015 年</div>\n<div>Mary: We couldn't ask for a better day, could we? John: I know. <b>（56）____</b> .I love this time of the year. Mary: This bus seems to be running late, doesn't it? <b>（57）____</b> ? John: I've been here for at least ten minutes. Mary: Ah, here comes a bus! John: Oh good.Wait! <b>（58）____</b> .That bus goes downtown. Mary: Well, it looks like we'll be waiting a little longer. <b>（59）____</b> ,I guess. John: Oh, I'm afraid you have no time for that.Here's our bus. Mary: Oh great! I thought it would never come. John: <b>（60）____</b> ! Mary: You too.</div>\n<div><span>正确答案</span><b>56</b>·<b> B </b>There isn't a cloud in the sky ｜ <b>57</b>·<b> D </b>How long have you been waiting ｜ <b>58</b>·<b> H </b>That's not our bus ｜ <b>59</b>·<b> A </b>I'll catch up on my reading to kill time ｜ <b>60</b>·<b> E </b>Have a nice day</div>\n<div>多余项：C、F、G</div>\n\n</div>\n<div>\n<div>2016 年</div>\n<div>Lisa: Well, honey, how did you like the opera? Henry: <b>（56）____</b> ? Lisa: Of course. Henry: To tell the truth, I was bored to death.What a ridiculous art form! <b>（57）____</b> . Lisa: Hum! <b>（58）____</b> ? It was beautiful.And you just saw one of my favourite operas. Henry: <b>（59）____</b> , dear.I know you like opera, but it just isn't for me.I'd rather read a novel or watch a movie. Lisa: But you don't know how to appreciate opera. <b>（60）____</b> . Henry: OK, what you're saying may be true.</div>\n<div><span>正确答案</span><b>56</b>·<b> H </b>Do you want me to be honest ｜ <b>57</b>·<b> D </b>I never want to watch any opera ｜ <b>58</b>·<b> G </b>How can you say that ｜ <b>59</b>·<b> E </b>I'm sorry ｜ <b>60</b>·<b> F </b>That's the problem</div>\n<div>多余项：A、B、C</div>\n\n</div>\n<div>\n<div>2017 年</div>\n<div>Woman: Hello, Mr.Johnson's office. Man: Good morning. <b>（56）____</b> ? Woman: Sorry, he's in a meeting at the moment. <b>（57）____</b> ? Man: Yes.This is Steve Lee from Brightlight Systems. <b>（58）____</b> ? Woman: Tomorrow afternoon in your office. Man: <b>（59）____</b> . Woman: Okay. <b>（60）____</b> . Man: Thank you.</div>\n<div><span>正确答案</span><b>56</b>·<b> A </b>Can I speak to Mr. Johnson, please ｜ <b>57</b>·<b> F </b>Can I take a message ｜ <b>58</b>·<b> E </b>Can you tell him that we can meet tomorrow afternoon in my office ｜ <b>59</b>·<b> H </b>That's right ｜ <b>60</b>·<b> C </b>I'll give him the message</div>\n<div>多余项：B、D、G</div>\n\n</div>\n<div>\n<div>2018 年</div>\n<div>Mary:How do you like the idea of having a picnic this Saturday? John:Wonderful.But<b>（56）____</b>？ Mary:What about the Blue Mountain?It´s quite cool there. John:That´s a good idea.Shall we invite Michael and his girlfriend to go with us? Mary:Sure!It would<b>（57）____</b>to have them with us. John:Good!<b>（58）____</b>？ Mary:You could buy some drinks and sandwiches.And some fruit,too. John:OK.<b>（59）____</b>？ Mary:How about 8 o´ clock in the morning?It takes about two hours to get there. John:OK.I´ll call Michael and tell him about our plan.We sure will<b>（60）____</b>.</div>\n<div><span>正确答案</span><b>56</b>·<b> H </b>? ｜ <b>57</b>·<b> E </b>be great fun ｜ <b>58</b>·<b> G </b>What should I take ｜ <b>59</b>·<b> A </b>When shall we set off ｜ <b>60</b>·<b> C </b>have a wonderful time</div>\n<div>多余项：B、D、F</div>\n<div>⚠️ 库内本题选项只录到 G，<b>缺选项 H</b>。按 PDF 原文，H 为 <b>\"where to\"</b>，即第 56 空答案。</div>\n</div>\n<div>\n<div>2019 年</div>\n<div>Receptionist: Good morning! Mr.Smith: Good morning! Today we are free for sightseeing.<b>（56）____</b> Receptionist: Okay.Have you ever been here before? Mr.Smith: No.<b>（57）____</b> Receptionist: Then, I suggest that you visit the Ancient Cultural Street. Mr.Smith: <b>（58）____</b> Receptionist: Yes.The architecture is wonderful.It represents the folk style of the Qing Dynasty. Mr.Smith: <b>（59）____</b>Thank you very much. Receptionist: <b>（60）____</b>Have a good time!</div>\n<div><span>正确答案</span><b>56</b>·<b> D </b>Could you recommend some places for us? ｜ <b>57</b>·<b> B </b>This is our first trip here. ｜ <b>58</b>·<b> H </b>Is there anything interesting there? ｜ <b>59</b>·<b> A </b>Sounds great! ｜ <b>60</b>·<b> E </b>You are welcome.</div>\n<div>多余项：C、F、G</div>\n\n</div>\n<div>\n<div>2020 年</div>\n<div>Alice: <b>（56）____</b> Sam: To my dorm. Alice: Great! Could you take this book to Peter? Sam: <b>（57）____</b> Does Peter know what it is for? Alice: Yes. <b>（58）____</b> Sam: <b>（59）____</b> Are you well prepared for it? Alice: <b>（60）____</b> See you tomorrow! Sam: See you!</div>\n<div><span>正确答案</span><b>56</b>·<b> D </b>Where are you heading? ｜ <b>57</b>·<b> F </b>No problem ! ｜ <b>58</b>·<b> B </b>He needs it for tomorrow's presentation. ｜ <b>59</b>·<b> A </b>How about your presentation? ｜ <b>60</b>·<b> C </b>l think so.</div>\n<div>多余项：E、G、H</div>\n\n</div>\n<div>\n<div>2021 年</div>\n<div>Daniel: How are you doing, Linda? Linda: To be honest, I am really tired of my work at the moment.<b>（56）____</b> Daniel: My friends and I are planning a trip on Sunday.<b>（57）____</b> Linda: Sure, I' d love to.<b>（58）____</b> Daniel: The Golden Beach.We will have a picnic there.It will be fun! Linda : I can' t wait !<b>（59）____</b> Daniel : Eight o' clock in the morning.We' llpick you up at your place. Linda : Great !<b>（60）____</b></div>\n<div><span>正确答案</span><b>56</b>·<b> E </b>I need a break ! ｜ <b>57</b>·<b> F </b>Would you like to join us? ｜ <b>58</b>·<b> C </b>Where are you planning to go? ｜ <b>59</b>·<b> H </b>When shall we leave? ｜ <b>60</b>·<b> B </b>See you then!</div>\n<div>多余项：A、D、G</div>\n\n</div>\n<div>\n<div>2022 年</div>\n<div>Clerk: Hello, this is the front desk. <b>（56）____</b>? Brown: Hello, I need to catch a plane tomorrow at 9 a.m. <b>（57）____</b>? Clerk: Of course. <b>（58）____</b>? Brown: Room 423. Clerk: OK, we will call you then. <b>（59）____</b>? Brown: Yes. I need a taxi for 7 a.m. Could you do me a favor? Clerk: No problem. <b>（60）____</b>? Brown: Yes, thanks for your help. Clerk: It's my pleasure.</div>\n<div><span>正确答案</span><b>56</b>·<b> A </b>How can I help you ｜ <b>57</b>·<b> C </b>Can you arrange a wake-up call at 6 a.m. ｜ <b>58</b>·<b> H </b>What is your room number ｜ <b>59</b>·<b> E </b>What else can I help you with ｜ <b>60</b>·<b> D </b>Is that all</div>\n<div>多余项：B、F、G</div>\n\n</div>\n<div>\n<div>2023 年</div>\n<div>Clerk : Hello, welcome to North Park Hotel! <b>（56）____</b> ? David: Hi, yes. <b>（57）____</b> .My assistant booked a room for me three days ago. Clerk: <b>（58）____</b> ? David: Sarah Gatesby. Clerk: Ah, yes.She has booked a standard double room, non-smoking for David Black David: Yes, that's me. Clerk: <b>（59）____</b> ? David: Sure. <b>（60）____</b> Clerk:Thank you</div>\n<div><span>正确答案</span><b>56</b>·<b> E </b>How may I help you ｜ <b>57</b>·<b> A </b>I have a reservation ｜ <b>58</b>·<b> C </b>What's the name, please ｜ <b>59</b>·<b> H </b>May I see your ID, please ｜ <b>60</b>·<b> D </b>Here you are</div>\n<div>多余项：B、F、G</div>\n\n</div>\n<div>\n<div>2024 年</div>\n<div>Secretary: Good afternoon. <b>（56）____</b> Yang: Yes, please. I'm Dennis Yang. I have an appointment with Mr. Long this afternoon. Secretary: Well, Mr. Yang, your appointment is at 3 p.m. <b>（57）____</b> Yang: I'm sorry. I've come here too early. Secretary: It's Okay. <b>（58）____</b> Yang: Sure. Secretary: Would you like something to drink? Coffee, tea or water? Yang: <b>（59）____</b> Thank you. Secretary: <b>（60）____</b></div>\n<div><span>正确答案</span><b>56</b>·<b> H </b>Can I help you? ｜ <b>57</b>·<b> C </b>Mr.Long is still in a meeting. ｜ <b>58</b>·<b> B </b>Could you be waiting here? ｜ <b>59</b>·<b> G </b>Just water, please. ｜ <b>60</b>·<b> E </b>You're welcome.</div>\n<div>多余项：A、D、F</div>\n\n</div>\n<div>\n<div>2025 年</div>\n<div>Nick: Hi, Ryan. Do you know when the test results will come out? Ryan: <b>（56）____</b> Nick: I'm anxious to see how I did. <b>（57）____</b> Ryan: I'm not that nervous. <b>（58）____</b> Nick: I think most of the test was pretty easy, but some of the questions were tricky. Ryan: <b>（59）____</b> That won't do you any good. Nick: How could you stay so calm all the time? Ryan: <b>（60）____</b> Nick: You're lucky. I worry all the time.</div>\n<div><span>正确答案</span><b>56</b>·<b> D </b>I have no idea. ｜ <b>57</b>·<b> G </b>I barely finished the test in time. ｜ <b>58</b>·<b> G </b>I barely finished the test in time. ｜ <b>59</b>·<b> B </b>Try not to worry about it too much. ｜ <b>60</b>·<b> F </b>It's just who I am.</div>\n<div>多余项：A、C、E、H <span>题库数据异常</span></div>\n<div>⚠️ 库内第 57、58 空答案重复记为 G，与\"8 选 5 不重复\"矛盾。按对话逻辑第 58 空应为 <b>E. I don't think the test was hard.</b>（Ryan 说\"没那么紧张\"→\"我觉得题不难\"→ Nick 接\"大部分题挺简单\"）。已按原文保留原始数据，此处以逻辑修正为准。</div>\n</div>\n<div>数据来源：本项目真题数据库（英语 2014-2025 共 12 套 / 732 题 / 1800 分）+ 12 套 PDF 原卷补全对话正文。试卷结构、考点分布、阅读题干类型均逐题统计得出；固定搭配与题型示例取自真题解析。<b>音标为英式（BrE）注音，取自通用词典；中文释义按本方案语境给出。</b>发音功能使用浏览器内置语音合成（Web Speech API），无需联网，声音效果取决于系统语音库。题目为考生回忆版整理，个别表述可能与官方原卷有差异，答案以官方为准。</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 1300000,
+        "source": null,
+        "tags": [
+          "英语",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "十四、附录 · 补全对话 12 年真题原文与答案（练习用）",
+          "chapterIntro": null
+        }
+      }
+    ]
+  },
+  {
+    "subjectName": "高等数学（一）",
+    "display": "高等数学一",
+    "sourceFile": "高等数学一-5周冲刺保底方案.html + 2015—2025 真题库",
+    "items": [
+      {
+        "title": "高等数学一 · 5 周冲刺保底方案",
+        "content": "<div>\n  \n  <p>考试：2026 年 10 月 17 日 · 上海成人高考专升本（理工类） · 依据《全国各类成人高等学校招生考试大纲（2024 年版）》<br>\n  数据来源：2015—2025 年 11 套真题 / 288 题 / 1650 分（其中 2024、2025 两年为现行 18 题新结构）</p>\n</div>\n<div>\n  <div><div>选择题分值</div>\n<div>84 <small>分 / 150</small></div>\n<div>12 题 × 7 分，占整卷 56%</div></div>\n<div><div>其中「套模板」可拿</div>\n<div>63 <small>分</small></div>\n<div>保守 9 题（2024 达 11 题）</div></div>\n<div><div>保底 → 预期</div>\n<div>50 <small>→ 81 分</small></div>\n<div>做对 8 题即达标，执行到位约 81</div></div>\n<div><div>客观题合计占比</div>\n<div>70 <small>%</small></div>\n<div>选择 84 + 填空 21 = 105 分</div></div>\n</div>\n<div>\n<b>一句话结论</b>：高等数学一和英语、政治不同——它不需要「读懂」，只需要「认得出题型 + 背得住公式」。\n现行结构下 <b>选择题 84 分里有约 63 分是单点公式题</b>，只要把 <b>积分、求导、极限、偏导</b> 四类模板练到条件反射，\n50 分是稳稳的算术题。本方案就是围绕这个算术题设计的。\n</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": -1,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "概览"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": true,
+          "chapter": "高等数学一 · 5 周冲刺保底方案",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "一、先看清战场：50 分长在哪里",
+        "content": "<p>现行结构（2024 版大纲，2026 年继续沿用，已核实无变动）</p>\n<table>\n<tr><th>部分</th><th>题号</th><th>题数</th><th>每题分值</th><th>小计</th><th>占比</th></tr>\n<tr><td><b>选择题</b></td><td>1—12</td><td>12</td><td>7 分</td><td><b>84 分</b></td><td><b>56%</b></td></tr>\n<tr><td>填空题</td><td>13—15</td><td>3</td><td>7 分</td><td>21 分</td><td>14%</td></tr>\n<tr><td>解答题</td><td>16—18</td><td>3</td><td>15 分</td><td>45 分</td><td>30%</td></tr>\n<tr><td><b>合计</b></td><td><b>150 分 / 150 分钟</b></td><td>100%</td></tr>\n</table>\n<div>\n<b>为什么选择题是主战场</b>：① 84 分是整卷最大一块；② 每题 7 分，比旧结构（4 分）翻近一倍——<b>错一道的代价等于过去两道</b>；\n③ 选择题不要求写过程，<b>能看出答案就行</b>，这对时间紧张的冲刺最友好；④ 4 个选项本身就是提示，可以用代入法、排除法反推。\n</div>\n<div>\n<b>⚠️ 别被机构卷带偏</b>：市面上大量 2026「冲刺卷」「模拟卷」仍是 <b>28 题旧结构</b>（10 选 ×4 + 10 填 ×4 + 8 解，解答题共 70 分）。\n特征是：总题量 28 / 选择题每题 4 分 / 解答题 8 题 / 时长标 120 分钟。这类卷子<b>可以当考点练习册</b>，\n但<b>绝不能用来练时间分配</b>——它只有 10 道选择，而你要考的是 12 道。\n</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 0,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "一、先看清战场：50 分长在哪里",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "二、核心发现：12 道选择题里，约 9 道是「套模板」题",
+        "content": "<p>把 2024、2025 两年真题的每一道选择题逐一判定——只看「几步能出答案、套路是否固定」。</p>\n\n2024 年 12 题逐题判定\n<table><tr><th>题号</th><th>考点</th><th>解法一句话</th><th>步数</th><th>判定</th></tr><tr><td>1</td><td>极限：由 $\\lim\\limits_{x\\to 0}\\dfrac{1-e^{kx}}{x}=2$ 求 $k$</td><td>等价无穷小 $1-e^{kx}\\sim -kx\\ (x\\to 0)$</td><td>1</td><td><span>模板</span></td></tr><tr><td>2</td><td>无穷小比较：$\\ln(1+2x^{2})$ 是 $x$ 的几阶无穷小</td><td>$\\ln(1+u)\\sim u$，得 $2x^{2}$，除以 $x$ 后为高阶</td><td>1</td><td><span>模板</span></td></tr><tr><td>3</td><td>隐函数求导：$y^{3}+x^{3}-3xy=1$ 求 $f'(0)$</td><td>代 $x=0$ 得 $y=1$ → 两边求导 → 代入</td><td>2</td><td><span>模板</span></td></tr><tr><td>4</td><td>求微分：$y=x\\sin x$，求 $\\left.dy\\right|_{x=1}$</td><td>$y'=\\sin x+x\\cos x$，代值乘 $dx$</td><td>1</td><td><span>模板</span></td></tr><tr><td>5</td><td>法线斜率：$y=\\dfrac{1}{x}$ 在点 $(1,1)$ 处</td><td>$k_{1}=-1\\ \\Rightarrow\\ k_{2}=-\\dfrac{1}{k_{1}}=1$</td><td>1</td><td><span>模板</span></td></tr><tr><td>6</td><td>不定积分：$\\displaystyle\\int (2x+1)^{2}\\,dx$</td><td>展开成多项式后逐项积分</td><td>1</td><td><span>模板</span></td></tr><tr><td>7</td><td>定积分：$\\displaystyle\\int_{0}^{\\pi/2}(\\cos x+\\sin x)\\,dx$</td><td>原函数 $\\sin x-\\cos x$，代上下限</td><td>1</td><td><span>模板</span></td></tr><tr><td>8</td><td>定积分：$\\displaystyle\\int_{0}^{1}\\dfrac{1}{1+x^{2}}\\,dx$</td><td>$=\\arctan x$，得 $\\dfrac{\\pi}{4}$（背公式）</td><td>1</td><td><span>模板</span></td></tr><tr><td>9</td><td>偏导：$z=\\ln(1+xy)$，求 $\\dfrac{\\partial z}{\\partial y}$</td><td>视 $x$ 为常数，$=\\dfrac{x}{1+xy}$</td><td>1</td><td><span>模板</span></td></tr><tr><td>10</td><td>混合偏导：$z=xy+\\dfrac{y}{x}$，求 $\\dfrac{\\partial^{2}z}{\\partial x\\partial y}$</td><td>先对 $x$ 求导再对 $y$ 求导，两步</td><td>2</td><td><span>模板</span></td></tr><tr><td>11</td><td>闭区间最值：$f(x)=2x^{3}+3x^{2}-12x+14$ 在 $[-3,4]$ 上</td><td>求导找驻点 → 比较驻点值与端点值</td><td>3</td><td><span>能力</span></td></tr><tr><td>12</td><td>二阶常系数方程通解：$y''-6y'+9y=0$</td><td>特征根 $r=3$（二重）$\\Rightarrow\\ y=(C_{1}+C_{2}x)e^{3x}$</td><td>1</td><td><span>模板</span></td></tr></table>\n<div>2024：<b>模板题 11 道（77 分）</b>，能力题仅 1 道（第 11 题，7 分）。</div>\n\n2025 年 12 题逐题判定\n<table><tr><th>题号</th><th>考点</th><th>解法一句话</th><th>步数</th><th>判定</th></tr><tr><td>1</td><td>复合求导：$f(x)=\\sin 7x$，求 $f'\\!\\left(\\dfrac{\\pi}{7}\\right)$</td><td>$f'(x)=7\\cos 7x$ → 代值 $=-7$</td><td>2</td><td><span>模板</span></td></tr><tr><td>2</td><td>高阶导数：$y=2x^{3}-e^{x}$，求 $y'''$</td><td>逐阶求导 3 次</td><td>1</td><td><span>模板</span></td></tr><tr><td>3</td><td>判断 $\\dfrac{5}{x}\\cos\\dfrac{3}{x}$ 当 $x\\to 0$ 时的性质</td><td>取点列证无界 → 非无穷大（概念题）</td><td>3</td><td><span>能力</span></td></tr><tr><td>4</td><td>数列极限：用夹逼准则求 $S_{n}$ 的极限</td><td>夹逼准则，需构造不等式</td><td>3</td><td><span>能力</span></td></tr><tr><td>5</td><td>定积分几何意义：$y=x^{5}$、$x=1$ 与 $x$ 轴围成图形的面积</td><td>$S=\\displaystyle\\int_{0}^{1}x^{5}\\,dx=\\dfrac{1}{6}$</td><td>1</td><td><span>模板</span></td></tr><tr><td>6</td><td>不定积分：$\\displaystyle\\int\\left(x+\\dfrac{1}{x}\\right)^{2}dx$</td><td>展开后逐项积分</td><td>1</td><td><span>模板</span></td></tr><tr><td>7</td><td>换元积分：$F(x)$ 是 $f(x)$ 的原函数，求 $\\displaystyle\\int e^{2x}f(e^{2x})\\,dx$</td><td>令 $u=e^{2x}$ $\\Rightarrow\\ \\dfrac{1}{2}F(e^{2x})+C$</td><td>2</td><td><span>模板</span></td></tr><tr><td>8</td><td>广义积分：$\\displaystyle\\int_{0}^{+\\infty}\\dfrac{1}{(x+5)^{2}}\\,dx$</td><td>求原函数 → 取极限 $=\\dfrac{1}{5}$</td><td>1</td><td><span>模板</span></td></tr><tr><td>9</td><td>定积分：$\\displaystyle\\int_{1}^{4}\\left(x+\\dfrac{1}{x}\\right)dx$</td><td>原函数 $\\dfrac{x^{2}}{2}+\\ln x$，代上下限</td><td>1</td><td><span>模板</span></td></tr><tr><td>10</td><td>球面方程：直径端点为 $(2,-3,5)$、$(4,1,-1)$</td><td>中点即球心 → 半距求 $R^{2}$</td><td>2</td><td><span>模板</span></td></tr><tr><td>11</td><td>收敛半径：$\\displaystyle\\sum_{n=1}^{\\infty}\\dfrac{(3x-1)^{n}}{\\sqrt{n}}$</td><td>换元 $t=3x-1$，$R_{t}=1$ → 原 $R=\\dfrac{1}{3}$</td><td>2</td><td><span>模板</span></td></tr><tr><td>12</td><td>二元函数连续：求分式在 $(0,0)$ 处应取的 $a$</td><td>令 $t=xy$ → 等价无穷小展开</td><td>3</td><td><span>能力</span></td></tr></table>\n<div>2025：<b>模板题 9 道（63 分）</b>，能力题 3 道（第 3、4、12 题，21 分）。</div>\n<div>\n<b>两年取保守值：<span>9 题 × 7 分 = 63 分</span> 属于「背了公式就能做对」的题。</b><br>\n而这个数字已经把最难的一年（2025）算进去了。也就是说：<b>你只要把 4 类模板练熟，选择题就能拿 56—63 分，\n在 150 分卷里已经超过保底目标 50 分。</b>\n</div>\n\n模板题的四个「家族」（按出现频次）\n<table>\n<tr><th>家族</th><th>两年出现在</th><th>占模板题比例</th><th>特点</th></tr>\n<tr><td><b>① 积分计算</b></td><td>2024 第 6/7/8 题\\quad 2025 第 5/6/7/8/9 题</td><td><b>40%</b></td><td>公式直用 + 展开 + 代上下限，<b>0 思考量</b></td></tr>\n<tr><td><b>② 求导计算</b></td><td>2024 第 3/4/5 题\\quad 2025 第 1/2 题</td><td>25%</td><td>复合 / 高阶 / 隐函数 / 微分 $dy$ / 切线斜率</td></tr>\n<tr><td><b>③ 极限计算</b></td><td>2024 第 1/2 题</td><td>10%</td><td>等价无穷小 + 重要极限，最多两步</td></tr>\n<tr><td><b>④ 公式直用</b></td><td>2024 第 9/10/12 题\\quad 2025 第 10/11 题</td><td>25%</td><td>偏导 / 全微分 / 收敛半径 / 球面 / 二阶常微分方程</td></tr>\n</table>\n<div>\n<b>记住这个投入产出比</b>：<b>只练「积分 + 求导」两个家族，就能覆盖模板题的 65%（13/20 道），约合选择题 42—49 分</b>。\n极限和公式直用型各只需半天。这四块加起来的学习量，远小于「把教材过一遍」。\n</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 100000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "二、核心发现：12 道选择题里，约 9 道是「套模板」题",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "三、目标与预期：保底 50 分，现实 78—95 分",
+        "content": "3.1\\quad 先定保底线：三条路径，按你剩下的时间选\n<table>\n<tr><th>路径</th><th>怎么拿</th><th>算式</th><th>建议</th></tr>\n<tr><td><b>A · 最省力</b></td><td>选择题做对 8 题</td><td>$8\\times 7=\\mathbf{56}$ 分</td>\n<td><span>首推</span> 只练选择题模板，5 周里用 3 周即可达成，性价比最高</td></tr>\n<tr><td><b>B · 稳妥</b></td><td>选择题 7 题 + 填空题 1 题</td><td>$49+7=\\mathbf{56}$ 分</td>\n<td>填空题里「凑微分」「求导为零」两类最容易，练 2 天就能锁定 1 题</td></tr>\n<tr><td><b>C · 有野心</b></td><td>选择 8 题 + 填空 2 题 + 解答第 1 题拿步骤分</td><td>$56+14+6=\\mathbf{76}$ 分</td>\n<td>解答题每题 15 分，<b>写出公式和第一步就有分</b>，别留空白</td></tr>\n</table>\n\n3.2\\quad 再算预期值：按方案走完 5 周，大概能拿多少\n<p>「保底 50 分」是最低线，不是终点。下面是按执行程度分档的预期落点——注意看第三行，那是本方案的正常预期。</p>\n<table>\n<tr><th>执行程度</th><th>选择题<br>84</th><th>填空题<br>21</th><th>解答题<br>45</th><th>预期总分</th><th>说明</th></tr>\n<tr><td>完全裸考（全靠蒙）</td><td>21</td><td>4</td><td>3</td><td><b>约 28 分</b></td>\n<td>选择题按 $1/4$ 概率蒙；填空、解答基本拿不到</td></tr>\n<tr><td>只背公式卡、不练真题</td><td>42—49</td><td>7</td><td>5—8</td><td><b>54—64 分</b></td>\n<td>公式记住了但用不熟，容易算错、忘 $+C$、符号出错</td></tr>\n<tr><td><b>按方案执行（主攻选择题）</b></td><td><b>56—63</b></td><td><b>7—14</b></td><td><b>15—18</b></td><td><b>78—95 分</b></td>\n<td><b>⭐ 本方案的现实落点，中位约 81 分</b>。每天 1.5—2 小时即可</td></tr>\n<tr><td>执行到位（练透二重积分）</td><td>63—70</td><td>14—21</td><td>21—30</td><td><b>98—121 分</b></td>\n<td>需要每天 2 小时以上，且把 11 道二重积分真题全做透</td></tr>\n</table>\n<div>\n<b>为什么预期能到 80 分以上</b>：选择题 84 分里有 63 分是「背了公式就会」的模板题，\n这一块稳定拿下 8—9 题就是 56—63 分；再加填空题最易的 1—2 题（7—14 分）、\n解答题里唯一能提前锁定的二重积分（12—15 分）和另两题的步骤分（3—6 分）——加总就是 78—98 分。\n<b>预期区间取保守值 78—95 分。</b>\n</div>\n\n3.3\\quad 预期得分来自哪里（逐题型拆解）\n<table>\n<tr><th>题型</th><th>满分</th><th>预期做对</th><th>预期得分</th><th>依据</th></tr>\n<tr><td>选择题 · 模板题</td><td>63<br><span>9 题 × 7</span></td><td>8 题</td><td><b>56</b></td>\n<td>2024、2025 两年模板题各占 11 题、9 题，题型高度重复，练熟即得分</td></tr>\n<tr><td>选择题 · 能力题</td><td>21<br><span>3 题 × 7</span></td><td>1 题</td><td><b>7</b></td>\n<td>看到夹逼、无界判定这类先标记跳过，排除 2 项后蒙，命中率约 $1/3$</td></tr>\n<tr><td>填空题</td><td>21<br><span>3 题 × 7</span></td><td>1—2 题</td><td><b>7—14</b></td>\n<td>只练「凑微分 + 全微分」两类，这两类在两年真题里都出现过</td></tr>\n<tr><td>解答题 · 二重积分</td><td>15<br><span>1 题</span></td><td>拿 12 分</td><td><b>12</b></td>\n<td>11 套卷 100% 命中，练透四步法就能拿，算错也有过程分</td></tr>\n<tr><td>解答题 · 另两题</td><td>30<br><span>2 题</span></td><td>步骤分</td><td><b>6</b></td>\n<td>写出公式 + 第一步就有 3~6 分，<b>绝不空题</b></td></tr>\n<tr><td><b>合计（中位预期）</b></td><td><b>81 / 150</b></td><td>区间 78—95 分；「选择·能力题」7 分未计入中位，计入则约 88—95 分</td></tr>\n</table>\n<div>\n  <div>整卷满分构成（150 分）</div>\n<div>\n    <div>选择题 84</div>\n<div>填空 21</div>\n<div>解答 45</div>\n  </div>\n<div>按方案执行的预期得分（约 81 分）</div>\n<div>\n    <div>选择题 56</div>\n<div>7</div>\n<div>18</div>\n<div>未拿到 ≈ 69 分</div>\n  </div>\n<div><i></i>选择题 <i></i>填空题 <i></i>解答题 <i></i>未拿到</div>\n</div>\n<div>\n<b>看这张图的两个结论</b>：① 你先要啃的是<b>最左边那一大块（选择题 84 分）</b>，它决定了整卷的成败；\n② 预期 81 分意味着<b>仍有约 69 分拿不到</b>——这不是失败，而是这套方案主动舍弃的部分（难题、证明、部分分式等），\n<b>把时间集中在能拿分的地方，才是 5 周内最合理的选择。</b>\n</div>\n\n3.4\\quad 明确不要做的事（时间不够时的取舍）\n<div>\n<ul>\n<li><b>不要</b>系统学「微分中值定理」——11 年真题里零命中（只作理论背景）。</li>\n<li><b>不要</b>花时间在「有理函数部分分式积分」「条件极值 / 拉格朗日乘数法」——真题从未直接考。</li>\n<li><b>不要</b>去啃证明题的通用技巧——三年才考 3 次，且都是「构造辅助函数求最值」同一招。</li>\n<li><b>不要</b>做机构 28 题旧结构卷的「时间模拟」——结构不对，只会打乱节奏。</li>\n</ul>\n</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 200000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "三、目标与预期：保底 50 分，现实 78—95 分",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "四、模板族 ① 积分计算（占模板题 40%，最高优先级）",
+        "content": "<div>\n<span>1</span>必背公式卡（这 8 条覆盖 90% 的积分题）\n<div>\n$$\\begin{aligned}\n&\\int x^{a}\\,\\mathrm{d}x=\\frac{x^{a+1}}{a+1}+C\\quad(a\\neq-1) & &\\int \\frac{1}{x}\\,\\mathrm{d}x=\\ln|x|+C\\\\\n&\\int e^{x}\\,\\mathrm{d}x=e^{x}+C & &\\int a^{x}\\,\\mathrm{d}x=\\frac{a^{x}}{\\ln a}+C\\\\\n&\\int \\sin x\\,\\mathrm{d}x=-\\cos x+C & &\\int \\cos x\\,\\mathrm{d}x=\\sin x+C\\\\\n&\\int \\frac{1}{1+x^{2}}\\,\\mathrm{d}x=\\arctan x+C & &\\int \\frac{1}{\\cos^{2}x}\\,\\mathrm{d}x=\\tan x+C\n\\end{aligned}$$\n</div>\n<div><b>关键提醒</b>：写不定积分<b>必须加 $+C$</b>；选择题里如果四个选项都没有 $+C$，说明它在求定积分或原函数特值。</div>\n</div>\n<div>\n<span>2</span>两种「不会做也能做」的套路\n<p><b>套路 A：凑微分（把被积式改写成 $f(u)\\cdot u'$ 的形式）</b></p>\n<div><b>①</b> 找出那个「整体」当 $u$（如 $2x+1$、$2x^{3}$、$e^{2x}$）</div>\n<div><b>②</b> 算 $\\mathrm{d}u=u'\\,\\mathrm{d}x$，把常数系数凑出来</div>\n<div><b>③</b> 变成 $\\displaystyle\\int f(u)\\,\\mathrm{d}u$ 直接套公式</div>\n<div>\n例：$\\displaystyle\\int x^{2}e^{2x^{3}}\\,\\mathrm{d}x$\n\\quad 令 $u=2x^{3}$，则 $\\mathrm{d}u=6x^{2}\\mathrm{d}x$，即 $x^{2}\\mathrm{d}x=\\dfrac{\\mathrm{d}u}{6}$\n$$\\int e^{u}\\cdot\\frac{\\mathrm{d}u}{6}=\\frac{1}{6}e^{u}+C=\\frac{1}{6}e^{2x^{3}}+C$$\n</div>\n<p><b>套路 B：先展开再逐项积（被积式是括号的平方 / 乘积时）</b></p>\n<div>\n例：$\\displaystyle\\int\\left(x+\\frac{1}{x}\\right)^{2}\\mathrm{d}x=\\int\\left(x^{2}+2+\\frac{1}{x^{2}}\\right)\\mathrm{d}x$\n$$=\\frac{x^{3}}{3}+2x-\\frac{1}{x}+C$$\n</div>\n<div><b>看到「括号的幂」先展开</b>，这是命题人送分的方式——2024 的 $\\displaystyle\\int(2x+1)^{2}\\mathrm{d}x$、2025 的 $\\displaystyle\\int\\left(x+\\dfrac{1}{x}\\right)^{2}\\mathrm{d}x$ 都是这么出的。</div>\n</div>\n<div>\n<span>3</span>定积分：牛顿—莱布尼茨公式 + 四个提速技巧\n<div>$$\\int_{a}^{b}f(x)\\,\\mathrm{d}x=F(b)-F(a)\\qquad(F'(x)=f(x))$$</div>\n<table>\n<tr><th>技巧</th><th>内容</th><th>真题</th></tr>\n<tr><td><b>① 奇偶性砍一半</b></td><td>奇函数在对称区间 $[-a,a]$ 上积分 $=0$；偶函数 $=2\\displaystyle\\int_{0}^{a}$</td><td>2024 填空第 16 题 $\\displaystyle\\int_{-1}^{1}(\\arctan x+x^{2})\\,\\mathrm{d}x$，$\\arctan x$ 部分直接扔，$=\\dfrac{2}{3}$</td></tr>\n<tr><td><b>② 展开后逐项积</b></td><td>加减法可拆开算</td><td>2024 第 7 题 $\\displaystyle\\int(\\cos x+\\sin x)\\,\\mathrm{d}x$</td></tr>\n<tr><td><b>③ 背熟特殊值</b></td><td>$\\arctan 1=\\dfrac{\\pi}{4}$，$\\ln 1=0$，$\\sin\\dfrac{\\pi}{2}=1$</td><td>2024 第 8 题得 $\\dfrac{\\pi}{4}$</td></tr>\n<tr><td><b>④ 广义积分 = 定积分后取极限</b></td><td>$\\displaystyle\\int_{a}^{+\\infty}f\\,\\mathrm{d}x=\\lim_{b\\to+\\infty}\\int_{a}^{b}f\\,\\mathrm{d}x$</td><td>2025 第 8 题 $\\displaystyle\\int_{0}^{+\\infty}\\frac{1}{(x+5)^{2}}\\,\\mathrm{d}x=\\mathbf{\\dfrac{1}{5}}$</td></tr>\n</table>\n</div>\n<div>\n<span>4</span>定积分的几何应用（面积）——只有一个公式\n<div>$$S=\\int_{a}^{b}|f(x)|\\,\\mathrm{d}x$$\n（曲线 $y=f(x)$ 与 $x$ 轴、直线 $x=a$、$x=b$ 所围成的面积）\n</div>\n<div><b>①</b> 画草图，找交点定出上下限 $a$、$b$</div>\n<div><b>②</b> 判断函数在区间上的正负（$x$ 轴上方取正）</div>\n<div><b>③</b> 套公式算定积分</div>\n<div>例：$y=x^{5}$ 与 $x=1$、$x$ 轴围成 $\\Rightarrow\\ S=\\displaystyle\\int_{0}^{1}x^{5}\\,\\mathrm{d}x=\\dfrac{1}{6}$</div>\n</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 300000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "四、模板族 ① 积分计算（占模板题 40%，最高优先级）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "五、模板族 ② 求导计算（占模板题 25%）",
+        "content": "<div>\n<span>1</span>必背导数公式（8 条，和积分公式互为镜像）\n<div>\n$$\\begin{aligned}\n&(x^{a})'=ax^{a-1} & &(e^{x})'=e^{x} & &(a^{x})'=a^{x}\\ln a\\\\\n&(\\ln x)'=\\frac{1}{x} & &(\\sin x)'=\\cos x & &(\\cos x)'=-\\sin x\\\\\n&(\\tan x)'=\\frac{1}{\\cos^{2}x} & &(\\arctan x)'=\\frac{1}{1+x^{2}}\n\\end{aligned}$$\n</div>\n<div><b>背法</b>：先把积分表 8 条背下来，导数表就是它的逆运算——一一对应，一组一组记，半小时能默写。</div>\n</div>\n<div>\n<span>2</span>五种考法 + 各自套路\n<table>\n<tr><th>考法</th><th>套路</th><th>真题</th></tr>\n<tr><td><b>复合函数求导</b></td><td>由外向内，一层层乘（链式法则）</td><td>2025 第 1 题：$f(x)=\\sin 7x\\Rightarrow f'(x)=7\\cos 7x$，代 $x=\\dfrac{\\pi}{7}$ 得 $\\mathbf{-7}$</td></tr>\n<tr><td><b>高阶导数</b></td><td>老老实实求 $n$ 次，别跳步</td><td>2025 第 2 题：$y=2x^{3}-e^{x}$，$y'''=12-e^{x}$</td></tr>\n<tr><td><b>隐函数求导</b></td><td>① 先由方程解出对应点 ② 两边对 $x$ 求导（<b>$y$ 视为 $y(x)$，乘 $y'$</b>）③ 代点解 $y'$</td><td>2024 第 3 题：$y^{3}+x^{3}-3xy=1$，代 $x=0$ 得 $y=1$，求导后代值 $f'(0)=1$</td></tr>\n<tr><td><b>求微分 $\\mathrm{d}y$</b></td><td>先求 $y'$，再写成 $\\mathrm{d}y=y'\\,\\mathrm{d}x$，最后代值</td><td>2024 第 4 题：$y=x\\sin x\\Rightarrow \\left.\\mathrm{d}y\\right|_{x=1}=(\\sin 1+\\cos 1)\\mathrm{d}x$</td></tr>\n<tr><td><b>切线 / 法线斜率</b></td><td>$k_{1}=f'(x_{0})$；<b>$k_{2}=-\\dfrac{1}{f'(x_{0})}$</b></td><td>2024 第 5 题：$y=\\dfrac{1}{x}$ 在 $(1,1)$，$k_{1}=-1\\Rightarrow k_{2}=\\mathbf{1}$</td></tr>\n</table>\n<div><b>最容易错的两处</b>：① 隐函数求导忘了对 $y$ 乘 $y'$；② 法线斜率忘了取负倒数（写成 $-1$ 或直接抄切线斜率）。</div>\n</div>\n<div>\n<span>3</span>导数应用：闭区间最值（唯一需要「三步」的模板题）\n<div><b>①</b> 求 $f'(x)$，令 $f'(x)=0$ 解出驻点，<b>只保留落在区间 $[a,b]$ 内的</b></div>\n<div><b>②</b> 计算所有驻点的函数值 + 两个端点的函数值 $f(a)$、$f(b)$</div>\n<div><b>③</b> 比大小，最大者为最大值、最小者为最小值</div>\n<div>\n<b>高频陷阱</b>：算完驻点忘了比端点值。2024 第 11 题（$f(x)=2x^{3}+3x^{2}-12x+14$ 在 $[-3,4]$ 上）正确答案是 $142$ 和 $7$，\n其中 $\\mathbf{142}$ <b>就来自端点 $x=4$</b>，只算驻点会选错。\n</div>\n</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 400000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "五、模板族 ② 求导计算（占模板题 25%）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "六、模板族 ③ 极限计算（占模板题 10%，半天可拿下）",
+        "content": "<div>\n<span>1</span>两个重要极限 + 等价无穷小表\n<div>\n$$\\lim_{x\\to 0}\\frac{\\sin x}{x}=1\\qquad \\lim_{x\\to\\infty}\\left(1+\\frac{1}{x}\\right)^{x}=e\\qquad \\lim_{x\\to 0}(1+x)^{\\frac{1}{x}}=e$$\n</div>\n<div>\n<b>当 $x\\to 0$ 时，以下无穷小互相等价，都可替换成 $x$：</b>\n$$\\sin x\\sim\\tan x\\sim\\arcsin x\\sim\\arctan x\\sim\\ln(1+x)\\sim e^{x}-1\\sim x$$\n$$1-\\cos x\\sim\\frac{x^{2}}{2}\\qquad (1+x)^{a}-1\\sim ax\\qquad 1-e^{kx}\\sim -kx$$\n</div>\n<div><b>用法</b>：见到「$\\dfrac{0}{0}$ 型」就把分子分母里的复杂项换成等价简单项，约分后直接得答案。<b>这是选择题里最快的解法。</b></div>\n</div>\n<div>\n<span>2</span>四种题型对照\n<table>\n<tr><th>题型</th><th>做法</th><th>真题</th></tr>\n<tr><td>$\\dfrac{0}{0}$ 型（含 $\\sin$、$\\ln$、$e^{x}$）</td><td>等价无穷小替换 → 约分</td><td>2024 第 1 题：$1-e^{kx}\\sim -kx\\Rightarrow -k=2\\Rightarrow \\mathbf{k=-2}$<br>2025 第 12 题（同型）</td></tr>\n<tr><td>无穷小的阶的比较</td><td>把两个式子都换成幂函数，比指数</td><td>2024 第 2 题：$\\ln(1+2x^{2})\\sim 2x^{2}$，比 $x$ 高阶 $\\Rightarrow$ <b>高阶无穷小</b></td></tr>\n<tr><td>$1^{\\infty}$ 型</td><td>凑成 $\\left(1+\\dfrac{1}{\\square}\\right)^{\\square}$ 的形式，答案是 $e$ 的幂</td><td>2017 第 2 题：$\\left(1+\\dfrac{2}{x}\\right)^{x}\\to e^{2}$</td></tr>\n<tr><td>有理式 $x\\to\\infty$</td><td>分子分母同除最高次幂</td><td>2020 第 9 题：$\\lim\\limits_{x\\to\\infty}\\dfrac{x^{2}-x+1}{x^{2}-x+2}=1$</td></tr>\n</table>\n<div><b>可放弃的一类</b>：夹逼准则、无界非无穷大这类「概念判定题」（2025 第 3、4 题各 7 分）。\n它们需要构造不等式或取点列，短期难以速成，<b>遇到直接猜一个，把时间留给积分题</b>。</div>\n</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 500000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "六、模板族 ③ 极限计算（占模板题 10%，半天可拿下）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "七、模板族 ④ 公式直用型（偏导 / 全微分 / 空间解析几何 / 级数 / 微分方程）",
+        "content": "<p>这一类没有技巧，就是「知道公式 + 小心计算」。总量小，但每道都是 7 分，性价比极高。</p>\n<div>\n<span>1</span>偏导数与全微分（2024、2025 连续两年考）\n<div>\n求 $\\dfrac{\\partial z}{\\partial x}$ 时，<b>把 $y$ 当常数</b>；求 $\\dfrac{\\partial z}{\\partial y}$ 时，<b>把 $x$ 当常数</b>。\n$$\\mathrm{d}z=\\frac{\\partial z}{\\partial x}\\,\\mathrm{d}x+\\frac{\\partial z}{\\partial y}\\,\\mathrm{d}y$$\n</div>\n<div>例：$z=\\ln(1+xy)\\Rightarrow \\dfrac{\\partial z}{\\partial y}=\\dfrac{1}{1+xy}\\cdot x=\\mathbf{\\dfrac{x}{1+xy}}$\\quad <span>2024 选择第 9 题</span></div>\n<div>例：$z=15+x^{2}y+\\cos y\\Rightarrow \\mathrm{d}z=\\mathbf{2xy\\,\\mathrm{d}x+(x^{2}-\\sin y)\\,\\mathrm{d}y}$\\quad <span>2025 填空第 18 题</span></div>\n<div>混合偏导 $\\dfrac{\\partial^{2}z}{\\partial x\\partial y}$：<b>先对一个变量求导，再对另一个变量求导</b>，顺序无影响。2024 第 10 题就是两步计算。</div>\n</div>\n<div>\n<span>2</span>空间解析几何（背 3 个公式即可）\n<table>\n<tr><th>对象</th><th>公式</th><th>真题</th></tr>\n<tr><td>球面</td><td>直径两端点 → <b>中点即球心</b>，半径 = 两端点距离的一半<br>\n$(x-a)^{2}+(y-b)^{2}+(z-c)^{2}=R^{2}$</td><td>2025 第 10 题</td></tr>\n<tr><td>平面</td><td>$Ax+By+Cz+D=0$ 的<b>法向量</b> $\\vec{n}=(A,B,C)$</td><td>2019 第 9 题</td></tr>\n<tr><td>直线</td><td>$\\dfrac{x-x_{0}}{m}=\\dfrac{y-y_{0}}{n}=\\dfrac{z-z_{0}}{p}$ 的<b>方向向量</b> $\\vec{s}=(m,n,p)$</td><td>2017 第 9 题</td></tr>\n</table>\n</div>\n<div>\n<span>3</span>幂级数收敛半径（一个公式）\n<div>$$R=\\lim_{n\\to\\infty}\\left|\\frac{a_{n}}{a_{n+1}}\\right|$$\n（其中 $a_{n}$ 是 $x^{n}$ 项的系数）</div>\n<div>例：$\\displaystyle\\sum_{n=1}^{\\infty}\\frac{(3x-1)^{n}}{\\sqrt{n}}$，令 $t=3x-1$，则 $a_{n}=\\dfrac{1}{\\sqrt{n}}$</div>\n<div>$R_{t}=\\lim\\limits_{n\\to\\infty}\\dfrac{1/\\sqrt{n}}{1/\\sqrt{n+1}}=1$，即对 $t$ 的收敛半径是 $1\\ \\Rightarrow$ 对 $x$ 的收敛半径 $R=\\mathbf{\\dfrac{1}{3}}$\\quad <span>2025 选择第 11 题</span></div>\n<div>另有两条判据要记：<b>等比级数 $\\displaystyle\\sum q^{n}$</b> 当 $|q|<1$ 时收敛；<b>$p$ 级数 $\\displaystyle\\sum\\frac{1}{n^{p}}$</b> 当 $p>1$ 时收敛。</div>\n</div>\n<div>\n<span>4</span>二阶常系数齐次线性微分方程（三种情形，背下来）\n<div>特征方程：$r^{2}+pr+q=0$（对应方程 $y''+py'+qy=0$）</div>\n<table>\n<tr><th>判别式</th><th>根的情况</th><th>通解</th></tr>\n<tr><td>$\\Delta>0$</td><td>两个不同实根 $r_{1},r_{2}$</td><td>$y=C_{1}e^{r_{1}x}+C_{2}e^{r_{2}x}$</td></tr>\n<tr><td>$\\Delta=0$</td><td>二重根 $r$</td><td><b>$y=(C_{1}+C_{2}x)e^{rx}$</b></td></tr>\n<tr><td>$\\Delta<0$</td><td>共轭复根 $\\alpha\\pm\\beta i$</td><td>$y=e^{\\alpha x}(C_{1}\\cos\\beta x+C_{2}\\sin\\beta x)$</td></tr>\n</table>\n<div>例：$y''-6y'+9y=0\\Rightarrow r^{2}-6r+9=(r-3)^{2}=0\\Rightarrow$ 二重根 $r=3\\Rightarrow y=(C_{1}+C_{2}x)e^{3x}$\\quad <span>2024 选择第 12 题</span></div>\n</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 600000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "七、模板族 ④ 公式直用型（偏导 / 全微分 / 空间解析几何 / 级数 / 微分方程）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "八、填空题 3 题 21 分：只攻 6 类",
+        "content": "<p>现行结构填空题只有 3 题，但每题 7 分——和选择题一样贵。<br>\n把 2024、2025 两年的 6 道填空题全部列出，类型一目了然。<br>\n<span>题号说明：本节与第九节沿用<b>回忆版 PDF 的卷内顺序</b>（填空 16—18、解答 13—15）；第一节表格用的是<b>官方卷面顺序</b>（填空 13—15、解答 16—18）。两种顺序相反，但题量与分值完全一致。</span></p>\n<table>\n<tr><th>年份</th><th>题号</th><th>考点</th><th>解法</th></tr>\n<tr><td>2024</td><td>16</td><td>对称区间定积分 $\\displaystyle\\int_{-1}^{1}(\\arctan x+x^{2})\\,\\mathrm{d}x$</td><td>奇函数部分 $=0$，只算 $x^{2}$ $\\Rightarrow\\ \\mathbf{\\dfrac{2}{3}}$</td></tr>\n<tr><td>2024</td><td>17</td><td>函数 $f(x)=e^{1/x}$ 的间断点</td><td>找无定义点 $\\Rightarrow\\ \\mathbf{x=0}$</td></tr>\n<tr><td>2024</td><td>18</td><td>曲线 $y=\\dfrac{2x^{2}}{x^{2}-2}$ 的水平渐近线</td><td>求 $x\\to\\infty$ 的极限 $\\Rightarrow\\ \\mathbf{y=2}$</td></tr>\n<tr><td>2025</td><td>16</td><td>$x=e$ 是 $y=(x-a)\\ln x$ 的驻点，求 $a$</td><td>求导，令 $y'(e)=0$ $\\Rightarrow\\ \\mathbf{a=2e}$</td></tr>\n<tr><td>2025</td><td>17</td><td>不定积分 $\\displaystyle\\int x^{2}e^{2x^{3}}\\,\\mathrm{d}x$</td><td>凑微分 $u=2x^{3}$ $\\Rightarrow\\ \\mathbf{\\dfrac{1}{6}e^{2x^{3}}+C}$</td></tr>\n<tr><td>2025</td><td>18</td><td>$z=15+x^{2}y+\\cos y$ 的全微分 $\\mathrm{d}z$</td><td>分别求两个偏导 $\\Rightarrow\\ \\mathbf{2xy\\,\\mathrm{d}x+(x^{2}-\\sin y)\\,\\mathrm{d}y}$</td></tr>\n</table>\n<div>\n<b>归纳：填空题只考这 6 类，每类都是「一步公式」</b>\n<ol>\n<li><b>对称区间的定积分</b>——先看奇偶性，能砍掉一半</li>\n<li><b>间断点</b>——找分母为零 / 无定义的点</li>\n<li><b>水平渐近线</b>——算 $\\lim\\limits_{x\\to\\infty}f(x)$</li>\n<li><b>驻点求参数</b>——求导，令导数为零，解参数</li>\n<li><b>凑微分算不定积分</b>——就是模板族 ① 的套路 A</li>\n<li><b>全微分</b>——分别求两个偏导，拼成 $\\mathrm{d}z$</li>\n</ol>\n</div>\n<div>\n<b>策略</b>：这 6 类里，<b>③④⑤⑥</b> 四类是纯公式，各练 10 道就能稳；\n①②需要一点概念判断。若时间极紧，<b>只练 5、6 两类</b>（凑微分 + 全微分），命中概率最高且最不需要理解。\n</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 700000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "八、填空题 3 题 21 分：只攻 6 类",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "九、解答题 3 题 45 分：二重积分 100% 必考",
+        "content": "<div>\n<b>最重要的发现</b>：把 11 套卷的解答题拉出来看——<b>二重积分出现了 11 次，11 套卷 100% 命中</b>。\n2024 第 14 题考 $\\displaystyle\\iint_{D}(x+y)\\,\\mathrm{d}x\\mathrm{d}y$（圆域），2025 第 14 题考 $\\displaystyle\\iint_{D}(4-x-y)\\,\\mathrm{d}x\\mathrm{d}y$（矩形域）。\n<b>这是整张卷里唯一可以「提前锁定」的解答题</b>，必须会。\n</div>\n<div>\n<span>1</span>解答题三题位的固定格局\n<table>\n<tr><th>题位</th><th>2024 考什么</th><th>2025 考什么</th><th>备考定位</th></tr>\n<tr><td>第 1 题</td><td>分段函数在分段点连续 → 求参数 $a$<br><span>答案 $a=1$</span></td><td>可分离变量微分方程求通解<br><span>答案 $y=Ce^{2x+\\frac{2x^{3}}{3}}$</span></td><td>「求参数 / 求通解」类，<b>套路最固定，优先攻</b></td></tr>\n<tr><td>第 2 题</td><td><b>二重积分</b>（圆域，用对称性）<br><span>答案 $\\pi$</span></td><td><b>二重积分</b>（矩形域，化累次积分）<br><span>答案 $9$</span></td><td><b>必考，必须拿满分</b></td></tr>\n<tr><td>第 3 题</td><td>幂级数展开：$y=\\dfrac{1}{1+2x}$<br><span>$\\sum(-2)^{n}x^{n}$</span></td><td>证明不等式：$a\\ln x\\le \\dfrac{x^{2}}{2}$<br><span>构造 $g(x)$ 求最值</span></td><td>「导数综合」类，<b>拿步骤分即可</b></td></tr>\n</table>\n</div>\n<div>\n<span>2</span>二重积分万能四步（背下来，直接套）\n<div><b>第一步</b>：画区域 $D$ 的草图，标出边界曲线的交点</div>\n<div><b>第二步</b>：判断用直角坐标还是极坐标——<b>区域含 $x^{2}+y^{2}$ 或圆 → 极坐标</b>；矩形 / 三角形 / 直线围成 → 直角坐标</div>\n<div><b>第三步</b>：定限（外限是常数，内限可以是函数）</div>\n<div><b>第四步</b>：先内后外逐层积分</div>\n<div>\n<b>直角坐标（X 型）</b>\n$$\\iint_{D}f(x,y)\\,\\mathrm{d}x\\mathrm{d}y=\\int_{a}^{b}\\mathrm{d}x\\int_{y_{1}(x)}^{y_{2}(x)}f(x,y)\\,\\mathrm{d}y$$\n<b>极坐标</b>\n$$x=r\\cos\\theta,\\qquad y=r\\sin\\theta,\\qquad \\mathrm{d}x\\mathrm{d}y=r\\,\\mathrm{d}r\\,\\mathrm{d}\\theta$$\n（注意末尾那个 $r$ 不能丢）\n</div>\n<div>\n<b>提速技巧</b>：区域关于 $y$ 轴对称时，若被积函数含 $x$ 的奇函数项（如 $\\displaystyle\\iint_{D}x\\,\\mathrm{d}x\\mathrm{d}y$），<b>直接写 $0$</b>。\n2024 年第 2 题就是这样——$\\displaystyle\\iint_{D}x\\,\\mathrm{d}x\\mathrm{d}y=0$，只剩 $\\displaystyle\\iint_{D}y\\,\\mathrm{d}x\\mathrm{d}y$ 要算，省一半时间。\n</div>\n</div>\n<div>\n<span>3</span>另两个模板\n<p><b>A. 可分离变量微分方程（2025 考）</b></p>\n<div><b>①</b> 把 $y'$ 写成 $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}$，整理成 $g(y)\\,\\mathrm{d}y=f(x)\\,\\mathrm{d}x$ 的形式（变量各归一边）</div>\n<div><b>②</b> 两边同时积分</div>\n<div><b>③</b> 加常数 $C$，写成 $y=\\cdots$ 的形式</div>\n<div>2025 第 13 题：$\\dfrac{y'}{1+x^{2}}=2y$\n$$\\frac{\\mathrm{d}y}{y}=2(1+x^{2})\\,\\mathrm{d}x\\ \\Longrightarrow\\ \\ln|y|=2x+\\frac{2x^{3}}{3}+C\\ \\Longrightarrow\\ y=Ce^{2x+\\frac{2x^{3}}{3}}$$\n</div>\n<p><b>B. 连续性求参数（2024 考）</b></p>\n<div><b>①</b> 在分段点处，分别算左极限、右极限、函数值</div>\n<div><b>②</b> 令三者相等，解出参数</div>\n<div>2024 第 13 题：左极限 $\\lim\\limits_{x\\to 0^{-}}\\dfrac{\\sin x}{x}=1$，右极限 $\\lim\\limits_{x\\to 0^{+}}(x+a)=a$，令两者相等 $\\Rightarrow\\ a=1$\n</div>\n<p><b>C. 证明不等式（三年考 3 次，同一招）</b></p>\n<div><b>①</b> 构造辅助函数 $g(x)=$ 左式 $-$ 右式</div>\n<div><b>②</b> 求 $g'(x)$，找驻点，判断单调性</div>\n<div><b>③</b> 求出 $g(x)$ 的最大（或最小）值，说明它 $\\le 0$（或 $\\ge 0$）</div>\n<div>2025 第 15 题：证 $a\\ln x\\le \\dfrac{x^{2}}{2}$。\n令 $g(x)=a\\ln x-\\dfrac{x^{2}}{2}$，由 $g'(x)=\\dfrac{a}{x}-x=0$ 得 $x=\\sqrt{a}$，且\n$$g(\\sqrt{a})=\\frac{a}{2}(\\ln a-1)$$\n由题设 $a\\le e$ 知 $\\ln a\\le 1$，故 $g(\\sqrt{a})\\le 0$，即 $a\\ln x\\le \\dfrac{x^{2}}{2}$ 成立。\n</div>\n</div>\n<div>\n<b>解答题的「步骤分」意识</b>：15 分一道，<b>写出公式、画出图形、写出第一步就有分</b>。\n阅卷按步给分，空着 $=0$ 分，写了前两步 $=3\\sim 6$ 分。冲刺阶段<b>宁可算错也别空题</b>。\n</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 800000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "九、解答题 3 题 45 分：二重积分 100% 必考",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "十、5 周时间表（今天 9/12 → 考试 10/17）",
+        "content": "<p>按「先高频、后低频；先选择题、后解答题」排序。每天建议 1.5—2 小时，周末可加量。</p>\n<div>\n<div><div>第 1 周（9/13—9/19）｜积分计算 —— 最高频，先啃它</div>\n<div>背 8 条积分公式卡 → 练「凑微分」与「先展开」两种套路 → 加练定积分牛顿—莱布尼茨 + 奇偶性简化 + 广义积分。\n目标：2024 第 6/7/8 题、2025 第 5/6/7/8/9 题共 8 道真题能独立做对（<b>就是 56 分</b>）。</div></div>\n<div><div>第 2 周（9/20—9/26）｜求导计算 + 极限计算</div>\n<div>背 8 条导数公式（与积分公式对照记）→ 五种考法各练 10 题：复合、高阶、隐函数、微分 $\\mathrm{d}y$、切线 / 法线。\n再用 2 天拿下极限：等价无穷小表 + 两个重要极限 + 有理式除法。\n目标：2024 第 1—5 题、2025 第 1、2 题共 7 道选择题 <b>+ 闭区间最值（2024 第 11 题）</b>。</div></div>\n<div><div>第 3 周（9/27—10/3）｜公式直用型 + 填空题专项</div>\n<div>偏导 / 全微分 / 混合偏导（必考）→ 球面、平面、直线的 3 个公式 → 收敛半径公式 + 二阶微分方程三种情形。\n后 3 天专攻填空题 6 类，重点是<b>凑微分</b>和<b>全微分</b>。目标：2024 第 9/10/12 题、2025 第 10/11 题 + 填空 4 类能稳做。</div></div>\n<div><div>第 4 周（10/4—10/10）｜解答题三模板（二重积分重点）</div>\n<div>用 3 天把二重积分练透——直角坐标定限、极坐标换元（别忘那个 $r$）、对称性简化，<b>把 2015—2025 共 11 道二重积分解答题全做一遍</b>。\n再用 2 天练可分离变量微分方程 + 连续性求参数，1 天练证明不等式的构造法。</div></div>\n<div><div>第 5 周（10/11—10/17）｜真题实战 + 公式默写</div>\n<div>\n<b>只做 2024、2025 两份真题</b>（唯一符合现行结构的卷子），每份按 150 分钟完整模拟一遍，然后订正、把错题重做两遍。<br>\n考前 3 天：默写积分表 + 导数表 + 等价无穷小表 + 二阶微分方程三种情形 + 二重积分四步。<b>公式卡默写到不看书能写全为止。</b>\n</div></div>\n</div>\n<div>\n<b>每周固定的 20 分钟「公式默写」</b>：把上周背的公式在白纸上默一遍，错一个补三遍。\n高等数学一失分的最大原因不是「不会做」，而是「公式记混了」——偏导忘了把另一变量当常数、不定积分忘了 $+C$、极坐标忘了乘 $r$。\n</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 900000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "十、5 周时间表（今天 9/12 → 考试 10/17）",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "十一、考场策略：150 分钟怎么分配",
+        "content": "<table>\n<tr><th>阶段</th><th>时间</th><th>做什么</th><th>要点</th></tr>\n<tr><td>选择题</td><td>50 分钟</td><td>12 题，平均每题 4 分钟</td><td>超过 5 分钟没思路就标记跳过，先收模板题</td></tr>\n<tr><td>填空题</td><td>15 分钟</td><td>3 题，每题 5 分钟</td><td>只写答案，<b>注意别漏单位、别忘 $+C$</b></td></tr>\n<tr><td>解答题</td><td>60 分钟</td><td>3 题，每题 20 分钟</td><td><b>先把二重积分那题做完</b>（最有把握），再攻另外两题</td></tr>\n<tr><td>检查</td><td>25 分钟</td><td>回头补跳过的题</td><td>重点复查：符号、上下限、常数 $C$、题目问的是 $\\mathrm{d}y$ 还是 $y'$</td></tr>\n</table>\n\n选择题不会做时的四招（按使用顺序）\n<div>\n<div><b>① 特殊值代入法</b>：题里有参数就代一个简单值（$0$、$1$、$-1$、$2$）进去验算，看哪个选项成立。<br>\n\\quad 例：$\\lim\\limits_{x\\to 0}\\dfrac{1-e^{kx}}{x}=2$，把 $k=-2$ 代进去试一下，立刻验证。</div>\n<div><b>② 排除法</b>：先排除明显不可能的。含绝对值的选项、符号相反的选项、量级离谱的选项优先划掉。</div>\n<div><b>③ 极端 / 端点检验</b>：把选项代回原式，或者取极限端点看趋势是否符合。</div>\n<div><b>④ 蒙题</b>：四个选项分布很均匀（全库 114 道选择题答案是 A 29 / B 29 / C 28 / D 28），<b>没有任何偏好项</b>。\n所以蒙题策略是——<b>如果前面几道连续的答案都不同，就选自己最顺手的那一项，并且整卷统一</b>。\n若已能排除 2 个选项，正确率可从 $25\\%$ 提到 $50\\%$，<b>排除了再猜，不要空着</b>。</div>\n</div>\n\n解答题抢分要点\n<div>\n<ul>\n<li><b>写公式也有分</b>：不会做，也要把用到的公式写出来（如「由牛顿—莱布尼茨公式」「特征方程 $r^{2}+pr+q=0$」），阅卷老师按步给分。</li>\n<li><b>先易后难</b>：三题里二重积分最有把握，<b>先做完它</b>，保证 15 分落袋，再处理另外两题。</li>\n<li><b>过程写清楚</b>：定限写出来、积分步骤写出中间结果，比「一步跳答案」更容易得分——即使最后算错，前几步的分也拿到了。</li>\n<li><b>不留空白</b>：空白 $=0$ 分。写「解：」+ 公式 + 第一步，至少 $3\\sim 6$ 分。</li>\n</ul>\n</div>",
+        "itemType": "MATERIAL",
+        "sortOrder": 1000000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "章节正文"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "hero": false,
+          "chapter": "十一、考场策略：150 分钟怎么分配",
+          "chapterIntro": null
+        }
+      },
+      {
+        "title": "积分表（8 条）",
+        "content": "\\begin{aligned}\n&\\int x^{a}\\,\\mathrm{d}x=\\frac{x^{a+1}}{a+1}+C & &\\int\\frac{1}{x}\\,\\mathrm{d}x=\\ln|x|+C\\\\\n&\\int e^{x}\\,\\mathrm{d}x=e^{x}+C & &\\int a^{x}\\,\\mathrm{d}x=\\frac{a^{x}}{\\ln a}+C\\\\\n&\\int\\sin x\\,\\mathrm{d}x=-\\cos x+C & &\\int\\cos x\\,\\mathrm{d}x=\\sin x+C\\\\\n&\\int\\frac{1}{1+x^{2}}\\,\\mathrm{d}x=\\arctan x+C & &\\int\\frac{1}{\\cos^{2}x}\\,\\mathrm{d}x=\\tan x+C\n\\end{aligned}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1100000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "A积分表（8 条）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "A积分表（8 条）",
+          "tex": "\\begin{aligned}\n&\\int x^{a}\\,\\mathrm{d}x=\\frac{x^{a+1}}{a+1}+C & &\\int\\frac{1}{x}\\,\\mathrm{d}x=\\ln|x|+C\\\\\n&\\int e^{x}\\,\\mathrm{d}x=e^{x}+C & &\\int a^{x}\\,\\mathrm{d}x=\\frac{a^{x}}{\\ln a}+C\\\\\n&\\int\\sin x\\,\\mathrm{d}x=-\\cos x+C & &\\int\\cos x\\,\\mathrm{d}x=\\sin x+C\\\\\n&\\int\\frac{1}{1+x^{2}}\\,\\mathrm{d}x=\\arctan x+C & &\\int\\frac{1}{\\cos^{2}x}\\,\\mathrm{d}x=\\tan x+C\n\\end{aligned}",
+          "note": "",
+          "tail": "",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "导数表（8 条）",
+        "content": "\\begin{aligned}\n&(x^{a})'=ax^{a-1} & &(\\ln x)'=\\frac{1}{x} & &(e^{x})'=e^{x} & &(a^{x})'=a^{x}\\ln a\\\\\n&(\\sin x)'=\\cos x & &(\\cos x)'=-\\sin x & &(\\tan x)'=\\frac{1}{\\cos^{2}x} & &(\\arctan x)'=\\frac{1}{1+x^{2}}\n\\end{aligned}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1101000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "B导数表（8 条）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "B导数表（8 条）",
+          "tex": "\\begin{aligned}\n&(x^{a})'=ax^{a-1} & &(\\ln x)'=\\frac{1}{x} & &(e^{x})'=e^{x} & &(a^{x})'=a^{x}\\ln a\\\\\n&(\\sin x)'=\\cos x & &(\\cos x)'=-\\sin x & &(\\tan x)'=\\frac{1}{\\cos^{2}x} & &(\\arctan x)'=\\frac{1}{1+x^{2}}\n\\end{aligned}",
+          "note": "",
+          "tail": "",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "极限与等价无穷小（$x\\to 0$） 第 1 条",
+        "content": "\\lim_{x\\to 0}\\frac{\\sin x}{x}=1\\qquad \\lim_{x\\to\\infty}\\left(1+\\frac{1}{x}\\right)^{x}=e\\qquad \\lim_{x\\to 0}(1+x)^{\\frac{1}{x}}=e",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "C极限与等价无穷小（$x\\to 0$）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "C极限与等价无穷小（$x\\to 0$）",
+          "tex": "\\lim_{x\\to 0}\\frac{\\sin x}{x}=1\\qquad \\lim_{x\\to\\infty}\\left(1+\\frac{1}{x}\\right)^{x}=e\\qquad \\lim_{x\\to 0}(1+x)^{\\frac{1}{x}}=e",
+          "note": "",
+          "tail": "",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "极限与等价无穷小（$x\\to 0$） 第 2 条",
+        "content": "\\sin x\\sim\\tan x\\sim\\arcsin x\\sim\\arctan x\\sim\\ln(1+x)\\sim e^{x}-1\\sim x",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102010,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "C极限与等价无穷小（$x\\to 0$）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "C极限与等价无穷小（$x\\to 0$）",
+          "tex": "\\sin x\\sim\\tan x\\sim\\arcsin x\\sim\\arctan x\\sim\\ln(1+x)\\sim e^{x}-1\\sim x",
+          "note": "",
+          "tail": "",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "极限与等价无穷小（$x\\to 0$） 第 3 条",
+        "content": "1-\\cos x\\sim\\frac{x^{2}}{2}\\qquad (1+x)^{a}-1\\sim ax\\qquad 1-e^{kx}\\sim -kx",
+        "itemType": "MUST_READ",
+        "sortOrder": 1102020,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "C极限与等价无穷小（$x\\to 0$）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "C极限与等价无穷小（$x\\to 0$）",
+          "tex": "1-\\cos x\\sim\\frac{x^{2}}{2}\\qquad (1+x)^{a}-1\\sim ax\\qquad 1-e^{kx}\\sim -kx",
+          "note": "",
+          "tail": "",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "牛顿—莱布尼茨公式",
+        "content": "\\int_{a}^{b}f(x)\\,\\mathrm{d}x=F(b)-F(a)",
+        "itemType": "MUST_READ",
+        "sortOrder": 1103000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "D微积分关系与常用结论"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "D微积分关系与常用结论",
+          "tex": "\\int_{a}^{b}f(x)\\,\\mathrm{d}x=F(b)-F(a)",
+          "note": "牛顿—莱布尼茨公式",
+          "tail": "切线斜率 $k_{1}=f'(x_{0})$  法线斜率 $k_{2}=-\\dfrac{1}{f'(x_{0})}$  微分 $\\mathrm{d}y=f'(x)\\,\\mathrm{d}x$",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "奇函数在对称区间上的定积分",
+        "content": "\\int_{-a}^{a}f(x)\\,\\mathrm{d}x=0",
+        "itemType": "MUST_READ",
+        "sortOrder": 1103010,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "D微积分关系与常用结论"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "D微积分关系与常用结论",
+          "tex": "\\int_{-a}^{a}f(x)\\,\\mathrm{d}x=0",
+          "note": "奇函数在对称区间上的定积分",
+          "tail": "",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "偶函数在对称区间上的定积分",
+        "content": "\\int_{-a}^{a}f(x)\\,\\mathrm{d}x=2\\int_{0}^{a}f(x)\\,\\mathrm{d}x",
+        "itemType": "MUST_READ",
+        "sortOrder": 1103020,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "D微积分关系与常用结论"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "D微积分关系与常用结论",
+          "tex": "\\int_{-a}^{a}f(x)\\,\\mathrm{d}x=2\\int_{0}^{a}f(x)\\,\\mathrm{d}x",
+          "note": "偶函数在对称区间上的定积分",
+          "tail": "",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "偏导 / 全微分 / 空间解析几何",
+        "content": "\\mathrm{d}z=\\frac{\\partial z}{\\partial x}\\,\\mathrm{d}x+\\frac{\\partial z}{\\partial y}\\,\\mathrm{d}y",
+        "itemType": "MUST_READ",
+        "sortOrder": 1104000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "E偏导 / 全微分 / 空间解析几何"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "E偏导 / 全微分 / 空间解析几何",
+          "tex": "\\mathrm{d}z=\\frac{\\partial z}{\\partial x}\\,\\mathrm{d}x+\\frac{\\partial z}{\\partial y}\\,\\mathrm{d}y",
+          "note": "",
+          "tail": "（求偏导时把另一个变量当常数）\n球面 $(x-a)^{2}+(y-b)^{2}+(z-c)^{2}=R^{2}$  平面 $Ax+By+Cz+D=0$ 的法向量 $\\vec{n}=(A,B,C)$\n直线 $\\dfrac{x-x_{0}}{m}=\\dfrac{y-y_{0}}{n}=\\dfrac{z-z_{0}}{p}$ 的方向向量 $\\vec{s}=(m,n,p)$",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "收敛半径",
+        "content": "R=\\lim_{n\\to\\infty}\\left|\\frac{a_{n}}{a_{n+1}}\\right|",
+        "itemType": "MUST_READ",
+        "sortOrder": 1105000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "F级数与微分方程"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "F级数与微分方程",
+          "tex": "R=\\lim_{n\\to\\infty}\\left|\\frac{a_{n}}{a_{n+1}}\\right|",
+          "note": "收敛半径",
+          "tail": "等比级数 $\\displaystyle\\sum q^{n}$ 当 $|q|<1$ 时收敛；$p$ 级数 $\\displaystyle\\sum\\frac{1}{n^{p}}$ 当 $p>1$ 时收敛。 可分离变量方程：$g(y)\\,\\mathrm{d}y=f(x)\\,\\mathrm{d}x\\ \\Rightarrow$ 两边积分 → 加常数 $C$",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "二阶常系数齐次方程（特征方程 $r^{2}+pr+q=0$）：",
+        "content": "\\Delta>0:\\ y=C_{1}e^{r_{1}x}+C_{2}e^{r_{2}x}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1105010,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "F级数与微分方程"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "F级数与微分方程",
+          "tex": "\\Delta>0:\\ y=C_{1}e^{r_{1}x}+C_{2}e^{r_{2}x}",
+          "note": "二阶常系数齐次方程（特征方程 $r^{2}+pr+q=0$）：",
+          "tail": "",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "级数与微分方程 第 3 条",
+        "content": "\\Delta=0:\\ y=(C_{1}+C_{2}x)e^{rx}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1105020,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "F级数与微分方程"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "F级数与微分方程",
+          "tex": "\\Delta=0:\\ y=(C_{1}+C_{2}x)e^{rx}",
+          "note": "",
+          "tail": "",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "级数与微分方程 第 4 条",
+        "content": "\\Delta<0:\\ y=e^{\\alpha x}(C_{1}\\cos\\beta x+C_{2}\\sin\\beta x)",
+        "itemType": "MUST_READ",
+        "sortOrder": 1105030,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "F级数与微分方程"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "F级数与微分方程",
+          "tex": "\\Delta<0:\\ y=e^{\\alpha x}(C_{1}\\cos\\beta x+C_{2}\\sin\\beta x)",
+          "note": "",
+          "tail": "",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "四步：画图 → 选坐标系 → 定限 → 逐层积分",
+        "content": "\\iint_{D}f(x,y)\\,\\mathrm{d}x\\mathrm{d}y=\\int_{a}^{b}\\mathrm{d}x\\int_{y_{1}(x)}^{y_{2}(x)}f(x,y)\\,\\mathrm{d}y",
+        "itemType": "MUST_READ",
+        "sortOrder": 1106000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "G二重积分（解答题必考）"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "G二重积分（解答题必考）",
+          "tex": "\\iint_{D}f(x,y)\\,\\mathrm{d}x\\mathrm{d}y=\\int_{a}^{b}\\mathrm{d}x\\int_{y_{1}(x)}^{y_{2}(x)}f(x,y)\\,\\mathrm{d}y",
+          "note": "四步：画图 → 选坐标系 → 定限 → 逐层积分",
+          "tail": "极坐标：$x=r\\cos\\theta$，$y=r\\sin\\theta$，$\\mathrm{d}x\\mathrm{d}y=r\\,\\mathrm{d}r\\,\\mathrm{d}\\theta$\n对称性：区域关于 $y$ 轴对称且被积函数含 $x$ 的奇次项 → 该部分积分 $=0$",
+          "kind": "formula"
+        }
+      },
+      {
+        "title": "常用角度三角函数值表",
+        "content": "考场上不现推：这张表背下来，定积分代值、面积体积、极坐标换元的最后一步全靠它。",
+        "itemType": "MUST_READ",
+        "sortOrder": 1107000,
+        "source": null,
+        "tags": [
+          "高等数学一",
+          "必背公式",
+          "H三角函数值表"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "十二、必背公式卡（考前三天反复默写这一页）",
+          "chapterIntro": null,
+          "section": "必背公式",
+          "group": "H三角函数值表",
+          "kind": "table",
+          "tex": "",
+          "note": "考场上不现推：这张表背下来，定积分代值、面积体积、极坐标换元的最后一步全靠它。",
+          "table": {
+            "head": [
+              "角度",
+              "弧度",
+              "$\\sin$",
+              "$\\cos$",
+              "$\\tan$"
+            ],
+            "rows": [
+              [
+                "$0^{\\circ}$",
+                "$0$",
+                "$0$",
+                "$1$",
+                "$0$"
+              ],
+              [
+                "$30^{\\circ}$",
+                "$\\dfrac{\\pi}{6}$",
+                "$\\dfrac{1}{2}$",
+                "$\\dfrac{\\sqrt{3}}{2}$",
+                "$\\dfrac{\\sqrt{3}}{3}$"
+              ],
+              [
+                "$45^{\\circ}$",
+                "$\\dfrac{\\pi}{4}$",
+                "$\\dfrac{\\sqrt{2}}{2}$",
+                "$\\dfrac{\\sqrt{2}}{2}$",
+                "$1$"
+              ],
+              [
+                "$60^{\\circ}$",
+                "$\\dfrac{\\pi}{3}$",
+                "$\\dfrac{\\sqrt{3}}{2}$",
+                "$\\dfrac{1}{2}$",
+                "$\\sqrt{3}$"
+              ],
+              [
+                "$90^{\\circ}$",
+                "$\\dfrac{\\pi}{2}$",
+                "$1$",
+                "$0$",
+                "不存在"
+              ],
+              [
+                "$120^{\\circ}$",
+                "$\\dfrac{2\\pi}{3}$",
+                "$\\dfrac{\\sqrt{3}}{2}$",
+                "$-\\dfrac{1}{2}$",
+                "$-\\sqrt{3}$"
+              ],
+              [
+                "$135^{\\circ}$",
+                "$\\dfrac{3\\pi}{4}$",
+                "$\\dfrac{\\sqrt{2}}{2}$",
+                "$-\\dfrac{\\sqrt{2}}{2}$",
+                "$-1$"
+              ],
+              [
+                "$150^{\\circ}$",
+                "$\\dfrac{5\\pi}{6}$",
+                "$\\dfrac{1}{2}$",
+                "$-\\dfrac{\\sqrt{3}}{2}$",
+                "$-\\dfrac{\\sqrt{3}}{3}$"
+              ],
+              [
+                "$180^{\\circ}$",
+                "$\\pi$",
+                "$0$",
+                "$-1$",
+                "$0$"
+              ],
+              [
+                "$210^{\\circ}$",
+                "$\\dfrac{7\\pi}{6}$",
+                "$-\\dfrac{1}{2}$",
+                "$-\\dfrac{\\sqrt{3}}{2}$",
+                "$\\dfrac{\\sqrt{3}}{3}$"
+              ],
+              [
+                "$225^{\\circ}$",
+                "$\\dfrac{5\\pi}{4}$",
+                "$-\\dfrac{\\sqrt{2}}{2}$",
+                "$-\\dfrac{\\sqrt{2}}{2}$",
+                "$1$"
+              ],
+              [
+                "$240^{\\circ}$",
+                "$\\dfrac{4\\pi}{3}$",
+                "$-\\dfrac{\\sqrt{3}}{2}$",
+                "$-\\dfrac{1}{2}$",
+                "$\\sqrt{3}$"
+              ],
+              [
+                "$270^{\\circ}$",
+                "$\\dfrac{3\\pi}{2}$",
+                "$-1$",
+                "$0$",
+                "不存在"
+              ],
+              [
+                "$300^{\\circ}$",
+                "$\\dfrac{5\\pi}{3}$",
+                "$-\\dfrac{\\sqrt{3}}{2}$",
+                "$\\dfrac{1}{2}$",
+                "$-\\sqrt{3}$"
+              ],
+              [
+                "$315^{\\circ}$",
+                "$\\dfrac{7\\pi}{4}$",
+                "$-\\dfrac{\\sqrt{2}}{2}$",
+                "$\\dfrac{\\sqrt{2}}{2}$",
+                "$-1$"
+              ],
+              [
+                "$330^{\\circ}$",
+                "$\\dfrac{11\\pi}{6}$",
+                "$-\\dfrac{1}{2}$",
+                "$\\dfrac{\\sqrt{3}}{2}$",
+                "$-\\dfrac{\\sqrt{3}}{3}$"
+              ],
+              [
+                "$360^{\\circ}$",
+                "$2\\pi$",
+                "$0$",
+                "$1$",
+                "$0$"
+              ]
+            ],
+            "notes": [
+              "<b>记忆口诀</b>：$\\sin$ 在 $30^{\\circ},45^{\\circ},60^{\\circ}$ 处依次是 $\\dfrac{\\sqrt{1}}{2},\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{3}}{2}$，$\\cos$ 把这三个数倒着写。",
+              "<b>符号看象限</b>：一全正、二正弦、三正切、四余弦。",
+              "<b>常用反三角</b>：$\\arctan 1=\\dfrac{\\pi}{4}$，$\\arctan\\sqrt{3}=\\dfrac{\\pi}{3}$，$\\arcsin\\dfrac{1}{2}=\\dfrac{\\pi}{6}$。",
+              "<b>特殊情况</b>：$\\tan$ 在 $90^{\\circ}$、$270^{\\circ}$ 处不存在（对应法线是竖直线）。",
+              "<b>邻角关系</b>：$\\sin(\\pi-\\alpha)=\\sin\\alpha$，$\\cos(\\pi-\\alpha)=-\\cos\\alpha$，$\\sin(-\\alpha)=-\\sin\\alpha$，$\\cos(-\\alpha)=\\cos\\alpha$。"
+            ]
+          }
+        }
+      },
+      {
+        "title": "极限的直接代入与四则运算",
+        "content": "\\lim_{x\\to a}f(x)=f(a)\\quad(f\\ \\text{在}\\ a\\ \\text{处连续})",
+        "itemType": "MUST_READ",
+        "sortOrder": 1200000,
+        "source": "11 年题面命中 10 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "极限与连续"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "极限与连续",
+          "kind": "method",
+          "module": "极限与连续",
+          "groupIntro": "2024 版大纲权重约 10%，但 11 年真题实际占 <b>19%</b>（54 题），是实际权重最高的模块，选择题与解答题的主要来源。",
+          "tex": "\\lim_{x\\to a}f(x)=f(a)\\quad(f\\ \\text{在}\\ a\\ \\text{处连续})",
+          "texNote": "只要函数在 $x=a$ 处连续，把 $x=a$ 代进去就是极限值——这是考场上最先试的一步。",
+          "points": [
+            "能代入就先代入：代入得到一个确定的数，那就是答案。",
+            "代入得 $\\dfrac{0}{0}$ 或 $\\dfrac{\\infty}{\\infty}$ 才是「未定式」，才需要变形。",
+            "四则运算成立的前提是各项极限都存在。"
+          ],
+          "steps": [
+            "① 把趋向值直接代入，能算出数就结束。",
+            "② 代入得 $\\dfrac{0}{0}$：约掉零因子（因式分解 / 有理化 / 等价无穷小）。",
+            "③ 代入得 $\\dfrac{\\infty}{\\infty}$：分子分母同除最高次幂。",
+            "④ 出现 $1^{\\infty}$、$\\infty-\\infty$：先变形（凑重要极限 / 通分）再算。"
+          ],
+          "hitCount": 10,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 3 题",
+              "year": 2021,
+              "number": 3,
+              "score": "（4 分）",
+              "stem": "设函数 $f(x)$ 满足 $\\lim\\limits_{x\\to 1}\\dfrac{f(x)-f(1)}{2(x-1)}=1$，则 $f'(1)=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "2",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "1",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{1}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "-1",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null,
+              "analysis": "$f'(1)=\\lim\\limits_{x\\to 1}\\dfrac{f(x)-f(1)}{x-1}=2\\lim\\limits_{x\\to 1}\\dfrac{f(x)-f(1)}{2(x-1)}=2\\times 1=2$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 19 题",
+              "year": 2021,
+              "number": 19,
+              "score": "（4 分）",
+              "stem": "$\\lim\\limits_{x\\to 0}\\dfrac{3x+1}{x^2+2x+3}=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{1}{3}$",
+              "analysis": "直接代入 $x=0$：$\\dfrac{0+1}{0+0+3}=\\dfrac{1}{3}$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2020 年 · 第 9 题",
+              "year": 2020,
+              "number": 9,
+              "score": "（4 分）",
+              "stem": "$\\lim\\limits_{x\\to 0}\\dfrac{x^2-x+1}{x^2-x+2}=$（　）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{1}{2}$",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "$1$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{3}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$2$",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null,
+              "analysis": "当 $x\\to 0$ 时，分母 $\\ne 0$，直接代入得 $\\dfrac{0-0+1}{0-0+2}=\\dfrac{1}{2}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "有理式 $x\\to\\infty$：分子分母同除最高次幂",
+        "content": "\\lim_{x\\to\\infty}\\frac{a_mx^m+\\cdots}{b_nx^n+\\cdots}=\\begin{cases}\\dfrac{a_m}{b_n},&m=n\\\\[4pt]0,&m<n\\\\[4pt]\\infty,&m>n\\end{cases}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1200010,
+        "source": "11 年题面命中 1 题 · 展示最新 1 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "极限与连续"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "极限与连续",
+          "kind": "method",
+          "module": "极限与连续",
+          "groupIntro": "2024 版大纲权重约 10%，但 11 年真题实际占 <b>19%</b>（54 题），是实际权重最高的模块，选择题与解答题的主要来源。",
+          "tex": "\\lim_{x\\to\\infty}\\frac{a_mx^m+\\cdots}{b_nx^n+\\cdots}=\\begin{cases}\\dfrac{a_m}{b_n},&m=n\\\\[4pt]0,&m<n\\\\[4pt]\\infty,&m>n\\end{cases}",
+          "texNote": "只看分子分母的最高次幂谁高：同次取系数比，分母高为 0，分子高为无穷。",
+          "points": [
+            "不用求导也不用洛必达，一眼看最高次幂即可。",
+            "若分子分母都是多项式，先把分母的最高次幂提出来约分。"
+          ],
+          "steps": [
+            "① 找出分子、分母各自的最高次项。",
+            "② 分子分母同时除以最高次幂（取两者中较大的那个）。",
+            "③ 让 $x\\to\\infty$，凡含 $\\dfrac{1}{x^k}$ 的项都趋于 0，剩下的就是答案。"
+          ],
+          "hitCount": 1,
+          "refs": [
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 20 题",
+              "year": 2021,
+              "number": 20,
+              "score": "（4 分）",
+              "stem": "$\\lim\\limits_{n\\to\\infty}\\dfrac{3n^2+5n}{2n^2+4n+5}=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{3}{2}$",
+              "analysis": "分子分母同除以 $n^2$：$\\lim\\limits_{n\\to\\infty}\\dfrac{3+5/n}{2+4/n+5/n^2}=\\dfrac{3}{2}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "等价无穷小替换（$x\\to 0$，7 对）",
+        "content": "\\sin x\\sim\\tan x\\sim\\arcsin x\\sim\\arctan x\\sim\\ln(1+x)\\sim e^{x}-1\\sim x",
+        "itemType": "MUST_READ",
+        "sortOrder": 1200020,
+        "source": "11 年题面命中 17 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "极限与连续"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "极限与连续",
+          "kind": "method",
+          "module": "极限与连续",
+          "groupIntro": "2024 版大纲权重约 10%，但 11 年真题实际占 <b>19%</b>（54 题），是实际权重最高的模块，选择题与解答题的主要来源。",
+          "tex": "\\sin x\\sim\\tan x\\sim\\arcsin x\\sim\\arctan x\\sim\\ln(1+x)\\sim e^{x}-1\\sim x",
+          "texNote": "另有 $1-\\cos x\\sim\\dfrac{x^{2}}{2}$、$(1+x)^{a}-1\\sim ax$、$1-e^{kx}\\sim -kx$。",
+          "points": [
+            "只能在<b>乘除</b>中替换因子，加减中不能整体替换。",
+            "替换对象必须趋于 0，且整体作为因子出现。",
+            "这是选择题最快的解法：$\\dfrac{0}{0}$ 型先替换再约分。"
+          ],
+          "steps": [
+            "① 确认是 $\\dfrac{0}{0}$ 型，且分子分母里的复杂项都趋于 0。",
+            "② 把 $\\sin$、$\\ln(1+\\square)$、$e^{\\square}-1$、$1-\\cos$ 等整体换成简单幂函数。",
+            "③ 约分 / 整理，代入求值。"
+          ],
+          "hitCount": 17,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 1 题",
+              "year": 2024,
+              "number": 1,
+              "score": "（7 分）",
+              "stem": "设 $\\lim\\limits_{x\\to 0}\\dfrac{1-e^{kx}}{x}=2$，则 $k=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$-2$",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "$-1$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$1$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$2$",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null,
+              "analysis": "等价无穷小：当 $x\\to 0$ 时，$1-e^{kx}\\sim -kx$。\n故 $\\lim\\limits_{x\\to 0}\\dfrac{1-e^{kx}}{x}=\\lim\\limits_{x\\to 0}\\dfrac{-kx}{x}=-k=2$，解得 $k=-2$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 11 题",
+              "year": 2023,
+              "number": 11,
+              "score": "（6 分）",
+              "stem": "计算 $\\lim\\limits_{x\\to 0}\\dfrac{e^x-e^{-x}}{\\sin 2x}$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$1$",
+              "analysis": "当 $x\\to 0$ 时，$e^x-e^{-x}\\sim 2x$（因为 $e^x-1\\sim x$，$e^{-x}-1\\sim -x$），$\\sin 2x\\sim 2x$。\n$\\lim\\limits_{x\\to 0}\\dfrac{e^x-e^{-x}}{\\sin 2x}=\\lim\\limits_{x\\to 0}\\dfrac{2x}{2x}=1$。\n（亦可用洛必达：$\\lim\\limits_{x\\to 0}\\dfrac{e^x+e^{-x}}{2\\cos 2x}=\\dfrac{1+1}{2}=1$。）"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 11 题",
+              "year": 2022,
+              "number": 11,
+              "score": "（6 分）",
+              "stem": "计算 $\\lim\\limits_{x\\to 0}\\dfrac{x^3}{x-\\sin x}$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$6$",
+              "analysis": "连续三次洛必达：\n$\\lim\\limits_{x\\to 0}\\dfrac{x^3}{x-\\sin x}=\\lim\\limits_{x\\to 0}\\dfrac{3x^2}{1-\\cos x}=\\lim\\limits_{x\\to 0}\\dfrac{6x}{\\sin x}=\\lim\\limits_{x\\to 0}\\dfrac{6}{\\cos x}=6$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "两个重要极限与 $1^{\\infty}$ 型",
+        "content": "\\lim_{x\\to 0}\\frac{\\sin x}{x}=1\\qquad \\lim_{x\\to\\infty}\\left(1+\\frac{1}{x}\\right)^{x}=e\\qquad \\lim_{x\\to 0}(1+x)^{\\frac{1}{x}}=e",
+        "itemType": "MUST_READ",
+        "sortOrder": 1200030,
+        "source": "11 年题面命中 5 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "极限与连续"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "极限与连续",
+          "kind": "method",
+          "module": "极限与连续",
+          "groupIntro": "2024 版大纲权重约 10%，但 11 年真题实际占 <b>19%</b>（54 题），是实际权重最高的模块，选择题与解答题的主要来源。",
+          "tex": "\\lim_{x\\to 0}\\frac{\\sin x}{x}=1\\qquad \\lim_{x\\to\\infty}\\left(1+\\frac{1}{x}\\right)^{x}=e\\qquad \\lim_{x\\to 0}(1+x)^{\\frac{1}{x}}=e",
+          "texNote": "$1^{\\infty}$ 型通法：凑成 $\\left(1+\\dfrac{1}{\\square}\\right)^{\\square}$，答案就是 $e$ 的幂。",
+          "points": [
+            "$1^{\\infty}$ 型的结果一定是 $e^{A}$，$A$ 是「底数超出 1 的部分 × 指数」的极限。",
+            "$\\lim(1+\\dfrac{2}{x})^{x}=e^{2}$——指数上的 $x$ 与括号里的 $\\dfrac{2}{x}$ 配成 $2$。"
+          ],
+          "steps": [
+            "① 判断类型：底数 $\\to 1$、指数 $\\to\\infty$，即 $1^{\\infty}$ 型。",
+            "② 把底数写成 $1+\\dfrac{1}{\\square}$（$\\square\\to\\infty$）的形式。",
+            "③ 指数上补出同一个 $\\square$：$\\left[(1+\\dfrac{1}{\\square})^{\\square}\\right]^{A}\\to e^{A}$。"
+          ],
+          "hitCount": 5,
+          "refs": [
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 19 题",
+              "year": 2023,
+              "number": 19,
+              "score": "（4 分）",
+              "stem": "$\\lim\\limits_{x\\to 0}(1+2x)^{\\frac{1}{x}}=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$e^2$",
+              "analysis": "$\\lim\\limits_{x\\to 0}(1+2x)^{1/x}=\\lim\\limits_{x\\to 0}\\left[(1+2x)^{\\frac{1}{2x}}\\right]^2=e^2$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 2 题",
+              "year": 2022,
+              "number": 2,
+              "score": "（4 分）",
+              "stem": "$\\lim\\limits_{x\\to\\infty}\\left(1+\\dfrac{3}{x}\\right)^{\\frac{x}{2}}=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$e^3$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$e^2$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$e^{\\frac{3}{2}}$",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "$e^{\\frac{2}{3}}$",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null,
+              "analysis": "$\\lim\\limits_{x\\to\\infty}\\left(1+\\dfrac{3}{x}\\right)^{\\frac{x}{2}}=\\lim\\limits_{x\\to\\infty}\\left[\\left(1+\\dfrac{3}{x}\\right)^{\\frac{x}{3}}\\right]^{\\frac{3}{2}}=e^{\\frac{3}{2}}$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2019 年 · 第 2 题",
+              "year": 2019,
+              "number": 2,
+              "score": "（4 分）",
+              "stem": "$\\lim\\limits_{x\\to 0}\\left(1+\\dfrac{2}{x}\\right)^{x}$ $=$（　）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$-e^2$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$-e$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$e$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$e^2$",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null,
+              "analysis": "$\\lim\\limits_{x\\to 0}\\left(1+\\dfrac{2}{x}\\right)^{x}=\\lim\\limits_{x\\to 0}\\left(1+\\dfrac{2}{x}\\right)^{\\frac{x}{2}\\cdot 2}=\\left[\\lim\\limits_{x\\to 0}\\left(1+\\dfrac{2}{x}\\right)^{\\frac{x}{2}}\\right]^2=e^2$。\n说明：注意原 PDF 记号 $\\left(1+\\frac{2}{x}\\right)^{x}$ 在 $x\\to 0^-$ 经典形式应为 $e^2$，取 $x<0$ 方向。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "洛必达法则",
+        "content": "\\lim\\frac{f(x)}{g(x)}=\\lim\\frac{f'(x)}{g'(x)}\\quad\\left(\\frac{0}{0}\\ \\text{或}\\ \\frac{\\infty}{\\infty}\\right)",
+        "itemType": "MUST_READ",
+        "sortOrder": 1200040,
+        "source": "11 年题面命中 4 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "极限与连续"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "极限与连续",
+          "kind": "method",
+          "module": "极限与连续",
+          "groupIntro": "2024 版大纲权重约 10%，但 11 年真题实际占 <b>19%</b>（54 题），是实际权重最高的模块，选择题与解答题的主要来源。",
+          "tex": "\\lim\\frac{f(x)}{g(x)}=\\lim\\frac{f'(x)}{g'(x)}\\quad\\left(\\frac{0}{0}\\ \\text{或}\\ \\frac{\\infty}{\\infty}\\right)",
+          "texNote": "分子分母<b>分别</b>求导（不是商的求导法则！），求导后重新求极限。",
+          "points": [
+            "使用前必须验证是 $\\dfrac{0}{0}$ 或 $\\dfrac{\\infty}{\\infty}$ 型。",
+            "一次不行可以连着用，但每次都要重新验证类型。",
+            "和等价无穷小配合：先替换把式子变简单，再对剩下的用洛必达。"
+          ],
+          "steps": [
+            "① 验证未定式类型。",
+            "② 分子分母分别求导，得到新的分式。",
+            "③ 代入求极限；若仍是未定式，回到第 ② 步再来一次。"
+          ],
+          "hitCount": 4,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 1 题",
+              "year": 2024,
+              "number": 1,
+              "score": "（7 分）",
+              "stem": "设 $\\lim\\limits_{x\\to 0}\\dfrac{1-e^{kx}}{x}=2$，则 $k=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$-2$",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "$-1$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$1$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$2$",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null,
+              "analysis": "等价无穷小：当 $x\\to 0$ 时，$1-e^{kx}\\sim -kx$。\n故 $\\lim\\limits_{x\\to 0}\\dfrac{1-e^{kx}}{x}=\\lim\\limits_{x\\to 0}\\dfrac{-kx}{x}=-k=2$，解得 $k=-2$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 11 题",
+              "year": 2023,
+              "number": 11,
+              "score": "（6 分）",
+              "stem": "计算 $\\lim\\limits_{x\\to 0}\\dfrac{e^x-e^{-x}}{\\sin 2x}$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$1$",
+              "analysis": "当 $x\\to 0$ 时，$e^x-e^{-x}\\sim 2x$（因为 $e^x-1\\sim x$，$e^{-x}-1\\sim -x$），$\\sin 2x\\sim 2x$。\n$\\lim\\limits_{x\\to 0}\\dfrac{e^x-e^{-x}}{\\sin 2x}=\\lim\\limits_{x\\to 0}\\dfrac{2x}{2x}=1$。\n（亦可用洛必达：$\\lim\\limits_{x\\to 0}\\dfrac{e^x+e^{-x}}{2\\cos 2x}=\\dfrac{1+1}{2}=1$。）"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2017 年 · 第 11 题",
+              "year": 2017,
+              "number": 11,
+              "score": "（6 分）",
+              "stem": "求 $\\lim\\limits_{x\\to 0}\\dfrac{e^x-\\sin x-1}{x^2}$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{1}{2}$",
+              "analysis": "用泰勒展开：$e^x=1+x+\\dfrac{x^2}{2}+o(x^2)$，$\\sin x=x+o(x^2)$。\n$e^x-\\sin x-1=\\dfrac{x^2}{2}+o(x^2)$，故 $\\lim=\\dfrac{1}{2}$。\n或用洛必达：$\\lim\\dfrac{e^x-\\cos x}{2x}=\\lim\\dfrac{e^x+\\sin x}{2}=\\dfrac{1}{2}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "无穷小的阶的比较",
+        "content": "\\lim_{x\\to 0}\\frac{\\alpha}{\\beta}=\\begin{cases}0,&\\alpha\\ \\text{是}\\ \\beta\\ \\text{的高阶无穷小}\\\\[4pt]\\infty,&\\alpha\\ \\text{是}\\ \\beta\\ \\text{的低阶无穷小}\\\\[4pt]c\\ (\\neq 0),&\\text{同阶}\\end{cases}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1200050,
+        "source": "11 年题面命中 1 题 · 展示最新 1 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "极限与连续"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "极限与连续",
+          "kind": "method",
+          "module": "极限与连续",
+          "groupIntro": "2024 版大纲权重约 10%，但 11 年真题实际占 <b>19%</b>（54 题），是实际权重最高的模块，选择题与解答题的主要来源。",
+          "tex": "\\lim_{x\\to 0}\\frac{\\alpha}{\\beta}=\\begin{cases}0,&\\alpha\\ \\text{是}\\ \\beta\\ \\text{的高阶无穷小}\\\\[4pt]\\infty,&\\alpha\\ \\text{是}\\ \\beta\\ \\text{的低阶无穷小}\\\\[4pt]c\\ (\\neq 0),&\\text{同阶}\\end{cases}",
+          "texNote": "等价无穷小是同阶无穷小的特例（$c=1$）。",
+          "points": [
+            "做法只有一步：把两个无穷小都换成幂函数，比指数大小。",
+            "$x$ 的指数越大，趋于 0 越快，阶越高。"
+          ],
+          "steps": [
+            "① 把两个量都用等价无穷小换成 $x^{k}$ 的形式。",
+            "② 比较指数 $k$：指数大的为高阶无穷小。",
+            "③ 若问「同阶 / 等价」，再算一次比值的极限是否为非零常数 / 是否为 1。"
+          ],
+          "hitCount": 1,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2017 年 · 第 1 题",
+              "year": 2017,
+              "number": 1,
+              "score": "（4 分）",
+              "stem": "当 $x\\to 0$ 时，下列变量是无穷小量的为（　）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{1}{x^2}$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$2x$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$\\sin x$",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "$\\ln(x+e)$",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null,
+              "analysis": "$\\sin x\\sim x$（$x\\to 0$），是无穷小量；$2x$ 也是无穷小，但 B 与 C 同时为无穷小不严谨；B 在 $x\\to 0$ 下也趋于 0；综合典型命题以 $\\sin x$ 为代表无穷小量。\n注：原 PDF 标准答案为 C（$\\sin x$）。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "函数的连续与间断点",
+        "content": "\\lim_{x\\to x_0^{-}}f(x)=\\lim_{x\\to x_0^{+}}f(x)=f(x_0)\\ \\Longrightarrow\\ f\\ \\text{在}\\ x_0\\ \\text{处连续}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1200060,
+        "source": "11 年题面命中 17 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "极限与连续"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "极限与连续",
+          "kind": "method",
+          "module": "极限与连续",
+          "groupIntro": "2024 版大纲权重约 10%，但 11 年真题实际占 <b>19%</b>（54 题），是实际权重最高的模块，选择题与解答题的主要来源。",
+          "tex": "\\lim_{x\\to x_0^{-}}f(x)=\\lim_{x\\to x_0^{+}}f(x)=f(x_0)\\ \\Longrightarrow\\ f\\ \\text{在}\\ x_0\\ \\text{处连续}",
+          "texNote": "求参数题就是令「左极限 = 右极限 = 函数值」解出参数。",
+          "points": [
+            "间断点＝函数无定义的点，最常考分母为零的点。",
+            "分段函数在分段点连续必须三个量相等，少一个都算错。"
+          ],
+          "steps": [
+            "① 找无定义点：令分母为 0、对数真数为 0、根号内为负的位置。",
+            "② 计算该点的左极限、右极限（分段函数要分别算）。",
+            "③ 若题目给「连续」，令三者相等解参数；求间断点则直接写无定义点。"
+          ],
+          "hitCount": 17,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 13 题",
+              "year": 2024,
+              "number": 13,
+              "score": "（15 分）",
+              "stem": "设函数 $f(x)=\\begin{cases}x+a, & x\\geqslant 0\\\\ \\dfrac{\\sin x}{x}, & x<0\\end{cases}$ 在 $x=0$ 处连续，求 $a$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$a=1$",
+              "analysis": "分段函数在分段点连续，要求左极限=右极限=函数值。\n右极限：$\\lim\\limits_{x\\to 0^+}(x+a)=a$。\n左极限：$\\lim\\limits_{x\\to 0^-}\\dfrac{\\sin x}{x}=1$。\n连续性要求 $a=1$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 17 题",
+              "year": 2024,
+              "number": 17,
+              "score": "（7 分）",
+              "stem": "函数 $f(x)=e^{1/x}$ 的间断点为 $x=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$0$",
+              "analysis": "$f(x)=e^{1/x}$ 在 $x=0$ 处无定义，且左右极限均不存在（无穷震荡），故 $x=0$ 为间断点。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 4 题",
+              "year": 2023,
+              "number": 4,
+              "score": "（4 分）",
+              "stem": "设函数 $f(x)=\\begin{cases}1, & x\\leqslant 0\\\\ b+x, & x>0\\end{cases}$ 在 $x=0$ 处连续，则 $b=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$2$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$1$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$0$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$-1$",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "连续性要求 $f(0)=\\lim\\limits_{x\\to 0^-}f(x)=\\lim\\limits_{x\\to 0^+}f(x)$。\n$f(0)=1$，右极限 $\\lim\\limits_{x\\to 0^+}(b+x)=b$，故 $b=1$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "无界变量与无穷大量（概念判定，可放弃）",
+        "content": "\\text{无穷大量}\\ \\Longrightarrow\\ \\text{无界};\\qquad \\text{无界}\\ \\not\\Longrightarrow\\ \\text{无穷大量}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1200070,
+        "source": "11 套卷未考 · 用例题代替",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "极限与连续"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "极限与连续",
+          "kind": "method",
+          "module": "极限与连续",
+          "groupIntro": "2024 版大纲权重约 10%，但 11 年真题实际占 <b>19%</b>（54 题），是实际权重最高的模块，选择题与解答题的主要来源。",
+          "tex": "\\text{无穷大量}\\ \\Longrightarrow\\ \\text{无界};\\qquad \\text{无界}\\ \\not\\Longrightarrow\\ \\text{无穷大量}",
+          "texNote": "2025 年第 3 题（$\\dfrac{5}{x}\\cos\\dfrac{3}{x}$）、第 4 题（夹逼准则）属这类，各 7 分，短期难速成。",
+          "points": [
+            "判定「无界」：取一列趋近点，函数值趋于无穷。",
+            "判定「不是无穷大量」：再取一列趋近点，函数值不趋于无穷。"
+          ],
+          "steps": [
+            "① 取特殊点列（如 $x_n=\\dfrac{1}{2n\\pi}$），代入看函数值走向。",
+            "② 若要证无界，找一列使 $|f(x_n)|\\to\\infty$。",
+            "③ 若要证「无界但非无穷大量」，再找一列使 $f(x_n)$ 不趋于 $\\infty$。"
+          ],
+          "hitCount": 0,
+          "refs": [],
+          "example": {
+            "label": "例题（11 套卷仅 2025 年考过，冲刺期可直接放弃）",
+            "stem": "当 $x\\to 0$ 时，判断 $\\dfrac{1}{x}\\sin\\dfrac{1}{x}$ 是否为无穷大量。",
+            "steps": [
+              "① 取 $x_n=\\dfrac{1}{n\\pi}\\to 0$，则 $\\sin\\dfrac{1}{x_n}=\\sin n\\pi=0$，函数值恒为 0。",
+              "② 取 $x_n=\\dfrac{1}{2n\\pi+\\frac{\\pi}{2}}\\to 0$，函数值 $=2n\\pi+\\dfrac{\\pi}{2}\\to\\infty$。",
+              "③ 有趋于 0 的点列使函数值不趋于无穷 $\\Rightarrow$ 不是无穷大量；但绝对值可任意大 $\\Rightarrow$ 无界。"
+            ],
+            "answer": "无界，但不是无穷大量。"
+          }
+        }
+      },
+      {
+        "title": "基本求导公式表（8 条）",
+        "content": "\\begin{aligned}&(x^{a})'=ax^{a-1} & &(e^{x})'=e^{x} & &(a^{x})'=a^{x}\\ln a\\\\[2pt]&(\\ln x)'=\\frac{1}{x} & &(\\sin x)'=\\cos x & &(\\cos x)'=-\\sin x\\\\[2pt]&(\\tan x)'=\\frac{1}{\\cos^{2}x} & &(\\arctan x)'=\\frac{1}{1+x^{2}}\\end{aligned}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1201000,
+        "source": "11 年题面命中 10 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数微分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数微分学",
+          "kind": "method",
+          "module": "一元函数微分学",
+          "groupIntro": "11 年 53 题（18%）。求导公式 + 复合函数链式法则是选择题基本盘；应用侧考单调性、极值、闭区间最值、渐近线。",
+          "tex": "\\begin{aligned}&(x^{a})'=ax^{a-1} & &(e^{x})'=e^{x} & &(a^{x})'=a^{x}\\ln a\\\\[2pt]&(\\ln x)'=\\frac{1}{x} & &(\\sin x)'=\\cos x & &(\\cos x)'=-\\sin x\\\\[2pt]&(\\tan x)'=\\frac{1}{\\cos^{2}x} & &(\\arctan x)'=\\frac{1}{1+x^{2}}\\end{aligned}",
+          "texNote": "这 8 条与积分表 8 条一一对应，互逆记忆，半小时能默写。",
+          "points": [
+            "$(\\ln x)'=\\dfrac{1}{x}$ 是填空题的常客。",
+            "$(\\tan x)'=\\dfrac{1}{\\cos^{2}x}$ 不要写成 $\\dfrac{1}{x^{2}+1}$。"
+          ],
+          "steps": [
+            "① 认公式：把函数拆成「幂 / 指数 / 对数 / 三角 / 反三角」基本块。",
+            "② 逐块套表求导。",
+            "③ 块与块之间是乘除时，用乘积 / 商的求导法则缝合。"
+          ],
+          "hitCount": 10,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 2 题",
+              "year": 2023,
+              "number": 2,
+              "score": "（4 分）",
+              "stem": "设 $y=\\sqrt{2x+1}$，则 $y'=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{1}{2\\sqrt{2x+1}}$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$2\\sqrt{2x+1}$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{2}{\\sqrt{2x+1}}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$\\dfrac{1}{\\sqrt{2x+1}}$",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null,
+              "analysis": "$y=(2x+1)^{\\frac{1}{2}}$，由链式法则：\n$y'=\\dfrac{1}{2}(2x+1)^{-\\frac{1}{2}}\\cdot 2=\\dfrac{1}{\\sqrt{2x+1}}$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 22 题",
+              "year": 2023,
+              "number": 22,
+              "score": "（4 分）",
+              "stem": "设 $y=x+\\sin x$，则 $y'=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$1+\\cos x$",
+              "analysis": "$y'=1+\\cos x$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 22 题",
+              "year": 2021,
+              "number": 22,
+              "score": "（4 分）",
+              "stem": "设 $y=xe^x$，则 $y'=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$(1+x)e^x$",
+              "analysis": "$y'=e^x+xe^x=(1+x)e^x$。"
+            }
+          ],
+          "example": {
+            "label": "例题（库里以填空题出现，这里给一条最简单的标准型）",
+            "stem": "设 $y=\\ln x+\\sqrt{x}$，求 $y'$。",
+            "steps": [
+              "① 拆成两块：$\\ln x$ 与 $x^{1/2}$。",
+              "② 分别套表：$(\\ln x)'=\\dfrac{1}{x}$，$(x^{1/2})'=\\dfrac{1}{2}x^{-1/2}$。",
+              "③ 相加得结果。"
+            ],
+            "answer": "$y'=\\dfrac{1}{x}+\\dfrac{1}{2\\sqrt{x}}$。"
+          }
+        }
+      },
+      {
+        "title": "复合函数求导（链式法则）",
+        "content": "\\left[f(g(x))\\right]'=f'(g(x))\\cdot g'(x)",
+        "itemType": "MUST_READ",
+        "sortOrder": 1201010,
+        "source": "11 年题面命中 3 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数微分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数微分学",
+          "kind": "method",
+          "module": "一元函数微分学",
+          "groupIntro": "11 年 53 题（18%）。求导公式 + 复合函数链式法则是选择题基本盘；应用侧考单调性、极值、闭区间最值、渐近线。",
+          "tex": "\\left[f(g(x))\\right]'=f'(g(x))\\cdot g'(x)",
+          "texNote": "由外向内一层层乘：先对外层求导（内层原样），再乘内层的导数。",
+          "points": [
+            "$(\\sin 7x)'=7\\cos 7x$——别漏掉内层导数 $7$。",
+            "三层复合就乘三次，逐层往里剥。"
+          ],
+          "steps": [
+            "① 分清外层与内层函数（从最外层运算开始拆）。",
+            "② 外层求导，内层原样照抄。",
+            "③ 乘上内层的导数；内层仍是复合则回到 ① 继续。"
+          ],
+          "hitCount": 3,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 1 题",
+              "year": 2025,
+              "number": 1,
+              "score": "（7 分）",
+              "stem": "设 $f(x)=\\sin 7x$，则 $f'\\left(\\dfrac{\\pi}{7}\\right)=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$7$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$1$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$-1$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$-7$",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null,
+              "analysis": "第一步 求导：由复合函数求导法则，\n  $f'(x)=(\\sin 7x)'=\\cos 7x\\cdot(7x)'=7\\cos 7x$。\n第二步 代值：\n  $f'\\left(\\dfrac{\\pi}{7}\\right)=7\\cos\\left(7\\cdot\\dfrac{\\pi}{7}\\right)=7\\cos\\pi=7\\times(-1)=-7$。\n故选 D。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2019 年 · 第 3 题",
+              "year": 2019,
+              "number": 3,
+              "score": "（4 分）",
+              "stem": "设函数 $y=\\cos 2x$，则 $y'=$（　）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$2\\sin 2x$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$-2\\sin 2x$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$\\sin 2x$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$-\\sin 2x$",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "$y'=(\\cos 2x)'=-\\sin 2x\\cdot(2x)'=-2\\sin 2x$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2016 年 · 第 25 题",
+              "year": 2016,
+              "number": 25,
+              "score": "（4 分）",
+              "stem": "设函数 $y=\\sin(x-2)$，则 $y''=$______。",
+              "options": [],
+              "correct": null,
+              "answerText": "$-\\sin(x-2)$",
+              "analysis": "$y'=\\cos(x-2)$，$y''=-\\sin(x-2)$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "隐函数求导",
+        "content": "F(x,y)=0\\ \\xrightarrow{\\ \\text{两边对}x\\text{求导}\\ }\\ F_x+F_y\\,y'=0\\ \\Longrightarrow\\ y'=-\\frac{F_x}{F_y}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1201020,
+        "source": "11 年题面命中 3 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数微分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数微分学",
+          "kind": "method",
+          "module": "一元函数微分学",
+          "groupIntro": "11 年 53 题（18%）。求导公式 + 复合函数链式法则是选择题基本盘；应用侧考单调性、极值、闭区间最值、渐近线。",
+          "tex": "F(x,y)=0\\ \\xrightarrow{\\ \\text{两边对}x\\text{求导}\\ }\\ F_x+F_y\\,y'=0\\ \\Longrightarrow\\ y'=-\\frac{F_x}{F_y}",
+          "texNote": "每遇到 $y$ 就乘一个 $y'$（因为 $y$ 是 $x$ 的函数）。",
+          "points": [
+            "第一步往往要先由方程解出 $x=x_0$ 对应的 $y_0$。",
+            "最容易错的地方：忘了对 $y$ 乘 $y'$。"
+          ],
+          "steps": [
+            "① 先求点：把 $x=x_0$ 代入方程解出对应的 $y_0$。",
+            "② 方程两边同时对 $x$ 求导，$y$ 视为 $y(x)$，出现 $y$ 就补乘 $y'$。",
+            "③ 把 $(x_0,y_0)$ 代入，解出 $y'$ 即为所求。"
+          ],
+          "hitCount": 3,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 3 题",
+              "year": 2024,
+              "number": 3,
+              "score": "（7 分）",
+              "stem": "设函数 $y=f(x)$ 由方程 $y^3+x^3-3xy=1$ 所确定，则 $f'(0)=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$2$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$1$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{1}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$-1$",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "隐函数求导。\n第一步：求 $x=0$ 对应的 $y$。代入方程得 $y^3=1$，取实根 $y=1$。\n第二步：方程两边对 $x$ 求导：$3y^2y'+3x^2-3(y+xy')=0$，\n整理得 $(y^2-x)y'=y-x^2$。\n第三步：代入 $x=0, y=1$，得 $(1-0)y'=1-0$，故 $y'=1$，即 $f'(0)=1$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 23 题",
+              "year": 2021,
+              "number": 23,
+              "score": "（4 分）",
+              "stem": "设 $y=y(x)$ 是由方程 $y+e^y=x$ 所确定的隐函数，则 $y'=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{1}{1+e^y}$",
+              "analysis": "方程两边对 $x$ 求导：$y'+e^y y'=1$，即 $y'(1+e^y)=1$，故 $y'=\\dfrac{1}{1+e^y}$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2020 年 · 第 21 题",
+              "year": 2020,
+              "number": 21,
+              "score": "（4 分）",
+              "stem": "方程 $y^3+\\ln y-x^2=0$ 在点 $(1,1)$ 处的隐函数 $y=y(x)$，则 $\\dfrac{dy}{dx}\\bigg|_{x=1}=$______。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{1}{2}$",
+              "analysis": "两边对 $x$ 求导：$3y^2y'+\\dfrac{1}{y}y'-2x=0$，即 $(3y^2+\\dfrac{1}{y})y'=2x$。\n故 $\\dfrac{dy}{dx}=\\dfrac{2x}{3y^2+\\dfrac{1}{y}}$，代入 $(1,1)$：$\\dfrac{2}{3+1}=\\dfrac{1}{2}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "高阶导数",
+        "content": "y^{(n)}=(y^{(n-1)})'\\qquad (x^{a})^{(n)}=\\frac{a!}{(a-n)!}\\,x^{a-n}\\ \\ (n\\leqslant a)",
+        "itemType": "MUST_READ",
+        "sortOrder": 1201030,
+        "source": "11 年题面命中 5 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数微分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数微分学",
+          "kind": "method",
+          "module": "一元函数微分学",
+          "groupIntro": "11 年 53 题（18%）。求导公式 + 复合函数链式法则是选择题基本盘；应用侧考单调性、极值、闭区间最值、渐近线。",
+          "tex": "y^{(n)}=(y^{(n-1)})'\\qquad (x^{a})^{(n)}=\\frac{a!}{(a-n)!}\\,x^{a-n}\\ \\ (n\\leqslant a)",
+          "texNote": "考法就是「老老实实求 $n$ 次，别跳步」。",
+          "points": [
+            "$y=2x^{3}-e^{x}$，则 $y'''=12-e^{x}$（幂函数三次导完只剩常数）。",
+            "逐阶写清楚，中间不出错就能拿分。"
+          ],
+          "steps": [
+            "① 求一阶导 $y'$。",
+            "② 对 $y'$ 再求导得 $y''$。",
+            "③ 需要就再来一次得 $y'''$；每步独立检查，不要心算跳步。"
+          ],
+          "hitCount": 5,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 2 题",
+              "year": 2025,
+              "number": 2,
+              "score": "（7 分）",
+              "stem": "设 $y=2x^3-e^x$，则 $y'''=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$e^x$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$12$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$12-e^x$",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "$6+3e^x$",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null,
+              "analysis": "逐阶求导：\n  $y'=(2x^3)'-(e^x)'=6x^2-e^x$；\n  $y''=(6x^2)'-(e^x)'=12x-e^x$；\n  $y'''=(12x)'-(e^x)'=12-e^x$。\n注意 $(e^x)^{(n)}=e^x$ 恒成立，常数项在第二次求导后消失。故选 C。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 21 题",
+              "year": 2023,
+              "number": 21,
+              "score": "（4 分）",
+              "stem": "设 $y=x+e^x$，则 $y''=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$e^x$",
+              "analysis": "$y'=1+e^x$，$y''=e^x$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2016 年 · 第 6 题",
+              "year": 2016,
+              "number": 6,
+              "score": "（4 分）",
+              "stem": "设函数 $y=3x+1$，则 $y''=$（　）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "0",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "1",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "2",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "3",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null,
+              "analysis": "$y'=3$，$y''=0$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "求微分 $\\mathrm{d}y$",
+        "content": "\\mathrm{d}y=y'\\,\\mathrm{d}x\\qquad \\left.\\mathrm{d}y\\right|_{x=x_0}=y'(x_0)\\,\\mathrm{d}x",
+        "itemType": "MUST_READ",
+        "sortOrder": 1201040,
+        "source": "11 年题面命中 17 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数微分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数微分学",
+          "kind": "method",
+          "module": "一元函数微分学",
+          "groupIntro": "11 年 53 题（18%）。求导公式 + 复合函数链式法则是选择题基本盘；应用侧考单调性、极值、闭区间最值、渐近线。",
+          "tex": "\\mathrm{d}y=y'\\,\\mathrm{d}x\\qquad \\left.\\mathrm{d}y\\right|_{x=x_0}=y'(x_0)\\,\\mathrm{d}x",
+          "texNote": "选择题里答案带 $\\mathrm{d}x$ 就是这一套；$\\mathrm{d}y$ 是切线上的增量。",
+          "points": [
+            "顺序永远是：先求导 → 写成 $\\mathrm{d}y=y'\\mathrm{d}x$ → 最后代值。",
+            "$\\mathrm{d}y\\big|_{x=1}=(\\sin 1+\\cos 1)\\mathrm{d}x$（2024 第 4 题）。"
+          ],
+          "steps": [
+            "① 求 $y'$。",
+            "② 写出 $\\mathrm{d}y=y'\\,\\mathrm{d}x$。",
+            "③ 把 $x=x_0$ 代入 $y'$，整理成含 $\\mathrm{d}x$ 的表达式。"
+          ],
+          "hitCount": 17,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 4 题",
+              "year": 2024,
+              "number": 4,
+              "score": "（7 分）",
+              "stem": "设 $y=x\\sin x$，则 $dy|_{x=1}=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$(\\sin 1+\\cos 1)\\,dx$",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "$(\\sin 1-\\cos 1)\\,dx$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$\\sin 1\\,dx$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$\\cos 1\\,dx$",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null,
+              "analysis": "先求导：$y'=\\sin x+x\\cos x$。\n代入 $x=1$：$y'(1)=\\sin 1+\\cos 1$。\n故 $dy|_{x=1}=(\\sin 1+\\cos 1)dx$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 3 题",
+              "year": 2023,
+              "number": 3,
+              "score": "（4 分）",
+              "stem": "设 $y=e^{-x}$，则 $dy=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$e^{-x}dx$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$-e^{-x}dx$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$e^{x}dx$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$-e^{x}dx$",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "$y'=e^{-x}\\cdot(-1)=-e^{-x}$，故 $dy=y'dx=-e^{-x}dx$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 20 题",
+              "year": 2023,
+              "number": 20,
+              "score": "（4 分）",
+              "stem": "设 $\\begin{cases}x=1+t^2,\\\\ y=t^3\\end{cases}$（$t$ 为参数），则 $\\left.\\dfrac{dy}{dx}\\right|_{t=2}=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$3$",
+              "analysis": "$\\dfrac{dy}{dx}=\\dfrac{dy/dt}{dx/dt}=\\dfrac{3t^2}{2t}=\\dfrac{3t}{2}$。代入 $t=2$ 得 $\\dfrac{3\\times 2}{2}=3$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "切线方程与法线斜率",
+        "content": "k_{\\text{切}}=f'(x_0)\\qquad k_{\\text{法}}=-\\frac{1}{f'(x_0)}\\qquad y-y_0=k(x-x_0)",
+        "itemType": "MUST_READ",
+        "sortOrder": 1201050,
+        "source": "11 年题面命中 6 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数微分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数微分学",
+          "kind": "method",
+          "module": "一元函数微分学",
+          "groupIntro": "11 年 53 题（18%）。求导公式 + 复合函数链式法则是选择题基本盘；应用侧考单调性、极值、闭区间最值、渐近线。",
+          "tex": "k_{\\text{切}}=f'(x_0)\\qquad k_{\\text{法}}=-\\frac{1}{f'(x_0)}\\qquad y-y_0=k(x-x_0)",
+          "texNote": "法线斜率是切线斜率的负倒数，别丢负号、也别直接抄切线斜率。",
+          "points": [
+            "曲线在 $(x_0,y_0)$ 处的切线斜率就是该点导数。",
+            "法线垂直于切线，故 $k_1k_2=-1$。"
+          ],
+          "steps": [
+            "① 求导得 $f'(x)$，代入 $x_0$ 得切线斜率 $k_1$。",
+            "② 法线斜率 $k_2=-\\dfrac{1}{k_1}$（若 $k_1=0$，法线是竖直线 $x=x_0$）。",
+            "③ 用点斜式写出直线方程。"
+          ],
+          "hitCount": 6,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 5 题",
+              "year": 2024,
+              "number": 5,
+              "score": "（7 分）",
+              "stem": "曲线 $y=\\dfrac{1}{x}$ 在点 $(1,1)$ 处法线的斜率为",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$-1$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$-\\dfrac{1}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{1}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$1$",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null,
+              "analysis": "切线斜率 $k_{切}=y'|_{x=1}=-\\dfrac{1}{x^2}\\big|_{x=1}=-1$。\n法线与切线垂直，法线斜率 $k_{法}=-\\dfrac{1}{k_{切}}=1$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 14 题",
+              "year": 2022,
+              "number": 14,
+              "score": "（8 分）",
+              "stem": "求曲线 $y=x^2$ 在点 $(1,1)$ 处的切线方程。",
+              "options": [],
+              "correct": null,
+              "answerText": "$y=2x-1$",
+              "analysis": "$y'=2x$，在 $x=1$ 处切线斜率 $k=2$。\n切线方程 $y-1=2(x-1)$，即 $y=2x-1$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 5 题",
+              "year": 2021,
+              "number": 5,
+              "score": "（4 分）",
+              "stem": "曲线 $y=x\\ln x$ 在点 $(e,e)$ 处法线的斜率为",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "-2",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$-\\dfrac{1}{2}$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{1}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "2",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "$y'=\\ln x+1$。在 $x=e$ 处切线斜率 $k_{切}=\\ln e+1=2$。\n法线斜率 $k_{法}=-\\dfrac{1}{k_{切}}=-\\dfrac{1}{2}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "闭区间上的最大值与最小值（三步）",
+        "content": "M=\\max\\{f(a),f(b),f(x_1),\\dots\\}\\qquad m=\\min\\{f(a),f(b),f(x_1),\\dots\\}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1201060,
+        "source": "11 年题面命中 1 题 · 展示最新 1 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数微分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数微分学",
+          "kind": "method",
+          "module": "一元函数微分学",
+          "groupIntro": "11 年 53 题（18%）。求导公式 + 复合函数链式法则是选择题基本盘；应用侧考单调性、极值、闭区间最值、渐近线。",
+          "tex": "M=\\max\\{f(a),f(b),f(x_1),\\dots\\}\\qquad m=\\min\\{f(a),f(b),f(x_1),\\dots\\}",
+          "texNote": "$x_i$ 是落在 $(a,b)$ 内的驻点与不可导点。",
+          "points": [
+            "只算驻点、忘了比端点是最高频的错误。",
+            "2024 第 11 题（$f=2x^{3}+3x^{2}-12x+14$ 在 $[-3,4]$）：最大值 $142$ 来自端点 $x=4$。"
+          ],
+          "steps": [
+            "① 求 $f'(x)$，令 $f'(x)=0$ 解出驻点，只保留落在 $[a,b]$ 内的。",
+            "② 计算所有保留驻点的函数值，再加上两个端点值 $f(a)$、$f(b)$。",
+            "③ 比大小，最大者为最大值，最小者为最小值。"
+          ],
+          "hitCount": 1,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 11 题",
+              "year": 2024,
+              "number": 11,
+              "score": "（7 分）",
+              "stem": "函数 $f(x)=2x^3+3x^2-12x+14$ 在区间 $[-3,4]$ 上的最大值和最小值分别为",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$34,\\,7$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$34,\\,23$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$142,\\,7$",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "$142,\\,23$",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null,
+              "analysis": "1. 求导：$f'(x)=6x^2+6x-12=6(x+2)(x-1)$，驻点 $x=-2,1$（均在 $[-3,4]$ 内）。\n2. 计算关键点函数值：\n   $f(-3)=-54+27+36+14=23$；\n   $f(-2)=-16+12+24+14=34$；\n   $f(1)=2+3-12+14=7$；\n   $f(4)=128+48-48+14=142$。\n3. 比较得最大值 $142$（$x=4$），最小值 $7$（$x=1$）。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "单调性、极值与驻点",
+        "content": "f'(x)>0\\Rightarrow\\text{单调增}\\qquad f'(x)<0\\Rightarrow\\text{单调减}\\qquad f'(x_0)=0\\Rightarrow x_0\\ \\text{为驻点}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1201070,
+        "source": "11 年题面命中 11 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数微分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数微分学",
+          "kind": "method",
+          "module": "一元函数微分学",
+          "groupIntro": "11 年 53 题（18%）。求导公式 + 复合函数链式法则是选择题基本盘；应用侧考单调性、极值、闭区间最值、渐近线。",
+          "tex": "f'(x)>0\\Rightarrow\\text{单调增}\\qquad f'(x)<0\\Rightarrow\\text{单调减}\\qquad f'(x_0)=0\\Rightarrow x_0\\ \\text{为驻点}",
+          "texNote": "驻点只是「嫌疑点」：要看导数在两侧是否变号，变号才是极值点。",
+          "points": [
+            "求单调区间＝解 $f'(x)>0$ 与 $f'(x)<0$。",
+            "求极值＝找驻点 + 判变号；求参数＝令 $f'(x_0)=0$ 解参数。"
+          ],
+          "steps": [
+            "① 求 $f'(x)$ 并因式分解。",
+            "② 令 $f'(x)=0$ 得驻点，用驻点把定义域分段。",
+            "③ 判断每段上 $f'$ 的符号：正增负减；符号改变处即为极值点。"
+          ],
+          "hitCount": 11,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 16 题",
+              "year": 2025,
+              "number": 16,
+              "score": "（7 分）",
+              "stem": "若 $x=e$ 是 $y=(x-a)\\ln x$ 的驻点，则 $a=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$2e$",
+              "analysis": "先求导：$y'=(x-a)'\\ln x+(x-a)(\\ln x)'=\\ln x+\\dfrac{x-a}{x}$。\n驻点满足 $y'(e)=0$：$\\ln e+\\dfrac{e-a}{e}=0$，即 $1+\\dfrac{e-a}{e}=0$。\n整理得 $e+e-a=0$，故 $a=2e$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 15 题",
+              "year": 2023,
+              "number": 15,
+              "score": "（10 分）",
+              "stem": "求函数 $f(x)=x^2e^{-x}$ 的单调区间和极值。",
+              "options": [],
+              "correct": null,
+              "answerText": "递减 $(-\\infty,0)$，递增 $(0,2)$，递减 $(2,+\\infty)$；极小值 $0$，极大值 $4/e^2$",
+              "analysis": "$f'(x)=2xe^{-x}-x^2e^{-x}=x(2-x)e^{-x}$。\n因 $e^{-x}>0$，由 $x(2-x)$ 的符号：\n$x<0$ 时 $f'<0$ 递减；$0<x<2$ 时 $f'>0$ 递增；$x>2$ 时 $f'<0$ 递减。\n$x=0$ 为极小值点，$f(0)=0$；$x=2$ 为极大值点，$f(2)=4e^{-2}=4/e^2$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 4 题",
+              "year": 2022,
+              "number": 4,
+              "score": "（4 分）",
+              "stem": "设函数 $f(x)=3x^3+ax+7$ 在 $x=1$ 处取得极值，则 $a=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$9$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$3$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$-3$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$-9$",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null,
+              "analysis": "$f'(x)=9x^2+a$。$x=1$ 为极值点，故 $f'(1)=9+a=0$，解得 $a=-9$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "凹凸性与拐点",
+        "content": "f''(x)>0\\Rightarrow\\text{凹}\\qquad f''(x)<0\\Rightarrow\\text{凸}\\qquad f''(x_0)=0\\ \\text{且两侧变号}\\Rightarrow(x_0,f(x_0))\\ \\text{为拐点}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1201080,
+        "source": "11 年题面命中 3 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数微分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数微分学",
+          "kind": "method",
+          "module": "一元函数微分学",
+          "groupIntro": "11 年 53 题（18%）。求导公式 + 复合函数链式法则是选择题基本盘；应用侧考单调性、极值、闭区间最值、渐近线。",
+          "tex": "f''(x)>0\\Rightarrow\\text{凹}\\qquad f''(x)<0\\Rightarrow\\text{凸}\\qquad f''(x_0)=0\\ \\text{且两侧变号}\\Rightarrow(x_0,f(x_0))\\ \\text{为拐点}",
+          "texNote": "凹凸看二阶导，拐点是曲线上凹凸发生变化的分界点。",
+          "points": [
+            "拐点是一个<b>点</b>，要写成 $(x_0,y_0)$，只写横坐标不算完整。",
+            "求法与极值平行：二阶导为零 + 两侧变号。"
+          ],
+          "steps": [
+            "① 求 $f''(x)$。",
+            "② 令 $f''(x)=0$ 解出候选点。",
+            "③ 检查候选点两侧 $f''$ 是否变号，变号则算出 $y_0$，写成点坐标。"
+          ],
+          "hitCount": 3,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 14 题",
+              "year": 2021,
+              "number": 14,
+              "score": "（8 分）",
+              "stem": "求曲线 $y=2x^3-6x^2$ 的凹、凸区间及拐点。",
+              "options": [],
+              "correct": null,
+              "answerText": "凸区间 $(-\\infty,1)$，凹区间 $(1,+\\infty)$，拐点 $(1,-4)$",
+              "analysis": "$y'=6x^2-12x$，$y''=12x-12$。\n令 $y''=0$ 得 $x=1$。当 $x<1$ 时 $y''<0$，曲线凸；当 $x>1$ 时 $y''>0$，曲线凹。\n$y(1)=2-6=-4$，故拐点为 $(1,-4)$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2018 年 · 第 19 题",
+              "year": 2018,
+              "number": 19,
+              "score": "（4 分）",
+              "stem": "曲线 $y=x^3-6x^2+3x+4$ 的拐点为______。",
+              "options": [],
+              "correct": null,
+              "answerText": "$(2,-6)$",
+              "analysis": "$y'=3x^2-12x+3$，$y''=6x-12=0\\Rightarrow x=2$，$y(2)=8-24+6+4=-6$。故拐点 $(2,-6)$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2016 年 · 第 16 题",
+              "year": 2016,
+              "number": 16,
+              "score": "（10 分）",
+              "stem": "求曲线 $y=x^3-3x+5$ 的拐点。",
+              "options": [],
+              "correct": null,
+              "answerText": "$(0,5)$",
+              "analysis": "$y'=3x^2-3$，$y''=6x$。令 $y''=0\\Rightarrow x=0$。\n$x<0$ 时 $y''<0$ 凹，$x>0$ 时 $y''>0$ 凸，故 $(0,5)$ 为拐点。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "曲线的渐近线",
+        "content": "y=k:\\ \\lim_{x\\to\\infty}f(x)=k\\qquad x=a:\\ \\lim_{x\\to a}f(x)=\\infty\\qquad y=ax+b:\\ a=\\lim_{x\\to\\infty}\\frac{f(x)}{x},\\ b=\\lim_{x\\to\\infty}[f(x)-ax]",
+        "itemType": "MUST_READ",
+        "sortOrder": 1201090,
+        "source": "11 年题面命中 4 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数微分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数微分学",
+          "kind": "method",
+          "module": "一元函数微分学",
+          "groupIntro": "11 年 53 题（18%）。求导公式 + 复合函数链式法则是选择题基本盘；应用侧考单调性、极值、闭区间最值、渐近线。",
+          "tex": "y=k:\\ \\lim_{x\\to\\infty}f(x)=k\\qquad x=a:\\ \\lim_{x\\to a}f(x)=\\infty\\qquad y=ax+b:\\ a=\\lim_{x\\to\\infty}\\frac{f(x)}{x},\\ b=\\lim_{x\\to\\infty}[f(x)-ax]",
+          "texNote": "三条公式分别对应水平、垂直、斜渐近线。",
+          "points": [
+            "水平渐近线：算 $x\\to\\infty$ 的极限，极限是常数就是它。",
+            "垂直渐近线：找函数趋于无穷的无定义点。"
+          ],
+          "steps": [
+            "① 先算 $\\lim\\limits_{x\\to\\infty}f(x)$，若为非零常数 $k$，得水平渐近线 $y=k$。",
+            "② 找无定义点 $a$，若 $\\lim\\limits_{x\\to a}f(x)=\\infty$，得垂直渐近线 $x=a$。",
+            "③ 若 ① 的极限不存在，再按斜渐近线公式求 $a$、$b$。"
+          ],
+          "hitCount": 4,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 18 题",
+              "year": 2024,
+              "number": 18,
+              "score": "（7 分）",
+              "stem": "曲线 $y=\\dfrac{2x^2}{x^2-2}$ 的水平渐近线方程为",
+              "options": [],
+              "correct": null,
+              "answerText": "$y=2$",
+              "analysis": "水平渐近线由 $x\\to\\infty$ 时的极限确定：\n$\\lim\\limits_{x\\to\\infty}\\dfrac{2x^2}{x^2-2}=\\lim\\limits_{x\\to\\infty}\\dfrac{2}{1-\\frac{2}{x^2}}=2$。\n故水平渐近线方程为 $y=2$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 22 题",
+              "year": 2022,
+              "number": 22,
+              "score": "（4 分）",
+              "stem": "曲线 $y=\\dfrac{x}{4-x}$ 的水平渐近线方程为",
+              "options": [],
+              "correct": null,
+              "answerText": "$y=-1$",
+              "analysis": "$\\lim\\limits_{x\\to\\infty}\\dfrac{x}{4-x}=\\lim\\limits_{x\\to\\infty}\\dfrac{1}{\\frac{4}{x}-1}=-1$。\n故水平渐近线方程为 $y=-1$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 24 题",
+              "year": 2021,
+              "number": 24,
+              "score": "（4 分）",
+              "stem": "曲线 $y=\\dfrac{1}{x-2}$ 的铅直渐近线方程为",
+              "options": [],
+              "correct": null,
+              "answerText": "$x=2$",
+              "analysis": "$\\lim\\limits_{x\\to 2}\\dfrac{1}{x-2}=\\infty$，故铅直渐近线为 $x=2$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "参数方程确定的函数求导",
+        "content": "\\begin{cases}x=\\varphi(t)\\\\ y=\\psi(t)\\end{cases}\\ \\Longrightarrow\\ \\frac{\\mathrm{d}y}{\\mathrm{d}x}=\\frac{\\psi'(t)}{\\varphi'(t)}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1201100,
+        "source": "11 年题面命中 2 题 · 展示最新 2 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数微分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数微分学",
+          "kind": "method",
+          "module": "一元函数微分学",
+          "groupIntro": "11 年 53 题（18%）。求导公式 + 复合函数链式法则是选择题基本盘；应用侧考单调性、极值、闭区间最值、渐近线。",
+          "tex": "\\begin{cases}x=\\varphi(t)\\\\ y=\\psi(t)\\end{cases}\\ \\Longrightarrow\\ \\frac{\\mathrm{d}y}{\\mathrm{d}x}=\\frac{\\psi'(t)}{\\varphi'(t)}",
+          "texNote": "分子是 $y$ 对 $t$ 的导数，分母是 $x$ 对 $t$ 的导数，别写反。",
+          "points": [
+            "结果里若还带 $t$，按题目要求换回 $x$ 或直接保留。"
+          ],
+          "steps": [
+            "① 分别求 $\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}$ 与 $\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}$。",
+            "② 两者相除得 $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}$。",
+            "③ 若要求某点斜率，先由 $x$ 值解出 $t$，再代入。"
+          ],
+          "hitCount": 2,
+          "refs": [
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 20 题",
+              "year": 2023,
+              "number": 20,
+              "score": "（4 分）",
+              "stem": "设 $\\begin{cases}x=1+t^2,\\\\ y=t^3\\end{cases}$（$t$ 为参数），则 $\\left.\\dfrac{dy}{dx}\\right|_{t=2}=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$3$",
+              "analysis": "$\\dfrac{dy}{dx}=\\dfrac{dy/dt}{dx/dt}=\\dfrac{3t^2}{2t}=\\dfrac{3t}{2}$。代入 $t=2$ 得 $\\dfrac{3\\times 2}{2}=3$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2017 年 · 第 12 题",
+              "year": 2017,
+              "number": 12,
+              "score": "（8 分）",
+              "stem": "设 $\\begin{cases}x=1+t^2\\\\ y=1+t^3\\end{cases}$，求 $\\dfrac{dy}{dx}$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{3t}{2}$",
+              "analysis": "$\\dfrac{dx}{dt}=2t$，$\\dfrac{dy}{dt}=3t^2$，$\\dfrac{dy}{dx}=\\dfrac{dy/dt}{dx/dt}=\\dfrac{3t^2}{2t}=\\dfrac{3t}{2}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "中值定理（罗尔 / 拉格朗日 / 柯西）",
+        "content": "f'(\\xi)=\\frac{f(b)-f(a)}{b-a}\\ (\\text{拉格朗日})\\qquad f'(\\xi)=0\\ (\\text{罗尔})",
+        "itemType": "MUST_READ",
+        "sortOrder": 1201110,
+        "source": "11 套卷未考 · 用例题代替",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数微分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数微分学",
+          "kind": "method",
+          "module": "一元函数微分学",
+          "groupIntro": "11 年 53 题（18%）。求导公式 + 复合函数链式法则是选择题基本盘；应用侧考单调性、极值、闭区间最值、渐近线。",
+          "tex": "f'(\\xi)=\\frac{f(b)-f(a)}{b-a}\\ (\\text{拉格朗日})\\qquad f'(\\xi)=0\\ (\\text{罗尔})",
+          "texNote": "三个定理都是「存在一点，其导数等于某个平均变化率」。",
+          "points": [
+            "成考里以小题形式出现，重点记结论与适用条件（闭区间连续、开区间可导）。",
+            "罗尔是拉格朗日的特例（$f(a)=f(b)$）。"
+          ],
+          "steps": [
+            "① 确认满足条件：$[a,b]$ 上连续、$(a,b)$ 内可导。",
+            "② 按所给函数算出 $\\dfrac{f(b)-f(a)}{b-a}$。",
+            "③ 令 $f'(\\xi)$ 等于该值，解出 $\\xi$ 并检验它落在 $(a,b)$ 内。"
+          ],
+          "hitCount": 0,
+          "refs": [],
+          "example": {
+            "label": "例题（11 套卷未直接考，但属大纲明列考点）",
+            "stem": "验证 $f(x)=x^{2}$ 在 $[0,2]$ 上满足拉格朗日中值定理，并求 $\\xi$。",
+            "steps": [
+              "① $f(x)=x^{2}$ 在 $[0,2]$ 上连续、$(0,2)$ 内可导，满足条件。",
+              "② $\\dfrac{f(2)-f(0)}{2-0}=\\dfrac{4-0}{2}=2$。",
+              "③ 令 $f'(\\xi)=2\\xi=2$，得 $\\xi=1\\in(0,2)$，成立。"
+            ],
+            "answer": "$\\xi=1$。"
+          }
+        }
+      },
+      {
+        "title": "基本积分公式表（8 条）",
+        "content": "\\begin{aligned}&\\int x^{a}\\,\\mathrm{d}x=\\frac{x^{a+1}}{a+1}+C\\ (a\\neq-1) & &\\int \\frac{1}{x}\\,\\mathrm{d}x=\\ln|x|+C\\\\[2pt]&\\int e^{x}\\,\\mathrm{d}x=e^{x}+C & &\\int a^{x}\\,\\mathrm{d}x=\\frac{a^{x}}{\\ln a}+C\\\\[2pt]&\\int \\sin x\\,\\mathrm{d}x=-\\cos x+C & &\\int \\cos x\\,\\mathrm{d}x=\\sin x+C\\\\[2pt]&\\int \\frac{1}{1+x^{2}}\\,\\mathrm{d}x=\\arctan x+C & &\\int \\frac{1}{\\cos^{2}x}\\,\\mathrm{d}x=\\tan x+C\\end{aligned}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1202000,
+        "source": "11 年题面命中 8 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数积分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数积分学",
+          "kind": "method",
+          "module": "一元函数积分学",
+          "groupIntro": "11 年 <b>76 题（32%）</b>，分值最高：选择 25 + 填空 26 + 解答 25。凑微分与定积分是必拿分项。",
+          "tex": "\\begin{aligned}&\\int x^{a}\\,\\mathrm{d}x=\\frac{x^{a+1}}{a+1}+C\\ (a\\neq-1) & &\\int \\frac{1}{x}\\,\\mathrm{d}x=\\ln|x|+C\\\\[2pt]&\\int e^{x}\\,\\mathrm{d}x=e^{x}+C & &\\int a^{x}\\,\\mathrm{d}x=\\frac{a^{x}}{\\ln a}+C\\\\[2pt]&\\int \\sin x\\,\\mathrm{d}x=-\\cos x+C & &\\int \\cos x\\,\\mathrm{d}x=\\sin x+C\\\\[2pt]&\\int \\frac{1}{1+x^{2}}\\,\\mathrm{d}x=\\arctan x+C & &\\int \\frac{1}{\\cos^{2}x}\\,\\mathrm{d}x=\\tan x+C\\end{aligned}",
+          "texNote": "两条铁律：不定积分必须加 $+C$；$\\dfrac{1}{x}$ 积分出来是 $\\ln|x|$（带绝对值）。",
+          "points": [
+            "选择题若四个选项都没有 $+C$，说明它在求定积分或原函数特值。",
+            "与导数表一一对应，逆着背最快。"
+          ],
+          "steps": [
+            "① 看被积函数属于哪一类（幂 / 指数 / 三角 / 反三角）。",
+            "② 直接套对应公式。",
+            "③ 不定积分补上 $+C$；若是定积分则进入牛顿—莱布尼茨流程。"
+          ],
+          "hitCount": 8,
+          "refs": [
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 23 题",
+              "year": 2023,
+              "number": 23,
+              "score": "（4 分）",
+              "stem": "$\\displaystyle\\int(x^2+e^x)\\,dx=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{x^3}{3}+e^x+C$",
+              "analysis": "逐项积分：$\\int x^2dx=\\dfrac{x^3}{3}$，$\\int e^xdx=e^x$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 23 题",
+              "year": 2022,
+              "number": 23,
+              "score": "（4 分）",
+              "stem": "$\\displaystyle\\int(x^2+3x^{\\frac{1}{2}})\\,dx=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{x^3}{3}+2x^{\\frac{3}{2}}+C$",
+              "analysis": "逐项积分：$\\int x^2dx=\\dfrac{x^3}{3}$，$\\int 3x^{1/2}dx=3\\cdot\\dfrac{x^{3/2}}{3/2}=2x^{3/2}$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2019 年 · 第 5 题",
+              "year": 2019,
+              "number": 5,
+              "score": "（4 分）",
+              "stem": "设 $2^x$ 为 $f(x)$ 的一个原函数，则 $f(x)=$（　）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "0",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$2^x$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$x^2$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$x^2+C$",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "$2^x$ 为 $f(x)$ 的一个原函数，则 $f(x)=(2^x)'=2^x\\ln 2$。\n注：原 PDF 标记 $2^x$ 但选项中实为求 $f(x)$ 的具体表达式，正确值应为 $2^x\\ln 2$，对应 B 选项的 $2^x$（PDF 命题按基础题略去常数项，参考题面选 B）。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "凑微分（第一类换元，套路 A）",
+        "content": "\\int f(u)\\cdot u'\\,\\mathrm{d}x=\\int f(u)\\,\\mathrm{d}u\\qquad (u=\\varphi(x))",
+        "itemType": "MUST_READ",
+        "sortOrder": 1202010,
+        "source": "11 年题面命中 4 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数积分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数积分学",
+          "kind": "method",
+          "module": "一元函数积分学",
+          "groupIntro": "11 年 <b>76 题（32%）</b>，分值最高：选择 25 + 填空 26 + 解答 25。凑微分与定积分是必拿分项。",
+          "tex": "\\int f(u)\\cdot u'\\,\\mathrm{d}x=\\int f(u)\\,\\mathrm{d}u\\qquad (u=\\varphi(x))",
+          "texNote": "例：$\\displaystyle\\int x^{2}e^{2x^{3}}\\mathrm{d}x$，令 $u=2x^{3}$，$\\mathrm{d}u=6x^{2}\\mathrm{d}x$，得 $\\dfrac{1}{6}e^{2x^{3}}+C$。",
+          "points": [
+            "找「整体」当 $u$（如 $2x+1$、$2x^{3}$、$e^{2x}$、$\\ln x$）。",
+            "把常数系数凑出来——差一个常数就乘它的倒数，不换元也能写。"
+          ],
+          "steps": [
+            "① 找出那个可以整体看作 $u$ 的结构。",
+            "② 算 $\\mathrm{d}u=u'\\,\\mathrm{d}x$，把被积式里的常数系数凑成 $\\mathrm{d}u$。",
+            "③ 化成 $\\displaystyle\\int f(u)\\,\\mathrm{d}u$ 直接套公式，最后把 $u$ 换回 $x$。"
+          ],
+          "hitCount": 4,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 7 题",
+              "year": 2025,
+              "number": 7,
+              "score": "（7 分）",
+              "stem": "$F(x)$ 是 $f(x)$ 的一个原函数，则 $\\displaystyle\\int e^{2x}f\\left(e^{2x}\\right)dx=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$F\\left(e^{2x}\\right)+C$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$\\dfrac{1}{2}F\\left(e^{2x}\\right)+C$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$F\\left(e^{x}\\right)+C$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$-F\\left(e^{x}\\right)+C$",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "换元积分法。令 $u=e^{2x}$，则 $du=2e^{2x}dx$，即 $e^{2x}dx=\\dfrac{1}{2}du$。\n  $\\int e^{2x}f\\left(e^{2x}\\right)dx=\\dfrac{1}{2}\\int f(u)\\,du$。\n由 $F'(x)=f(x)$ 知 $\\int f(u)\\,du=F(u)+C$，故\n  原式 $=\\dfrac{1}{2}F(u)+C=\\dfrac{1}{2}F\\left(e^{2x}\\right)+C$。\n关键：不要漏掉内层函数 $e^{2x}$ 求导产生的系数 $2$。选 B。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 17 题",
+              "year": 2025,
+              "number": 17,
+              "score": "（7 分）",
+              "stem": "计算不定积分 $\\displaystyle\\int x^2e^{2x^3}dx=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{1}{6}e^{2x^3}+C$",
+              "analysis": "凑微分（换元）。令 $u=2x^3$，则 $du=6x^2dx$，即 $x^2dx=\\dfrac{du}{6}$。\n  $\\int x^2e^{2x^3}dx=\\int e^u\\cdot\\dfrac{du}{6}=\\dfrac{1}{6}e^u+C=\\dfrac{1}{6}e^{2x^3}+C$。\n验算：$\\left(\\dfrac{1}{6}e^{2x^3}\\right)'=\\dfrac{1}{6}e^{2x^3}\\cdot 6x^2=x^2e^{2x^3}$，正确。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 25 题",
+              "year": 2021,
+              "number": 25,
+              "score": "（4 分）",
+              "stem": "$\\displaystyle\\int xe^{x^2}\\,dx=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{1}{2}e^{x^2}+C$",
+              "analysis": "$\\int xe^{x^2}dx=\\dfrac{1}{2}\\int e^{x^2}d(x^2)=\\dfrac{1}{2}e^{x^2}+C$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "被积式先展开再逐项积（套路 B）",
+        "content": "\\int\\left(x+\\frac{1}{x}\\right)^{2}\\mathrm{d}x=\\int\\left(x^{2}+2+\\frac{1}{x^{2}}\\right)\\mathrm{d}x=\\frac{x^{3}}{3}+2x-\\frac{1}{x}+C",
+        "itemType": "MUST_READ",
+        "sortOrder": 1202020,
+        "source": "11 年题面命中 2 题 · 展示最新 2 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数积分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数积分学",
+          "kind": "method",
+          "module": "一元函数积分学",
+          "groupIntro": "11 年 <b>76 题（32%）</b>，分值最高：选择 25 + 填空 26 + 解答 25。凑微分与定积分是必拿分项。",
+          "tex": "\\int\\left(x+\\frac{1}{x}\\right)^{2}\\mathrm{d}x=\\int\\left(x^{2}+2+\\frac{1}{x^{2}}\\right)\\mathrm{d}x=\\frac{x^{3}}{3}+2x-\\frac{1}{x}+C",
+          "texNote": "看到「括号的幂」先展开——这是命题人送分的方式。",
+          "points": [
+            "被积式是括号的平方 / 乘积且能展开时，展开后逐项积比换元更快。",
+            "展开后每一项都是基本积分公式表里的形式，直接套。"
+          ],
+          "steps": [
+            "① 把括号的幂 / 乘积展开成多项式。",
+            "② 利用积分可加性拆成若干项。",
+            "③ 逐项套基本积分公式，最后统一加 $+C$。"
+          ],
+          "hitCount": 2,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 6 题",
+              "year": 2025,
+              "number": 6,
+              "score": "（7 分）",
+              "stem": "$\\displaystyle\\int\\left(x+\\dfrac{1}{x}\\right)^2dx=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{1}{3}\\left(x+\\dfrac{1}{x}\\right)^3+C$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$\\dfrac{x^2}{3}-\\dfrac{1}{x}+C$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{x^3}{3}+2x-\\dfrac{1}{x}+C$",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "$\\dfrac{x^2}{2}+\\ln x+C$",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null,
+              "analysis": "先展开被积函数：\n  $\\left(x+\\dfrac{1}{x}\\right)^2=x^2+2\\cdot x\\cdot\\dfrac{1}{x}+\\dfrac{1}{x^2}=x^2+2+\\dfrac{1}{x^2}$。\n逐项积分：\n  $\\int x^2dx=\\dfrac{x^3}{3}$，$\\int 2\\,dx=2x$，$\\int x^{-2}dx=\\dfrac{x^{-1}}{-1}=-\\dfrac{1}{x}$。\n故原式 $=\\dfrac{x^3}{3}+2x-\\dfrac{1}{x}+C$。\n易错点：A 是误用 $\\int u^2dx=\\dfrac{u^3}{3}$（缺 $u'$，凑微分不成立）；D 漏了交叉项 $2$。选 C。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 6 题",
+              "year": 2024,
+              "number": 6,
+              "score": "（7 分）",
+              "stem": "$\\displaystyle\\int(2x+1)^2\\,dx=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{(2x+1)^3}{3}+C$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$\\dfrac{(2x+1)^3}{6}+C$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$3(2x+1)^3+C$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$6(2x+1)^3+C$",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "方法一（凑微分）：$(2x+1)^2=\\dfrac{1}{6}\\cdot 6(2x+1)^2$，\n而 $d(2x+1)^3=6(2x+1)^2dx$，故 $\\int(2x+1)^2dx=\\dfrac{(2x+1)^3}{6}+C$。\n方法二（换元）：令 $u=2x+1$，则 $du=2dx$，\n$\\int(2x+1)^2dx=\\dfrac{1}{2}\\int u^2du=\\dfrac{u^3}{6}+C=\\dfrac{(2x+1)^3}{6}+C$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "第二类换元（根式代换）",
+        "content": "\\int f(x)\\,\\mathrm{d}x\\ \\xrightarrow{\\ x=\\varphi(t)\\ }\\ \\int f(\\varphi(t))\\,\\varphi'(t)\\,\\mathrm{d}t",
+        "itemType": "MUST_READ",
+        "sortOrder": 1202030,
+        "source": "11 年题面命中 5 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数积分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数积分学",
+          "kind": "method",
+          "module": "一元函数积分学",
+          "groupIntro": "11 年 <b>76 题（32%）</b>，分值最高：选择 25 + 填空 26 + 解答 25。凑微分与定积分是必拿分项。",
+          "tex": "\\int f(x)\\,\\mathrm{d}x\\ \\xrightarrow{\\ x=\\varphi(t)\\ }\\ \\int f(\\varphi(t))\\,\\varphi'(t)\\,\\mathrm{d}t",
+          "texNote": "被积函数带根号时的通法：令根号整体为新变量，把根号消掉。",
+          "points": [
+            "$\\sqrt{x}$ 出现时令 $t=\\sqrt{x}$，则 $x=t^{2}$、$\\mathrm{d}x=2t\\,\\mathrm{d}t$——根号直接消失。",
+            "换元后别忘了把结果换回 $x$。"
+          ],
+          "steps": [
+            "① 令根号整体（或根号内的式子）为 $t$，反解出 $x$。",
+            "② 求 $\\mathrm{d}x$，把整个积分改写成 $t$ 的积分。",
+            "③ 积分完成后把 $t$ 换回 $x$ 的表达式。"
+          ],
+          "hitCount": 5,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 13 题",
+              "year": 2021,
+              "number": 13,
+              "score": "（8 分）",
+              "stem": "计算 $\\displaystyle\\int\\dfrac{\\cos\\sqrt{x}}{\\sqrt{x}}\\,dx$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$2\\sin\\sqrt{x}+C$",
+              "analysis": "令 $t=\\sqrt{x}$，则 $x=t^2$，$dx=2t\\,dt$。\n$\\int\\dfrac{\\cos\\sqrt{x}}{\\sqrt{x}}dx=\\int\\dfrac{\\cos t}{t}\\cdot 2t\\,dt=2\\int\\cos t\\,dt=2\\sin t+C=2\\sin\\sqrt{x}+C$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2020 年 · 第 13 题",
+              "year": 2020,
+              "number": 13,
+              "score": "（8 分）",
+              "stem": "计算 $\\int_0^1\\sqrt[3]{1+x}\\,dx$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{3}{4}(2^{4/3}-1)$",
+              "analysis": "令 $t=1+x$，则 $t\\in[1,2]$，$dx=dt$。\n$\\int_0^1\\sqrt[3]{1+x}\\,dx=\\int_1^2 t^{1/3}dt=\\dfrac{3}{4}t^{4/3}\\bigg|_1^2=\\dfrac{3}{4}(2^{4/3}-1)$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2019 年 · 第 22 题",
+              "year": 2019,
+              "number": 22,
+              "score": "（4 分）",
+              "stem": "$\\int\\dfrac{1}{\\sqrt{1-x^2}}\\,dx=$______。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\arcsin x+C$",
+              "analysis": "$\\int\\dfrac{1}{\\sqrt{1-x^2}}\\,dx=\\arcsin x+C$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "分部积分",
+        "content": "\\int u\\,\\mathrm{d}v=uv-\\int v\\,\\mathrm{d}u",
+        "itemType": "MUST_READ",
+        "sortOrder": 1202040,
+        "source": "11 年题面命中 4 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数积分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数积分学",
+          "kind": "method",
+          "module": "一元函数积分学",
+          "groupIntro": "11 年 <b>76 题（32%）</b>，分值最高：选择 25 + 填空 26 + 解答 25。凑微分与定积分是必拿分项。",
+          "tex": "\\int u\\,\\mathrm{d}v=uv-\\int v\\,\\mathrm{d}u",
+          "texNote": "选 $u$ 的口诀：反三角 > 对数 > 幂 > 三角 > 指数（排在前面的当 $u$）。",
+          "points": [
+            "见到「幂函数 × 指数 / 三角 / 对数」就想到分部积分。",
+            "$\\displaystyle\\int x\\sin x\\,\\mathrm{d}x$ 里选 $u=x$、$\\mathrm{d}v=\\sin x\\,\\mathrm{d}x$。"
+          ],
+          "steps": [
+            "① 按口诀确定 $u$ 与 $\\mathrm{d}v$。",
+            "② 求 $\\mathrm{d}u$ 与 $v$（对 $\\mathrm{d}v$ 积分，不写常数）。",
+            "③ 套公式 $uv-\\displaystyle\\int v\\,\\mathrm{d}u$，若右边积分更简单就继续，否则重选 $u$。"
+          ],
+          "hitCount": 4,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2020 年 · 第 14 题",
+              "year": 2020,
+              "number": 14,
+              "score": "（8 分）",
+              "stem": "计算 $\\int x\\sin x\\,dx$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$-x\\cos x+\\sin x+C$",
+              "analysis": "分部积分：$u=x$，$dv=\\sin x\\,dx$，$du=dx$，$v=-\\cos x$。\n$\\int x\\sin x\\,dx=-x\\cos x-\\int(-\\cos x)dx=-x\\cos x+\\sin x+C$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2018 年 · 第 15 题",
+              "year": 2018,
+              "number": 15,
+              "score": "（10 分）",
+              "stem": "求 $\\int x\\cos x\\,dx$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$x\\sin x+\\cos x+C$",
+              "analysis": "分部积分：$u=x$，$dv=\\cos x\\,dx$，$v=\\sin x$。\n$\\int x\\cos x\\,dx=x\\sin x-\\int\\sin x\\,dx=x\\sin x+\\cos x+C$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2017 年 · 第 13 题",
+              "year": 2017,
+              "number": 13,
+              "score": "（8 分）",
+              "stem": "已知 $\\sin x$ 是 $f(x)$ 的一个原函数，求 $\\int xf'(x)dx$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$x\\sin x+\\cos x+C$",
+              "analysis": "$f(x)=(\\sin x)'=\\cos x$。\n$\\int xf'(x)dx=xf(x)-\\int f(x)dx=x\\sin x-(-\\cos x)+C=x\\sin x+\\cos x+C$。"
+            }
+          ],
+          "example": {
+            "label": "例题（11 套卷以「原函数 + 分部」形式出现，这里补标准型）",
+            "stem": "计算 $\\displaystyle\\int x e^{x}\\,\\mathrm{d}x$。",
+            "steps": [
+              "① 选 $u=x$，$\\mathrm{d}v=e^{x}\\mathrm{d}x$。",
+              "② 得 $\\mathrm{d}u=\\mathrm{d}x$，$v=e^{x}$。",
+              "③ 套公式：$\\displaystyle\\int xe^{x}\\mathrm{d}x=xe^{x}-\\int e^{x}\\mathrm{d}x=xe^{x}-e^{x}+C$。"
+            ],
+            "answer": "$xe^{x}-e^{x}+C$。"
+          }
+        }
+      },
+      {
+        "title": "有理函数的积分（拆项）",
+        "content": "\\frac{1}{(x-a)(x-b)}=\\frac{1}{b-a}\\left(\\frac{1}{x-a}-\\frac{1}{x-b}\\right)",
+        "itemType": "MUST_READ",
+        "sortOrder": 1202050,
+        "source": "11 年题面命中 1 题 · 展示最新 1 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数积分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数积分学",
+          "kind": "method",
+          "module": "一元函数积分学",
+          "groupIntro": "11 年 <b>76 题（32%）</b>，分值最高：选择 25 + 填空 26 + 解答 25。凑微分与定积分是必拿分项。",
+          "tex": "\\frac{1}{(x-a)(x-b)}=\\frac{1}{b-a}\\left(\\frac{1}{x-a}-\\frac{1}{x-b}\\right)",
+          "texNote": "部分分式：把复杂分式拆成若干个 $\\dfrac{A}{x-a}$ 之和，再逐项积成 $\\ln$。",
+          "points": [
+            "分母能因式分解就拆项，拆完每项都是 $\\dfrac{1}{一次式}$ 或 $\\dfrac{1}{(x-a)^{k}}$。",
+            "不要漏掉拆分系数——代入特殊值法最快。"
+          ],
+          "steps": [
+            "① 分母因式分解，写出待定的部分分式形式。",
+            "② 通分比较分子，用「代入特殊值」解出待定系数。",
+            "③ 逐项积分，结果写成 $\\ln|\\cdots|$ 的组合。"
+          ],
+          "hitCount": 1,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2015 年 · 第 15 题",
+              "year": 2015,
+              "number": 15,
+              "score": "（10 分）",
+              "stem": "计算 $\\int_1^e\\dfrac{1+\\ln x}{x}dx$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{3}{2}$",
+              "analysis": "$\\int_1^e\\dfrac{1+\\ln x}{x}dx=\\int_1^e\\dfrac{1}{x}dx+\\int_1^e\\dfrac{\\ln x}{x}dx=\\ln x\\big|_1^e+\\dfrac{(\\ln x)^2}{2}\\bigg|_1^e=1+\\dfrac{1}{2}=\\dfrac{3}{2}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "牛顿—莱布尼茨公式（定积分计算）",
+        "content": "\\int_{a}^{b}f(x)\\,\\mathrm{d}x=F(b)-F(a)\\qquad (F'(x)=f(x))",
+        "itemType": "MUST_READ",
+        "sortOrder": 1202060,
+        "source": "11 年题面命中 20 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数积分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数积分学",
+          "kind": "method",
+          "module": "一元函数积分学",
+          "groupIntro": "11 年 <b>76 题（32%）</b>，分值最高：选择 25 + 填空 26 + 解答 25。凑微分与定积分是必拿分项。",
+          "tex": "\\int_{a}^{b}f(x)\\,\\mathrm{d}x=F(b)-F(a)\\qquad (F'(x)=f(x))",
+          "texNote": "核心流程：先求原函数（不定积分，不写 $C$），再把上限、下限代进去相减。",
+          "points": [
+            "代入顺序：先上限后下限，写成 $F(b)-F(a)$，别写反。",
+            "$\\sin$、$\\cos$ 在特殊角处的值要背熟（见「常用角度三角函数值表」）。"
+          ],
+          "steps": [
+            "① 求被积函数的一个原函数 $F(x)$。",
+            "② 代入上限得 $F(b)$，代入下限得 $F(a)$。",
+            "③ 相减 $F(b)-F(a)$，算出数值。"
+          ],
+          "hitCount": 20,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 9 题",
+              "year": 2025,
+              "number": 9,
+              "score": "（7 分）",
+              "stem": "$\\displaystyle\\int_1^4\\left(x+\\dfrac{1}{x}\\right)dx=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{1}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$\\dfrac{13}{4}$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{10}{3}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$\\dfrac{15}{2}+\\ln 4$",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null,
+              "analysis": "牛顿—莱布尼茨公式。\n原函数：$\\int\\left(x+\\dfrac{1}{x}\\right)dx=\\dfrac{x^2}{2}+\\ln x$。\n代入上下限：\n  $\\left(\\dfrac{4^2}{2}+\\ln 4\\right)-\\left(\\dfrac{1^2}{2}+\\ln 1\\right)=\\left(8+\\ln 4\\right)-\\dfrac{1}{2}=\\dfrac{15}{2}+\\ln 4$。\n故选 D。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 7 题",
+              "year": 2024,
+              "number": 7,
+              "score": "（7 分）",
+              "stem": "$\\displaystyle\\int_0^{\\frac{\\pi}{2}}(\\cos x+\\sin x)\\,dx=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$-2$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$-1$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$1$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$2$",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null,
+              "analysis": "$\\int(\\cos x+\\sin x)dx=\\sin x-\\cos x$。\n代入上下限：$(\\sinfrac{\\pi}{2}-\\cosfrac{\\pi}{2})-(\\sin 0-\\cos 0)=(1-0)-(0-1)=2$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 8 题",
+              "year": 2024,
+              "number": 8,
+              "score": "（7 分）",
+              "stem": "$\\displaystyle\\int_0^1\\dfrac{1}{1+x^2}\\,dx=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$-\\dfrac{\\pi}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$-\\dfrac{\\pi}{4}$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{\\pi}{4}$",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "$\\dfrac{\\pi}{2}$",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null,
+              "analysis": "$\\int\\dfrac{1}{1+x^2}dx=\\arctan x$。\n$\\int_0^1\\dfrac{1}{1+x^2}dx=\\arctan 1-\\arctan 0=\\dfrac{\\pi}{4}-0=\\dfrac{\\pi}{4}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "对称区间上的奇偶性技巧",
+        "content": "\\int_{-a}^{a}f(x)\\,\\mathrm{d}x=\\begin{cases}0,&f\\ \\text{为奇函数}\\\\[4pt]2\\displaystyle\\int_{0}^{a}f(x)\\,\\mathrm{d}x,&f\\ \\text{为偶函数}\\end{cases}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1202070,
+        "source": "11 年题面命中 12 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数积分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数积分学",
+          "kind": "method",
+          "module": "一元函数积分学",
+          "groupIntro": "11 年 <b>76 题（32%）</b>，分值最高：选择 25 + 填空 26 + 解答 25。凑微分与定积分是必拿分项。",
+          "tex": "\\int_{-a}^{a}f(x)\\,\\mathrm{d}x=\\begin{cases}0,&f\\ \\text{为奇函数}\\\\[4pt]2\\displaystyle\\int_{0}^{a}f(x)\\,\\mathrm{d}x,&f\\ \\text{为偶函数}\\end{cases}",
+          "texNote": "2024 填空第 16 题：$\\displaystyle\\int_{-1}^{1}(\\arctan x+x^{2})\\,\\mathrm{d}x$，$\\arctan x$ 是奇函数直接扔，只剩 $\\dfrac{2}{3}$。",
+          "points": [
+            "区间必须关于原点对称才能用这条。",
+            "奇函数部分直接为 0——这是省一半时间的技巧。"
+          ],
+          "steps": [
+            "① 检查积分区间是否为 $[-a,a]$。",
+            "② 把被积函数拆成奇函数部分 + 偶函数部分。",
+            "③ 奇函数部分写 0，偶函数部分用 $2\\displaystyle\\int_{0}^{a}$ 计算。"
+          ],
+          "hitCount": 12,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 16 题",
+              "year": 2024,
+              "number": 16,
+              "score": "（7 分）",
+              "stem": "$\\displaystyle\\int_{-1}^1(\\arctan x+x^2)\\,dx=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{2}{3}$",
+              "analysis": "在对称区间 $[-1,1]$ 上，$\\arctan x$ 是奇函数，其积分为 $0$。\n$\\int_{-1}^1 x^2\\,dx=2\\int_0^1 x^2dx=2\\cdot\\dfrac{1}{3}=\\dfrac{2}{3}$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 24 题",
+              "year": 2022,
+              "number": 24,
+              "score": "（4 分）",
+              "stem": "$\\displaystyle\\int_{-1}^1(1+x\\sin x^2)\\,dx=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$2$",
+              "analysis": "$x\\sin x^2$ 是奇函数，在对称区间 $[-1,1]$ 上积分为 $0$。\n$\\int_{-1}^1 1\\,dx=2$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 7 题",
+              "year": 2021,
+              "number": 7,
+              "score": "（4 分）",
+              "stem": "$\\displaystyle\\int_{-1}^1(x\\cos x+1)\\,dx=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "-2",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "-1",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "1",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "2",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null,
+              "analysis": "$x\\cos x$ 是奇函数，$\\int_{-1}^1 x\\cos x\\,dx=0$；$\\int_{-1}^1 1\\,dx=2$。故原式 $=2$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "变上限函数求导",
+        "content": "\\frac{\\mathrm{d}}{\\mathrm{d}x}\\int_{a}^{x}f(t)\\,\\mathrm{d}t=f(x)\\qquad \\frac{\\mathrm{d}}{\\mathrm{d}x}\\int_{a}^{\\varphi(x)}f(t)\\,\\mathrm{d}t=f(\\varphi(x))\\cdot\\varphi'(x)",
+        "itemType": "MUST_READ",
+        "sortOrder": 1202080,
+        "source": "11 年题面命中 2 题 · 展示最新 2 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数积分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数积分学",
+          "kind": "method",
+          "module": "一元函数积分学",
+          "groupIntro": "11 年 <b>76 题（32%）</b>，分值最高：选择 25 + 填空 26 + 解答 25。凑微分与定积分是必拿分项。",
+          "tex": "\\frac{\\mathrm{d}}{\\mathrm{d}x}\\int_{a}^{x}f(t)\\,\\mathrm{d}t=f(x)\\qquad \\frac{\\mathrm{d}}{\\mathrm{d}x}\\int_{a}^{\\varphi(x)}f(t)\\,\\mathrm{d}t=f(\\varphi(x))\\cdot\\varphi'(x)",
+          "texNote": "上限带函数时要乘上限的导数（链式法则）。",
+          "points": [
+            "选择 / 填空常以 $\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\displaystyle\\int_{1}^{x}t e^{t^{2}}\\mathrm{d}t$ 的形式出现，答案就是把 $t$ 换成 $x$。",
+            "下限是变量时，前面多一个负号。"
+          ],
+          "steps": [
+            "① 看上下限：下限是常数、上限是 $x$ → 直接代入。",
+            "② 上限是 $\\varphi(x)$ → 代入后乘 $\\varphi'(x)$。",
+            "③ 有常数因子或 $x$ 在积分号外时，先把它移出积分号再求导。"
+          ],
+          "hitCount": 2,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2016 年 · 第 5 题",
+              "year": 2016,
+              "number": 5,
+              "score": "（4 分）",
+              "stem": "$\\dfrac{d}{dr}\\int_0^r e^u\\,du=$（　）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$e^r$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$e^r-1$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$e^{r-1}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$e^{r+1}$",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "变上限积分求导：$\\dfrac{d}{dr}\\int_0^r e^u du=e^r$。\n注：原 PDF 答案 B 标记，但 $e^r$ 即 $e^r-0$；若按纯求导公式则 $e^r$ 应对应 A；按答案 B（$e^r-1$），实际积分值 $=\\int_0^r e^u du=e^r-1$，故 $\\dfrac{d}{dr}(e^r-1)=e^r$。本条以变上限积分求导定理为准，答案为 $e^r$，与 A 一致；此处按 PDF 答案 B 入库，标注存疑。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2015 年 · 第 3 题",
+              "year": 2015,
+              "number": 3,
+              "score": "（4 分）",
+              "stem": "$\\dfrac{d}{dx}\\int_1^x t\\,e^{t^2}\\,dt=$（　）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$x e^{x^2}$",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "$-x e^{x^2}$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$x e^{-x^2}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$-x e^{-x^2}$",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null,
+              "analysis": "变上限积分求导：$\\dfrac{d}{dx}\\int_1^x t e^{t^2}dt=x e^{x^2}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "广义积分（无穷限）",
+        "content": "\\int_{a}^{+\\infty}f(x)\\,\\mathrm{d}x=\\lim_{b\\to+\\infty}\\int_{a}^{b}f(x)\\,\\mathrm{d}x",
+        "itemType": "MUST_READ",
+        "sortOrder": 1202090,
+        "source": "11 年题面命中 4 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数积分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数积分学",
+          "kind": "method",
+          "module": "一元函数积分学",
+          "groupIntro": "11 年 <b>76 题（32%）</b>，分值最高：选择 25 + 填空 26 + 解答 25。凑微分与定积分是必拿分项。",
+          "tex": "\\int_{a}^{+\\infty}f(x)\\,\\mathrm{d}x=\\lim_{b\\to+\\infty}\\int_{a}^{b}f(x)\\,\\mathrm{d}x",
+          "texNote": "先按定积分算，再对结果取极限。",
+          "points": [
+            "2025 第 8 题：$\\displaystyle\\int_{0}^{+\\infty}\\dfrac{1}{(x+5)^{2}}\\mathrm{d}x=\\dfrac{1}{5}$。",
+            "$\\displaystyle\\int_{1}^{+\\infty}\\dfrac{1}{x^{p}}\\mathrm{d}x$ 当 $p>1$ 时收敛，$p\\leqslant 1$ 时发散。"
+          ],
+          "steps": [
+            "① 把积分上限（或下限）换成 $b$，写成普通定积分。",
+            "② 算这个定积分，得到含 $b$ 的表达式。",
+            "③ 令 $b\\to+\\infty$ 取极限，得到数值（收敛）或写「发散」。"
+          ],
+          "hitCount": 4,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 8 题",
+              "year": 2025,
+              "number": 8,
+              "score": "（7 分）",
+              "stem": "$\\displaystyle\\int_0^{+\\infty}\\dfrac{1}{(x+5)^2}dx=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$-\\dfrac{1}{5}$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$0$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{1}{5}$",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "$1$",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null,
+              "analysis": "广义积分（无穷限）。\n  $\\int_0^{+\\infty}\\dfrac{dx}{(x+5)^2}=\\lim\\limits_{b\\to+\\infty}\\left[-\\dfrac{1}{x+5}\\right]_0^b$\n  $=\\lim\\limits_{b\\to+\\infty}\\left(-\\dfrac{1}{b+5}+\\dfrac{1}{5}\\right)=0+\\dfrac{1}{5}=\\dfrac{1}{5}$。\n故选 C。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 8 题",
+              "year": 2021,
+              "number": 8,
+              "score": "（4 分）",
+              "stem": "$\\displaystyle\\int_1^{+\\infty}\\dfrac{1}{x^3}\\,dx=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{1}{2}$",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "$\\dfrac{1}{4}$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$-\\dfrac{1}{4}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$-\\dfrac{1}{2}$",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null,
+              "analysis": "$\\int_1^{+\\infty}\\dfrac{1}{x^3}dx=\\left.\\dfrac{x^{-2}}{-2}\\right|_1^{+\\infty}=0-\\left(-\\dfrac{1}{2}\\right)=\\dfrac{1}{2}$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2018 年 · 第 27 题",
+              "year": 2018,
+              "number": 27,
+              "score": "（4 分）",
+              "stem": "$\\int_0^{+\\infty}e^{-x}\\,dx=$______。",
+              "options": [],
+              "correct": null,
+              "answerText": "1",
+              "analysis": "$\\int_0^{+\\infty}e^{-x}dx=-e^{-x}\\bigg|_0^{+\\infty}=0+1=1$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "定积分求平面图形面积",
+        "content": "S=\\int_{a}^{b}|f(x)|\\,\\mathrm{d}x\\qquad S=\\int_{a}^{b}\\left[f(x)-g(x)\\right]\\mathrm{d}x",
+        "itemType": "MUST_READ",
+        "sortOrder": 1202100,
+        "source": "11 年题面命中 3 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数积分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数积分学",
+          "kind": "method",
+          "module": "一元函数积分学",
+          "groupIntro": "11 年 <b>76 题（32%）</b>，分值最高：选择 25 + 填空 26 + 解答 25。凑微分与定积分是必拿分项。",
+          "tex": "S=\\int_{a}^{b}|f(x)|\\,\\mathrm{d}x\\qquad S=\\int_{a}^{b}\\left[f(x)-g(x)\\right]\\mathrm{d}x",
+          "texNote": "上曲线减下曲线；若曲线穿过 $x$ 轴，用绝对值或分段计算。",
+          "points": [
+            "关键是找准交点定出上下限 $a$、$b$。",
+            "$y=x^{5}$ 与 $x=1$、$x$ 轴围成 $\\Rightarrow S=\\displaystyle\\int_{0}^{1}x^{5}\\mathrm{d}x=\\dfrac{1}{6}$（2025 第 5 题）。"
+          ],
+          "steps": [
+            "① 画草图，求两条边界曲线的交点，定出上下限。",
+            "② 判断区间上谁在上、谁在下（$x$ 轴上方取正）。",
+            "③ 用「上减下」作被积函数，套牛顿—莱布尼茨算定积分。"
+          ],
+          "hitCount": 3,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 5 题",
+              "year": 2025,
+              "number": 5,
+              "score": "（7 分）",
+              "stem": "由曲线 $y=x^5$，直线 $x=1$、$x$ 轴围成图形的面积为",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{1}{6}$",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "$\\dfrac{1}{4}$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{1}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$1$",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null,
+              "analysis": "定积分的几何意义。曲边梯形由 $y=x^5$、$x=0$（$y$ 轴处曲线与 $x$ 轴相交）、$x=1$、$y=0$ 围成：\n  $S=\\int_0^1x^5\\,dx=\\left[\\dfrac{x^6}{6}\\right]_0^1=\\dfrac{1}{6}$。\n故选 A。（一般地 $\\int_0^1x^n dx=\\dfrac{1}{n+1}$，四个选项恰好对应 $n=5,3,1,0$。）"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2020 年 · 第 22 题",
+              "year": 2020,
+              "number": 22,
+              "score": "（4 分）",
+              "stem": "区域 $D=\\{(x,y)\\mid 1\\le x\\le 2,\\ 1\\le y\\le x^2\\}$ 的面积为______。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{4}{3}$",
+              "analysis": "$S=\\int_1^2(x^2-1)dx=\\left[\\dfrac{x^3}{3}-x\\right]_1^2=\\left(\\dfrac{8}{3}-2\\right)-\\left(\\dfrac{1}{3}-1\\right)=\\dfrac{2}{3}+\\dfrac{2}{3}=\\dfrac{4}{3}$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2015 年 · 第 14 题",
+              "year": 2015,
+              "number": 14,
+              "score": "（8 分）",
+              "stem": "求由曲线 $y=x^3$ 与直线 $y=x$ 所围图形的面积 $S$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{1}{2}$",
+              "analysis": "交点 $(0,0),(1,1),(-1,-1)$。$D$ 关于原点对称，$|x^3-x|$ 关于原点对称。\n$S=2\\int_0^1(x-x^3)dx=2\\left[\\dfrac{x^2}{2}-\\dfrac{x^4}{4}\\right]_0^1=2\\left(\\dfrac{1}{2}-\\dfrac{1}{4}\\right)=\\dfrac{1}{2}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "旋转体体积",
+        "content": "V_{x}=\\pi\\int_{a}^{b}f^{2}(x)\\,\\mathrm{d}x\\qquad V_{y}=\\pi\\int_{c}^{d}\\varphi^{2}(y)\\,\\mathrm{d}y",
+        "itemType": "MUST_READ",
+        "sortOrder": 1202110,
+        "source": "11 年题面命中 4 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "一元函数积分学"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "一元函数积分学",
+          "kind": "method",
+          "module": "一元函数积分学",
+          "groupIntro": "11 年 <b>76 题（32%）</b>，分值最高：选择 25 + 填空 26 + 解答 25。凑微分与定积分是必拿分项。",
+          "tex": "V_{x}=\\pi\\int_{a}^{b}f^{2}(x)\\,\\mathrm{d}x\\qquad V_{y}=\\pi\\int_{c}^{d}\\varphi^{2}(y)\\,\\mathrm{d}y",
+          "texNote": "绕 $x$ 轴旋转：被积函数要平方，前面有 $\\pi$。",
+          "points": [
+            "不要漏掉 $\\pi$，也不要漏掉平方。",
+            "先确定旋转轴与积分变量：绕 $x$ 轴就对 $x$ 积分。"
+          ],
+          "steps": [
+            "① 明确绕哪条轴旋转，据此选定积分变量。",
+            "② 写出旋转半径 $f(x)$（或 $\\varphi(y)$）。",
+            "③ 套公式 $V=\\pi\\displaystyle\\int_{a}^{b}f^{2}(x)\\mathrm{d}x$ 计算。"
+          ],
+          "hitCount": 4,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 16 题",
+              "year": 2023,
+              "number": 16,
+              "score": "（10 分）",
+              "stem": "设 $D$ 是由曲线 $y=1-x^2$（$x\\geqslant 0$）、直线 $x=0$、$y=0$ 所围成的平面图形。求（1）$D$ 的面积 $S$；（2）$D$ 绕 $x$ 轴旋转一周所得旋转体的体积 $V$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$S=\\dfrac{2}{3}$，$V=\\dfrac{16\\pi}{105}$",
+              "analysis": "（1）$S=\\int_0^1(1-x^2)dx=\\left[x-\\dfrac{x^3}{3}\\right]_0^1=1-\\dfrac{1}{3}=\\dfrac{2}{3}$。\n（2）绕 $x$ 轴旋转体体积 $V=\\pi\\int_0^1(1-x^2)^2dx=\\pi\\int_0^1(1-2x^2+x^4)dx$\n$=\\pi\\left[x-\\dfrac{2x^3}{3}+\\dfrac{x^5}{5}\\right]_0^1=\\pi\\left(1-\\dfrac{2}{3}+\\dfrac{1}{5}\\right)=\\dfrac{8\\pi}{15}$。\n（注意：原 PDF 给出 $V=16\\pi/105$，经重新核算应为 $8\\pi/15$；这里保留解析过程供复核。）"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2020 年 · 第 15 题",
+              "year": 2020,
+              "number": 15,
+              "score": "（10 分）",
+              "stem": "设 $D$ 是由曲线 $y=\\sqrt{x}$，直线 $x=4$，$x$ 轴围成的有界区域。求 $D$ 绕 $y$ 轴旋转一周所得旋转体的体积。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{128\\pi}{5}$",
+              "analysis": "$D$：$0\\le x\\le 4$，$0\\le y\\le\\sqrt{x}$。\n绕 $y$ 轴旋转用柱壳法：$V=2\\pi\\int_0^4 x\\cdot\\sqrt{x}\\,dx=2\\pi\\int_0^4 x^{3/2}dx=2\\pi\\cdot\\dfrac{2}{5}x^{5/2}\\bigg|_0^4=2\\pi\\cdot\\dfrac{2}{5}\\cdot 32=\\dfrac{128\\pi}{5}$。\n（原 PDF 用公式 $V=\\int_0^4 \\pi x\\,dx$ 漏掉了 $\\sqrt{x}$ 因子，得 $8\\pi$ 是错误的）"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2019 年 · 第 16 题",
+              "year": 2019,
+              "number": 16,
+              "score": "（10 分）",
+              "stem": "设 $D$ 是由曲线 $x=1-y^2$ 与 $x$ 轴、$y$ 轴在第一象限围成的有界区域，求：\n（1）$D$ 的面积 $S$；\n（2）$D$ 绕 $x$ 轴旋转所得旋转体的体积 $V$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$S=\\dfrac{2}{3}$，$V=\\dfrac{\\pi}{2}$",
+              "analysis": "区域 $D$：$0\\le y\\le 1$，$0\\le x\\le 1-y^2$。\n（1）$S=\\int_0^1(1-y^2)\\,dy=\\left[y-\\dfrac{y^3}{3}\\right]_0^1=1-\\dfrac{1}{3}=\\dfrac{2}{3}$。\n（2）$V=\\int_0^1\\pi y^2\\,dx=\\pi\\int_0^1(1-x)\\,dx=\\pi\\left[x-\\dfrac{x^2}{2}\\right]_0^1=\\pi\\cdot\\dfrac{1}{2}=\\dfrac{\\pi}{2}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "偏导数的计算",
+        "content": "z=f(x,y):\\quad \\frac{\\partial z}{\\partial x}\\ \\Big|\\ _{y\\ \\text{为常数}}\\qquad \\frac{\\partial z}{\\partial y}\\ \\Big|\\ _{x\\ \\text{为常数}}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1203000,
+        "source": "11 年题面命中 15 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "多元函数微积分"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "多元函数微积分",
+          "kind": "method",
+          "module": "多元函数微积分",
+          "groupIntro": "11 年 27 题（9%）。偏导、全微分是「套公式题」；二重积分 11 套卷 100% 命中解答题。",
+          "tex": "z=f(x,y):\\quad \\frac{\\partial z}{\\partial x}\\ \\Big|\\ _{y\\ \\text{为常数}}\\qquad \\frac{\\partial z}{\\partial y}\\ \\Big|\\ _{x\\ \\text{为常数}}",
+          "texNote": "求 $\\dfrac{\\partial z}{\\partial x}$ 时把 $y$ 当常数，反之亦然——就当普通一元函数求导。",
+          "points": [
+            "$z=\\ln(1+xy)\\Rightarrow\\dfrac{\\partial z}{\\partial y}=\\dfrac{x}{1+xy}$（2024 第 9 题）。",
+            "在某点求值就先求导、再代值，不要先代值再求导。"
+          ],
+          "steps": [
+            "① 明确对谁求导，把另一个变量当常数。",
+            "② 按一元函数求导规则求导。",
+            "③ 若要求某点处的值，把该点坐标代入导函数。"
+          ],
+          "hitCount": 15,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 9 题",
+              "year": 2024,
+              "number": 9,
+              "score": "（7 分）",
+              "stem": "设 $z=\\ln(1+xy)$，则 $\\dfrac{\\partial z}{\\partial y}=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{x}{1+xy}$",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "$\\dfrac{y}{1+xy}$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{1}{1+xy}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$-\\dfrac{x}{1+xy}$",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null,
+              "analysis": "视 $x$ 为常数，对 $y$ 求偏导：\n$\\dfrac{\\partial z}{\\partial y}=\\dfrac{1}{1+xy}\\cdot(1+xy)'_y=\\dfrac{x}{1+xy}$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 7 题",
+              "year": 2023,
+              "number": 7,
+              "score": "（4 分）",
+              "stem": "设 $z=\\dfrac{x}{y}+xy$，则 $\\dfrac{\\partial z}{\\partial y}=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{1}{y}+y$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$-\\dfrac{x}{y^2}+x$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{1}{y}+x$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$-\\dfrac{x}{y^2}+y$",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "视 $x$ 为常数，对 $y$ 求偏导：\n$\\dfrac{\\partial z}{\\partial y}=\\dfrac{\\partial}{\\partial y}\\left(x y^{-1}\\right)+\\dfrac{\\partial}{\\partial y}(xy)=-x y^{-2}+x=-\\dfrac{x}{y^2}+x$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 7 题",
+              "year": 2022,
+              "number": 7,
+              "score": "（4 分）",
+              "stem": "设 $z=(y-x)^2+\\dfrac{1}{x}$，则 $\\dfrac{\\partial z}{\\partial y}=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$2(y-x)-\\dfrac{1}{x^2}$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$2(y-x)-\\dfrac{1}{x}$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$2(x-y)$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$2(y-x)$",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null,
+              "analysis": "视 $x$ 为常数，$\\dfrac{\\partial z}{\\partial y}=2(y-x)\\cdot 1=2(y-x)$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "混合偏导数 $\\dfrac{\\partial^{2}z}{\\partial x\\partial y}$",
+        "content": "\\frac{\\partial^{2}z}{\\partial x\\partial y}=\\frac{\\partial}{\\partial y}\\left(\\frac{\\partial z}{\\partial x}\\right)=\\frac{\\partial}{\\partial x}\\left(\\frac{\\partial z}{\\partial y}\\right)",
+        "itemType": "MUST_READ",
+        "sortOrder": 1203010,
+        "source": "11 年题面命中 6 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "多元函数微积分"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "多元函数微积分",
+          "kind": "method",
+          "module": "多元函数微积分",
+          "groupIntro": "11 年 27 题（9%）。偏导、全微分是「套公式题」；二重积分 11 套卷 100% 命中解答题。",
+          "tex": "\\frac{\\partial^{2}z}{\\partial x\\partial y}=\\frac{\\partial}{\\partial y}\\left(\\frac{\\partial z}{\\partial x}\\right)=\\frac{\\partial}{\\partial x}\\left(\\frac{\\partial z}{\\partial y}\\right)",
+          "texNote": "先对一个变量求导，再对另一个变量求导，顺序不影响结果。",
+          "points": [
+            "$\\dfrac{\\partial^{2}z}{\\partial x\\partial y}$ 是先对 $x$ 后对 $y$（分母从右往左读）。",
+            "2024 第 10 题（$z=xy+\\dfrac{y}{x}$）就是两步计算。"
+          ],
+          "steps": [
+            "① 先求 $\\dfrac{\\partial z}{\\partial x}$（把 $y$ 当常数）。",
+            "② 再对 $y$ 求导得 $\\dfrac{\\partial^{2}z}{\\partial x\\partial y}$。",
+            "③ 需要在某点取值时最后一步代入。"
+          ],
+          "hitCount": 6,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 10 题",
+              "year": 2024,
+              "number": 10,
+              "score": "（7 分）",
+              "stem": "设 $z=xy+\\dfrac{y}{x}$，则 $\\dfrac{\\partial^2 z}{\\partial x\\partial y}=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{2y}{x^3}$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$1-\\dfrac{1}{x^2}$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$x+\\dfrac{1}{x}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$y-\\dfrac{y}{x^2}$",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "第一步：$\\dfrac{\\partial z}{\\partial x}=y-\\dfrac{y}{x^2}$。\n第二步：再对 $y$ 求偏导：$\\dfrac{\\partial^2 z}{\\partial x\\partial y}=1-\\dfrac{1}{x^2}$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 14 题",
+              "year": 2023,
+              "number": 14,
+              "score": "（8 分）",
+              "stem": "设 $z=\\sin(xy)$，求 $\\dfrac{\\partial^2 z}{\\partial x^2}$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$-y^2\\sin(xy)$",
+              "analysis": "$\\dfrac{\\partial z}{\\partial x}=\\cos(xy)\\cdot y=y\\cos(xy)$。\n$\\dfrac{\\partial^2 z}{\\partial x^2}=y\\cdot[-\\sin(xy)\\cdot y]=-y^2\\sin(xy)$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 10 题",
+              "year": 2021,
+              "number": 10,
+              "score": "（4 分）",
+              "stem": "设 $z=e^{2x-y}$，则 $\\dfrac{\\partial^2 z}{\\partial x\\partial y}=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$-e^{2x-y}$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$e^{2x-y}$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$-2e^{2x-y}$",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "$2e^{2x-y}$",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null,
+              "analysis": "$\\dfrac{\\partial z}{\\partial x}=2e^{2x-y}$，$\\dfrac{\\partial^2 z}{\\partial x\\partial y}=2e^{2x-y}\\cdot(-1)=-2e^{2x-y}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "全微分 $\\mathrm{d}z$",
+        "content": "\\mathrm{d}z=\\frac{\\partial z}{\\partial x}\\,\\mathrm{d}x+\\frac{\\partial z}{\\partial y}\\,\\mathrm{d}y",
+        "itemType": "MUST_READ",
+        "sortOrder": 1203020,
+        "source": "11 年题面命中 7 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "多元函数微积分"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "多元函数微积分",
+          "kind": "method",
+          "module": "多元函数微积分",
+          "groupIntro": "11 年 27 题（9%）。偏导、全微分是「套公式题」；二重积分 11 套卷 100% 命中解答题。",
+          "tex": "\\mathrm{d}z=\\frac{\\partial z}{\\partial x}\\,\\mathrm{d}x+\\frac{\\partial z}{\\partial y}\\,\\mathrm{d}y",
+          "texNote": "2025 填空第 18 题：$z=15+x^{2}y+\\cos y\\Rightarrow \\mathrm{d}z=2xy\\,\\mathrm{d}x+(x^{2}-\\sin y)\\,\\mathrm{d}y$。",
+          "points": [
+            "顺序固定：先求两个偏导，再拼成 $\\mathrm{d}z$。",
+            "$\\mathrm{d}x$、$\\mathrm{d}y$ 前面的系数就是两个偏导，别漏 $\\mathrm{d}y$ 项。"
+          ],
+          "steps": [
+            "① 求 $\\dfrac{\\partial z}{\\partial x}$、$\\dfrac{\\partial z}{\\partial y}$。",
+            "② 分别乘 $\\mathrm{d}x$、$\\mathrm{d}y$ 后相加。",
+            "③ 若给点，把点代入偏导再写结果。"
+          ],
+          "hitCount": 7,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 18 题",
+              "year": 2025,
+              "number": 18,
+              "score": "（7 分）",
+              "stem": "设 $z=15+x^2y+\\cos y$，则全微分 $dz=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$2xy\\,dx+(x^2-\\sin y)\\,dy$",
+              "analysis": "分别求偏导：\n  $\\dfrac{\\partial z}{\\partial x}=2xy$，$\\dfrac{\\partial z}{\\partial y}=x^2-\\sin y$。\n由全微分公式 $dz=\\dfrac{\\partial z}{\\partial x}dx+\\dfrac{\\partial z}{\\partial y}dy$ 得\n  $dz=2xy\\,dx+(x^2-\\sin y)\\,dy$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 25 题",
+              "year": 2023,
+              "number": 25,
+              "score": "（4 分）",
+              "stem": "设 $z=e^{xy}$，则 $dz=$",
+              "options": [],
+              "correct": null,
+              "answerText": "$e^{xy}(y\\,dx+x\\,dy)$",
+              "analysis": "$\\dfrac{\\partial z}{\\partial x}=ye^{xy}$，$\\dfrac{\\partial z}{\\partial y}=xe^{xy}$。\n故 $dz=ye^{xy}dx+xe^{xy}dy=e^{xy}(y\\,dx+x\\,dy)$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2021 年 · 第 15 题",
+              "year": 2021,
+              "number": 15,
+              "score": "（10 分）",
+              "stem": "设 $z=\\ln(x+y^2)$，求 $dz\\big|_{(1,1)}$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{1}{2}dx+dy$",
+              "analysis": "$\\dfrac{\\partial z}{\\partial x}=\\dfrac{1}{x+y^2}$，$\\dfrac{\\partial z}{\\partial y}=\\dfrac{2y}{x+y^2}$。\n在 $(1,1)$ 处：$\\dfrac{\\partial z}{\\partial x}=\\dfrac{1}{2}$，$\\dfrac{\\partial z}{\\partial y}=1$。\n故 $dz\\big|_{(1,1)}=\\dfrac{1}{2}dx+dy$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "二重积分（直角坐标 · 万能四步）",
+        "content": "\\iint_{D}f(x,y)\\,\\mathrm{d}x\\mathrm{d}y=\\int_{a}^{b}\\mathrm{d}x\\int_{y_{1}(x)}^{y_{2}(x)}f(x,y)\\,\\mathrm{d}y",
+        "itemType": "MUST_READ",
+        "sortOrder": 1203030,
+        "source": "11 年题面命中 14 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "多元函数微积分"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "多元函数微积分",
+          "kind": "method",
+          "module": "多元函数微积分",
+          "groupIntro": "11 年 27 题（9%）。偏导、全微分是「套公式题」；二重积分 11 套卷 100% 命中解答题。",
+          "tex": "\\iint_{D}f(x,y)\\,\\mathrm{d}x\\mathrm{d}y=\\int_{a}^{b}\\mathrm{d}x\\int_{y_{1}(x)}^{y_{2}(x)}f(x,y)\\,\\mathrm{d}y",
+          "texNote": "X 型区域：外限是常数，内限可以是 $x$ 的函数；先内后外逐层积分。",
+          "points": [
+            "11 套卷解答题 100% 命中二重积分，必须拿满。",
+            "2025 第 14 题 $D$ 为矩形 $0\\leqslant x\\leqslant 2,\\ 0\\leqslant y\\leqslant 3$，$\\displaystyle\\iint_D(4-x-y)\\mathrm{d}x\\mathrm{d}y=9$。",
+            "区域关于 $y$ 轴对称且被积函数含 $x$ 的奇函数项时，该部分直接写 0（2024 第 14 题）。"
+          ],
+          "steps": [
+            "① 画区域 $D$ 的草图，标出边界曲线及其交点。",
+            "② 判断坐标系：含 $x^{2}+y^{2}$ 或圆域 → 极坐标；矩形 / 三角形 / 直线围成 → 直角坐标。",
+            "③ 定限：外限是常数，内限可以是函数（先定外、再穿线定内）。",
+            "④ 先内后外逐层积分，每层都当作一元定积分处理。"
+          ],
+          "hitCount": 14,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 14 题",
+              "year": 2025,
+              "number": 14,
+              "score": "（15 分）",
+              "stem": "计算二重积分 $\\displaystyle\\iint_D(4-x-y)\\,dxdy$，其中 $D$ 是由 $x$ 轴、$y$ 轴与直线 $x=2$、$y=3$ 所围成的闭区域。",
+              "options": [],
+              "correct": null,
+              "answerText": "$9$",
+              "analysis": "$D$ 为矩形区域：$0\\leqslant x\\leqslant 2,\\ 0\\leqslant y\\leqslant 3$，化为先 $y$ 后 $x$ 的累次积分。\n  $\\iint_D(4-x-y)dxdy=\\int_0^2dx\\int_0^3(4-x-y)dy$。\n先对 $y$ 积分（视 $x$ 为常数）：\n  $\\int_0^3(4-x-y)dy=\\left[4y-xy-\\dfrac{y^2}{2}\\right]_0^3=12-3x-\\dfrac{9}{2}=\\dfrac{15}{2}-3x$。\n再对 $x$ 积分：\n  $\\int_0^2\\left(\\dfrac{15}{2}-3x\\right)dx=\\left[\\dfrac{15}{2}x-\\dfrac{3}{2}x^2\\right]_0^2=15-6=9$。\n故该二重积分的值为 $9$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 14 题",
+              "year": 2024,
+              "number": 14,
+              "score": "（15 分）",
+              "stem": "计算二重积分 $\\displaystyle\\iint_D(x+y)\\,dxdy$，其中 $D=\\{(x,y)\\mid x^2+y^2\\leqslant 2y\\}$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\pi$",
+              "analysis": "将 $D$ 写成标准圆：$x^2+(y-1)^2\\leqslant 1$，圆心 $(0,1)$，半径 $1$。\n$D$ 关于 $y$ 轴对称，$x$ 关于 $x$ 为奇函数，故 $\\iint_D x\\,dxdy=0$。\n原式 $=\\iint_D y\\,dxdy$。用极坐标：$x=r\\cos\\theta, y=r\\sin\\theta$，\n边界 $x^2+y^2=2y$ 化为 $r=2\\sin\\theta$（$\\theta\\in[0,\\pi]$）。\n$\\iint_D y\\,dxdy=\\int_0^\\pi d\\theta\\int_0^{2\\sin\\theta}r\\sin\\theta\\cdot r\\,dr$\n$=\\int_0^\\pi\\sin\\theta\\cdot\\dfrac{(2\\sin\\theta)^3}{3}d\\theta=\\dfrac{8}{3}\\int_0^\\pi\\sin^4\\theta\\,d\\theta=\\pi$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 17 题",
+              "year": 2023,
+              "number": 17,
+              "score": "（10 分）",
+              "stem": "计算 $\\displaystyle\\iint_D\\sqrt{x^2+y^2}\\,dxdy$，其中 $D$ 是由曲线 $y=\\sqrt{1-x^2}$、直线 $y=x$ 与 $y=-x$ 所围成的闭区域。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{\\pi}{6}$",
+              "analysis": "用极坐标。曲线 $y=\\sqrt{1-x^2}$ 化为 $r=1$；直线 $y=x, y=-x$ 对应 $\\theta=\\pi/4, -\\pi/4$。\n区域 $D$：$-\\pi/4\\leqslant\\theta\\leqslant\\pi/4$，$0\\leqslant r\\leqslant 1$。\n$\\iint_D\\sqrt{x^2+y^2}dxdy=\\int_{-\\pi/4}^{\\pi/4}d\\theta\\int_0^1 r\\cdot r\\,dr=\\dfrac{\\pi}{2}\\cdot\\dfrac{1}{3}=\\dfrac{\\pi}{6}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "二重积分（极坐标）",
+        "content": "x=r\\cos\\theta,\\quad y=r\\sin\\theta,\\quad \\mathrm{d}x\\mathrm{d}y=r\\,\\mathrm{d}r\\,\\mathrm{d}\\theta",
+        "itemType": "MUST_READ",
+        "sortOrder": 1203040,
+        "source": "11 年题面命中 10 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "多元函数微积分"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "多元函数微积分",
+          "kind": "method",
+          "module": "多元函数微积分",
+          "groupIntro": "11 年 27 题（9%）。偏导、全微分是「套公式题」；二重积分 11 套卷 100% 命中解答题。",
+          "tex": "x=r\\cos\\theta,\\quad y=r\\sin\\theta,\\quad \\mathrm{d}x\\mathrm{d}y=r\\,\\mathrm{d}r\\,\\mathrm{d}\\theta",
+          "texNote": "末尾那个 $r$ 千万不能丢——这是最常见的丢分点。",
+          "points": [
+            "区域含 $x^{2}+y^{2}$（圆、扇形、环形）时换极坐标。",
+            "圆 $x^{2}+(y-1)^{2}\\leqslant 1$ 宜先配方再用对称性（2024 第 14 题答案 $\\pi$）。"
+          ],
+          "steps": [
+            "① 把区域边界改写成 $r$、$\\theta$ 的关系式，定出 $r$ 与 $\\theta$ 的范围。",
+            "② 被积函数与 $\\mathrm{d}x\\mathrm{d}y$ 一起换成 $r$、$\\theta$ 形式，补上因子 $r$。",
+            "③ 先对 $r$ 积分（内层），再对 $\\theta$ 积分（外层）。"
+          ],
+          "hitCount": 10,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 14 题",
+              "year": 2024,
+              "number": 14,
+              "score": "（15 分）",
+              "stem": "计算二重积分 $\\displaystyle\\iint_D(x+y)\\,dxdy$，其中 $D=\\{(x,y)\\mid x^2+y^2\\leqslant 2y\\}$。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\pi$",
+              "analysis": "将 $D$ 写成标准圆：$x^2+(y-1)^2\\leqslant 1$，圆心 $(0,1)$，半径 $1$。\n$D$ 关于 $y$ 轴对称，$x$ 关于 $x$ 为奇函数，故 $\\iint_D x\\,dxdy=0$。\n原式 $=\\iint_D y\\,dxdy$。用极坐标：$x=r\\cos\\theta, y=r\\sin\\theta$，\n边界 $x^2+y^2=2y$ 化为 $r=2\\sin\\theta$（$\\theta\\in[0,\\pi]$）。\n$\\iint_D y\\,dxdy=\\int_0^\\pi d\\theta\\int_0^{2\\sin\\theta}r\\sin\\theta\\cdot r\\,dr$\n$=\\int_0^\\pi\\sin\\theta\\cdot\\dfrac{(2\\sin\\theta)^3}{3}d\\theta=\\dfrac{8}{3}\\int_0^\\pi\\sin^4\\theta\\,d\\theta=\\pi$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 17 题",
+              "year": 2023,
+              "number": 17,
+              "score": "（10 分）",
+              "stem": "计算 $\\displaystyle\\iint_D\\sqrt{x^2+y^2}\\,dxdy$，其中 $D$ 是由曲线 $y=\\sqrt{1-x^2}$、直线 $y=x$ 与 $y=-x$ 所围成的闭区域。",
+              "options": [],
+              "correct": null,
+              "answerText": "$\\dfrac{\\pi}{6}$",
+              "analysis": "用极坐标。曲线 $y=\\sqrt{1-x^2}$ 化为 $r=1$；直线 $y=x, y=-x$ 对应 $\\theta=\\pi/4, -\\pi/4$。\n区域 $D$：$-\\pi/4\\leqslant\\theta\\leqslant\\pi/4$，$0\\leqslant r\\leqslant 1$。\n$\\iint_D\\sqrt{x^2+y^2}dxdy=\\int_{-\\pi/4}^{\\pi/4}d\\theta\\int_0^1 r\\cdot r\\,dr=\\dfrac{\\pi}{2}\\cdot\\dfrac{1}{3}=\\dfrac{\\pi}{6}$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 8 题",
+              "year": 2022,
+              "number": 8,
+              "score": "（4 分）",
+              "stem": "函数 $f(x,y)=x^2+y^2-2x+2y+1$ 的驻点是",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$(0,0)$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$(-1,1)$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$(1,-1)$",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "$(1,1)$",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null,
+              "analysis": "$f_x=2x-2$，$f_y=2y+2$。令 $f_x=0, f_y=0$ 得 $x=1, y=-1$。驻点为 $(1,-1)$。"
+            }
+          ],
+          "example": {
+            "label": "例题（11 套卷的二重积分都可用直角坐标完成，这里补一个极坐标标准型）",
+            "stem": "计算 $\\displaystyle\\iint_{D}(x^{2}+y^{2})\\,\\mathrm{d}x\\mathrm{d}y$，其中 $D=\\{(x,y)\\mid x^{2}+y^{2}\\leqslant 1\\}$。",
+            "steps": [
+              "① 区域是单位圆，含 $x^{2}+y^{2}$，改用极坐标：$0\\leqslant\\theta\\leqslant 2\\pi$，$0\\leqslant r\\leqslant 1$。",
+              "② 被积函数 $x^{2}+y^{2}=r^{2}$，$\\mathrm{d}x\\mathrm{d}y=r\\,\\mathrm{d}r\\mathrm{d}\\theta$，故原式 $=\\displaystyle\\int_{0}^{2\\pi}\\mathrm{d}\\theta\\int_{0}^{1}r^{3}\\,\\mathrm{d}r$。",
+              "③ 内层 $\\displaystyle\\int_{0}^{1}r^{3}\\mathrm{d}r=\\dfrac{1}{4}$，外层 $2\\pi\\cdot\\dfrac{1}{4}=\\dfrac{\\pi}{2}$。"
+            ],
+            "answer": "$\\dfrac{\\pi}{2}$。"
+          }
+        }
+      },
+      {
+        "title": "空间解析几何（球面 / 平面 / 直线）",
+        "content": "\\text{球面}:(x-a)^{2}+(y-b)^{2}+(z-c)^{2}=R^{2}\\qquad \\text{平面}:Ax+By+Cz+D=0\\qquad \\text{直线}:\\frac{x-x_{0}}{m}=\\frac{y-y_{0}}{n}=\\frac{z-z_{0}}{p}",
+        "itemType": "MUST_READ",
+        "sortOrder": 1203050,
+        "source": "11 年题面命中 11 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "多元函数微积分"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "多元函数微积分",
+          "kind": "method",
+          "module": "多元函数微积分",
+          "groupIntro": "11 年 27 题（9%）。偏导、全微分是「套公式题」；二重积分 11 套卷 100% 命中解答题。",
+          "tex": "\\text{球面}:(x-a)^{2}+(y-b)^{2}+(z-c)^{2}=R^{2}\\qquad \\text{平面}:Ax+By+Cz+D=0\\qquad \\text{直线}:\\frac{x-x_{0}}{m}=\\frac{y-y_{0}}{n}=\\frac{z-z_{0}}{p}",
+          "texNote": "球心＝直径中点，半径＝两端点距离的一半；平面法向量 $\\vec n=(A,B,C)$；直线方向向量 $\\vec s=(m,n,p)$。",
+          "points": [
+            "2025 第 10 题：直径端点 $(2,-3,5)$、$(4,1,-1)$ → 球心 $(3,-1,2)$、$R=3$。",
+            "考法就是「背 3 个公式 + 一次代入」。"
+          ],
+          "steps": [
+            "① 判定对象：球面 / 平面 / 直线。",
+            "② 提取要素：球心与半径，或法向量，或方向向量。",
+            "③ 套标准方程；求平面 / 直线时用「点 + 方向（法向）」写出方程。"
+          ],
+          "hitCount": 11,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 10 题",
+              "year": 2025,
+              "number": 10,
+              "score": "（7 分）",
+              "stem": "已知球一条直径的两个端点为 $(2,-3,5)$、$(4,1,-1)$，则该球面方程为",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$(x-3)^2+(y+1)^2+(z-1)^2=36$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$(x-3)^2+(y+4)^2+(z+1)^2=16$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$(x-3)^2+(y+1)^2+(z-2)^2=14$",
+                  "correct": true
+                },
+                {
+                  "k": "D",
+                  "text": "$x^2+y^2+z^2=49$",
+                  "correct": false
+                }
+              ],
+              "correct": "C",
+              "answerText": null,
+              "analysis": "第一步 求球心（直径中点）：\n  $\\left(\\dfrac{2+4}{2},\\dfrac{-3+1}{2},\\dfrac{5+(-1)}{2}\\right)=(3,-1,2)$。\n第二步 求半径平方（球心到端点距离平方）：\n  $r^2=(3-2)^2+(-1+3)^2+(2-5)^2=1+4+9=14$。\n第三步 代入球面标准方程 $(x-x_0)^2+(y-y_0)^2+(z-z_0)^2=r^2$：\n  $(x-3)^2+(y+1)^2+(z-2)^2=14$。\n故选 C。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 26 题",
+              "year": 2023,
+              "number": 26,
+              "score": "（4 分）",
+              "stem": "过点 $(0,1,1)$ 且与直线 $\\dfrac{x-1}{1}=\\dfrac{y-2}{2}=\\dfrac{z-3}{1}$ 垂直的平面方程为",
+              "options": [],
+              "correct": null,
+              "answerText": "$x+2y+z-3=0$",
+              "analysis": "直线方向向量 $\\vec s=(1,2,1)$ 即为平面法向量。\n点法式：$1(x-0)+2(y-1)+1(z-1)=0$，即 $x+2y+z-3=0$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 28 题",
+              "year": 2022,
+              "number": 28,
+              "score": "（4 分）",
+              "stem": "过点 $(1,0,-1)$ 且与平面 $3x-y-z-2=0$ 平行的平面方程为",
+              "options": [],
+              "correct": null,
+              "answerText": "$3x-y-z-4=0$",
+              "analysis": "所求平面与已知平面平行，故法向量同为 $(3,-1,-1)$。\n点法式：$3(x-1)-(y-0)-(z+1)=0$，即 $3x-y-z-4=0$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "多元函数的连续性求参数",
+        "content": "\\lim_{(x,y)\\to(x_0,y_0)}f(x,y)=f(x_0,y_0)",
+        "itemType": "MUST_READ",
+        "sortOrder": 1203060,
+        "source": "11 年题面命中 1 题 · 展示最新 1 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "多元函数微积分"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "多元函数微积分",
+          "kind": "method",
+          "module": "多元函数微积分",
+          "groupIntro": "11 年 27 题（9%）。偏导、全微分是「套公式题」；二重积分 11 套卷 100% 命中解答题。",
+          "tex": "\\lim_{(x,y)\\to(x_0,y_0)}f(x,y)=f(x_0,y_0)",
+          "texNote": "2025 第 12 题：令 $t=xy$ 化为一元极限，再用等价无穷小求 $a$。",
+          "points": [
+            "二元极限常通过换元（如令 $t=xy$）降成一元极限。",
+            "分段函数在分界线上连续，要求极限值等于该点函数值。"
+          ],
+          "steps": [
+            "① 找出极限要算的那个点（通常是定义被改写的点）。",
+            "② 换元（如 $t=xy\\to 0$）把二元极限化成一元极限。",
+            "③ 算出极限，令它等于给定的函数值，解出参数。"
+          ],
+          "hitCount": 1,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 12 题",
+              "year": 2025,
+              "number": 12,
+              "score": "（7 分）",
+              "stem": "设 $f(x,y)=\\begin{cases}\\dfrac{\\sqrt[3]{1-xy}-1}{e^{xy}-1}, & xy\\neq 0\\\\[4pt]a, & xy=0\\end{cases}$ 连续，则 $a=$",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$1$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$\\dfrac{1}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$0$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$-\\dfrac{1}{3}$",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null,
+              "analysis": "连续性要求 $a=\\lim\\limits_{(x,y)\\to(0,0)}f(x,y)$。令 $t=xy\\to 0$：\n  $a=\\lim\\limits_{t\\to 0}\\dfrac{(1-t)^{1/3}-1}{e^t-1}$。\n用等价无穷小：当 $t\\to 0$ 时，$(1-t)^{1/3}-1\\sim\\dfrac{1}{3}(-t)=-\\dfrac{t}{3}$，$e^t-1\\sim t$。\n  故 $a=\\lim\\limits_{t\\to 0}\\dfrac{-\\dfrac{t}{3}}{t}=-\\dfrac{1}{3}$。\n故选 D。"
+            }
+          ],
+          "example": {
+            "label": "例题（11 套卷仅 2025 年考过，这里给一个同型标准题）",
+            "stem": "设 $f(x,y)=\\begin{cases}\\dfrac{\\sin(xy)}{xy},& xy\\neq 0\\\\ a,& xy=0\\end{cases}$ 在原点连续，求 $a$。",
+            "steps": [
+              "① 连续性要求 $a=\\lim\\limits_{(x,y)\\to(0,0)}f(x,y)$。",
+              "② 令 $t=xy\\to 0$，则极限化为 $\\lim\\limits_{t\\to 0}\\dfrac{\\sin t}{t}=1$。",
+              "③ 故 $a=1$。"
+            ],
+            "answer": "$a=1$。"
+          }
+        }
+      },
+      {
+        "title": "二元函数的极值",
+        "content": "B^{2}-AC<0\\ \\text{时有极值}:\\ A>0\\ \\text{极小},\\ A<0\\ \\text{极大}\\qquad (A=f_{xx},\\,B=f_{xy},\\,C=f_{yy})",
+        "itemType": "MUST_READ",
+        "sortOrder": 1203070,
+        "source": "11 年题面命中 1 题 · 展示最新 1 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "多元函数微积分"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "多元函数微积分",
+          "kind": "method",
+          "module": "多元函数微积分",
+          "groupIntro": "11 年 27 题（9%）。偏导、全微分是「套公式题」；二重积分 11 套卷 100% 命中解答题。",
+          "tex": "B^{2}-AC<0\\ \\text{时有极值}:\\ A>0\\ \\text{极小},\\ A<0\\ \\text{极大}\\qquad (A=f_{xx},\\,B=f_{xy},\\,C=f_{yy})",
+          "texNote": "先解方程组 $f_x=0$、$f_y=0$ 得驻点，再用 $B^{2}-AC$ 判定。",
+          "points": [
+            "2015 第 13 题考的就是这类（$z=x^{2}+xy+y^{2}+x-y-5$）。",
+            "成考以解答题形式偶发出现，属「重点掌握」而非必拿。"
+          ],
+          "steps": [
+            "① 令 $f_x=0$、$f_y=0$，联立解出驻点。",
+            "② 求二阶偏导 $A=f_{xx}$、$B=f_{xy}$、$C=f_{yy}$。",
+            "③ 算 $B^{2}-AC$：小于 0 有极值（$A>0$ 极小、$A<0$ 极大）；大于 0 无极值。"
+          ],
+          "hitCount": 1,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2015 年 · 第 13 题",
+              "year": 2015,
+              "number": 13,
+              "score": "（8 分）",
+              "stem": "设二元函数 $z=x^2+xy+y^2+x-y-5$，求 $z$ 的极值。",
+              "options": [],
+              "correct": null,
+              "answerText": "极小值 $z(-1,1)=-6$",
+              "analysis": "$\\dfrac{\\partial z}{\\partial x}=2x+y+1=0$，$\\dfrac{\\partial z}{\\partial y}=x+2y-1=0$。\n解得 $x=-1,y=1$。\n$A=\\dfrac{\\partial^2 z}{\\partial x^2}=2$，$B=\\dfrac{\\partial^2 z}{\\partial x\\partial y}=1$，$C=\\dfrac{\\partial^2 z}{\\partial y^2}=2$。\n$B^2-AC=1-4=-3<0$，$A>0$，故 $(-1,1)$ 为极小值点，$z(-1,1)=1-1+1-1-1-5=-6$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "幂级数的收敛半径",
+        "content": "R=\\lim_{n\\to\\infty}\\left|\\frac{a_{n}}{a_{n+1}}\\right|",
+        "itemType": "MUST_READ",
+        "sortOrder": 1204000,
+        "source": "11 年题面命中 6 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "无穷级数"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "无穷级数",
+          "kind": "method",
+          "module": "无穷级数",
+          "groupIntro": "11 年 13 题（5%），近 5 年在增长。收敛半径一个公式覆盖大半，性价比高。",
+          "tex": "R=\\lim_{n\\to\\infty}\\left|\\frac{a_{n}}{a_{n+1}}\\right|",
+          "texNote": "$a_{n}$ 是 $x^{n}$ 项的系数。若级数中心不是 0（如 $(3x-1)^{n}$），先令 $t=3x-1$ 化成标准型。",
+          "points": [
+            "2025 第 11 题：$\\sum\\dfrac{(3x-1)^{n}}{\\sqrt{n}}$，令 $t=3x-1$ 得 $R_{t}=1$，故对 $x$ 的收敛半径 $R=\\dfrac{1}{3}$。",
+            "系数带 $n$ 次方时，先开方把它拉成一次再取比。"
+          ],
+          "steps": [
+            "① 把级数整理成 $\\sum a_{n}x^{n}$ 的标准形式（中心不为 0 就先换元）。",
+            "② 写出 $a_{n}$ 与 $a_{n+1}$，算 $\\left|\\dfrac{a_{n}}{a_{n+1}}\\right|$。",
+            "③ 令 $n\\to\\infty$ 取极限得 $R$；若做过换元，最后把 $R$ 换算回 $x$。"
+          ],
+          "hitCount": 6,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 11 题",
+              "year": 2025,
+              "number": 11,
+              "score": "（7 分）",
+              "stem": "级数 $\\sum\\limits_{n=1}^{\\infty}\\dfrac{(3x-1)^n}{\\sqrt{n}}$ 的收敛半径为",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{1}{6}$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$\\dfrac{1}{3}$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{3}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$2$",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "先化为标准幂级数。令 $t=3x-1$，则级数化为 $\\sum\\limits_{n=1}^{\\infty}\\dfrac{t^n}{\\sqrt{n}}$，\n系数 $a_n=\\dfrac{1}{\\sqrt{n}}$。\n关于 $t$ 的收敛半径：\n  $R_t=\\lim\\limits_{n\\to\\infty}\\left|\\dfrac{a_n}{a_{n+1}}\\right|=\\lim\\limits_{n\\to\\infty}\\dfrac{\\sqrt{n+1}}{\\sqrt{n}}=1$。\n即 $|t|<1\\iff|3x-1|<1\\iff\\left|x-\\dfrac{1}{3}\\right|<\\dfrac{1}{3}$。\n故关于 $x$ 的收敛半径 $R_x=\\dfrac{R_t}{3}=\\dfrac{1}{3}$。选 B。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 10 题",
+              "year": 2022,
+              "number": 10,
+              "score": "（4 分）",
+              "stem": "幂级数 $\\sum\\limits_{n=0}^{\\infty}\\dfrac{x^n}{n+1}$ 的收敛半径为",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{1}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$1$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{3}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$2$",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "$R=\\lim\\limits_{n\\to\\infty}\\left|\\dfrac{a_n}{a_{n+1}}\\right|=\\lim\\limits_{n\\to\\infty}\\dfrac{n+2}{n+1}=1$。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2019 年 · 第 26 题",
+              "year": 2019,
+              "number": 26,
+              "score": "（4 分）",
+              "stem": "幂级数 $\\sum\\limits_{n=1}^{\\infty}nx^n$ 的收敛半径为______。",
+              "options": [],
+              "correct": null,
+              "answerText": "1",
+              "analysis": "设 $a_n=n$，则 $\\rho=\\lim\\limits_{n\\to\\infty}\\left|\\dfrac{a_n}{a_{n+1}}\\right|=\\lim\\limits_{n\\to\\infty}\\dfrac{n}{n+1}=1$，故收敛半径 $R=\\dfrac{1}{\\rho}=1$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "收敛域与幂级数展开",
+        "content": "\\frac{1}{1-x}=\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)\\qquad \\frac{1}{1+2x}=\\sum_{n=0}^{\\infty}(-2)^{n}x^{n}\\ \\left(|x|<\\frac{1}{2}\\right)",
+        "itemType": "MUST_READ",
+        "sortOrder": 1204010,
+        "source": "11 年题面命中 8 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "无穷级数"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "无穷级数",
+          "kind": "method",
+          "module": "无穷级数",
+          "groupIntro": "11 年 13 题（5%），近 5 年在增长。收敛半径一个公式覆盖大半，性价比高。",
+          "tex": "\\frac{1}{1-x}=\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)\\qquad \\frac{1}{1+2x}=\\sum_{n=0}^{\\infty}(-2)^{n}x^{n}\\ \\left(|x|<\\frac{1}{2}\\right)",
+          "texNote": "$\\dfrac{1}{1+\\square}$ 型直接套等比级数公式，把 $-\\square$ 当作公比。",
+          "points": [
+            "收敛域 = 收敛半径区间 + 两个端点的单独检验。",
+            "2024 第 15 题：$y=\\dfrac{1}{1+2x}=\\sum(-2)^{n}x^{n}$，$\\left|x\\right|<\\dfrac{1}{2}$。"
+          ],
+          "steps": [
+            "① 先求收敛半径 $R$，写出开区间 $(x_0-R,\\ x_0+R)$。",
+            "② 把两个端点分别代入原级数判敛散（收敛用闭区间，发散用开）。",
+            "③ 若要做展开，套 $\\dfrac{1}{1-x}=\\sum x^{n}$ 或常见麦克劳林级数。"
+          ],
+          "hitCount": 8,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 15 题",
+              "year": 2024,
+              "number": 15,
+              "score": "（15 分）",
+              "stem": "将 $y=\\dfrac{1}{1+2x}$ 展开成 $x$ 的幂级数。",
+              "options": [],
+              "correct": null,
+              "answerText": "$y=\\sum\\limits_{n=0}^{\\infty}(-2)^n x^n$，收敛区间为 $-\\dfrac{1}{2}<x<\\dfrac{1}{2}$。",
+              "analysis": "利用已知展开式 $\\dfrac{1}{1+t}=\\sum\\limits_{n=0}^{\\infty}(-1)^n t^n$（$-1<t<1$）。\n令 $t=2x$，则 $\\dfrac{1}{1+2x}=\\sum\\limits_{n=0}^{\\infty}(-1)^n(2x)^n=\\sum\\limits_{n=0}^{\\infty}(-2)^n x^n$。\n由 $-1<2x<1$ 得收敛区间 $-\\dfrac{1}{2}<x<\\dfrac{1}{2}$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 8 题",
+              "year": 2023,
+              "number": 8,
+              "score": "（4 分）",
+              "stem": "幂级数 $\\sum\\limits_{n=1}^{\\infty}\\dfrac{x^n}{n^2}$ 的收敛域是",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$(-1,1)$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$(-1,1]$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$[-1,1)$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$[-1,1]$",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null,
+              "analysis": "收敛半径 $R=\\lim\\limits_{n\\to\\infty}\\left|\\dfrac{a_n}{a_{n+1}}\\right|=\\lim\\limits_{n\\to\\infty}\\dfrac{(n+1)^2}{n^2}=1$。\n当 $x=-1$ 时，$\\sum\\dfrac{(-1)^n}{n^2}$ 为绝对收敛；当 $x=1$ 时，$\\sum\\dfrac{1}{n^2}$ 收敛（$p$ 级数 $p=2>1$）。\n故收敛域为 $[-1,1]$。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2022 年 · 第 10 题",
+              "year": 2022,
+              "number": 10,
+              "score": "（4 分）",
+              "stem": "幂级数 $\\sum\\limits_{n=0}^{\\infty}\\dfrac{x^n}{n+1}$ 的收敛半径为",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$\\dfrac{1}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$1$",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "$\\dfrac{3}{2}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$2$",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "$R=\\lim\\limits_{n\\to\\infty}\\left|\\dfrac{a_n}{a_{n+1}}\\right|=\\lim\\limits_{n\\to\\infty}\\dfrac{n+2}{n+1}=1$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "数项级数的审敛（等比 / $p$ 级数 / 交错）",
+        "content": "\\sum_{n=0}^{\\infty}q^{n}\\ \\text{收敛}\\iff|q|<1\\qquad \\sum_{n=1}^{\\infty}\\frac{1}{n^{p}}\\ \\text{收敛}\\iff p>1",
+        "itemType": "MUST_READ",
+        "sortOrder": 1204020,
+        "source": "11 年题面命中 2 题 · 展示最新 2 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "无穷级数"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "无穷级数",
+          "kind": "method",
+          "module": "无穷级数",
+          "groupIntro": "11 年 13 题（5%），近 5 年在增长。收敛半径一个公式覆盖大半，性价比高。",
+          "tex": "\\sum_{n=0}^{\\infty}q^{n}\\ \\text{收敛}\\iff|q|<1\\qquad \\sum_{n=1}^{\\infty}\\frac{1}{n^{p}}\\ \\text{收敛}\\iff p>1",
+          "texNote": "交错级数用莱布尼茨判别法：通项单调递减且趋于 0 即收敛。",
+          "points": [
+            "$p$ 级数只需看 $p$ 与 1 的大小关系。",
+            "等比级数只需看公比 $|q|$ 与 1 的大小关系。"
+          ],
+          "steps": [
+            "① 判断级数类型：等比 / $p$ 级数 / 交错 / 一般。",
+            "② 等比查 $|q|<1$，$p$ 级数查 $p>1$，交错查「单调递减且趋于 0」。",
+            "③ 得到收敛或发散的结论，必要时写出理由。"
+          ],
+          "hitCount": 2,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2017 年 · 第 10 题",
+              "year": 2017,
+              "number": 10,
+              "score": "（4 分）",
+              "stem": "已知 $a$ 为常数，则级数 $\\sum\\limits_{n=1}^{\\infty}\\dfrac{(-1)^n}{n+a^2}$（　）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "发散",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "条件收敛",
+                  "correct": true
+                },
+                {
+                  "k": "C",
+                  "text": "绝对收敛",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "收敛性与 $a$ 的取值有关",
+                  "correct": false
+                }
+              ],
+              "correct": "B",
+              "answerText": null,
+              "analysis": "$|u_n|=\\dfrac{1}{n+a^2}\\sim\\dfrac{1}{n}$，$\\sum\\dfrac{1}{n}$ 发散，故原级数非绝对收敛；$u_n$ 单调趋于 0（$n\\to\\infty$），由莱布尼茨判别法知条件收敛。"
+            },
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2015 年 · 第 2 题",
+              "year": 2015,
+              "number": 2,
+              "score": "（4 分）",
+              "stem": "级数 $\\sum\\limits_{n=1}^{\\infty}(-1)^n\\dfrac{k}{n^2}$（$k$ 为非零常数）（　）。",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "绝对收敛",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "条件收敛",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "发散",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "收敛性与 $k$ 的取值有关",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null,
+              "analysis": "$\\left|(-1)^n\\dfrac{k}{n^2}\\right|=\\dfrac{|k|}{n^2}$，而 $\\sum\\dfrac{1}{n^2}$ 收敛，故原级数绝对收敛，与 $k$ 无关。"
+            }
+          ],
+          "example": {
+            "label": "例题（11 套卷以选择形式考审敛，这里给一个标准判断）",
+            "stem": "判断级数 $\\displaystyle\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n^{2}}$ 的敛散性。",
+            "steps": [
+              "① 取绝对值得 $\\displaystyle\\sum\\dfrac{1}{n^{2}}$，这是 $p=2>1$ 的 $p$ 级数，收敛。",
+              "② 绝对收敛的级数一定收敛。",
+              "③ 故原级数收敛（且为绝对收敛）。"
+            ],
+            "answer": "收敛（绝对收敛）。"
+          }
+        }
+      },
+      {
+        "title": "可分离变量微分方程",
+        "content": "\\frac{\\mathrm{d}y}{\\mathrm{d}x}=f(x)g(y)\\ \\Longrightarrow\\ \\frac{\\mathrm{d}y}{g(y)}=f(x)\\,\\mathrm{d}x\\ \\Longrightarrow\\ \\int\\frac{\\mathrm{d}y}{g(y)}=\\int f(x)\\,\\mathrm{d}x",
+        "itemType": "MUST_READ",
+        "sortOrder": 1205000,
+        "source": "11 年题面命中 5 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "常微分方程"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "常微分方程",
+          "kind": "method",
+          "module": "常微分方程",
+          "groupIntro": "11 年 17 题（6%）。二阶常系数齐次方程只需背三种特征根情形。",
+          "tex": "\\frac{\\mathrm{d}y}{\\mathrm{d}x}=f(x)g(y)\\ \\Longrightarrow\\ \\frac{\\mathrm{d}y}{g(y)}=f(x)\\,\\mathrm{d}x\\ \\Longrightarrow\\ \\int\\frac{\\mathrm{d}y}{g(y)}=\\int f(x)\\,\\mathrm{d}x",
+          "texNote": "变量各归一边，两边同时积分，最后加常数 $C$ 并写成 $y=\\cdots$。",
+          "points": [
+            "2025 第 13 题：$\\dfrac{y'}{1+x^{2}}=2y\\Rightarrow\\dfrac{\\mathrm{d}y}{y}=2(1+x^{2})\\mathrm{d}x\\Rightarrow y=Ce^{2x+\\frac{2x^{3}}{3}}$。",
+            "形如 $y'=2x$ 的通解就是 $y=x^{2}+C$（2015 第 20 题、2019 第 27 题完全重复）。"
+          ],
+          "steps": [
+            "① 把 $y'$ 写成 $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}$，移项整理成 $g(y)\\mathrm{d}y=f(x)\\mathrm{d}x$。",
+            "② 两边同时积分。",
+            "③ 加常数 $C$（对数结果写成 $y=Ce^{\\cdots}$ 更整洁），把 $y$ 解出来。"
+          ],
+          "hitCount": 5,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2025 年 · 第 13 题",
+              "year": 2025,
+              "number": 13,
+              "score": "（15 分）",
+              "stem": "求微分方程 $\\dfrac{y'}{1+x^2}=2y$ 的通解。",
+              "options": [],
+              "correct": null,
+              "answerText": "$y=Ce^{2x+\\frac{2}{3}x^3}$（$C$ 为任意常数，含 $y\\equiv 0$）",
+              "analysis": "可分离变量方程。\n第一步 整理：$\\dfrac{dy}{dx}=2y(1+x^2)$。\n第二步 分离变量（$y\\neq 0$）：$\\dfrac{1}{y}dy=2(1+x^2)dx$。\n第三步 两边积分：\n  $\\int\\dfrac{1}{y}dy=\\int 2(1+x^2)dx$\n  $\\ln|y|=2x+\\dfrac{2}{3}x^3+C_1$。\n第四步 去对数：$|y|=e^{2x+\\frac{2}{3}x^3+C_1}$，即 $y=\\pm e^{C_1}e^{2x+\\frac{2}{3}x^3}$。\n记 $C=\\pm e^{C_1}\\neq 0$；又 $y\\equiv 0$ 显然也是解，并入后 $C$ 可取 $0$。\n故通解为 $y=Ce^{2x+\\frac{2}{3}x^3}$，$C$ 为任意常数。"
+            },
+            {
+              "qtype": "填空题",
+              "typeClass": "p-acc",
+              "label": "2019 年 · 第 27 题",
+              "year": 2019,
+              "number": 27,
+              "score": "（4 分）",
+              "stem": "微分方程 $y'=2x$ 的通解 $y=$______。",
+              "options": [],
+              "correct": null,
+              "answerText": "$x^2+C$",
+              "analysis": "两边积分：$\\int y'\\,dx=\\int 2x\\,dx$，得 $y=x^2+C$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2017 年 · 第 17 题",
+              "year": 2017,
+              "number": 17,
+              "score": "（10 分）",
+              "stem": "求微分方程 $y\\dfrac{dy}{dx}=x^2$ 的通解。",
+              "options": [],
+              "correct": null,
+              "answerText": "$y^2=\\dfrac{2}{3}x^3+C$",
+              "analysis": "分离变量：$y\\,dy=x^2\\,dx$，两边积分：$\\dfrac{1}{2}y^2=\\dfrac{1}{3}x^3+C_1$，即 $y^2=\\dfrac{2}{3}x^3+C$（$C=2C_1$）。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "一阶线性微分方程",
+        "content": "y'+p(x)y=q(x)\\ \\Longrightarrow\\ y=e^{-\\int p\\,\\mathrm{d}x}\\left[\\int q\\,e^{\\int p\\,\\mathrm{d}x}\\mathrm{d}x+C\\right]",
+        "itemType": "MUST_READ",
+        "sortOrder": 1205010,
+        "source": "11 年题面命中 1 题 · 展示最新 1 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "常微分方程"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "常微分方程",
+          "kind": "method",
+          "module": "常微分方程",
+          "groupIntro": "11 年 17 题（6%）。二阶常系数齐次方程只需背三种特征根情形。",
+          "tex": "y'+p(x)y=q(x)\\ \\Longrightarrow\\ y=e^{-\\int p\\,\\mathrm{d}x}\\left[\\int q\\,e^{\\int p\\,\\mathrm{d}x}\\mathrm{d}x+C\\right]",
+          "texNote": "公式法（积分因子）：直接套，不用推导。",
+          "points": [
+            "2015 第 12 题：$y'+\\dfrac{1}{x}y=x$ 就是一阶线性标准型（$p=\\dfrac{1}{x}$，$q=x$）。",
+            "先把方程整理成标准形式再套公式。"
+          ],
+          "steps": [
+            "① 整理成 $y'+p(x)y=q(x)$，读出 $p(x)$、$q(x)$。",
+            "② 算 $\\displaystyle\\int p\\,\\mathrm{d}x$，构造积分因子 $e^{\\int p\\mathrm{d}x}$。",
+            "③ 套公式写出通解，化简整理。"
+          ],
+          "hitCount": 1,
+          "refs": [
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2015 年 · 第 12 题",
+              "year": 2015,
+              "number": 12,
+              "score": "（8 分）",
+              "stem": "求微分方程 $y'+\\dfrac{1}{x}y=x$ 的通解。",
+              "options": [],
+              "correct": null,
+              "answerText": "$y=\\dfrac{x^2}{3}+\\dfrac{C}{x}$",
+              "analysis": "一阶线性 ODE，积分因子 $\\mu(x)=e^{\\int \\frac{1}{x}dx}=x$。\n通解 $y=\\dfrac{1}{x}\\left[\\int x\\cdot x\\,dx+C\\right]=\\dfrac{1}{x}\\left[\\dfrac{x^3}{3}+C\\right]=\\dfrac{x^2}{3}+\\dfrac{C}{x}$。"
+            }
+          ],
+          "example": {
+            "label": "例题（11 套卷只在 2015 年考过一道，给一个同型标准题）",
+            "stem": "求 $y'+y=e^{-x}$ 的通解。",
+            "steps": [
+              "① 已是标准型：$p(x)=1$，$q(x)=e^{-x}$。",
+              "② 积分因子 $e^{\\int 1\\mathrm{d}x}=e^{x}$，则 $(ye^{x})'=e^{-x}\\cdot e^{x}=1$。",
+              "③ 两边积分得 $ye^{x}=x+C$，即 $y=(x+C)e^{-x}$。"
+            ],
+            "answer": "$y=(x+C)e^{-x}$。"
+          }
+        }
+      },
+      {
+        "title": "二阶常系数齐次线性方程（特征根法）",
+        "content": "\\Delta>0:\\ y=C_{1}e^{r_{1}x}+C_{2}e^{r_{2}x}\\qquad \\Delta=0:\\ y=(C_{1}+C_{2}x)e^{rx}\\qquad \\Delta<0:\\ y=e^{\\alpha x}(C_{1}\\cos\\beta x+C_{2}\\sin\\beta x)",
+        "itemType": "MUST_READ",
+        "sortOrder": 1205020,
+        "source": "11 年题面命中 3 题 · 展示最新 3 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "常微分方程"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "常微分方程",
+          "kind": "method",
+          "module": "常微分方程",
+          "groupIntro": "11 年 17 题（6%）。二阶常系数齐次方程只需背三种特征根情形。",
+          "tex": "\\Delta>0:\\ y=C_{1}e^{r_{1}x}+C_{2}e^{r_{2}x}\\qquad \\Delta=0:\\ y=(C_{1}+C_{2}x)e^{rx}\\qquad \\Delta<0:\\ y=e^{\\alpha x}(C_{1}\\cos\\beta x+C_{2}\\sin\\beta x)",
+          "texNote": "先写特征方程 $r^{2}+pr+q=0$，解出特征根，再对号入座三种情形。",
+          "points": [
+            "2024 第 12 题：$y''-6y'+9y=0\\Rightarrow(r-3)^{2}=0$，二重根 $r=3$，通解 $y=(C_{1}+C_{2}x)e^{3x}$。",
+            "$\\Delta$ 就是判别式 $p^{2}-4q$。"
+          ],
+          "steps": [
+            "① 写出特征方程 $r^{2}+pr+q=0$。",
+            "② 求根并算判别式 $\\Delta=p^{2}-4q$，判断属于三种情形中的哪一种。",
+            "③ 按对应公式写出通解，保留任意常数 $C_{1}$、$C_{2}$。"
+          ],
+          "hitCount": 3,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2024 年 · 第 12 题",
+              "year": 2024,
+              "number": 12,
+              "score": "（7 分）",
+              "stem": "微分方程 $y''-6y'+9y=0$ 的通解为",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$y=Ce^{3x}$",
+                  "correct": false
+                },
+                {
+                  "k": "B",
+                  "text": "$y=e^{3x}+C$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$y=Cxe^{3x}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$y=e^{3x}(C_1+C_2x)$",
+                  "correct": true
+                }
+              ],
+              "correct": "D",
+              "answerText": null,
+              "analysis": "特征方程 $r^2-6r+9=0$，即 $(r-3)^2=0$，有二重特征根 $r=3$。\n二阶常系数齐次线性方程有二重根 $r$ 时，通解为 $y=e^{rx}(C_1+C_2x)$。\n故通解为 $y=e^{3x}(C_1+C_2x)$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2020 年 · 第 16 题",
+              "year": 2020,
+              "number": 16,
+              "score": "（10 分）",
+              "stem": "求微分方程 $y''-y'-2y=0$ 的通解。",
+              "options": [],
+              "correct": null,
+              "answerText": "$y=C_1e^{-x}+C_2e^{2x}$",
+              "analysis": "特征方程 $r^2-r-2=0$，解得 $r_1=-1$，$r_2=2$。\n故通解 $y=C_1e^{-x}+C_2e^{2x}$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2019 年 · 第 17 题",
+              "year": 2019,
+              "number": 17,
+              "score": "（10 分）",
+              "stem": "求微分方程 $y''-5y'-6y=0$ 的通解。",
+              "options": [],
+              "correct": null,
+              "answerText": "$y=C_1e^{-x}+C_2e^{6x}$（$C_1,C_2$ 为任意常数）",
+              "analysis": "特征方程 $r^2-5r-6=0$，解得 $r_1=-1$，$r_2=6$。\n故通解为 $y=C_1e^{r_1 x}+C_2e^{r_2 x}=C_1e^{-x}+C_2e^{6x}$。"
+            }
+          ],
+          "example": null
+        }
+      },
+      {
+        "title": "二阶常系数非齐次线性方程",
+        "content": "y''+py'+qy=P_{m}(x)e^{\\lambda x}\\ \\Longrightarrow\\ y=Y(x)+y^{*}(x)",
+        "itemType": "MUST_READ",
+        "sortOrder": 1205030,
+        "source": "11 年题面命中 2 题 · 展示最新 2 道",
+        "tags": [
+          "高等数学一",
+          "考点对照",
+          "常微分方程"
+        ],
+        "extra": {
+          "origin": "sprint5w",
+          "chapter": "考点对照 · 解题步骤",
+          "chapterIntro": "<p>每个知识点按「<b>公式 / 要点</b> → <b>解题步骤</b> → <b>考题对照</b>」三层给全：先记住公式和易错点，再照步骤套，最后点开历年真题看它在卷子上长什么样。</p><p>对照真题取自库内 <b>2015—2025 共 11 套 288 题</b>的题面匹配，题号＝原卷真实题号，可一键跳去真题页；11 套卷里没出过的知识点改配 <b>例题 + 解答</b>，不硬凑。</p>",
+          "section": "考点对照",
+          "group": "常微分方程",
+          "kind": "method",
+          "module": "常微分方程",
+          "groupIntro": "11 年 17 题（6%）。二阶常系数齐次方程只需背三种特征根情形。",
+          "tex": "y''+py'+qy=P_{m}(x)e^{\\lambda x}\\ \\Longrightarrow\\ y=Y(x)+y^{*}(x)",
+          "texNote": "通解 = 齐次通解 $Y$ + 一个特解 $y^{*}$；$\\lambda$ 是特征根时特解要乘 $x^{k}$。",
+          "points": [
+            "2016 第 11 题：$y''-y'-2y=e^{x}$，$\\lambda=1$ 不是特征根，令 $y^{*}=Ae^{x}$ 即可。",
+            "先把齐次通解写对，再补特解，步骤分很实在。"
+          ],
+          "steps": [
+            "① 解对应齐次方程，写出齐次通解 $Y(x)$。",
+            "② 按右端项形式设特解（如 $e^{\\lambda x}$ 设 $Ae^{\\lambda x}$），$\\lambda$ 是特征根时乘 $x^{k}$。",
+            "③ 把特解代回原方程定出待定系数，通解 $=Y+y^{*}$。"
+          ],
+          "hitCount": 2,
+          "refs": [
+            {
+              "qtype": "单项选择题",
+              "typeClass": "p-acc",
+              "label": "2023 年 · 第 10 题",
+              "year": 2023,
+              "number": 10,
+              "score": "（4 分）",
+              "stem": "微分方程 $y''+y=e^{2x}$ 的一个特解是",
+              "options": [
+                {
+                  "k": "A",
+                  "text": "$y^*=\\dfrac{1}{5}e^{2x}$",
+                  "correct": true
+                },
+                {
+                  "k": "B",
+                  "text": "$y^*=\\dfrac{1}{5}e^{x}$",
+                  "correct": false
+                },
+                {
+                  "k": "C",
+                  "text": "$y^*=\\dfrac{1}{5}xe^{2x}$",
+                  "correct": false
+                },
+                {
+                  "k": "D",
+                  "text": "$y^*=\\dfrac{1}{5}xe^{x}$",
+                  "correct": false
+                }
+              ],
+              "correct": "A",
+              "answerText": null,
+              "analysis": "齐次方程特征方程 $r^2+1=0$，根 $r=\\pm i$。非齐次项 $e^{2x}$ 的指数系数 $\\lambda=2$ 不是特征根，\n设特解 $y^*=Ae^{2x}$，则 $y^{*''}=4Ae^{2x}$，代入原方程：$4Ae^{2x}+Ae^{2x}=e^{2x}$，\n解得 $5A=1$，$A=\\dfrac{1}{5}$。故特解 $y^*=\\dfrac{1}{5}e^{2x}$。"
+            },
+            {
+              "qtype": "解答题",
+              "typeClass": "p-acc",
+              "label": "2016 年 · 第 11 题",
+              "year": 2016,
+              "number": 11,
+              "score": "（6 分）",
+              "stem": "求微分方程 $y''-y'-2y=e^x$ 的通解。",
+              "options": [],
+              "correct": null,
+              "answerText": "$y=C_1e^{2x}+C_2e^{-x}-\\dfrac{1}{2}e^x$",
+              "analysis": "特征方程 $r^2-r-2=0$，得 $r_1=2,r_2=-1$，齐次通解 $Y=C_1e^{2x}+C_2e^{-x}$。\n因 $\\lambda=1$ 不是特征根，设特解 $y^*=Ae^x$，代入：$Ae^x-Ae^x-2Ae^x=-2Ae^x=e^x$，得 $A=-\\dfrac{1}{2}$。\n故通解 $y=C_1e^{2x}+C_2e^{-x}-\\dfrac{1}{2}e^x$。"
+            }
+          ],
+          "example": null
+        }
+      }
+    ]
+  }
+];
+
+/** 本次迁移条目的标记，幂等清理与重建都靠它圈定范围。 */
+export const MUST_READ_ORIGIN = 'sprint5w';
+
+/** subjects 表里有 6 行、3 个科目名各重复一次，必须按 user 分套映射。 */
+export const MUST_READ_SUBJECT_ID_BY_USER: Record<number, Record<string, number>> = {
+  1: { '政治': 1, '英语': 2, '高等数学（一）': 3 },
+  4: { '政治': 7, '英语': 8, '高等数学（一）': 9 },
+};

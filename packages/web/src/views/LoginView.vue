@@ -62,46 +62,38 @@ async function submit() {
           </p>
         </div>
         <form @submit.prevent="submit">
-          <label class="form-label"
-            >用户名<input
+          <label class="wb-field form-label">
+            <span class="wb-label">用户名</span>
+            <input
               v-model.trim="username"
-              class="input"
+              class="wb-input"
               autocomplete="username"
               placeholder="请输入用户名"
               required
               minlength="3"
-          /></label>
-          <label class="form-label"
-            >密码<input
+            />
+          </label>
+          <label class="wb-field form-label">
+            <span class="wb-label">密码</span>
+            <input
               v-model="password"
-              class="input"
+              class="wb-input"
               type="password"
               autocomplete="current-password"
               placeholder="至少 8 位"
               required
               minlength="8"
-          /></label>
-          <label v-if="mode === 'register'" class="form-label"
-            >目标考试日期<input v-model="examDate" class="input" type="date" required
-          /></label>
-          <p v-if="error" class="error">{{ error }}</p>
-          <button class="button submit-button" :disabled="loading">
+            />
+          </label>
+          <label v-if="mode === 'register'" class="wb-field form-label">
+            <span class="wb-label">目标考试日期</span>
+            <input v-model="examDate" class="wb-input" type="date" required />
+          </label>
+          <p v-if="error" class="wb-alert form-error">{{ error }}</p>
+          <button type="button" class="wb-btn is-primary is-lg submit-button" :disabled="loading" @click="submit">
             {{ loading ? '处理中…' : mode === 'login' ? '登录并继续' : '注册并创建计划' }}
           </button>
         </form>
-        <!-- <div class="switch-mode">
-          <template v-if="mode === 'login'"
-            >还没有账号？
-            <button class="text-button" @click="mode = 'register'">立即注册</button></template
-          >
-          <template v-else
-            >已有账号？
-            <button class="text-button" @click="mode = 'login'">返回登录</button></template
-          >
-        </div> -->
-        <!-- <div v-if="mode === 'login'" class="demo-tip">
-          <span>体验账号</span><code>demo</code><small>已自动填入</small>
-        </div> -->
       </div>
     </section>
   </main>
@@ -112,190 +104,102 @@ async function submit() {
   display: grid;
   grid-template-columns: minmax(420px, 0.9fr) minmax(460px, 1.1fr);
   min-height: 100vh;
-  background: #fff;
+  background: var(--wb-surface);
 }
+/* 品牌光带与真题页 Hero 同款处理 */
 .login-visual {
+  position: relative;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   padding: 40px clamp(40px, 5vw, 76px);
-  border-right: 1px solid var(--app-border);
-  background: var(--app-bg);
-  color: var(--app-text);
+  border-right: 1px solid var(--wb-line-soft);
+  background: var(--wb-surface-2);
+  color: var(--wb-ink);
+}
+.login-visual::before {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 132px;
+  content: "";
+  background: linear-gradient(180deg, rgba(40, 184, 148, .16), rgba(40, 184, 148, 0));
+  pointer-events: none;
 }
 .visual-brand,
-.mobile-brand {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  font-size: 15px;
-}
+.mobile-brand { position: relative; display: flex; align-items: center; gap: 11px; font-size: 15px; }
 .visual-brand .brand-mark,
 .mobile-brand .brand-mark {
   width: 36px;
   height: 36px;
   flex-basis: 36px;
-  border-radius: 9px;
-  background: var(--app-primary);
+  border-radius: 10px;
+  background: var(--wb-brand);
 }
-.visual-brand small {
-  margin-left: 2px;
-  color: var(--app-muted);
-  font-size: 11px;
-  font-weight: 400;
-}
-.visual-copy {
-  margin: auto 0 36px;
-}
+.visual-brand strong { color: var(--wb-ink); font-weight: 600; }
+.visual-brand small { margin-left: 2px; color: var(--wb-faint); font-size: 11px; font-weight: 400; }
+.visual-copy { position: relative; margin: auto 0 36px; }
 .visual-eyebrow {
-  color: var(--app-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--wb-brand-soft);
+  color: var(--wb-brand-deep);
   font-size: 12px;
   font-weight: 600;
 }
+.visual-eyebrow::before { width: 6px; height: 6px; border-radius: 50%; content: ""; background: var(--wb-brand); }
 .visual-copy h1 {
   max-width: 540px;
-  margin-top: 14px;
-  color: var(--app-text);
-  font-size: clamp(34px, 3.5vw, 48px);
-  font-weight: 600;
+  margin: 16px 0 0;
+  color: var(--wb-ink);
+  font-size: clamp(32px, 3.4vw, 46px);
+  font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.04em;
 }
-.visual-copy p {
-  max-width: 520px;
-  margin: 18px 0 0;
-  color: var(--app-muted);
-  font-size: 14px;
-  line-height: 1.75;
-}
+.visual-copy p { max-width: 520px; margin: 18px 0 0; color: var(--wb-muted); font-size: 14px; line-height: 1.75; }
 .visual-preview {
+  position: relative;
   overflow: hidden;
-  border: 1px solid var(--app-border);
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: var(--app-shadow-sm);
+  border: 1px solid var(--wb-line-soft);
+  border-radius: var(--wb-radius-lg);
+  background: var(--wb-surface);
+  box-shadow: var(--wb-shadow-sm);
 }
-.visual-preview > div {
-  display: grid;
-  grid-template-columns: 110px 1fr;
-  gap: 18px;
-  padding: 14px 16px;
-  border-top: 1px solid var(--app-border);
-}
-.visual-preview > div:first-child {
-  border-top: 0;
-}
-.visual-preview span {
-  color: var(--app-muted);
-  font-size: 12px;
-}
-.visual-preview strong {
-  font-size: 13px;
-  font-weight: 600;
-}
-.login-panel {
-  display: grid;
-  place-items: center;
-  padding: 40px;
-  background: #fff;
-}
-.login-card {
-  width: min(100%, 420px);
-}
-.mobile-brand {
-  display: none;
-  margin-bottom: 40px;
-  color: var(--app-text);
-}
-.login-heading > span {
-  color: var(--app-primary);
-  font-size: 12px;
-  font-weight: 600;
-}
-.login-heading h2 {
-  margin-top: 8px;
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: -0.035em;
-}
-.login-heading p {
-  margin: 8px 0 28px;
-  color: var(--app-muted);
-  font-size: 13px;
-}
-.form-label {
-  display: grid;
-  gap: 7px;
-  margin-bottom: 16px;
-  color: #344054;
-  font-size: 12px;
-  font-weight: 650;
-}
-.submit-button {
-  width: 100%;
-  min-height: 46px;
-  margin-top: 4px;
-}
-.switch-mode {
-  margin-top: 21px;
-  color: var(--app-muted);
-  text-align: center;
-  font-size: 12px;
-}
-.demo-tip {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-top: 25px;
-  padding: 11px 12px;
-  border: 1px solid var(--app-border);
-  border-radius: 10px;
-  background: var(--app-surface-subtle);
-  color: var(--app-muted);
-  font-size: 11px;
-}
-.demo-tip span {
-  font-weight: 650;
-}
-.demo-tip code {
-  color: var(--app-primary);
-  font-weight: 750;
-}
-.demo-tip small {
-  margin-left: auto;
-  color: var(--app-faint);
-}
+.visual-preview > div { display: grid; grid-template-columns: 110px 1fr; gap: 18px; padding: 14px 16px; border-top: 1px solid var(--wb-line-soft); }
+.visual-preview > div:first-child { border-top: 0; }
+.visual-preview span { color: var(--wb-faint); font-size: 12px; }
+.visual-preview strong { color: var(--wb-ink-2); font-size: 13px; font-weight: 600; }
+
+.login-panel { display: grid; place-items: center; padding: 40px; background: var(--wb-surface); }
+.login-card { width: min(100%, 420px); }
+.mobile-brand { display: none; margin-bottom: 40px; color: var(--wb-ink); }
+.login-heading > span { color: var(--wb-brand-deep); font-size: 12px; font-weight: 600; }
+.login-heading h2 { margin: 8px 0 0; color: var(--wb-ink); font-size: 28px; font-weight: 700; letter-spacing: -0.035em; }
+.login-heading p { margin: 8px 0 28px; color: var(--wb-muted); font-size: 13px; }
+
+.form-label { margin-bottom: 16px; }
+.form-error { margin: 0 0 14px; }
+.submit-button { width: 100%; min-height: 46px; margin-top: 4px; }
+
 @media (max-width: 900px) {
-  .login-page {
-    grid-template-columns: 1fr;
-    background: var(--app-bg);
-  }
-  .login-visual {
-    display: none;
-  }
-  .login-panel {
-    padding: 26px 20px;
-    background: var(--app-bg);
-  }
+  .login-page { grid-template-columns: 1fr; background: var(--wb-surface-2); }
+  .login-visual { display: none; }
+  .login-panel { padding: 26px 20px; background: var(--wb-surface-2); }
   .login-card {
     padding: 28px 24px;
-    border: 1px solid var(--app-border);
-    border-radius: 20px;
-    background: #fff;
-    box-shadow: var(--app-shadow);
+    border: 1px solid var(--wb-line-soft);
+    border-radius: var(--wb-radius-xl);
+    background: var(--wb-surface);
+    box-shadow: var(--wb-shadow);
   }
-  .mobile-brand {
-    display: flex;
-  }
+  .mobile-brand { display: flex; }
 }
 @media (max-width: 440px) {
-  .login-panel {
-    padding: 18px 14px;
-  }
-  .login-card {
-    padding: 25px 20px;
-  }
-  .login-heading h2 {
-    font-size: 25px;
-  }
+  .login-panel { padding: 18px 14px; }
+  .login-card { padding: 25px 20px; }
+  .login-heading h2 { font-size: 25px; }
 }
 </style>

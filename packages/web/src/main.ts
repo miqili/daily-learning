@@ -4,6 +4,7 @@ import Vant from 'vant';
 import 'vant/lib/index.css';
 import 'katex/dist/katex.min.css';
 import './assets/main.css';
+import './assets/design-system.css';
 import App from './App.vue';
 import router from './router';
 

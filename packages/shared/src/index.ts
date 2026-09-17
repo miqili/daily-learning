@@ -1,7 +1,8 @@
 export const ERROR_REASONS = ['CONCEPT', 'CALCULATION', 'CARELESS', 'MEMORY', 'OTHER'] as const;
 export type ErrorReason = (typeof ERROR_REASONS)[number];
 
-export const KNOWLEDGE_TYPES = ['NOTE', 'MATERIAL', 'LINK'] as const;
+/** MUST_READ = 必背考点卡（冲刺方案迁移而来，卡片形态：考点/词汇/公式） */
+export const KNOWLEDGE_TYPES = ['NOTE', 'MATERIAL', 'LINK', 'MUST_READ'] as const;
 export type KnowledgeType = (typeof KNOWLEDGE_TYPES)[number];
 
 export const TASK_TYPES = ['STUDY', 'REVIEW', 'VOCABULARY', 'PRACTICE'] as const;
@@ -28,6 +29,7 @@ export const KNOWLEDGE_TYPE_LABELS: Record<KnowledgeType, string> = {
   NOTE: '笔记',
   MATERIAL: '资料',
   LINK: '链接',
+  MUST_READ: '必背考点',
 };
 
 export const TASK_TYPE_LABELS: Record<TaskType, string> = {

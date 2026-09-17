@@ -12,15 +12,27 @@ export class KnowledgeService {
     const query = this.items
       .createQueryBuilder('item')
       .leftJoinAndSelect('item.subject', 'subject')
-      .where('item.userId = :userId', { userId })
-      .orderBy('item.updatedAt', 'DESC');
+      .where('item.userId = :userId', { userId });
     if (dto.subject_id) query.andWhere('item.subjectId = :subjectId', { subjectId: dto.subject_id });
+    if (dto.item_type) query.andWhere('item.itemType = :itemType', { itemType: dto.item_type });
+    if (dto.origin) {
+      query.andWhere("JSON_UNQUOTE(JSON_EXTRACT(item.extraJson, '$.origin')) = :origin", { origin: dto.origin });
+    }
     if (dto.tag) query.andWhere('JSON_CONTAINS(item.tags, :tag)', { tag: JSON.stringify(dto.tag.trim()) });
     if (dto.keyword) {
       query.andWhere('(item.title LIKE :kw OR item.content LIKE :kw)', { kw: `%${dto.keyword.trim()}%` });
     }
+    if (dto.order === 'sort') {
+      // 必背考点模块：按文档顺序（章节 → 分组 → 组内）排序。
+      // 注意：`item.sortOrder IS NULL` 这类含 `.` 的 SQL 表达式会被 TypeORM 当成「别名.属性路径」去查列元数据而报错，
+      // 因此先 addSelect 出「NULL 排后」的排序列并起别名，再按该别名排序（别名不含 `.`，走 select 分支）。
+      query.addSelect('CASE WHEN item.sortOrder IS NULL THEN 1 ELSE 0 END', 'sort_null_rank');
+      query.orderBy('sort_null_rank', 'ASC').addOrderBy('item.sortOrder', 'ASC').addOrderBy('item.id', 'ASC');
+    } else {
+      query.orderBy('item.updatedAt', 'DESC');
+    }
     // 当前是个人备考知识库，默认返回完整的常用规模；仍保留上限防止误请求。
-    const limit = Math.min(dto.limit ?? 200, 500);
+    const limit = Math.min(dto.limit ?? 200, 1000);
     const [list, total] = await query.take(limit).getManyAndCount();
     return { total, list: list.map((item) => this.view(item)) };
   }
@@ -77,6 +89,8 @@ export class KnowledgeService {
       item_type: item.itemType,
       tags: item.tags ?? [],
       source: item.source,
+      sort_order: item.sortOrder,
+      extra: item.extraJson,
       created_at: item.createdAt,
       updated_at: item.updatedAt,
     };
