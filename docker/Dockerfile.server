@@ -1,19 +1,33 @@
-FROM node:20-alpine AS builder
-WORKDIR /app
-RUN corepack enable
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
-COPY packages/shared/package.json packages/shared/package.json
-COPY packages/server/package.json packages/server/package.json
-RUN pnpm install --frozen-lockfile
-COPY packages/shared packages/shared
-COPY packages/server packages/server
-RUN pnpm build:shared && pnpm --filter @shck/server build
+# ---- 运行时镜像：本地预构建，容器内不做任何编译 ----
+# 与 Dockerfile.web 同一思路（web 要求本地先产出 packages/web/dist，本文件要求本地先产出 dist）。
+#
+# 打包前请在本地先执行（不要在服务器上跑）：
+#   pnpm install --frozen-lockfile
+#   pnpm build:shared && pnpm --filter @shck/server build
+#
+# 然后：
+#   docker compose -f docker/docker-compose.yml build api
+#
+# 说明：pnpm 的依赖是相对路径软链（packages/*/node_modules/<pkg> -> ../../../node_modules/.pnpm/...），
+# COPY 会保留软链本身，但必须同时保留 node_modules 与 packages/* 的相对目录结构，因此下面按原结构逐个拷贝。
+FROM node:20-alpine
 
-FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/packages/shared ./packages/shared
-COPY --from=builder /app/packages/server ./packages/server
+
+# 生产依赖（含 pnpm 虚拟store：node_modules/.pnpm）
+COPY node_modules ./node_modules
+
+# @shck/shared：packages/server/node_modules/@shck/shared 是指向 ../../../shared 的相对软链，
+# 而其产物入口为 shared/dist，故 package.json + dist 必须一起带上。
+COPY packages/shared/package.json ./packages/shared/package.json
+COPY packages/shared/dist ./packages/shared/dist
+
+# 后端产物（nest build 输出，内含 data-source / migrations / 内置题库 等编译结果）
+COPY packages/server/package.json ./packages/server/package.json
+COPY packages/server/dist ./packages/server/dist
+COPY packages/server/node_modules ./packages/server/node_modules
+
 EXPOSE 3000
+
 CMD ["node", "packages/server/dist/main.js"]
