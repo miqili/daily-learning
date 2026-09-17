@@ -1,32 +1,43 @@
-# ---- 运行时镜像：本地预构建，容器内不做任何编译 ----
-# 与 Dockerfile.web 同一思路（web 要求本地先产出 packages/web/dist，本文件要求本地先产出 dist）。
+# ---- 运行时镜像：install 在容器内执行，build 在本地完成 ----
+# 服务器（2C / 1.6GB）承受不了 nest build / vite build，但可以承受 pnpm install。
+# 因此本镜像只做两件事：容器内安装依赖 → 拷入本地编译好的 dist。镜像内不执行任何编译。
 #
-# 打包前请在本地先执行（不要在服务器上跑）：
+# 本地（构建机）先执行：
 #   pnpm install --frozen-lockfile
 #   pnpm build:shared && pnpm --filter @shck/server build
 #
-# 然后：
-#   docker compose -f docker/docker-compose.yml build api
+# 再把编译产物同步到服务器项目目录（与 web 的 packages/web/dist 同理）：
+#   packages/shared/dist
+#   packages/server/dist
 #
-# 说明：pnpm 的依赖是相对路径软链（packages/*/node_modules/<pkg> -> ../../../node_modules/.pnpm/...），
-# COPY 会保留软链本身，但必须同时保留 node_modules 与 packages/* 的相对目录结构，因此下面按原结构逐个拷贝。
+# 服务器执行（保持原有流程不变）：
+#   docker compose --env-file .env -f docker/docker-compose.yml build api
+#
+# 注意：本文件不拷贝 node_modules —— 依赖完全由容器内 install 产出，
+# 因此构建机上（或服务器上）是否存在 node_modules 与本次构建无关。
 FROM node:20-alpine
 
 WORKDIR /app
+
+# 容器内使用 pnpm（版本由 package.json 的 packageManager: pnpm@10.30.3 决定）
+RUN corepack enable
+
+# 1) 先只拷依赖清单：源码或 dist 变化不会触发重新安装依赖
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY packages/shared/package.json packages/shared/package.json
+COPY packages/server/package.json packages/server/package.json
+
+# 2) 安装依赖（不编译）。此处刻意不在 install 前设置 NODE_ENV，
+#    以保证安装行为与既有可用镜像保持一致。
+RUN pnpm install --frozen-lockfile
+
 ENV NODE_ENV=production
 
-# 生产依赖（含 pnpm 虚拟store：node_modules/.pnpm）
-COPY node_modules ./node_modules
-
-# @shck/shared：packages/server/node_modules/@shck/shared 是指向 ../../../shared 的相对软链，
-# 而其产物入口为 shared/dist，故 package.json + dist 必须一起带上。
-COPY packages/shared/package.json ./packages/shared/package.json
-COPY packages/shared/dist ./packages/shared/dist
-
-# 后端产物（nest build 输出，内含 data-source / migrations / 内置题库 等编译结果）
-COPY packages/server/package.json ./packages/server/package.json
-COPY packages/server/dist ./packages/server/dist
-COPY packages/server/node_modules ./packages/server/node_modules
+# 3) 本地预构建产物（服务器不做 nest build）。
+#    第 2 步 install 已按 workspace 建好 packages/server/node_modules/@shck/shared 软链，
+#    这里只需补上 @shck/shared 的入口产物与后端编译结果。
+COPY packages/shared/dist packages/shared/dist
+COPY packages/server/dist packages/server/dist
 
 EXPOSE 3000
 
