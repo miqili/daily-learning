@@ -29,6 +29,11 @@ export interface KnowledgeTable {
   head: string[];
   rows: string[][];
   notes: string[];
+  /**
+   * 逐行元数据，与 rows 一一对应：level=hot（必背）/ mid（顺手记），tag 是行尾小标。
+   * 移动端必背页与 PC 必背页都按它给行上色，缺失时不上色。
+   */
+  rowMeta?: { level?: string; tag?: string }[];
 }
 
 /** extra_json 的结构化附加数据，按科目形态不同 */

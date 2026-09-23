@@ -175,7 +175,7 @@
 .wb-textarea { min-height: 104px; padding: 10px 11px; line-height: 1.7; resize: vertical; }
 .wb-select { appearance: none; padding-right: 30px; background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23858699' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 9px center; background-size: 14px; }
 .wb-input::placeholder, .wb-textarea::placeholder { color: var(--wb-faint); }
-.wb-input:focus, .wb-select:focus, .wb-textarea:focus { border-color: var(--wb-brand); box-shadow: 0 0 0 3px rgba(40, 184, 148, .14); }
+.wb-input:focus, .wb-select:focus, .wb-textarea:focus { border-color: var(--wb-brand); }
 .wb-input:disabled, .wb-select:disabled, .wb-textarea:disabled { background: var(--wb-surface-2); color: var(--wb-faint); cursor: not-allowed; }
 .wb-search {
   display: flex;
@@ -190,7 +190,9 @@
   color: var(--wb-faint);
   transition: border-color var(--wb-dur) var(--wb-ease), box-shadow var(--wb-dur) var(--wb-ease);
 }
-.wb-search:focus-within { border-color: var(--wb-accent); box-shadow: 0 0 0 3px rgba(108, 77, 255, .1); color: var(--wb-accent); }
+/* 输入类控件的聚焦反馈：只改容器边框色。
+   禁止 box-shadow 光圈与 outline —— 全站统一，勿再补 3px 样式（2026-09-23 约定）。 */
+.wb-search:focus-within { border-color: var(--wb-brand); color: var(--wb-brand); }
 .wb-search input { min-width: 0; flex: 1; border: 0; background: transparent; color: var(--wb-ink); font-size: 13px; outline: none; }
 .wb-search input::placeholder { color: var(--wb-faint); }
 
@@ -215,6 +217,18 @@
 .wb-empty p { max-width: 420px; margin: 6px 0 0; font-size: 12px; line-height: 1.65; }
 .wb-notice { padding: 11px 14px; border: 1px solid #d9f2ec; border-radius: var(--wb-radius); background: var(--wb-brand-soft); color: var(--wb-brand-deep); font-size: 13px; }
 .wb-alert { padding: 11px 14px; border: 1px solid var(--wb-danger-line); border-radius: var(--wb-radius); background: var(--wb-danger-soft); color: var(--wb-danger-ink); font-size: 13px; }
+
+/* ============ 正文里的 LaTeX 间距 ============
+   章节正文里允许把 \quad、\qquad 这类命令当排版间隔写在数学定界符之外。
+   它们交给 KaTeX 处理不了，渲染层会换成这里的实体间隔元素（见 utils/texSpacing.ts）。
+   宽度对齐 LaTeX 原生定义，保证与相邻公式的间距观感一致。 */
+.tex-gap { display: inline-block; height: 1px; vertical-align: baseline; }
+.tex-gap.is-wide { width: 2em; }
+.tex-gap.is-mid { width: 1em; }
+.tex-gap.is-en { width: .5em; }
+.tex-gap.is-thick { width: .278em; }
+.tex-gap.is-med { width: .222em; }
+.tex-gap.is-thin { width: .167em; }
 
 /* ============ 骨架 ============ */
 .wb-skeleton { display: grid; gap: 14px; }

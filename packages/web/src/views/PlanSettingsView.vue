@@ -195,6 +195,7 @@ onMounted(load);
 .availability-grid > label:nth-last-child(-n + 3) { border-bottom: 0; }
 .availability-grid > label > span { color: var(--wb-ink-2); font-size: 12px; font-weight: 600; }
 .availability-grid label > div:not(.time-range) { display: flex; align-items: center; border-bottom: 1px solid var(--wb-line); }
+.availability-grid label > div:not(.time-range):focus-within { border-bottom-color: var(--wb-brand); }
 .availability-grid input:not([type='color']) { width: 100%; min-width: 0; height: 36px; border: 0; outline: 0; background: transparent; color: var(--wb-ink); font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .availability-grid .num { appearance: textfield; -moz-appearance: textfield; }
 .availability-grid .num::-webkit-outer-spin-button,
@@ -202,6 +203,7 @@ onMounted(load);
 .availability-grid em { color: var(--wb-muted); font-size: 11px; font-style: normal; white-space: nowrap; }
 .availability-grid small { color: var(--wb-faint); font-size: 11px; line-height: 1.45; }
 .time-range { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 7px; border-bottom: 1px solid var(--wb-line); }
+.time-range:focus-within { border-bottom-color: var(--wb-brand); }
 .time-range input { font-size: 13px; font-weight: 500; }
 .time-range i { color: var(--wb-muted); font-size: 12px; font-style: normal; }
 

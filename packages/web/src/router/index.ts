@@ -9,6 +9,7 @@ const EssaysView = () => import('@/views/EssaysView.vue');
 const MistakesView = () => import('@/views/MistakesView.vue');
 const PapersView = () => import('@/views/PapersView.vue');
 const MustReadView = () => import('@/views/MustReadView.vue');
+const TradeoffView = () => import('@/views/TradeoffView.vue');
 const PhrasesView = () => import('@/views/PhrasesView.vue');
 const PlanSettingsView = () => import('@/views/PlanSettingsView.vue');
 const VocabularyView = () => import('@/views/VocabularyView.vue');
@@ -16,6 +17,8 @@ const TaskExecutionView = () => import('@/views/TaskExecutionView.vue');
 const MobilePhrasesView = () => import('@/views/mobile/MobilePhrasesView.vue');
 const MobileEssaysView = () => import('@/views/mobile/MobileEssaysView.vue');
 const MobileMeView = () => import('@/views/mobile/MobileMeView.vue');
+const MobileMistakesView = () => import('@/views/mobile/MobileMistakesView.vue');
+const MobileMustReadView = () => import('@/views/mobile/MobileMustReadView.vue');
 const MobilePapersView = () => import('@/views/mobile/MobilePapersView.vue');
 const MobilePaperPracticeView = () => import('@/views/mobile/MobilePaperPracticeView.vue');
 const MobileSearchView = () => import('@/views/mobile/MobileSearchView.vue');
@@ -25,8 +28,14 @@ const MobileVocabularyView = () => import('@/views/mobile/MobileVocabularyView.v
 
 const router = createRouter({
   history: createWebHistory(),
-  scrollBehavior(_to, _from, savedPosition) {
-    return savedPosition ?? { top: 0 };
+  scrollBehavior(to, from, savedPosition) {
+    // 浏览器前进 / 后退：恢复原位置
+    if (savedPosition) return savedPosition;
+    // 仅查询参数变化（筛选、深链切换）：保持当前阅读位置，不要跳回顶部
+    if (to.path === from.path && to.hash === from.hash) return false;
+    // 页内锚点跳转
+    if (to.hash) return { el: to.hash, behavior: 'smooth' };
+    return { top: 0 };
   },
   routes: [
     { path: '/login', component: LoginView, meta: { public: true } },
@@ -44,6 +53,7 @@ const router = createRouter({
         { path: 'papers', name: 'papers', component: PapersView, meta: { navKey: 'papers' } },
         { path: 'papers/:paperId', name: 'paper-detail', component: PapersView, meta: { navKey: 'papers' } },
         { path: 'must-read', name: 'must-read', component: MustReadView, meta: { navKey: 'mustRead' } },
+        { path: 'tradeoff', name: 'tradeoff', component: TradeoffView, meta: { navKey: 'tradeoff' } },
       ],
     },
     {
@@ -59,6 +69,8 @@ const router = createRouter({
         { path: 'vocabulary', name: 'm-vocabulary', component: MobileVocabularyView, meta: { navKey: 'me', hideTabbar: true } },
         { path: 'phrases', name: 'm-phrases', component: MobilePhrasesView, meta: { navKey: 'me' } },
         { path: 'essays', name: 'm-essays', component: MobileEssaysView, meta: { navKey: 'me' } },
+        { path: 'must-read', name: 'm-must-read', component: MobileMustReadView, meta: { navKey: 'me' } },
+        { path: 'mistakes', name: 'm-mistakes', component: MobileMistakesView, meta: { navKey: 'me' } },
         { path: 'papers', name: 'm-papers', component: MobilePapersView, meta: { navKey: 'me' } },
         { path: 'papers/:paperId', name: 'm-paper-practice', component: MobilePaperPracticeView, meta: { navKey: 'me', hideTabbar: true } },
       ],

@@ -13,7 +13,7 @@
  */
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { fetchMustRead, fetchMustReadCount, type KnowledgeItem, type KnowledgeRef } from '@/api/knowledge';
+import { fetchMustRead, fetchMustReadCount, type KnowledgeItem, type KnowledgeRef, type KnowledgeTable } from '@/api/knowledge';
 import { listPapers, type PaperSummary } from '@/api/papers';
 import { listSubjects, type SubjectInfo } from '@/api/plan';
 import { apiError } from '@/api/client';
@@ -42,6 +42,12 @@ type ChapterNode =
 
 /** 库内名字是「高等数学（一）」，展示口径统一成「高等数学一」 */
 const shortName = (name: string) => name.replace(/（一）/g, '一').replace(/\(一\)/g, '一');
+
+/** 三角函数值表：按 rowMeta.level 给行上色（hot=必背 / mid=顺手记），无 rowMeta 时不上色。 */
+function trigRowClass(table: KnowledgeTable | null | undefined, ri: number): string {
+  const meta = table?.rowMeta?.[ri];
+  return meta?.level ? `is-${meta.level}` : '';
+}
 
 const SUBJECT_ORDER = ['政治', '英语', '高等数学一'];
 const SUBJECT_TONE: Record<string, string> = {
@@ -446,7 +452,7 @@ watch(
 
             <div v-for="group in chapter.groups" :key="group.name" class="mr-group">
               <h3 class="mr-group-head">
-                {{ group.name }}<em>{{ group.items.length }}</em>
+                <KatexRenderer :content="group.name" /><em>{{ group.items.length }}</em>
               </h3>
 
               <div class="mr-cards" :class="`is-${currentName === '政治' ? 'pol' : currentName === '英语' ? 'eng' : 'gs'}`">
@@ -502,11 +508,11 @@ watch(
                       v-if="item.extra?.kind !== 'table' && item.extra?.kind !== 'method'"
                       class="mr-card mr-card--gs"
                     >
-                      <h4 class="mr-fml-name">{{ item.title }}</h4>
+                      <h4 class="mr-fml-name"><KatexRenderer :content="item.title" /></h4>
                       <div class="mr-fml">
                         <KatexRenderer :content="item.extra?.tex || item.content" display />
                       </div>
-                      <p v-if="item.extra?.note" class="mr-fml-note">{{ item.extra.note }}</p>
+                      <p v-if="item.extra?.note" class="mr-fml-note"><KatexRenderer :content="item.extra.note" /></p>
                     </article>
 
                     <!-- 三角函数值表 -->
@@ -514,8 +520,8 @@ watch(
                       v-else-if="item.extra?.kind === 'table'"
                       class="mr-card mr-card--gs"
                     >
-                      <h4 class="mr-fml-name">{{ item.title }}</h4>
-                      <p v-if="item.extra?.note" class="mr-fml-note">{{ item.extra.note }}</p>
+                      <h4 class="mr-fml-name"><KatexRenderer :content="item.title" /></h4>
+                      <p v-if="item.extra?.note" class="mr-fml-note"><KatexRenderer :content="item.extra.note" /></p>
                       <div v-if="item.extra?.table" class="mr-trig">
                         <table>
                           <thead>
@@ -526,7 +532,11 @@ watch(
                             </tr>
                           </thead>
                           <tbody>
-                            <tr v-for="(row, ri) in item.extra.table.rows" :key="ri">
+                            <tr
+                              v-for="(row, ri) in item.extra.table.rows"
+                              :key="ri"
+                              :class="trigRowClass(item.extra.table, ri)"
+                            >
                               <td v-for="(cell, ci) in row" :key="ci">
                                 <KatexRenderer :content="cell" />
                               </td>
@@ -543,7 +553,7 @@ watch(
 
                     <!-- 知识点卡（考点对照 · 解题步骤） -->
                     <article v-else class="mr-card mr-card--gs mr-card--method">
-                      <h4 class="mr-fml-name">{{ item.title }}</h4>
+                      <h4 class="mr-fml-name"><KatexRenderer :content="item.title" /></h4>
 
                       <div v-if="item.extra?.tex" class="mr-fml">
                         <KatexRenderer :content="item.extra.tex" display />
@@ -623,7 +633,7 @@ watch(
 .mr-bar-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
 .mr-search { position: relative; display: flex; align-items: center; gap: 7px; width: clamp(200px, 26vw, 300px); }
 .mr-search svg { width: 14px; height: 14px; flex: 0 0 14px; color: var(--wb-faint); }
-.mr-search:focus-within svg { color: var(--wb-accent); }
+.mr-search:focus-within svg { color: var(--wb-brand); }
 .mr-alert { margin-bottom: 16px; }
 
 /* ============ 主体：232px 粘性目录 + 内容流 ============ */
@@ -664,7 +674,6 @@ watch(
 .mr-flow { display: grid; min-width: 0; gap: 26px; }
 .mr-chapter { scroll-margin-top: 132px; min-width: 0; }
 .mr-chapter + .mr-chapter { padding-top: 26px; border-top: 1px solid var(--wb-line-soft); }
-.mr-chapter-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
 .mr-chapter-head h2 { margin: 0; color: var(--wb-ink); font-size: 19px; font-weight: 700; letter-spacing: -.02em; line-height: 1.35; }
 .mr-chapter-no {
   display: inline-block;
@@ -676,7 +685,9 @@ watch(
   font-size: 13px;
   font-weight: 700;
 }
+.mr-chapter-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
 .mr-chapter-meta { color: var(--wb-faint); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
 .mr-chapter-intro,
 .mr-prose {
   margin-bottom: 16px;
@@ -834,6 +845,13 @@ watch(
 .mr-trig th { background: var(--wb-brand-soft); color: var(--wb-brand-deep); font-weight: 700; }
 .mr-trig td:first-child { font-weight: 600; color: var(--wb-ink); }
 .mr-trig td .katex { font-size: 13px; }
+/* 考频色标：hot=真题必考（必背） / mid=未直接考（顺手记） */
+.mr-trig tbody tr.is-hot td { background: #eef9f7; border-color: #bfe9df; }
+.mr-trig tbody tr.is-hot td:first-child { box-shadow: inset 3px 0 0 #28b894; font-weight: 700; }
+.mr-trig tbody tr.is-mid td { background: #fffbf2; border-color: #f4e4c4; }
+.mr-trig tbody tr.is-mid td:first-child { box-shadow: inset 3px 0 0 #e8a33d; }
+.mr-trig tbody tr.is-hot td:last-child,
+.mr-trig tbody tr.is-mid td:last-child { font-weight: 600; white-space: nowrap; }
 .mr-trig-notes { margin: 12px 0 0; padding-left: 18px; }
 .mr-trig-notes li { margin-bottom: 6px; color: var(--wb-ink-2); font-size: 12.5px; line-height: 1.7; }
 .mr-trig-notes li :deep(.katex) { color: var(--wb-ink); }

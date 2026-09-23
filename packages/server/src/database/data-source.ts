@@ -12,6 +12,8 @@ import { PaperProvenance1785716600000 } from './migrations/2026080408-paper-prov
 import { StableVocabularyQueue1786406400000 } from './migrations/2026081109-stable-vocabulary-queue';
 import { RapidVocabularyMode1786407000000 } from './migrations/2026081110-rapid-vocabulary-mode';
 import { KnowledgeMustRead1789570800000 } from './migrations/2026091601-knowledge-must-read';
+import { TradeoffLedger1789650000000 } from './migrations/2026092201-tradeoff-ledger';
+import { TradeoffMastery1789653600000 } from './migrations/2026092301-tradeoff-mastery';
 import { EssayTemplate } from '../entities/essay-template.entity';
 import { ExamPaper } from '../entities/exam-paper.entity';
 import { ExamQuestion } from '../entities/exam-question.entity';
@@ -21,6 +23,7 @@ import { Mistake } from '../entities/mistake.entity';
 import { StudyPlan } from '../entities/study-plan.entity';
 import { StudySession } from '../entities/study-session.entity';
 import { Subject } from '../entities/subject.entity';
+import { TradeoffItem } from '../entities/tradeoff-item.entity';
 import { UserSettings } from '../entities/user-settings.entity';
 import { User } from '../entities/user.entity';
 import { VocabularyDeck } from '../entities/vocabulary-deck.entity';
@@ -55,7 +58,8 @@ export const AppDataSource = new DataSource({
     VocabularyProgress,
     StudyPlan,
     StudySession,
+    TradeoffItem,
   ],
-  migrations: [InitialSchema1785715200000, PersonalLearningSystem1785715300000, VocabularyLevelsPhrases1785715400000, Essays1785715500000, Papers1785715600000, PapersPassage1785716400000, VocabExtras1785716500000, PaperProvenance1785716600000, StableVocabularyQueue1786406400000, RapidVocabularyMode1786407000000, KnowledgeMustRead1789570800000],
+  migrations: [InitialSchema1785715200000, PersonalLearningSystem1785715300000, VocabularyLevelsPhrases1785715400000, Essays1785715500000, Papers1785715600000, PapersPassage1785716400000, VocabExtras1785716500000, PaperProvenance1785716600000, StableVocabularyQueue1786406400000, RapidVocabularyMode1786407000000, KnowledgeMustRead1789570800000, TradeoffLedger1789650000000, TradeoffMastery1789653600000],
   synchronize: false,
 });

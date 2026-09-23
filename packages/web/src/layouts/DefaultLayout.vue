@@ -27,6 +27,7 @@ const currentSection = computed(() => ({
   papers: '历年真题',
   'paper-detail': '历年真题',
   'must-read': '必背考点',
+  tradeoff: '考点增补',
 }[String(route.name)] ?? '学习工作台'));
 
 function signOut() {
@@ -72,6 +73,10 @@ function signOut() {
         <RouterLink class="nav-link" :class="{ 'is-active': route.meta.navKey === 'mustRead' }" to="/must-read">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" :title="collapsed ? '必背考点' : null"><path d="M7 4h10v16l-5-4-5 4z"/><path d="M10 9h4"/></svg>
           <span class="nav-text">必背考点</span>
+        </RouterLink>
+        <RouterLink class="nav-link" :class="{ 'is-active': route.meta.navKey === 'tradeoff' }" to="/tradeoff">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" :title="collapsed ? '考点增补' : null"><path d="M12 5v14M5 12h14"/><circle cx="12" cy="12" r="8"/></svg>
+          <span class="nav-text">考点增补</span>
         </RouterLink>
         <div class="nav-section-label">设置</div>
         <RouterLink class="nav-link" :class="{ 'is-active': route.meta.navKey === 'plan' }" to="/plan">

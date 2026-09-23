@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { showConfirmDialog, showToast } from 'vant';
+import { showConfirmDialog, showSuccessToast, showToast } from 'vant';
 import { apiError } from '@/api/client';
 import { getPaper, type PaperDetail, type PaperQuestion } from '@/api/papers';
+import { createMistake, ERROR_REASON_LABELS, listMistakes } from '@/api/mistakes';
+import { listSubjects } from '@/api/plan';
 import { renderInlineMarkdown, renderMarkdown } from '@/utils/markdown';
+import { loadSelfScores, saveSelfScores, type SelfVerdict } from '@/utils/paperPractice';
 import {
   answerKeyOf,
   answerText,
@@ -24,6 +27,10 @@ import {
  * 设置：右侧抽屉 —— 字体大小 / 自动下一题 / 背题模式（默认显示答案）
  *
  * 判分规则：未开背题模式时，交卷后统一判定客观题对错；主观题只给参考答案。
+ *
+ * 交卷后可把错题一键收进错题本（与 PC 答题模式同一套 source 去重口径），
+ * 主观题先自评「做对了 / 没做对」再决定要不要入本。错题本页见 /m/mistakes。
+ * 支持 ?no=官方题号深链（从必背考点的「关联真题」跳过来时直接定位到该题）。
  */
 
 type SwipeApi = {
@@ -45,6 +52,16 @@ const submitted = ref(false);
 
 const showCard = ref(false);
 const showSetting = ref(false);
+/** 主观题自评：独立存储键 shck_paper_self_{id}，与 PC 答题模式互通 */
+const selfScores = ref<Record<number, SelfVerdict>>({});
+/** 错题入本弹层 */
+const showMistake = ref(false);
+const mistakeBusy = ref(false);
+const mistakeReason = ref('CONCEPT');
+const mistakeSelected = ref<Set<number>>(new Set());
+const existingSources = ref<Set<string>>(new Set());
+const mistakeNote = ref('');
+const subjects = ref<{ id: number; name: string }[]>([]);
 const swipeRef = ref<SwipeApi | null>(null);
 let autoNextTimer: number | undefined;
 
@@ -138,9 +155,17 @@ async function load() {
   try {
     detail.value = await getPaper(paperId);
     restoreProgress(paperId);
+    selfScores.value = loadSelfScores(paperId);
+    // ?no=官方题号深链（必背考点「关联真题」跳过来），优先于本地进度
+    const no = Number(route.query.no);
+    if (Number.isInteger(no) && no > 0) {
+      const target = numbered.value.findIndex((item) => item.number === no);
+      if (target >= 0) index.value = target;
+    }
     if (Object.keys(picks.value).length && !submitted.value) {
       showToast(`已恢复上次进度：第 ${index.value + 1} 题`);
     }
+    if (!subjects.value.length) subjects.value = await listSubjects();
   } catch (cause) {
     error.value = apiError(cause);
     detail.value = null;
@@ -218,6 +243,111 @@ function verdict(question: PaperQuestion) {
   const picked = picks.value[question.id];
   if (!picked) return { text: '未作答', cls: 'is-miss' };
   return picked === correct ? { text: '答对', cls: 'is-right' } : { text: '答错', cls: 'is-wrong' };
+}
+
+/** 错题本 source：与 PC 答题模式同口径，既用于展示也用于去重 */
+const subjectLabel = (name: string) => name.replace('高等数学（一）', '高等数学一');
+function mistakeSource(item: NumberedQuestion): string {
+  if (!detail.value) return '';
+  return `${detail.value.year} ${subjectLabel(detail.value.subject)}真题 第 ${item.number} 题`;
+}
+
+/** 可入本的题：客观题答错 + 主观题自评「没做对」 */
+const wrongList = computed(() =>
+  numbered.value.filter((item) => {
+    if (isObjective(item.question)) {
+      const picked = picks.value[item.question.id];
+      return Boolean(picked) && picked !== answerKeyOf(item.question);
+    }
+    return selfScores.value[item.question.id] === 'wrong';
+  }),
+);
+const mistakePending = computed(
+  () => wrongList.value.filter((item) => mistakeSelected.value.has(item.question.id) && !existingSources.value.has(mistakeSource(item))).length,
+);
+const isDuplicated = (item: NumberedQuestion) => existingSources.value.has(mistakeSource(item));
+
+function setSelf(questionId: number, verdict: SelfVerdict | null) {
+  if (!detail.value) return;
+  const next = { ...selfScores.value };
+  if (verdict) next[questionId] = verdict;
+  else delete next[questionId];
+  selfScores.value = next;
+  saveSelfScores(detail.value.id, next);
+}
+
+async function openMistakeDialog() {
+  mistakeNote.value = '';
+  mistakeBusy.value = false;
+  mistakeSelected.value = new Set(wrongList.value.map((item) => item.question.id));
+  showMistake.value = true;
+  showCard.value = false;
+  try {
+    const all = await listMistakes();
+    existingSources.value = new Set(all.map((item) => item.source ?? '').filter(Boolean));
+  } catch {
+    existingSources.value = new Set();
+  }
+}
+
+function toggleMistakePick(id: number) {
+  const next = new Set(mistakeSelected.value);
+  if (next.has(id)) next.delete(id);
+  else next.add(id);
+  mistakeSelected.value = next;
+}
+
+async function submitMistakes() {
+  const current = detail.value;
+  if (!current || mistakeBusy.value) return;
+  const targets = wrongList.value.filter(
+    (item) => mistakeSelected.value.has(item.question.id) && !existingSources.value.has(mistakeSource(item)),
+  );
+  if (!targets.length) {
+    mistakeNote.value = '所选题目都已经在错题本里了';
+    return;
+  }
+  mistakeBusy.value = true;
+  mistakeNote.value = '';
+  const subjectId = subjects.value.find((item) => item.name === current.subject)?.id;
+  let added = 0;
+  const failed: string[] = [];
+  for (const item of targets) {
+    const question = item.question;
+    const source = mistakeSource(item);
+    try {
+      await createMistake({
+        title: source,
+        content: question.content,
+        correct_answer: isObjective(question) ? answerKeyOf(question) : (question.answer ?? '').trim().slice(0, 500),
+        user_answer: picks.value[question.id] ?? (selfScores.value[question.id] === 'wrong' ? '未答对（自评）' : ''),
+        error_reason: mistakeReason.value,
+        subject_id: subjectId,
+        source,
+      });
+      added += 1;
+      existingSources.value = new Set([...existingSources.value, source]);
+    } catch {
+      failed.push(`第 ${item.number} 题`);
+    }
+  }
+  mistakeBusy.value = false;
+  if (added) {
+    mistakeNote.value = `已加入 ${added} 道错题${failed.length ? `，${failed.length} 道失败` : ''}`;
+    showSuccessToast(`已加入 ${added} 道错题`);
+    showMistake.value = false;
+  } else {
+    mistakeNote.value = `加入失败：${failed.join('、')}`;
+  }
+}
+
+function excerpt(content: string): string {
+  const text = (content ?? '').replace(/\s+/g, ' ').trim();
+  return text.length > 60 ? `${text.slice(0, 60)}…` : text;
+}
+
+function goMistakes() {
+  void router.push({ name: 'm-mistakes' });
 }
 
 function cellClass(item: NumberedQuestion) {
@@ -351,6 +481,23 @@ onBeforeUnmount(clearAutoNextTimer);
                 <span v-if="settings.recite && !submitted" class="p-answer-tag">背题模式</span>
               </div>
               <div class="p-answer-md md" v-html="renderMarkdown(answerText(item.question))" />
+
+              <!-- 主观题自评：交卷后可把「没做对」的题目收进错题本 -->
+              <div v-if="!isObjective(item.question)" class="p-self">
+                <span>自评</span>
+                <button
+                  type="button"
+                  class="p-self-btn is-right"
+                  :class="{ 'is-on': selfScores[item.question.id] === 'right' }"
+                  @click="setSelf(item.question.id, selfScores[item.question.id] === 'right' ? null : 'right')"
+                >做对了</button>
+                <button
+                  type="button"
+                  class="p-self-btn is-wrong"
+                  :class="{ 'is-on': selfScores[item.question.id] === 'wrong' }"
+                  @click="setSelf(item.question.id, selfScores[item.question.id] === 'wrong' ? null : 'wrong')"
+                >没做对</button>
+              </div>
             </div>
 
             <p class="p-swipe-hint">← 左右滑动切题 →</p>
@@ -398,8 +545,56 @@ onBeforeUnmount(clearAutoNextTimer);
       </div>
       <div class="p-pop-foot">
         <van-button v-if="!submitted" block round type="primary" @click="submit">交卷并判分</van-button>
-        <van-button v-else block round @click="redo">重做这套</van-button>
+        <template v-else>
+          <van-button v-if="wrongList.length" block round type="danger" plain @click="openMistakeDialog">
+            加入错题本（{{ wrongList.length }}）
+          </van-button>
+          <van-button block round @click="redo">重做这套</van-button>
+        </template>
       </div>
+    </van-popup>
+
+    <!-- 错题入本：先选错因，默认全选答错的题，已在错题本里的标灰 -->
+    <van-popup v-model:show="showMistake" position="bottom" round class="p-pop" :style="{ maxHeight: '80%' }">
+      <div class="p-pop-head">
+        <strong>加入错题本</strong>
+        <span class="p-tally">答错 {{ wrongList.length }} 题</span>
+      </div>
+      <div class="p-pop-body">
+        <p class="p-mistake-label">错因（全部沿用同一个）</p>
+        <div class="p-reason-row">
+          <button
+            v-for="(label, key) in ERROR_REASON_LABELS"
+            :key="key"
+            type="button"
+            class="p-reason"
+            :class="{ 'is-on': mistakeReason === key }"
+            @click="mistakeReason = key"
+          >{{ label }}</button>
+        </div>
+
+        <ul class="p-mistake-list">
+          <li
+            v-for="item in wrongList"
+            :key="item.question.id"
+            :class="{ 'is-dup': isDuplicated(item) }"
+          >
+            <button type="button" class="p-mistake-pick" @click="toggleMistakePick(item.question.id)">
+              <i :class="{ 'is-on': mistakeSelected.has(item.question.id) }" />
+              <span class="p-mistake-no">第 {{ item.number }} 题</span>
+              <span class="p-mistake-text">{{ excerpt(item.question.content) }}</span>
+              <em v-if="isDuplicated(item)">已在错题本</em>
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="p-pop-foot">
+        <van-button block round type="primary" :loading="mistakeBusy" @click="submitMistakes">
+          加入错题本（{{ mistakePending }}）
+        </van-button>
+        <van-button block round plain @click="goMistakes">去错题本复习</van-button>
+      </div>
+      <p v-if="mistakeNote" class="p-mistake-note">{{ mistakeNote }}</p>
     </van-popup>
 
     <van-popup v-model:show="showSetting" position="right" class="p-drawer" :style="{ width: '78%', maxWidth: '330px', height: '100%' }">
@@ -543,4 +738,27 @@ onBeforeUnmount(clearAutoNextTimer);
 .p-seg-item.on { border-color: var(--app-primary); background: var(--app-primary-soft); color: var(--app-primary); font-weight: 600; }
 .p-seg-preview { margin: 12px 0 0; padding: 11px 12px; border-radius: 9px; background: var(--app-surface-subtle); color: var(--study-text); line-height: 1.7; }
 .p-drawer-note { margin: 22px 0 0; color: var(--app-faint); font-size: 12px; line-height: 1.7; }
+
+/* 主观题自评 */
+.p-self { display: flex; align-items: center; gap: 7px; margin-top: 10px; padding-top: 9px; border-top: 1px dashed var(--app-border); }
+.p-self > span { color: var(--app-faint); font-size: 12px; }
+.p-self-btn { min-height: 40px; padding: 0 15px; border: 1px solid var(--app-border-strong); border-radius: 9px; background: var(--app-surface); color: var(--study-text); font-size: 13px; font-weight: 600; -webkit-tap-highlight-color: transparent; }
+.p-self-btn.is-right.is-on { border-color: #28b894; background: rgba(40,184,148,.12); color: #1f9c7c; }
+.p-self-btn.is-wrong.is-on { border-color: var(--app-danger); background: rgba(239,68,68,.1); color: var(--app-danger); }
+
+/* 错题入本弹层 */
+.p-mistake-label { margin: 0 0 7px; color: var(--app-faint); font-size: 12px; }
+.p-reason-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.p-reason { min-height: 40px; padding: 0 14px; border: 1px solid var(--app-border-strong); border-radius: 20px; background: var(--app-surface); color: var(--study-muted); font-size: 12.5px; font-weight: 600; -webkit-tap-highlight-color: transparent; }
+.p-reason.is-on { border-color: var(--app-primary); background: var(--app-primary-soft); color: var(--app-primary); }
+.p-mistake-list { margin: 0; padding: 0; list-style: none; }
+.p-mistake-list li.is-dup { opacity: .55; }
+.p-mistake-pick { width: 100%; display: grid; grid-template-columns: 20px auto 1fr auto; align-items: center; gap: 8px; min-height: 48px; padding: 9px 2px; border: 0; border-bottom: 1px solid var(--app-border); background: transparent; color: var(--study-text); text-align: left; }
+.p-mistake-pick > i { width: 17px; height: 17px; border: 1.5px solid var(--app-border-strong); border-radius: 5px; }
+.p-mistake-pick > i.is-on { border-color: var(--app-primary); background: var(--app-primary); }
+.p-mistake-no { flex: 0 0 auto; color: var(--app-primary); font-size: 12.5px; font-weight: 600; }
+.p-mistake-text { overflow: hidden; color: var(--study-muted); font-size: 12.5px; text-overflow: ellipsis; white-space: nowrap; }
+.p-mistake-pick em { color: var(--app-faint); font-size: 11px; font-style: normal; }
+.p-mistake-note { margin: 0; padding: 10px 16px calc(12px + env(safe-area-inset-bottom)); color: var(--app-primary); font-size: 12.5px; text-align: center; }
+.p-pop-foot { display: grid; gap: 8px; padding-bottom: calc(2px + env(safe-area-inset-bottom)); }
 </style>

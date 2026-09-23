@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import katex from 'katex';
+import { normalizeBareTexSpacing } from '@/utils/texSpacing';
 
 const props = defineProps<{ content: string; display?: boolean; breakLines?: boolean }>();
 
@@ -20,8 +21,10 @@ function render(content: string) {
   // 公式段原样交给 KaTeX —— 否则公式里的 `'`（如 y'）、`<`（如 x<1）会被转义破坏。
   // breakLines=true 时只在文本段把换行换成 <br>（KaTeX 输出里的换行绝不能动，
   // 否则会把 <br> 塞进 SVG path 的 d 属性导致渲染错误）。
+  // 文本段里的裸间距命令（`\quad` / `\qquad` 等）在转义之后归一化成实体间隔——
+  // 顺序不能颠倒，否则新插入的 <span> 会被转义打回字面量。
   const textOf = (raw: string) => {
-    const escaped = escapeHtml(raw);
+    const escaped = normalizeBareTexSpacing(escapeHtml(raw));
     return props.breakLines ? escaped.replace(/\n/g, '<br>') : escaped;
   };
   const segments: string[] = [];

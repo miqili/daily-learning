@@ -11,6 +11,7 @@
     "seed": "pnpm build && node dist/database/seed.js",
     "papers:sync": "pnpm build && node dist/database/import-verified-papers.js",
     "must-read:import": "pnpm build && node dist/database/import-must-read.js",
+    "tradeoff:import": "pnpm build && node dist/database/import-tradeoff.js",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

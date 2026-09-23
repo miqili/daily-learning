@@ -9,6 +9,7 @@ import { PlanModule } from './plan/plan.module';
 import { PapersModule } from './papers/papers.module';
 import { SessionsModule } from './sessions/sessions.module';
 import { SubjectsModule } from './subjects/subjects.module';
+import { TradeoffModule } from './tradeoff/tradeoff.module';
 import { VocabularyModule } from './vocabulary/vocabulary.module';
 
 @Module({
@@ -36,6 +37,7 @@ import { VocabularyModule } from './vocabulary/vocabulary.module';
     PapersModule,
     VocabularyModule,
     SessionsModule,
+    TradeoffModule,
   ],
 })
 export class AppModule {}

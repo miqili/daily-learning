@@ -1,4 +1,5 @@
 import katex from 'katex';
+import { normalizeBareTexSpacing } from './texSpacing';
 
 /**
  * 轻量 Markdown + KaTeX 渲染：
@@ -42,6 +43,11 @@ function renderBase(text: string) {
 
   // 还原白名单内的 <u> 标签
   html = html.replace(/@@UL(\d+)@@/g, (_m, i: string) => underline[Number(i)]);
+
+  // 定界符之外的裸 LaTeX 间距命令（`\quad` / `\qquad` 等）落地成实体间隔元素，
+  // 否则它们会以源码形态出现在正文里（章节正文、题干、解析里都可能出现）。
+  // 必须在转义之后调用，新插入的 <span> 才不会被当成待转义文本。
+  html = normalizeBareTexSpacing(html);
 
   // 行内格式
   html = html

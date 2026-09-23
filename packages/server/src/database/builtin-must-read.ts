@@ -1,9 +1,12 @@
 /**
- * 必背考点模块的内置数据 —— 由 outputs/ 下三份「5 周冲刺保底方案」HTML 抽取而来。
+ * 必背考点模块的内置数据 —— 原始来源是 outputs/ 下三份「5 周冲刺保底方案」HTML。
  *
- * 本文件请勿手改：重量级内容改动请改 HTML 后重跑 /tmp/mr_*_extract.py 与
- * /tmp/mr_build_ts.py 再生成。权威源是 HTML，不是 /tmp/gen_*_sprint.py
- * （后者落后 6 条补录考点，详见 outputs/必背考点模块-迁移工作量审计.html「坑 1」）。
+ * ⚠️ 2026-09-23 起：那三份 HTML 与《必背考点模块-迁移工作量审计》已随 outputs/ 清理删除，
+ * 抽取脚本（/tmp/mr_*_extract.py、/tmp/mr_build_ts.py）也已不存在。
+ * 因此 **本文件即权威源**：内容改动直接改这里，再跑 `pnpm db:must-read`（按 origin 先删后插）重灌。
+ * 注意 DB 与本文件必须双侧同步 —— 只改一边会被下次灌库覆盖。
+ * 历史背景：当初以 HTML 为准，是因为 /tmp/gen_*_sprint.py 落后 6 条补录考点
+ * （即《迁移工作量审计》中的「坑 1」）；该脚本同样已不存在。
  */
 
 export interface MustReadItem {
@@ -73,7 +76,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "二、政治试卷结构（2021 年起新结构，2026 沿用）",
-        "content": "<table><tr><th>题型</th><th>题数</th><th>每题</th><th>分值</th><th>说明</th></tr><tr><td>单项选择题</td><td>35</td><td>2 分</td><td><b>70</b></td><td>1-35 题，<b>保底主战场</b></td></tr><tr><td>简答题</td><td>4</td><td>10 分</td><td><b>40</b></td><td>36-39 题</td></tr><tr><td>论述题</td><td>2</td><td>20 分</td><td><b>40</b></td><td>40-41 题</td></tr><tr><td><b>合计</b></td><td><b>41</b></td><td>—</td><td><b>150</b></td><td>考试时间 150 分钟</td></tr></table>\n选择题 35 题的板块配额（2021-2025 五年完全一致，这是最硬的规律）\n<table><tr><th>题号</th><th>板块</th><th>题数</th><th>分值</th><th>特征</th></tr><tr><td>第 1-10 题</td><td><b>马克思主义哲学</b></td><td>10</td><td>20</td><td>理解型，最难速成</td></tr><tr><td>第 11-20 题</td><td><b>毛泽东思想与中特理论体系</b></td><td>10</td><td>20</td><td><span>背诵型</span> 性价比最高</td></tr><tr><td>第 21-30 题</td><td><b>习近平新时代中国特色社会主义思想</b></td><td>10</td><td>20</td><td><span>背诵型</span> 性价比高</td></tr><tr><td>第 31-35 题</td><td><b>时事政治</b></td><td>5</td><td>10</td><td>考前 1 年国内外大事</td></tr><tr><td><b>合计</b></td><td><b>35</b></td><td><b>70</b></td><td>配额固定，可精确规划</td></tr></table>\n<div><b>这个配额表是本次分析最重要的发现。</b>2021、2022、2023、2024、2025 五年按题号位置法完全对应 10/10/10/5（2023 只是录入顺序错乱，题量结构仍一致）。<b>意味着你可以按题号定位：第 11-35 题（共 50 分）全部是\"背了就对\"的内容，第 1-10 题才是需要理解的部分。</b></div>",
+        "content": "<table><tr><th>题型</th><th>题数</th><th>每题</th><th>分值</th><th>说明</th></tr><tr><td>单项选择题</td><td>35</td><td>2 分</td><td><b>70</b></td><td>1-35 题，<b>保底主战场</b></td></tr><tr><td>简答题</td><td>4</td><td>10 分</td><td><b>40</b></td><td>36-39 题</td></tr><tr><td>论述题</td><td>2</td><td>20 分</td><td><b>40</b></td><td>40-41 题</td></tr><tr><td><b>合计</b></td><td><b>41</b></td><td>—</td><td><b>150</b></td><td>考试时间 150 分钟</td></tr></table>\n<h4>选择题 35 题的板块配额（2021-2025 五年完全一致，这是最硬的规律）</h4>\n<table><tr><th>题号</th><th>板块</th><th>题数</th><th>分值</th><th>特征</th></tr><tr><td>第 1-10 题</td><td><b>马克思主义哲学</b></td><td>10</td><td>20</td><td>理解型，最难速成</td></tr><tr><td>第 11-20 题</td><td><b>毛泽东思想与中特理论体系</b></td><td>10</td><td>20</td><td><span>背诵型</span> 性价比最高</td></tr><tr><td>第 21-30 题</td><td><b>习近平新时代中国特色社会主义思想</b></td><td>10</td><td>20</td><td><span>背诵型</span> 性价比高</td></tr><tr><td>第 31-35 题</td><td><b>时事政治</b></td><td>5</td><td>10</td><td>考前 1 年国内外大事</td></tr><tr><td><b>合计</b></td><td><b>35</b></td><td><b>70</b></td><td>配额固定，可精确规划</td></tr></table>\n<div><b>这个配额表是本次分析最重要的发现。</b>2021、2022、2023、2024、2025 五年按题号位置法完全对应 10/10/10/5（2023 只是录入顺序错乱，题量结构仍一致）。<b>意味着你可以按题号定位：第 11-35 题（共 50 分）全部是\"背了就对\"的内容，第 1-10 题才是需要理解的部分。</b></div>",
         "itemType": "MATERIAL",
         "sortOrder": 100000,
         "source": null,
@@ -119,7 +122,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "A. 毛泽东思想 · 形成与灵魂",
           "refs": [
@@ -173,7 +176,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "A. 毛泽东思想 · 形成与灵魂",
           "refs": [
@@ -227,7 +230,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "A. 毛泽东思想 · 形成与灵魂",
           "refs": [
@@ -281,7 +284,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "A. 毛泽东思想 · 形成与灵魂",
           "refs": [
@@ -335,7 +338,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "A. 毛泽东思想 · 形成与灵魂",
           "refs": [
@@ -401,7 +404,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "A. 毛泽东思想 · 形成与灵魂",
           "refs": [
@@ -467,7 +470,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "B. 毛泽东思想 · 新民主主义革命",
           "refs": [
@@ -521,7 +524,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "B. 毛泽东思想 · 新民主主义革命",
           "refs": [
@@ -608,7 +611,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "B. 毛泽东思想 · 新民主主义革命",
           "refs": [
@@ -662,7 +665,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "B. 毛泽东思想 · 新民主主义革命",
           "refs": [
@@ -716,7 +719,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "B. 毛泽东思想 · 新民主主义革命",
           "refs": [
@@ -770,7 +773,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "B. 毛泽东思想 · 新民主主义革命",
           "refs": [
@@ -824,7 +827,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "B. 毛泽东思想 · 新民主主义革命",
           "refs": [
@@ -878,7 +881,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "B. 毛泽东思想 · 新民主主义革命",
           "refs": [
@@ -932,7 +935,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "C. 社会主义改造与建设探索",
           "refs": [
@@ -1043,7 +1046,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "C. 社会主义改造与建设探索",
           "refs": [
@@ -1154,7 +1157,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "C. 社会主义改造与建设探索",
           "refs": [
@@ -1208,7 +1211,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "C. 社会主义改造与建设探索",
           "refs": [
@@ -1295,7 +1298,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "C. 社会主义改造与建设探索",
           "refs": [
@@ -1349,7 +1352,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "C. 社会主义改造与建设探索",
           "refs": [
@@ -1403,7 +1406,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "C. 社会主义改造与建设探索",
           "refs": [
@@ -1457,7 +1460,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "C. 社会主义改造与建设探索",
           "refs": [
@@ -1511,7 +1514,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "D. 邓小平理论",
           "refs": [
@@ -1589,7 +1592,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "D. 邓小平理论",
           "refs": [
@@ -1643,7 +1646,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "D. 邓小平理论",
           "refs": [
@@ -1697,7 +1700,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "D. 邓小平理论",
           "refs": [
@@ -1751,7 +1754,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "D. 邓小平理论",
           "refs": [
@@ -1838,7 +1841,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "D. 邓小平理论",
           "refs": [
@@ -1892,7 +1895,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "D. 邓小平理论",
           "refs": [
@@ -1958,7 +1961,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "E. 三个代表 / 科学发展观 / 价值观",
           "refs": [
@@ -2024,7 +2027,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "E. 三个代表 / 科学发展观 / 价值观",
           "refs": [
@@ -2078,7 +2081,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "E. 三个代表 / 科学发展观 / 价值观",
           "refs": [
@@ -2132,7 +2135,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "E. 三个代表 / 科学发展观 / 价值观",
           "refs": [
@@ -2264,7 +2267,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "E. 三个代表 / 科学发展观 / 价值观",
           "refs": [
@@ -2318,7 +2321,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "E. 三个代表 / 科学发展观 / 价值观",
           "refs": [
@@ -2405,7 +2408,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "E. 三个代表 / 科学发展观 / 价值观",
           "refs": [
@@ -2492,7 +2495,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "F. 补录 · 党史与党建（本轮补齐的缺口考点）",
           "refs": [
@@ -2546,7 +2549,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
         "extra": {
           "origin": "sprint5w",
           "chapter": "四、必背清单 · 毛中特（20 分）",
-          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。</p>",
+          "chapterIntro": "<p>以下每一条都来自 2021-2025 真题。\"问题 → 绿色答案\"直接背即可；答案下方灰色小字是<b>证据列</b>——该考点的真题出处（哪年 · 第几题 · 正确项原文），可随时核验这条考点是不是真考过。<b>排序说明：</b>章节按投入产出比排列（毛中特 → 习概 → 哲学），不是卷面题号顺序（1-10 哲学 / 11-20 毛中特 / 21-30 习概 / 31-35 时政）；每组内部按知识点逻辑链排列，不按年份。要按题号定位，看下方证据列，或展开关联真题。</p>",
           "section": "毛中特",
           "group": "F. 补录 · 党史与党建（本轮补齐的缺口考点）",
           "refs": [
@@ -7207,7 +7210,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "三、保底 50 分怎么拆（先做这 3 块就够）",
-        "content": "<table><tr><th>题型</th><th>满分</th><th>目标</th><th>目标得分</th><th>难度</th></tr>\n<tr><td><b>阅读理解（36-55）</b></td><td>60</td><td>对 12 题</td><td>36 分</td><td>★★ 定位法可破，细节题占 75%</td></tr>\n<tr><td><b>补全对话（56-60）</b></td><td>15</td><td>对 4 题</td><td>12 分</td><td>★ 场景套路化，最容易</td></tr>\n<tr><td><b>短文写作（61）</b></td><td>25</td><td>基础分</td><td>12-15 分</td><td>★ 背模板 + 写满</td></tr>\n<tr><td><b>小计（三招）</b></td><td><b>100</b></td><td>—</td><td><b>60-63 分</b></td><td><b>已超目标 50 分</b></td></tr></table>\n如果还有余力，再加这三块（锦上添花）\n<table><tr><th>题型</th><th>满分</th><th>现实目标</th><th>可得</th><th>说明</th></tr><tr><td>语音辨析（1-5）</td><td>5</td><td>对 3 题</td><td>3 分</td><td>背 8 组易错音就能拿</td></tr><tr><td>词汇与语法（6-20）</td><td>15</td><td>对 6 题</td><td>6 分</td><td>从句 + 非谓语 + 固定搭配</td></tr><tr><td>完形填空（21-35）</td><td>30</td><td>对 5 题</td><td>10 分</td><td>最难，靠上下文线索捞分</td></tr><tr><td><b>英语总分预期</b></td><td><b>150</b></td><td>—</td><td><b>75-80 分</b></td><td>保底 60+，发挥好 80+</td></tr></table>",
+        "content": "<table><tr><th>题型</th><th>满分</th><th>目标</th><th>目标得分</th><th>难度</th></tr>\n<tr><td><b>阅读理解（36-55）</b></td><td>60</td><td>对 12 题</td><td>36 分</td><td>★★ 定位法可破，细节题占 75%</td></tr>\n<tr><td><b>补全对话（56-60）</b></td><td>15</td><td>对 4 题</td><td>12 分</td><td>★ 场景套路化，最容易</td></tr>\n<tr><td><b>短文写作（61）</b></td><td>25</td><td>基础分</td><td>12-15 分</td><td>★ 背模板 + 写满</td></tr>\n<tr><td><b>小计（三招）</b></td><td><b>100</b></td><td>—</td><td><b>60-63 分</b></td><td><b>已超目标 50 分</b></td></tr></table>\n<h4>如果还有余力，再加这三块（锦上添花）</h4>\n<table><tr><th>题型</th><th>满分</th><th>现实目标</th><th>可得</th><th>说明</th></tr><tr><td>语音辨析（1-5）</td><td>5</td><td>对 3 题</td><td>3 分</td><td>背 8 组易错音就能拿</td></tr><tr><td>词汇与语法（6-20）</td><td>15</td><td>对 6 题</td><td>6 分</td><td>从句 + 非谓语 + 固定搭配</td></tr><tr><td>完形填空（21-35）</td><td>30</td><td>对 5 题</td><td>10 分</td><td>最难，靠上下文线索捞分</td></tr><tr><td><b>英语总分预期</b></td><td><b>150</b></td><td>—</td><td><b>75-80 分</b></td><td>保底 60+，发挥好 80+</td></tr></table>",
         "itemType": "MATERIAL",
         "sortOrder": 200000,
         "source": null,
@@ -7224,7 +7227,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "四、阅读理解 60 分：定位法 4 步（本方案的核心）",
-        "content": "<div><b>为什么定位法管用？</b>因为 12 年 240 道阅读题里 <b>75% 是细节事实题</b>——问\"文中说了什么\"，答案就在原文某一句话里（同义改写）。你不需要读懂全文、不需要看懂每个单词，<b>只需要找到那句话，然后比对选项</b>。</div>\n4 步操作（每篇控制在 6 分钟）\n<table><tr><th>步骤</th><th>动作</th><th>要点</th></tr><tr><td><b>1</b></td><td>先看题干，划关键词</td><td>人名、地名、时间、数字、专有名词、大写词——这些在原文里最好找</td></tr><tr><td><b>2</b></td><td>回到原文扫读定位</td><td>按题号顺序找（出题顺序通常与原文顺序一致），只找关键词出现的那 1-2 句</td></tr><tr><td><b>3</b></td><td>读定位句，做同义替换</td><td>正确答案 = 原文那句话的\"换个说法\"，不是原词照搬</td></tr><tr><td><b>4</b></td><td>比对选项，排除干扰</td><td>含绝对词（<span data-say=\"all\">all</span> / <span data-say=\"only\">only</span> / <span data-say=\"never\">never</span> / <span data-say=\"must\">must</span>）的通常错；原文没提的\"常识正确项\"也错</td></tr></table>\n真题示范（2025 年 Passage One 第 36 题）\n<div id=\"demo36\"><b>题目：</b>What did the author and his friend do in the bar?\n  A. They <b>recalled their time in Thailand</b>.\n  B. They shared experiences in Colorado.\n  C. They talked about the joy of graduation.\n  D. They exchanged views on career success.\n\n<b>题干关键词：</b>author and his friend / do / in the bar\n\n<b>原文定位句：</b>\"He called me and we met up <b>in a bar</b>. ... We <b>retold stories from our time in Thailand</b>, drank a couple beers, and just relaxed...\"\n\n<b>同义替换：</b>retold stories from our time in Thailand  →  recalled their time in Thailand\n<b>答案：A</b>（B/C/D 的 Colorado、graduation、career success 都是原文出现过的\"其他词\"，属于干扰项设计）</div>\n必背：常见的同义替换套路（考场秒选）\n<div><b>这一组就是阅读答案的\"密码本\"</b>——正确答案几乎都是把原文的词<b>换成它的同义词</b>。左列是较难的词，<b>先点读、记住\"意思对得上\"</b>即可，不必会拼。</div>\n<table><tr><th>#</th><th>原文常用词（点读）</th><th>选项替换词（点读）</th><th>中文</th></tr>\n<tr><td>1</td><td><span data-say=\"retell\">retell</span> <span>/ˌriːˈtel/</span></td><td><span data-say=\"recall\">recall</span> <span>/rɪˈkɔːl/</span> · <span data-say=\"remember\">remember</span> <span>/rɪˈmembə(r)/</span></td><td>复述 ≈ 回忆起、记得</td></tr>\n<tr><td>2</td><td><span data-say=\"buy\">buy</span> <span>/baɪ/</span></td><td><span data-say=\"purchase\">purchase</span> <span>/ˈpɜːtʃəs/</span></td><td>买 ≈ 购买</td></tr>\n<tr><td>3</td><td><span data-say=\"need\">need</span> <span>/niːd/</span></td><td><span data-say=\"require\">require</span> <span>/rɪˈkwaɪə(r)/</span></td><td>需要 ≈ 需要、要求</td></tr>\n<tr><td>4</td><td><span data-say=\"help\">help</span> <span>/help/</span></td><td><span data-say=\"assist\">assist</span> <span>/əˈsɪst/</span></td><td>帮助 ≈ 协助</td></tr>\n<tr><td>5</td><td><span data-say=\"important\">important</span> <span>/ɪmˈpɔːtnt/</span></td><td><span data-say=\"significant\">significant</span> <span>/sɪɡˈnɪfɪkənt/</span></td><td>重要的 ≈ 重大的</td></tr>\n<tr><td>6</td><td><span data-say=\"difficult\">difficult</span> <span>/ˈdɪfɪkəlt/</span></td><td><span data-say=\"hard\">hard</span> <span>/hɑːd/</span> · <span data-say=\"tough\">tough</span> <span>/tʌf/</span></td><td>困难的 ≈ 艰难的</td></tr>\n<tr><td>7</td><td><span data-say=\"show\">show</span> <span>/ʃəʊ/</span></td><td><span data-say=\"indicate\">indicate</span> <span>/ˈɪndɪkeɪt/</span> · <span data-say=\"suggest\">suggest</span> <span>/səˈdʒest/</span></td><td>表明 ≈ 表明、暗示</td></tr>\n<tr><td>8</td><td><span data-say=\"cause\">cause</span> <span>/kɔːz/</span></td><td><span data-say=\"lead to\">lead to</span> <span>/liːd tuː/</span> · <span data-say=\"result in\">result in</span> <span>/rɪˈzʌlt ɪn/</span></td><td>引起 ≈ 导致</td></tr>\n<tr><td>9</td><td><span data-say=\"stop\">stop</span> <span>/stɒp/</span></td><td><span data-say=\"prevent\">prevent</span> <span>/prɪˈvent/</span></td><td>阻止 ≈ 阻止、防止</td></tr>\n<tr><td>10</td><td><span data-say=\"use\">use</span> <span>/juːz/</span></td><td><span data-say=\"employ\">employ</span> <span>/ɪmˈplɔɪ/</span></td><td>使用 ≈ 采用</td></tr>\n<tr><td>11</td><td><span data-say=\"get\">get</span> <span>/ɡet/</span></td><td><span data-say=\"obtain\">obtain</span> <span>/əbˈteɪn/</span></td><td>得到 ≈ 获得</td></tr>\n</table>\n<div><span data-say=\"retell recall remember buy purchase need require help assist important significant difficult hard tough show indicate suggest cause lead to result in stop prevent use employ get obtain\">🔊 连读全部替换词</span></div>\n<div><b>主旨题怎么做（占 8.3%）</b>：读<b>首段 + 各段首句 + 末段</b>，把反复出现的关键词串起来，就是主旨。标题题选\"覆盖全文\"的那个，不要选只讲一段的。</div>",
+        "content": "<div><b>为什么定位法管用？</b>因为 12 年 240 道阅读题里 <b>75% 是细节事实题</b>——问\"文中说了什么\"，答案就在原文某一句话里（同义改写）。你不需要读懂全文、不需要看懂每个单词，<b>只需要找到那句话，然后比对选项</b>。</div>\n<h4>4 步操作（每篇控制在 6 分钟）</h4>\n<table><tr><th>步骤</th><th>动作</th><th>要点</th></tr><tr><td><b>1</b></td><td>先看题干，划关键词</td><td>人名、地名、时间、数字、专有名词、大写词——这些在原文里最好找</td></tr><tr><td><b>2</b></td><td>回到原文扫读定位</td><td>按题号顺序找（出题顺序通常与原文顺序一致），只找关键词出现的那 1-2 句</td></tr><tr><td><b>3</b></td><td>读定位句，做同义替换</td><td>正确答案 = 原文那句话的\"换个说法\"，不是原词照搬</td></tr><tr><td><b>4</b></td><td>比对选项，排除干扰</td><td>含绝对词（<span data-say=\"all\">all</span> / <span data-say=\"only\">only</span> / <span data-say=\"never\">never</span> / <span data-say=\"must\">must</span>）的通常错；原文没提的\"常识正确项\"也错</td></tr></table>\n<h4>真题示范（2025 年 Passage One 第 36 题）</h4>\n<div id=\"demo36\"><b>题目：</b>What did the author and his friend do in the bar?\n  A. They <b>recalled their time in Thailand</b>.\n  B. They shared experiences in Colorado.\n  C. They talked about the joy of graduation.\n  D. They exchanged views on career success.\n\n<b>题干关键词：</b>author and his friend / do / in the bar\n\n<b>原文定位句：</b>\"He called me and we met up <b>in a bar</b>. ... We <b>retold stories from our time in Thailand</b>, drank a couple beers, and just relaxed...\"\n\n<b>同义替换：</b>retold stories from our time in Thailand  →  recalled their time in Thailand\n<b>答案：A</b>（B/C/D 的 Colorado、graduation、career success 都是原文出现过的\"其他词\"，属于干扰项设计）</div>\n<h4>必背：常见的同义替换套路（考场秒选）</h4>\n<div><b>这一组就是阅读答案的\"密码本\"</b>——正确答案几乎都是把原文的词<b>换成它的同义词</b>。左列是较难的词，<b>先点读、记住\"意思对得上\"</b>即可，不必会拼。</div>\n<table><tr><th>#</th><th>原文常用词（点读）</th><th>选项替换词（点读）</th><th>中文</th></tr>\n<tr><td>1</td><td><span data-say=\"retell\">retell</span> <span>/ˌriːˈtel/</span></td><td><span data-say=\"recall\">recall</span> <span>/rɪˈkɔːl/</span> · <span data-say=\"remember\">remember</span> <span>/rɪˈmembə(r)/</span></td><td>复述 ≈ 回忆起、记得</td></tr>\n<tr><td>2</td><td><span data-say=\"buy\">buy</span> <span>/baɪ/</span></td><td><span data-say=\"purchase\">purchase</span> <span>/ˈpɜːtʃəs/</span></td><td>买 ≈ 购买</td></tr>\n<tr><td>3</td><td><span data-say=\"need\">need</span> <span>/niːd/</span></td><td><span data-say=\"require\">require</span> <span>/rɪˈkwaɪə(r)/</span></td><td>需要 ≈ 需要、要求</td></tr>\n<tr><td>4</td><td><span data-say=\"help\">help</span> <span>/help/</span></td><td><span data-say=\"assist\">assist</span> <span>/əˈsɪst/</span></td><td>帮助 ≈ 协助</td></tr>\n<tr><td>5</td><td><span data-say=\"important\">important</span> <span>/ɪmˈpɔːtnt/</span></td><td><span data-say=\"significant\">significant</span> <span>/sɪɡˈnɪfɪkənt/</span></td><td>重要的 ≈ 重大的</td></tr>\n<tr><td>6</td><td><span data-say=\"difficult\">difficult</span> <span>/ˈdɪfɪkəlt/</span></td><td><span data-say=\"hard\">hard</span> <span>/hɑːd/</span> · <span data-say=\"tough\">tough</span> <span>/tʌf/</span></td><td>困难的 ≈ 艰难的</td></tr>\n<tr><td>7</td><td><span data-say=\"show\">show</span> <span>/ʃəʊ/</span></td><td><span data-say=\"indicate\">indicate</span> <span>/ˈɪndɪkeɪt/</span> · <span data-say=\"suggest\">suggest</span> <span>/səˈdʒest/</span></td><td>表明 ≈ 表明、暗示</td></tr>\n<tr><td>8</td><td><span data-say=\"cause\">cause</span> <span>/kɔːz/</span></td><td><span data-say=\"lead to\">lead to</span> <span>/liːd tuː/</span> · <span data-say=\"result in\">result in</span> <span>/rɪˈzʌlt ɪn/</span></td><td>引起 ≈ 导致</td></tr>\n<tr><td>9</td><td><span data-say=\"stop\">stop</span> <span>/stɒp/</span></td><td><span data-say=\"prevent\">prevent</span> <span>/prɪˈvent/</span></td><td>阻止 ≈ 阻止、防止</td></tr>\n<tr><td>10</td><td><span data-say=\"use\">use</span> <span>/juːz/</span></td><td><span data-say=\"employ\">employ</span> <span>/ɪmˈplɔɪ/</span></td><td>使用 ≈ 采用</td></tr>\n<tr><td>11</td><td><span data-say=\"get\">get</span> <span>/ɡet/</span></td><td><span data-say=\"obtain\">obtain</span> <span>/əbˈteɪn/</span></td><td>得到 ≈ 获得</td></tr>\n</table>\n<div><span data-say=\"retell recall remember buy purchase need require help assist important significant difficult hard tough show indicate suggest cause lead to result in stop prevent use employ get obtain\">🔊 连读全部替换词</span></div>\n<div><b>主旨题怎么做（占 8.3%）</b>：读<b>首段 + 各段首句 + 末段</b>，把反复出现的关键词串起来，就是主旨。标题题选\"覆盖全文\"的那个，不要选只讲一段的。</div>",
         "itemType": "MATERIAL",
         "sortOrder": 300000,
         "source": null,
@@ -7241,7 +7244,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "五、补全对话 15 分：零基础\"形状法\"（不认识单词也能做）",
-        "content": "<div><b>先纠正：上一版那套\"12 类功能句型\"对零基础没用，已整节替换。</b><br>\n那套方法的前提是<b>你已经读懂了对话</b>——读懂了才谈得上\"认出这一空在干什么\"。零基础读不懂，所以它帮不上忙。<br>\n下面这套<b>只看\"形状\"、不看意思</b>，是专门为零基础重写的。<b>你不需要背单词，需要练的是\"看形状\"。</b></div>\n5.1 一句话原理：答案就在\"隔壁那句\"的形状里\n<div>补全对话 = <b>5 个空 + 8 个选项</b>，本质是<b>一问一答的链条</b>。每一个空，它隔壁那句话已经把答案的类型告诉你了。<br>\n举个最直接的例子：某空<b>下一句</b>是 <b>\"Eight o'clock in the morning.\"</b>——你一个词都不认识，也能看出这是<b>时间</b>；那这一空就只能是<b>问时间</b>的句子。<br>\n<b>你要认的\"形状\"只有 3 种：数字、大写字母、几个高频小词。</b>这三种不用学英语就能认。</div>\n5.2 核心工具：形状对应表（背下这一张表就够）\n<table><tr><th>空隔壁那句的\"形状\"</th><th>这一空该填什么</th><th>去 8 个选项里找这些开头</th></tr>\n<tr><td><b>数字 / 时间</b>：8 o'clock、9 a.m.、ten minutes、Sunday、tomorrow、3 p.m.、two hours</td><td><b>问时间</b></td><td><b>When</b> / What time / How long</td></tr>\n<tr><td><b>大写名称 / 地名 / 房间号</b>：The Golden Beach、Room 423、the Blue Mountain</td><td><b>问地点或问名字</b></td><td><b>Where</b> / What's the name / Who</td></tr>\n<tr><td><b>一串东西</b>：drinks and sandwiches、coffee, tea or water</td><td>问\"要什么 / 带什么\"</td><td>What (should I take) / Would you like</td></tr>\n<tr><td><b>Yes / No / Sure / Of course / OK / Great</b></td><td><b>前面一定是疑问句或请求</b></td><td>Can you / Could you / Do you / Would you like / How may I help</td></tr>\n<tr><td><b>Thank you</b></td><td><b>前面是\"帮了忙\"或\"给了东西\"</b></td><td>You're welcome / Here you are / No problem</td></tr>\n<tr><td><b>You too</b></td><td>前面是<b>祝福</b></td><td>Have a nice day / The same to you</td></tr>\n<tr><td><b>Sorry + 一句解释</b></td><td>前面是\"请求 / 要找某人\"</td><td>Can I speak to... / Can you tell me...</td></tr>\n<tr><td>出现 <b>Because</b></td><td>前面问原因</td><td>Why</td></tr>\n<tr><td><b>后面没人接话了</b>（这一空是全场最后一句）</td><td><b>告别收尾</b></td><td>See you / Bye / Have a nice day / Good night</td></tr>\n</table>\n5.3 四条\"锁死规则\"（命中率最高，先背这 4 条）\n<table><tr><th>#</th><th>你在对话里看到</th><th>它前面的那一空必然是</th><th>12 年实例</th></tr>\n<tr><td><b>1</b></td><td><b>Sure / Of course / Yes, please / I'd love to</b></td><td><b>邀请或请求</b>（Would you like / Can you / Could you）</td><td>2021 第 57 空、2024 第 58 空、2023 第 59 空、2020 第 57 空</td></tr>\n<tr><td><b>2</b></td><td><b>给出时间或数字</b>（8 o'clock / 9 a.m. / ten minutes / Room 423）</td><td><b>问时间或数量</b>（When / What time / How long / How much）</td><td>2021 第 59 空、2015 第 57 空、2018 第 59 空、2022 第 58 空</td></tr>\n<tr><td><b>3</b></td><td><b>Thank you</b></td><td><b>别人帮了忙 / 给了东西</b>（You're welcome / Here you are / No problem / I'll give him the message）</td><td>2024 第 60 空、2023 第 60 空、2017 第 60 空、2014 第 60 空</td></tr>\n<tr><td><b>4</b></td><td><b>You too</b></td><td><b>一句祝福</b>（Have a nice day 等）</td><td>2015 第 60 空</td></tr>\n</table>\n<div><b>这 4 条的价值</b>：它们<b>不需要你认识任何单词</b>——\"Sure\"\"Thank you\"\"You too\"是整句里最短、最好认的符号。12 年里这 4 条规则<b>年年都有 2-3 个空可以锁死</b>，也就是稳拿 <b>6-9 分</b>。</div>\n5.4 2021 年真题 · 零基础完整复盘（你正在做的那套）\n<div><b>先看对话原文</b>（56-60 是 5 个空，其余都是看得见的句子）：</div>\n<div id=\"dlg2021\">Daniel: How are you doing, Linda?\nLinda : To be honest, I am really tired of my work at the moment.   (56)____\nDaniel: My friends and I are planning a trip on Sunday.            (57)____\nLinda : Sure, I'd love to.                                         (58)____\nDaniel: The Golden Beach. We will have a picnic there. It will be fun!\nLinda : I can't wait!                                              (59)____\nDaniel: Eight o'clock in the morning. We'll pick you up at your place.\nLinda : Great!                                                     (60)____</div>\n<div><span data-read=\"#dlg2021\">🔊 朗读这段对话</span></div>\n<div><b>再看 8 个选项</b>（只需看清它们的\"开头\"）：<br>\n<b>A.</b> I am free on Sunday.　<b>B.</b> See you then!　<b>C.</b> <b>Where</b> are you planning to go?　<b>D.</b> No, thanks.<br>\n<b>E.</b> I need a break!　<b>F.</b> <b>Would you like</b> to join us?　<b>G.</b> That is a lovely place.　<b>H.</b> <b>When</b> shall we leave?<br>\n<b>正确答案</b>：56 = <b>E</b>　57 = <b>F</b>　58 = <b>C</b>　59 = <b>H</b>　60 = <b>B</b>　（多余项：<b>A / D / G</b>）</div>\n逐空推理 · 零基础版\n<div>\n<div><span>56</span><span>填 E \"I need a break!\"</span>\n<div>\n<b>看位置</b>：56 空<b>前面是 Linda</b> 在说 \"really tired of my work\"（很累），<b>后面才轮到 Daniel</b> 开新话题 → 所以 56 是 Linda 的一句<b>感叹</b>，<b>不可能是问句</b>（先把带 \"?\" 的 C、H 划掉）。<br>\n<b>看形状</b>：剩下选项里带 \"!\" 的只有 E、B、H。而 B 是告别、H 是问句，都不像\"接在自己抱怨后面的话\"。<br>\n<b>💡 最省事的办法</b>：这三个词是<b>初中学的</b>——<span data-say=\"tired\">tired</span> <span>/ˈtaɪəd/</span> 累、<span data-say=\"work\">work</span> <span>/wɜːk/</span> 工作、<span data-say=\"break\">break</span> <span>/breɪk/</span> 休息。累了要休息 → <b>E</b>。</div></div>\n<div><span>57</span><span>填 F \"Would you like to join us?\"　⭐ 全场最硬的一题</span>\n<div>\n<b>看形状</b>：57 空的<b>下一句</b>是 Linda 说 <b>\"Sure, I'd love to.\"</b><br>\n<b>零基础怎么看</b>：<span data-say=\"Sure\">Sure</span> <span>/ʃʊə(r)/</span> ＝\"好\"，<span data-say=\"love to\">I'd love to</span> <span>/aɪd lʌv tuː/</span> ＝\"我愿意\"——<b>这是\"答应别人的邀请\"</b>。<br>\n<b>所以 57 空一定是个邀请。</b>8 个选项里唯一像邀请的，是 <b>F</b>（唯一以 <b>Would you like</b> 开头）。<br>\n🎯 <b>这就是锁死规则 1</b>：看到 Sure / Of course → 前面必是邀请或请求。</div></div>\n<div><span>58</span><span>填 C \"Where are you planning to go?\"　⭐ 纯形状</span>\n<div>\n<b>看形状</b>：58 空的<b>下一句</b>是 Daniel 说 <b>\"The Golden Beach.\"</b><br>\n<b>零基础怎么看</b>：<b>The Golden Beach 首字母大写 = 一个\"名字 / 地名\"</b>。一个名字怎么会单独成句？因为它是在<b>回答\"哪里\"</b>。<br>\n<b>所以 58 空必须是问地点的句子</b> → 选项里以 <b>Where</b> 开头的只有 <b>C</b>。<br>\n🎯 <b>规则 2 的地名版</b>：下一句是地名 → 这一空问 Where。</div></div>\n<div><span>59</span><span>填 H \"When shall we leave?\"　⭐ 纯形状</span>\n<div>\n<b>看形状</b>：59 空的<b>下一句</b>是 Daniel 说 <b>\"Eight o'clock in the morning.\"</b><br>\n<b>零基础怎么看</b>：<b>Eight o'clock ＝ 数字 ＋ o'clock ＝ 时间</b>。这个<b>绝对不可能看错</b>。<br>\n<b>所以 59 空必须是问时间的句子</b> → 选项里以 <b>When</b> 开头的只有 <b>H</b>。<br>\n🎯 <b>锁死规则 2</b>：下一句是时间/数字 → 这一空问 When / What time / How long。</div></div>\n<div><span>60</span><span>填 B \"See you then!\"　⭐ 纯形状</span>\n<div>\n<b>看形状</b>：60 空是<b>整段对话的最后一个空</b>——Linda 说完 \"Great!\" 以后，<b>再没有人接话了</b>。<br>\n<b>零基础怎么看</b>：<b>对话的最后一句 ＝ 告别</b>。选项里有 <b>\"See you\"</b> 的只有 <b>B</b>。<br>\n🎯 <b>见 5.2 形状对应表最后一行</b>：最后一空 = 告别（See you / Bye / Have a nice day）。</div></div>\n</div>\n<div><b>那 3 个\"多余项\"为什么是多余的？（这就是排除法的标准动作）</b><br>\n<b>A. \"I am free on Sunday.\"</b>——<b>和对话冲突</b>：Daniel 已经说了 \"planning a trip on Sunday\"，而 Linda 答应时说的是 \"Sure, I'd love to\"，<b>不需要再补一句\"我周日有空\"</b>。<br>\n<b>D. \"No, thanks.\"</b>——这是<b>拒绝</b>。可整段对话里 Linda 是<b>答应</b>的（Sure, I'd love to），<b>没有\"拒绝\"的位置</b>。<br>\n<b>G. \"That is a lovely place.\"</b>——这是<b>夸地点</b>。可地点是 Daniel 说的，Linda 后面接的是 \"I can't wait!\"，<b>不需要再夸一句</b>。</div>\n<div><b>📌 复盘结论</b>：这一题你<b>一个完整句子都不认识</b>，也能靠形状拿到 <b>5/5</b>——<br>\n57、58、59 是<b>纯形状</b>（Sure→邀请、地名→Where、时间→When），60 靠\"最后一空=告别\"，56 靠 tired/work/break 三个初中词。<br>\n<b>真正需要\"读懂整句\"的，只有 56 这一题。</b></div>\n5.5 上考场怎么用（3 步，控制在 8 分钟）\n<table><tr><th>步骤</th><th>动作</th><th>说明</th></tr>\n<tr><td><b>①</b></td><td><b>先不读对话，先把 8 个选项的\"开头\"扫一遍</b></td><td>把带 <b>When / Where / What time / Who / Why</b> 的圈出来（这是\"问句\"选项），把 <b>Sure / Thank you / You too / See you / Here you are</b> 也圈出来（这是\"答句/收尾\"选项）</td></tr>\n<tr><td><b>②</b></td><td><b>扫对话里的\"时间、数字、大写名称、Yes/Sure/Thank you\"</b></td><td>见到数字 → 它前面那空填 When 类；见到大写地点 → 前面填 Where 类；见到 Thank you → 前面填\"帮了忙\"类；见到 Sure → 前面填邀请/请求类。<b>先把这几个稳稳填掉</b></td></tr>\n<tr><td><b>③</b></td><td><b>剩下的空用\"多余项排除法\"</b></td><td>把已用的划掉；剩下选项里，凡<b>和对话内容冲突</b>或<b>凭空提到对话里没出现过的事</b>的，就是多余项</td></tr>\n</table>\n<div><b>时间提醒</b>：这一题只值 15 分，<b>8 分钟必须走人</b>（一题 3 分，比阅读的一题 3 分等价，但阅读更好拿）。<br>\n实在填不出来的空，<b>也一定要涂一个</b>——8 选 5 盲涂也有约 1/8 的概率。</div>\n5.6 钥匙词速查卡（只认形状，带音标 · 点读）\n<div><b>这些是\"锁死规则\"里出现频率最高的词。</b>你<b>不用会拼、不用懂语法</b>，只要看到能认出来就行。点一下听发音，跟着念两遍。</div>\n<div>\n<div><span data-say=\"Sure\">Sure</span><span>/ʃʊə(r)/</span><span>当然（答应）</span></div>\n<div><span data-say=\"Of course\">Of course</span><span>/əv kɔːs/</span><span>当然（答应）</span></div>\n<div><span data-say=\"Yes, please\">Yes, please</span><span>/jes pliːz/</span><span>好的，请（答应）</span></div>\n<div><span data-say=\"Would you like\">Would you like</span><span>/wʊd juː laɪk/</span><span>你想要……吗（邀请）</span></div>\n<div><span data-say=\"Can you\">Can you</span><span>/kæn juː/</span><span>你能……吗（请求）</span></div>\n<div><span data-say=\"Could you\">Could you</span><span>/kʊd juː/</span><span>你能……吗（更客气）</span></div>\n<div><span data-say=\"When\">When</span><span>/wen/</span><span>什么时候</span></div>\n<div><span data-say=\"What time\">What time</span><span>/wɒt taɪm/</span><span>几点</span></div>\n<div><span data-say=\"How long\">How long</span><span>/haʊ lɒŋ/</span><span>多久</span></div>\n<div><span data-say=\"Where\">Where</span><span>/weə(r)/</span><span>哪里</span></div>\n<div><span data-say=\"Who\">Who</span><span>/huː/</span><span>谁</span></div>\n<div><span data-say=\"What\">What</span><span>/wɒt/</span><span>什么</span></div>\n<div><span data-say=\"Why\">Why</span><span>/waɪ/</span><span>为什么</span></div>\n<div><span data-say=\"Thank you\">Thank you</span><span>/θæŋk juː/</span><span>谢谢（→ 前面是帮了忙）</span></div>\n<div><span data-say=\"You're welcome\">You're welcome</span><span>/jɔː(r) ˈwelkəm/</span><span>不客气</span></div>\n<div><span data-say=\"Here you are\">Here you are</span><span>/hɪə(r) juː ɑː(r)/</span><span>给你</span></div>\n<div><span data-say=\"No problem\">No problem</span><span>/nəʊ ˈprɒbləm/</span><span>没问题</span></div>\n<div><span data-say=\"See you\">See you</span><span>/siː juː/</span><span>再见（收尾）</span></div>\n<div><span data-say=\"Have a nice day\">Have a nice day</span><span>/həv ə naɪs deɪ/</span><span>祝你愉快（祝福）</span></div>\n<div><span data-say=\"You too\">You too</span><span>/juː tuː/</span><span>你也是（→ 前面是祝福）</span></div>\n<div><span data-say=\"Just water, please\">Just water, please</span><span>/dʒʌst ˈwɔːtə(r) pliːz/</span><span>就要水，谢谢</span></div>\n<div><span data-say=\"Is that all\">Is that all</span><span>/ɪz ðæt ɔːl/</span><span>就这些吗</span></div>\n<div><span data-say=\"What else\">What else</span><span>/wɒt els/</span><span>还有什么</span></div>\n<div><span data-say=\"I have no idea\">I have no idea</span><span>/aɪ həv nəʊ aɪˈdɪə/</span><span>我不知道</span></div>\n<div><span data-say=\"That's right\">That's right</span><span>/ðæts raɪt/</span><span>没错</span></div>\n<div><span data-say=\"Just a moment\">Just a moment</span><span>/dʒʌst ə ˈməʊmənt/</span><span>请稍等</span></div>\n<div><span data-say=\"Sorry\">Sorry</span><span>/ˈsɒri/</span><span>对不起（→ 前面是请求）</span></div>\n<div><span data-say=\"Great\">Great</span><span>/ɡreɪt/</span><span>太好了</span></div>\n<div><span data-say=\"OK\">OK</span><span>/ˌəʊˈkeɪ/</span><span>好的</span></div>\n<div><span data-say=\"No, thanks\">No, thanks</span><span>/nəʊ θæŋks/</span><span>不用了（拒绝）</span></div>\n<div><span data-say=\"Cheer up\">Cheer up</span><span>/tʃɪə(r) ʌp/</span><span>振作起来（安慰）</span></div>\n<div><span data-say=\"Never mind\">Never mind</span><span>/ˈnevə(r) maɪnd/</span><span>别在意（应答道歉）</span></div>\n<div><span data-say=\"It doesn't matter\">It doesn't matter</span><span>/ɪt ˈdʌznt ˈmætə(r)/</span><span>没关系（应答道歉）</span></div>\n<div><span data-say=\"Don't mention it\">Don't mention it</span><span>/dəʊnt ˈmenʃn ɪt/</span><span>不用谢（应答感谢）</span></div>\n<div><span data-say=\"Take it easy\">Take it easy</span><span>/teɪk ɪt ˈiːzi/</span><span>放轻松（安慰）</span></div>\n</div>\n5.7 诚实的期望值\n<table><tr><th>掌握程度</th><th>能锁死的题数</th><th>预期得分</th><th>说明</th></tr>\n<tr><td>完全不学，纯盲填</td><td>0</td><td>≈ 2 分</td><td>8 选 5 随机涂，5 个空期望只对 0.6 题</td></tr>\n<tr><td><b>背熟 4 条锁死规则</b></td><td><b>2—3 题</b></td><td><b>6—9 分</b></td><td>Sure→邀请、数字→When、Thank you→帮了忙、You too→祝福。<b>零单词量也能做到</b></td></tr>\n<tr><td>再加形状对应表 + 排除法</td><td>3—4 题</td><td><b>9—12 分</b></td><td>本方案的目标值，练 12 年真题即可达成</td></tr>\n<tr><td>能读懂大部分句子</td><td>5 题</td><td>15 分</td><td>不在本次冲刺范围内，性价比低</td></tr>\n</table>\n<div><b>一句提醒</b>：这一节的目标是<b>\"用最少的英语知识，拿稳 6—12 分\"</b>，不是把补全对话题做全对。<br>\n如果时间紧张，<b>先背 4 条锁死规则</b>（半小时就能背完），比刷几十道题更划算。</div>",
+        "content": "<div><b>先纠正：上一版那套\"12 类功能句型\"对零基础没用，已整节替换。</b><br>\n那套方法的前提是<b>你已经读懂了对话</b>——读懂了才谈得上\"认出这一空在干什么\"。零基础读不懂，所以它帮不上忙。<br>\n下面这套<b>只看\"形状\"、不看意思</b>，是专门为零基础重写的。<b>你不需要背单词，需要练的是\"看形状\"。</b></div>\n<h4>5.1 一句话原理：答案就在\"隔壁那句\"的形状里</h4>\n<div>补全对话 = <b>5 个空 + 8 个选项</b>，本质是<b>一问一答的链条</b>。每一个空，它隔壁那句话已经把答案的类型告诉你了。<br>\n举个最直接的例子：某空<b>下一句</b>是 <b>\"Eight o'clock in the morning.\"</b>——你一个词都不认识，也能看出这是<b>时间</b>；那这一空就只能是<b>问时间</b>的句子。<br>\n<b>你要认的\"形状\"只有 3 种：数字、大写字母、几个高频小词。</b>这三种不用学英语就能认。</div>\n<h4>5.2 核心工具：形状对应表（背下这一张表就够）</h4>\n<table><tr><th>空隔壁那句的\"形状\"</th><th>这一空该填什么</th><th>去 8 个选项里找这些开头</th></tr>\n<tr><td><b>数字 / 时间</b>：8 o'clock、9 a.m.、ten minutes、Sunday、tomorrow、3 p.m.、two hours</td><td><b>问时间</b></td><td><b>When</b> / What time / How long</td></tr>\n<tr><td><b>大写名称 / 地名 / 房间号</b>：The Golden Beach、Room 423、the Blue Mountain</td><td><b>问地点或问名字</b></td><td><b>Where</b> / What's the name / Who</td></tr>\n<tr><td><b>一串东西</b>：drinks and sandwiches、coffee, tea or water</td><td>问\"要什么 / 带什么\"</td><td>What (should I take) / Would you like</td></tr>\n<tr><td><b>Yes / No / Sure / Of course / OK / Great</b></td><td><b>前面一定是疑问句或请求</b></td><td>Can you / Could you / Do you / Would you like / How may I help</td></tr>\n<tr><td><b>Thank you</b></td><td><b>前面是\"帮了忙\"或\"给了东西\"</b></td><td>You're welcome / Here you are / No problem</td></tr>\n<tr><td><b>You too</b></td><td>前面是<b>祝福</b></td><td>Have a nice day / The same to you</td></tr>\n<tr><td><b>Sorry + 一句解释</b></td><td>前面是\"请求 / 要找某人\"</td><td>Can I speak to... / Can you tell me...</td></tr>\n<tr><td>出现 <b>Because</b></td><td>前面问原因</td><td>Why</td></tr>\n<tr><td><b>后面没人接话了</b>（这一空是全场最后一句）</td><td><b>告别收尾</b></td><td>See you / Bye / Have a nice day / Good night</td></tr>\n</table>\n<h4>5.3 四条\"锁死规则\"（命中率最高，先背这 4 条）</h4>\n<table><tr><th>#</th><th>你在对话里看到</th><th>它前面的那一空必然是</th><th>12 年实例</th></tr>\n<tr><td><b>1</b></td><td><b>Sure / Of course / Yes, please / I'd love to</b></td><td><b>邀请或请求</b>（Would you like / Can you / Could you）</td><td>2021 第 57 空、2024 第 58 空、2023 第 59 空、2020 第 57 空</td></tr>\n<tr><td><b>2</b></td><td><b>给出时间或数字</b>（8 o'clock / 9 a.m. / ten minutes / Room 423）</td><td><b>问时间或数量</b>（When / What time / How long / How much）</td><td>2021 第 59 空、2015 第 57 空、2018 第 59 空、2022 第 58 空</td></tr>\n<tr><td><b>3</b></td><td><b>Thank you</b></td><td><b>别人帮了忙 / 给了东西</b>（You're welcome / Here you are / No problem / I'll give him the message）</td><td>2024 第 60 空、2023 第 60 空、2017 第 60 空、2014 第 60 空</td></tr>\n<tr><td><b>4</b></td><td><b>You too</b></td><td><b>一句祝福</b>（Have a nice day 等）</td><td>2015 第 60 空</td></tr>\n</table>\n<div><b>这 4 条的价值</b>：它们<b>不需要你认识任何单词</b>——\"Sure\"\"Thank you\"\"You too\"是整句里最短、最好认的符号。12 年里这 4 条规则<b>年年都有 2-3 个空可以锁死</b>，也就是稳拿 <b>6-9 分</b>。</div>\n<h4>5.4 2021 年真题 · 零基础完整复盘（你正在做的那套）</h4>\n<div><b>先看对话原文</b>（56-60 是 5 个空，其余都是看得见的句子）：</div>\n<div id=\"dlg2021\">Daniel: How are you doing, Linda?\nLinda : To be honest, I am really tired of my work at the moment.   (56)____\nDaniel: My friends and I are planning a trip on Sunday.            (57)____\nLinda : Sure, I'd love to.                                         (58)____\nDaniel: The Golden Beach. We will have a picnic there. It will be fun!\nLinda : I can't wait!                                              (59)____\nDaniel: Eight o'clock in the morning. We'll pick you up at your place.\nLinda : Great!                                                     (60)____</div>\n<div><span data-read=\"#dlg2021\">🔊 朗读这段对话</span></div>\n<div><b>再看 8 个选项</b>（只需看清它们的\"开头\"）：<br>\n<b>A.</b> I am free on Sunday.　<b>B.</b> See you then!　<b>C.</b> <b>Where</b> are you planning to go?　<b>D.</b> No, thanks.<br>\n<b>E.</b> I need a break!　<b>F.</b> <b>Would you like</b> to join us?　<b>G.</b> That is a lovely place.　<b>H.</b> <b>When</b> shall we leave?<br>\n<b>正确答案</b>：56 = <b>E</b>　57 = <b>F</b>　58 = <b>C</b>　59 = <b>H</b>　60 = <b>B</b>　（多余项：<b>A / D / G</b>）</div>\n<h4>逐空推理 · 零基础版</h4>\n<div>\n<div><span class=\"mr-no\">56</span><span>填 E \"I need a break!\"</span>\n<div>\n<b>看位置</b>：56 空<b>前面是 Linda</b> 在说 \"really tired of my work\"（很累），<b>后面才轮到 Daniel</b> 开新话题 → 所以 56 是 Linda 的一句<b>感叹</b>，<b>不可能是问句</b>（先把带 \"?\" 的 C、H 划掉）。<br>\n<b>看形状</b>：剩下选项里带 \"!\" 的只有 E、B、H。而 B 是告别、H 是问句，都不像\"接在自己抱怨后面的话\"。<br>\n<b>💡 最省事的办法</b>：这三个词是<b>初中学的</b>——<span data-say=\"tired\">tired</span> <span>/ˈtaɪəd/</span> 累、<span data-say=\"work\">work</span> <span>/wɜːk/</span> 工作、<span data-say=\"break\">break</span> <span>/breɪk/</span> 休息。累了要休息 → <b>E</b>。</div></div>\n<div><span class=\"mr-no\">57</span><span>填 F \"Would you like to join us?\"　⭐ 全场最硬的一题</span>\n<div>\n<b>看形状</b>：57 空的<b>下一句</b>是 Linda 说 <b>\"Sure, I'd love to.\"</b><br>\n<b>零基础怎么看</b>：<span data-say=\"Sure\">Sure</span> <span>/ʃʊə(r)/</span> ＝\"好\"，<span data-say=\"love to\">I'd love to</span> <span>/aɪd lʌv tuː/</span> ＝\"我愿意\"——<b>这是\"答应别人的邀请\"</b>。<br>\n<b>所以 57 空一定是个邀请。</b>8 个选项里唯一像邀请的，是 <b>F</b>（唯一以 <b>Would you like</b> 开头）。<br>\n🎯 <b>这就是锁死规则 1</b>：看到 Sure / Of course → 前面必是邀请或请求。</div></div>\n<div><span class=\"mr-no\">58</span><span>填 C \"Where are you planning to go?\"　⭐ 纯形状</span>\n<div>\n<b>看形状</b>：58 空的<b>下一句</b>是 Daniel 说 <b>\"The Golden Beach.\"</b><br>\n<b>零基础怎么看</b>：<b>The Golden Beach 首字母大写 = 一个\"名字 / 地名\"</b>。一个名字怎么会单独成句？因为它是在<b>回答\"哪里\"</b>。<br>\n<b>所以 58 空必须是问地点的句子</b> → 选项里以 <b>Where</b> 开头的只有 <b>C</b>。<br>\n🎯 <b>规则 2 的地名版</b>：下一句是地名 → 这一空问 Where。</div></div>\n<div><span class=\"mr-no\">59</span><span>填 H \"When shall we leave?\"　⭐ 纯形状</span>\n<div>\n<b>看形状</b>：59 空的<b>下一句</b>是 Daniel 说 <b>\"Eight o'clock in the morning.\"</b><br>\n<b>零基础怎么看</b>：<b>Eight o'clock ＝ 数字 ＋ o'clock ＝ 时间</b>。这个<b>绝对不可能看错</b>。<br>\n<b>所以 59 空必须是问时间的句子</b> → 选项里以 <b>When</b> 开头的只有 <b>H</b>。<br>\n🎯 <b>锁死规则 2</b>：下一句是时间/数字 → 这一空问 When / What time / How long。</div></div>\n<div><span class=\"mr-no\">60</span><span>填 B \"See you then!\"　⭐ 纯形状</span>\n<div>\n<b>看形状</b>：60 空是<b>整段对话的最后一个空</b>——Linda 说完 \"Great!\" 以后，<b>再没有人接话了</b>。<br>\n<b>零基础怎么看</b>：<b>对话的最后一句 ＝ 告别</b>。选项里有 <b>\"See you\"</b> 的只有 <b>B</b>。<br>\n🎯 <b>见 5.2 形状对应表最后一行</b>：最后一空 = 告别（See you / Bye / Have a nice day）。</div></div>\n</div>\n<div><b>那 3 个\"多余项\"为什么是多余的？（这就是排除法的标准动作）</b><br>\n<b>A. \"I am free on Sunday.\"</b>——<b>和对话冲突</b>：Daniel 已经说了 \"planning a trip on Sunday\"，而 Linda 答应时说的是 \"Sure, I'd love to\"，<b>不需要再补一句\"我周日有空\"</b>。<br>\n<b>D. \"No, thanks.\"</b>——这是<b>拒绝</b>。可整段对话里 Linda 是<b>答应</b>的（Sure, I'd love to），<b>没有\"拒绝\"的位置</b>。<br>\n<b>G. \"That is a lovely place.\"</b>——这是<b>夸地点</b>。可地点是 Daniel 说的，Linda 后面接的是 \"I can't wait!\"，<b>不需要再夸一句</b>。</div>\n<div><b>📌 复盘结论</b>：这一题你<b>一个完整句子都不认识</b>，也能靠形状拿到 <b>5/5</b>——<br>\n57、58、59 是<b>纯形状</b>（Sure→邀请、地名→Where、时间→When），60 靠\"最后一空=告别\"，56 靠 tired/work/break 三个初中词。<br>\n<b>真正需要\"读懂整句\"的，只有 56 这一题。</b></div>\n<h4>5.5 上考场怎么用（3 步，控制在 8 分钟）</h4>\n<table><tr><th>步骤</th><th>动作</th><th>说明</th></tr>\n<tr><td><b>①</b></td><td><b>先不读对话，先把 8 个选项的\"开头\"扫一遍</b></td><td>把带 <b>When / Where / What time / Who / Why</b> 的圈出来（这是\"问句\"选项），把 <b>Sure / Thank you / You too / See you / Here you are</b> 也圈出来（这是\"答句/收尾\"选项）</td></tr>\n<tr><td><b>②</b></td><td><b>扫对话里的\"时间、数字、大写名称、Yes/Sure/Thank you\"</b></td><td>见到数字 → 它前面那空填 When 类；见到大写地点 → 前面填 Where 类；见到 Thank you → 前面填\"帮了忙\"类；见到 Sure → 前面填邀请/请求类。<b>先把这几个稳稳填掉</b></td></tr>\n<tr><td><b>③</b></td><td><b>剩下的空用\"多余项排除法\"</b></td><td>把已用的划掉；剩下选项里，凡<b>和对话内容冲突</b>或<b>凭空提到对话里没出现过的事</b>的，就是多余项</td></tr>\n</table>\n<div><b>时间提醒</b>：这一题只值 15 分，<b>8 分钟必须走人</b>（一题 3 分，比阅读的一题 3 分等价，但阅读更好拿）。<br>\n实在填不出来的空，<b>也一定要涂一个</b>——8 选 5 盲涂也有约 1/8 的概率。</div>\n<h4>5.6 钥匙词速查卡（只认形状，带音标 · 点读）</h4>\n<div><b>这些是\"锁死规则\"里出现频率最高的词。</b>你<b>不用会拼、不用懂语法</b>，只要看到能认出来就行。点一下听发音，跟着念两遍。</div>\n<div>\n<div><span data-say=\"Sure\">Sure</span><span>/ʃʊə(r)/</span><span>当然（答应）</span></div>\n<div><span data-say=\"Of course\">Of course</span><span>/əv kɔːs/</span><span>当然（答应）</span></div>\n<div><span data-say=\"Yes, please\">Yes, please</span><span>/jes pliːz/</span><span>好的，请（答应）</span></div>\n<div><span data-say=\"Would you like\">Would you like</span><span>/wʊd juː laɪk/</span><span>你想要……吗（邀请）</span></div>\n<div><span data-say=\"Can you\">Can you</span><span>/kæn juː/</span><span>你能……吗（请求）</span></div>\n<div><span data-say=\"Could you\">Could you</span><span>/kʊd juː/</span><span>你能……吗（更客气）</span></div>\n<div><span data-say=\"When\">When</span><span>/wen/</span><span>什么时候</span></div>\n<div><span data-say=\"What time\">What time</span><span>/wɒt taɪm/</span><span>几点</span></div>\n<div><span data-say=\"How long\">How long</span><span>/haʊ lɒŋ/</span><span>多久</span></div>\n<div><span data-say=\"Where\">Where</span><span>/weə(r)/</span><span>哪里</span></div>\n<div><span data-say=\"Who\">Who</span><span>/huː/</span><span>谁</span></div>\n<div><span data-say=\"What\">What</span><span>/wɒt/</span><span>什么</span></div>\n<div><span data-say=\"Why\">Why</span><span>/waɪ/</span><span>为什么</span></div>\n<div><span data-say=\"Thank you\">Thank you</span><span>/θæŋk juː/</span><span>谢谢（→ 前面是帮了忙）</span></div>\n<div><span data-say=\"You're welcome\">You're welcome</span><span>/jɔː(r) ˈwelkəm/</span><span>不客气</span></div>\n<div><span data-say=\"Here you are\">Here you are</span><span>/hɪə(r) juː ɑː(r)/</span><span>给你</span></div>\n<div><span data-say=\"No problem\">No problem</span><span>/nəʊ ˈprɒbləm/</span><span>没问题</span></div>\n<div><span data-say=\"See you\">See you</span><span>/siː juː/</span><span>再见（收尾）</span></div>\n<div><span data-say=\"Have a nice day\">Have a nice day</span><span>/həv ə naɪs deɪ/</span><span>祝你愉快（祝福）</span></div>\n<div><span data-say=\"You too\">You too</span><span>/juː tuː/</span><span>你也是（→ 前面是祝福）</span></div>\n<div><span data-say=\"Just water, please\">Just water, please</span><span>/dʒʌst ˈwɔːtə(r) pliːz/</span><span>就要水，谢谢</span></div>\n<div><span data-say=\"Is that all\">Is that all</span><span>/ɪz ðæt ɔːl/</span><span>就这些吗</span></div>\n<div><span data-say=\"What else\">What else</span><span>/wɒt els/</span><span>还有什么</span></div>\n<div><span data-say=\"I have no idea\">I have no idea</span><span>/aɪ həv nəʊ aɪˈdɪə/</span><span>我不知道</span></div>\n<div><span data-say=\"That's right\">That's right</span><span>/ðæts raɪt/</span><span>没错</span></div>\n<div><span data-say=\"Just a moment\">Just a moment</span><span>/dʒʌst ə ˈməʊmənt/</span><span>请稍等</span></div>\n<div><span data-say=\"Sorry\">Sorry</span><span>/ˈsɒri/</span><span>对不起（→ 前面是请求）</span></div>\n<div><span data-say=\"Great\">Great</span><span>/ɡreɪt/</span><span>太好了</span></div>\n<div><span data-say=\"OK\">OK</span><span>/ˌəʊˈkeɪ/</span><span>好的</span></div>\n<div><span data-say=\"No, thanks\">No, thanks</span><span>/nəʊ θæŋks/</span><span>不用了（拒绝）</span></div>\n<div><span data-say=\"Cheer up\">Cheer up</span><span>/tʃɪə(r) ʌp/</span><span>振作起来（安慰）</span></div>\n<div><span data-say=\"Never mind\">Never mind</span><span>/ˈnevə(r) maɪnd/</span><span>别在意（应答道歉）</span></div>\n<div><span data-say=\"It doesn't matter\">It doesn't matter</span><span>/ɪt ˈdʌznt ˈmætə(r)/</span><span>没关系（应答道歉）</span></div>\n<div><span data-say=\"Don't mention it\">Don't mention it</span><span>/dəʊnt ˈmenʃn ɪt/</span><span>不用谢（应答感谢）</span></div>\n<div><span data-say=\"Take it easy\">Take it easy</span><span>/teɪk ɪt ˈiːzi/</span><span>放轻松（安慰）</span></div>\n</div>\n<h4>5.7 诚实的期望值</h4>\n<table><tr><th>掌握程度</th><th>能锁死的题数</th><th>预期得分</th><th>说明</th></tr>\n<tr><td>完全不学，纯盲填</td><td>0</td><td>≈ 2 分</td><td>8 选 5 随机涂，5 个空期望只对 0.6 题</td></tr>\n<tr><td><b>背熟 4 条锁死规则</b></td><td><b>2—3 题</b></td><td><b>6—9 分</b></td><td>Sure→邀请、数字→When、Thank you→帮了忙、You too→祝福。<b>零单词量也能做到</b></td></tr>\n<tr><td>再加形状对应表 + 排除法</td><td>3—4 题</td><td><b>9—12 分</b></td><td>本方案的目标值，练 12 年真题即可达成</td></tr>\n<tr><td>能读懂大部分句子</td><td>5 题</td><td>15 分</td><td>不在本次冲刺范围内，性价比低</td></tr>\n</table>\n<div><b>一句提醒</b>：这一节的目标是<b>\"用最少的英语知识，拿稳 6—12 分\"</b>，不是把补全对话题做全对。<br>\n如果时间紧张，<b>先背 4 条锁死规则</b>（半小时就能背完），比刷几十道题更划算。</div>",
         "itemType": "MATERIAL",
         "sortOrder": 400000,
         "source": null,
@@ -7258,7 +7261,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "六、短文写作 25 分：4 套模板直接套",
-        "content": "<div><b>历年题型规律</b>：12 年里 <b>11 年考应用文</b>（邀请信、求助信、通知、申请信、邮件），2023 年出现过议论文。人设固定是 <b>Li Yuan（李源）</b>，字数要求 <b>100-120 词</b>。只要模板套得对 + 要点写全 + 字数够，<b>15-18 分是稳的</b>。</div>\n<div><b>评分四条铁律</b>：① 三个要点必须<b>逐条提到</b>（漏一个扣 5 分）② 字数写够 100 词（少于 80 词直接降档）③ 用简单句 + 会写的词，<b>宁可简单不要出错</b> ④ 格式要写对（称呼、结尾、署名）</div>\n<div><b>怎么用这几套范文</b>：① 先点 <b>🔊 朗读这篇范文</b> 听 2 遍 → ② 对照<b>参考译文</b>逐句搞懂意思 → ③ 对照中文尝试默写英文 → ④ 考场上把方括号里的时间、地点、事项换成题目给的即可。</div>\n模板 1 · 通知 NOTICE（2025 真题：旧书交换活动）\n<div id=\"tpl1\">NOTICE\n\nTo enrich our campus life and develop the habit of saving, the Student Union is going to hold a book exchange activity.\n\nThe activity will be held in the school library <b>from 2:00 pm to 5:00 pm on October 20th</b>. Students who want to join can bring their used books, such as textbooks and novels. It is a good chance for us to protect the environment and make new friends.\n\nEveryone is welcome to take part in it. We are looking forward to your coming.\n\nThe Student Union</div>\n<div><span data-read=\"#tpl1\">🔊 朗读这篇范文</span></div>\n<div><b>参考译文：</b>通知——为丰富我们的校园生活、养成节约的习惯，学生会将举办一次旧书交换活动。本次活动将于 <b>10 月 20 日下午 2 点至 5 点</b>在学校图书馆举行。想参加的同学可以带上自己的旧书，比如课本和小说。这是我们保护环境、结交新朋友的好机会。欢迎大家参加。我们期待你的到来。——学生会</div>\n模板 2 · 申请信（2024 真题：加入环保社团）\n<div id=\"tpl2\">Dear Sir or Madam,\n\nI am Li Yuan, a student from Class One. I am writing to apply for a position in the Environmental Club.\n\nI have always been interested in environmental protection. I often take part in activities such as cleaning the park and planting trees. I want to join the club because I hope to do more for our earth and learn from others.\n\nIf I am accepted, I would like to help organize activities and design posters. I suggest that the club hold more outdoor activities to attract more students.\n\nI would appreciate it if you could give me a chance. I am looking forward to your reply.\n\nYours sincerely,\nLi Yuan</div>\n<div><span data-read=\"#tpl2\">🔊 朗读这篇范文</span></div>\n<div><b>参考译文：</b>尊敬的先生／女士：我是李源，一班的学生。我写信是想申请环保社团的一个职位。我一直对环境保护很感兴趣，经常参加打扫公园、植树之类的活动。我想加入社团，因为我希望为我们的地球做更多的事，并向他人学习。如果能被录取，我愿意帮忙组织活动、设计海报。我建议社团多举办一些户外活动，以吸引更多同学。如能给我一个机会，我将不胜感激。期待你的回复。您诚挚的，李源</div>\n模板 3 · 邀请信（2014/2019/2021 真题）\n<div id=\"tpl3\">Dear Professor Smith,\n\nI am Li Yuan, monitor of Class Two. I am writing to invite you to attend our English speech contest.\n\nThe contest will be held in Room 301 of the teaching building at 3:00 pm on May 20th. About 20 students will take part in it. We would be honored if you could come and be one of the judges.\n\nI believe your presence will be a great encouragement to us. Please let me know if you are free at that time.\n\nI am looking forward to your early reply.\n\nYours sincerely,\nLi Yuan</div>\n<div><span data-read=\"#tpl3\">🔊 朗读这篇范文</span></div>\n<div><b>参考译文：</b>尊敬的史密斯教授：我是李源，二班班长。我写信是想邀请您参加我们的英语演讲比赛。比赛将于 5 月 20 日下午 3 点在教学楼 301 室举行，大约有 20 名学生参加。如果您能来担任评委之一，我们将深感荣幸。我相信您的到场对我们将是极大的鼓励。请告知您届时是否有空。期待您早日回复。您诚挚的，李源</div>\n模板 4 · 求助信（2015 真题）\n<div id=\"tpl4\">Dear Jason,\n\nI am Li Yuan. I am writing to ask you for help with my English study.\n\nI have some trouble in learning English. First, I find it hard to remember new words. Second, I always make mistakes in grammar. Third, I am too shy to speak English in public.\n\nCould you give me some advice? I would be grateful if you could help me.\n\nI am looking forward to your reply.\n\nYours,\nLi Yuan</div>\n<div><span data-read=\"#tpl4\">🔊 朗读这篇范文</span></div>\n<div><b>参考译文：</b>亲爱的杰森：我是李源。我写信是想请你帮我补习英语。我在英语学习上有些困难。第一，我觉得记新单词很难；第二，我总是在语法上出错；第三，我太害羞，不敢当众说英语。你能给我一些建议吗？如果你能帮我，我将非常感激。期待你的回复。你的，李源</div>\n<div><b>万能句型（任何应用文都能塞进去，凑字数又加分）</b>：<br>\n<span data-say=\"I am writing to invite you to attend. I am writing to apply for a position. I am writing to ask you for help. I am writing to tell you that.\">开头：I am writing to invite / apply for / ask you for help / tell you that...</span><span>🔊点读</span>（我写信是为了邀请／申请／求助／告诉你……）<br>\n<span data-say=\"First. Second. Third. It is a good chance for us to. I would like to.\">中间：First... Second... Third... ｜ It is a good chance for us to... ｜ I would like to...</span><span>🔊点读</span>（第一……第二……第三……；这对我们是个好机会去……；我想……）<br>\n<span data-say=\"I am looking forward to your reply. I am looking forward to your coming. I would appreciate it if you could.\">结尾：I am looking forward to your reply / your coming. ｜ I would appreciate it if you could...</span><span>🔊点读</span>（期待你的回复／到来；如你能……我将不胜感激）<br>\n<span data-say=\"Yours sincerely, Li Yuan. Yours, Li Yuan.\">署名固定：Yours sincerely, Li Yuan（正式）／ Yours, Li Yuan（朋友）</span><span>🔊点读</span></div>",
+        "content": "<div><b>历年题型规律</b>：12 年里 <b>11 年考应用文</b>（邀请信、求助信、通知、申请信、邮件），2023 年出现过议论文。人设固定是 <b>Li Yuan（李源）</b>，字数要求 <b>100-120 词</b>。只要模板套得对 + 要点写全 + 字数够，<b>15-18 分是稳的</b>。</div>\n<div><b>评分四条铁律</b>：① 三个要点必须<b>逐条提到</b>（漏一个扣 5 分）② 字数写够 100 词（少于 80 词直接降档）③ 用简单句 + 会写的词，<b>宁可简单不要出错</b> ④ 格式要写对（称呼、结尾、署名）</div>\n<div><b>怎么用这几套范文</b>：① 先点 <b>🔊 朗读这篇范文</b> 听 2 遍 → ② 对照<b>参考译文</b>逐句搞懂意思 → ③ 对照中文尝试默写英文 → ④ 考场上把方括号里的时间、地点、事项换成题目给的即可。</div>\n<h4>模板 1 · 通知 NOTICE（2025 真题：旧书交换活动）</h4>\n<div id=\"tpl1\">NOTICE\n\nTo enrich our campus life and develop the habit of saving, the Student Union is going to hold a book exchange activity.\n\nThe activity will be held in the school library <b>from 2:00 pm to 5:00 pm on October 20th</b>. Students who want to join can bring their used books, such as textbooks and novels. It is a good chance for us to protect the environment and make new friends.\n\nEveryone is welcome to take part in it. We are looking forward to your coming.\n\nThe Student Union</div>\n<div><span data-read=\"#tpl1\">🔊 朗读这篇范文</span></div>\n<div><b>参考译文：</b>通知——为丰富我们的校园生活、养成节约的习惯，学生会将举办一次旧书交换活动。本次活动将于 <b>10 月 20 日下午 2 点至 5 点</b>在学校图书馆举行。想参加的同学可以带上自己的旧书，比如课本和小说。这是我们保护环境、结交新朋友的好机会。欢迎大家参加。我们期待你的到来。——学生会</div>\n<h4>模板 2 · 申请信（2024 真题：加入环保社团）</h4>\n<div id=\"tpl2\">Dear Sir or Madam,\n\nI am Li Yuan, a student from Class One. I am writing to apply for a position in the Environmental Club.\n\nI have always been interested in environmental protection. I often take part in activities such as cleaning the park and planting trees. I want to join the club because I hope to do more for our earth and learn from others.\n\nIf I am accepted, I would like to help organize activities and design posters. I suggest that the club hold more outdoor activities to attract more students.\n\nI would appreciate it if you could give me a chance. I am looking forward to your reply.\n\nYours sincerely,\nLi Yuan</div>\n<div><span data-read=\"#tpl2\">🔊 朗读这篇范文</span></div>\n<div><b>参考译文：</b>尊敬的先生／女士：我是李源，一班的学生。我写信是想申请环保社团的一个职位。我一直对环境保护很感兴趣，经常参加打扫公园、植树之类的活动。我想加入社团，因为我希望为我们的地球做更多的事，并向他人学习。如果能被录取，我愿意帮忙组织活动、设计海报。我建议社团多举办一些户外活动，以吸引更多同学。如能给我一个机会，我将不胜感激。期待你的回复。您诚挚的，李源</div>\n<h4>模板 3 · 邀请信（2014/2019/2021 真题）</h4>\n<div id=\"tpl3\">Dear Professor Smith,\n\nI am Li Yuan, monitor of Class Two. I am writing to invite you to attend our English speech contest.\n\nThe contest will be held in Room 301 of the teaching building at 3:00 pm on May 20th. About 20 students will take part in it. We would be honored if you could come and be one of the judges.\n\nI believe your presence will be a great encouragement to us. Please let me know if you are free at that time.\n\nI am looking forward to your early reply.\n\nYours sincerely,\nLi Yuan</div>\n<div><span data-read=\"#tpl3\">🔊 朗读这篇范文</span></div>\n<div><b>参考译文：</b>尊敬的史密斯教授：我是李源，二班班长。我写信是想邀请您参加我们的英语演讲比赛。比赛将于 5 月 20 日下午 3 点在教学楼 301 室举行，大约有 20 名学生参加。如果您能来担任评委之一，我们将深感荣幸。我相信您的到场对我们将是极大的鼓励。请告知您届时是否有空。期待您早日回复。您诚挚的，李源</div>\n<h4>模板 4 · 求助信（2015 真题）</h4>\n<div id=\"tpl4\">Dear Jason,\n\nI am Li Yuan. I am writing to ask you for help with my English study.\n\nI have some trouble in learning English. First, I find it hard to remember new words. Second, I always make mistakes in grammar. Third, I am too shy to speak English in public.\n\nCould you give me some advice? I would be grateful if you could help me.\n\nI am looking forward to your reply.\n\nYours,\nLi Yuan</div>\n<div><span data-read=\"#tpl4\">🔊 朗读这篇范文</span></div>\n<div><b>参考译文：</b>亲爱的杰森：我是李源。我写信是想请你帮我补习英语。我在英语学习上有些困难。第一，我觉得记新单词很难；第二，我总是在语法上出错；第三，我太害羞，不敢当众说英语。你能给我一些建议吗？如果你能帮我，我将非常感激。期待你的回复。你的，李源</div>\n<div><b>万能句型（任何应用文都能塞进去，凑字数又加分）</b>：<br>\n<span data-say=\"I am writing to invite you to attend. I am writing to apply for a position. I am writing to ask you for help. I am writing to tell you that.\">开头：I am writing to invite / apply for / ask you for help / tell you that...</span><span>🔊点读</span>（我写信是为了邀请／申请／求助／告诉你……）<br>\n<span data-say=\"First. Second. Third. It is a good chance for us to. I would like to.\">中间：First... Second... Third... ｜ It is a good chance for us to... ｜ I would like to...</span><span>🔊点读</span>（第一……第二……第三……；这对我们是个好机会去……；我想……）<br>\n<span data-say=\"I am looking forward to your reply. I am looking forward to your coming. I would appreciate it if you could.\">结尾：I am looking forward to your reply / your coming. ｜ I would appreciate it if you could...</span><span>🔊点读</span>（期待你的回复／到来；如你能……我将不胜感激）<br>\n<span data-say=\"Yours sincerely, Li Yuan. Yours, Li Yuan.\">署名固定：Yours sincerely, Li Yuan（正式）／ Yours, Li Yuan（朋友）</span><span>🔊点读</span></div>",
         "itemType": "MATERIAL",
         "sortOrder": 500000,
         "source": null,
@@ -7292,7 +7295,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "八、词汇与语法 15 分：只攻 3 个必考点",
-        "content": "<div><b>12 年 180 道词汇语法题的考点分布：</b>词义/语境辨析 37.8% · <b>从句 19.4%</b> · <b>固定搭配/介词 16.1%</b> · <b>非谓语动词 11.7%</b> · 时态语态 7.2% · 比较级 3.3% · 其他 4.5%。<b>从句 + 固定搭配 + 非谓语 = 47%，是唯一值得速成的三块。</b>（词义辨析占最大头但靠长期积累，不追）</div>\n必考点 1 · 三大从句（每年约 2.9 题）\n<table><tr><th>类型</th><th>怎么认</th><th>选谁（点读）</th><th>真题例（中文）</th></tr>\n<tr><td>定语从句</td><td>空格在名词后，从句缺主语/宾语/定语</td><td>人：<span data-say=\"who\">who</span> <span>/huː/</span> / <span data-say=\"whom\">whom</span> <span>/huːm/</span> / <span data-say=\"whose\">whose</span> <span>/huːz/</span>；物：<span data-say=\"which\">which</span> <span>/wɪtʃ/</span> / <span data-say=\"that\">that</span> <span>/ðæt/</span>；地点：<span data-say=\"where\">where</span> <span>/weə(r)/</span></td><td>the manager <b>that</b> we had seen（2025Q16）＝我们见过的那位经理</td></tr>\n<tr><td>主语从句</td><td>空格在句首，后面跟着谓语</td><td><span data-say=\"Whoever\">Whoever</span> <span>/huːˈevə(r)/</span>（人，作主语）／ <span data-say=\"What\">What</span> <span>/wɒt/</span>（物）／ <span data-say=\"That\">That</span> <span>/ðæt/</span></td><td><b>Whoever</b> is late for the exam...（2025Q7）＝考试迟到的人……</td></tr>\n<tr><td>状语从句</td><td>两个完整句子之间</td><td>让步用 <span data-say=\"while\">while</span> <span>/waɪl/</span>／<span data-say=\"although\">although</span> <span>/ɔːlˈðəʊ/</span>；条件用 <span data-say=\"unless\">unless</span> <span>/ənˈles/</span>／<span data-say=\"if\">if</span> <span>/ɪf/</span>；地点用 <span data-say=\"wherever\">wherever</span> <span>/weərˈevə(r)/</span></td><td><b>While</b> there was no evidence...（2025Q14）＝尽管没有证据……</td></tr></table>\n必考点 2 · 非谓语动词（每年约 1.8 题）\n<table><tr><th>结构</th><th>含义</th><th>记忆点（点读）</th></tr>\n<tr><td><b>have sth. done</b></td><td>让某事被做</td><td>have my hair <b>cut</b>（2025Q9）<span>/kʌt/</span> ＝让人给我理发</td></tr>\n<tr><td><b>with + 宾语 + 现在分词</b></td><td>主动、正在进行</td><td>With tears <b>streaming</b> down her face（2024Q17）<span>/ˈstriːmɪŋ/</span> ＝泪水从她脸上流下</td></tr>\n<tr><td><b>need doing</b></td><td>＝ need to be done（被动含义）</td><td>his clothes need <b>replacing</b>（2024Q10）<span>/rɪˈpleɪsɪŋ/</span> ＝他的衣服需要换洗</td></tr>\n<tr><td><b>to do 作目的状语</b></td><td>为了……</td><td><b>To complete</b> the project on time...（2025Q8）<span>/kəmˈpliːt/</span> ＝为了按时完成项目……</td></tr></table>\n<div><b>一句话判断法</b>：空格前是名词/代词、且有\"被\"的意思 → 用 <b>done</b>；主动且进行 → 用 <b>doing</b>；表目的 → 用 <b>to do</b>。</div>\n必考点 3 · 高频固定搭配（12 年真题考过的原词，直接背）\n<div>\n<div><span>1</span><span data-say=\"be open to\">be open to</span> <span>/biː ˈəʊpən tuː/</span> — <span>愿意接受</span><span>2024Q13</span></div>\n<div><span>2</span><span data-say=\"be relieved of\">be relieved of</span> <span>/biː rɪˈliːvd ɒv/</span> — <span>解除、摆脱</span><span>2025Q11</span></div>\n<div><span>3</span><span data-say=\"liberate somebody from\">liberate sb. from</span> <span>/ˈlɪbəreɪt</span> ... <span>frəm/</span> — <span>使某人从……中解脱</span><span>2025Q13</span></div>\n<div><span>4</span><span data-say=\"have an effect upon\">have an effect upon</span> <span>/hæv ən ɪˈfekt əˈpɒn/</span> — <span>对……有影响</span><span>2023Q8</span></div>\n<div><span>5</span><span data-say=\"under the shadow of\">under the shadow of</span> <span>/ˈʌndə(r) ðə ˈʃædəʊ ɒv/</span> — <span>在……的阴影下</span><span>2024Q16</span></div>\n<div><span>6</span><span data-say=\"play a role in\">play a role in</span> <span>/pleɪ ə rəʊl ɪn/</span> — <span>在……中起作用</span><span>2020Q7</span></div>\n<div><span>7</span><span data-say=\"differ from\">differ from</span> <span>/ˈdɪfə(r) frəm/</span> — <span>与……不同</span><span>2022Q8</span></div>\n<div><span>8</span><span data-say=\"distinguish A from B\">distinguish A from B</span> <span>/dɪˈstɪŋɡwɪʃ</span> ... <span>frəm/</span> — <span>区分 A 和 B</span><span>2019Q9</span></div>\n<div><span>9</span><span data-say=\"would rather than\">would rather...than</span> <span>/wʊd ˈrɑːðə(r) ðæn/</span> — <span>宁愿……而不愿</span><span>2019Q11</span></div>\n<div><span>10</span><span data-say=\"confronted with\">confronted with</span> <span>/kənˈfrʌntɪd wɪð/</span> — <span>面对……</span><span>2017Q18</span></div>\n<div><span>11</span><span data-say=\"somewhere in one's\">somewhere in one's</span> <span>/ˈsʌmweə(r) ɪn</span> ...<span>/</span> — <span>大约（年龄）……岁</span><span>2018Q11</span></div>\n<div><span>12</span><span data-say=\"of one's own age\">of one's own age</span> <span>/əv wʌnz əʊn eɪdʒ/</span> — <span>同龄的</span><span>2014Q15</span></div>\n</div>\n<div><span data-say=\"be open to. be relieved of. liberate somebody from. have an effect upon. under the shadow of. play a role in. differ from. distinguish A from B. would rather than. confronted with. somewhere in one's. of one's own age.\">🔊 连读 12 条固定搭配</span></div>\n<div><b>虚拟语气的信号词</b>（12 年考了 3 次，看到就选动词原形）：<span data-say=\"recommend\">recommend</span> <span>/ˌrekəˈmend/</span> 建议 / <span data-say=\"require\">require</span> <span>/rɪˈkwaɪə(r)/</span> 要求 / <span data-say=\"suggest\">suggest</span> <span>/səˈdʒest/</span> 建议 / <span data-say=\"demand\">demand</span> <span>/dɪˈmɑːnd/</span> 要求 / <span data-say=\"insist\">insist</span> <span>/ɪnˈsɪst/</span> 坚持 + that + 主语 + <b>(should) + 动词原形</b>。如 2025Q20 \"recommends that the patient <b>follow</b>\"、2024Q7 \"requires that students <b>return</b>\"。</div>",
+        "content": "<div><b>12 年 180 道词汇语法题的考点分布：</b>词义/语境辨析 37.8% · <b>从句 19.4%</b> · <b>固定搭配/介词 16.1%</b> · <b>非谓语动词 11.7%</b> · 时态语态 7.2% · 比较级 3.3% · 其他 4.5%。<b>从句 + 固定搭配 + 非谓语 = 47%，是唯一值得速成的三块。</b>（词义辨析占最大头但靠长期积累，不追）</div>\n<h4>必考点 1 · 三大从句（每年约 2.9 题）</h4>\n<table><tr><th>类型</th><th>怎么认</th><th>选谁（点读）</th><th>真题例（中文）</th></tr>\n<tr><td>定语从句</td><td>空格在名词后，从句缺主语/宾语/定语</td><td>人：<span data-say=\"who\">who</span> <span>/huː/</span> / <span data-say=\"whom\">whom</span> <span>/huːm/</span> / <span data-say=\"whose\">whose</span> <span>/huːz/</span>；物：<span data-say=\"which\">which</span> <span>/wɪtʃ/</span> / <span data-say=\"that\">that</span> <span>/ðæt/</span>；地点：<span data-say=\"where\">where</span> <span>/weə(r)/</span></td><td>the manager <b>that</b> we had seen（2025Q16）＝我们见过的那位经理</td></tr>\n<tr><td>主语从句</td><td>空格在句首，后面跟着谓语</td><td><span data-say=\"Whoever\">Whoever</span> <span>/huːˈevə(r)/</span>（人，作主语）／ <span data-say=\"What\">What</span> <span>/wɒt/</span>（物）／ <span data-say=\"That\">That</span> <span>/ðæt/</span></td><td><b>Whoever</b> is late for the exam...（2025Q7）＝考试迟到的人……</td></tr>\n<tr><td>状语从句</td><td>两个完整句子之间</td><td>让步用 <span data-say=\"while\">while</span> <span>/waɪl/</span>／<span data-say=\"although\">although</span> <span>/ɔːlˈðəʊ/</span>；条件用 <span data-say=\"unless\">unless</span> <span>/ənˈles/</span>／<span data-say=\"if\">if</span> <span>/ɪf/</span>；地点用 <span data-say=\"wherever\">wherever</span> <span>/weərˈevə(r)/</span></td><td><b>While</b> there was no evidence...（2025Q14）＝尽管没有证据……</td></tr></table>\n<h4>必考点 2 · 非谓语动词（每年约 1.8 题）</h4>\n<table><tr><th>结构</th><th>含义</th><th>记忆点（点读）</th></tr>\n<tr><td><b>have sth. done</b></td><td>让某事被做</td><td>have my hair <b>cut</b>（2025Q9）<span>/kʌt/</span> ＝让人给我理发</td></tr>\n<tr><td><b>with + 宾语 + 现在分词</b></td><td>主动、正在进行</td><td>With tears <b>streaming</b> down her face（2024Q17）<span>/ˈstriːmɪŋ/</span> ＝泪水从她脸上流下</td></tr>\n<tr><td><b>need doing</b></td><td>＝ need to be done（被动含义）</td><td>his clothes need <b>replacing</b>（2024Q10）<span>/rɪˈpleɪsɪŋ/</span> ＝他的衣服需要换洗</td></tr>\n<tr><td><b>to do 作目的状语</b></td><td>为了……</td><td><b>To complete</b> the project on time...（2025Q8）<span>/kəmˈpliːt/</span> ＝为了按时完成项目……</td></tr></table>\n<div><b>一句话判断法</b>：空格前是名词/代词、且有\"被\"的意思 → 用 <b>done</b>；主动且进行 → 用 <b>doing</b>；表目的 → 用 <b>to do</b>。</div>\n<h4>必考点 3 · 高频固定搭配（12 年真题考过的原词，直接背）</h4>\n<div>\n<div><span class=\"mr-no\">1</span><span data-say=\"be open to\">be open to</span> <span>/biː ˈəʊpən tuː/</span> — <span>愿意接受</span><span>2024Q13</span></div>\n<div><span class=\"mr-no\">2</span><span data-say=\"be relieved of\">be relieved of</span> <span>/biː rɪˈliːvd ɒv/</span> — <span>解除、摆脱</span><span>2025Q11</span></div>\n<div><span class=\"mr-no\">3</span><span data-say=\"liberate somebody from\">liberate sb. from</span> <span>/ˈlɪbəreɪt</span> ... <span>frəm/</span> — <span>使某人从……中解脱</span><span>2025Q13</span></div>\n<div><span class=\"mr-no\">4</span><span data-say=\"have an effect upon\">have an effect upon</span> <span>/hæv ən ɪˈfekt əˈpɒn/</span> — <span>对……有影响</span><span>2023Q8</span></div>\n<div><span class=\"mr-no\">5</span><span data-say=\"under the shadow of\">under the shadow of</span> <span>/ˈʌndə(r) ðə ˈʃædəʊ ɒv/</span> — <span>在……的阴影下</span><span>2024Q16</span></div>\n<div><span class=\"mr-no\">6</span><span data-say=\"play a role in\">play a role in</span> <span>/pleɪ ə rəʊl ɪn/</span> — <span>在……中起作用</span><span>2020Q7</span></div>\n<div><span class=\"mr-no\">7</span><span data-say=\"differ from\">differ from</span> <span>/ˈdɪfə(r) frəm/</span> — <span>与……不同</span><span>2022Q8</span></div>\n<div><span class=\"mr-no\">8</span><span data-say=\"distinguish A from B\">distinguish A from B</span> <span>/dɪˈstɪŋɡwɪʃ</span> ... <span>frəm/</span> — <span>区分 A 和 B</span><span>2019Q9</span></div>\n<div><span class=\"mr-no\">9</span><span data-say=\"would rather than\">would rather...than</span> <span>/wʊd ˈrɑːðə(r) ðæn/</span> — <span>宁愿……而不愿</span><span>2019Q11</span></div>\n<div><span class=\"mr-no\">10</span><span data-say=\"confronted with\">confronted with</span> <span>/kənˈfrʌntɪd wɪð/</span> — <span>面对……</span><span>2017Q18</span></div>\n<div><span class=\"mr-no\">11</span><span data-say=\"somewhere in one's\">somewhere in one's</span> <span>/ˈsʌmweə(r) ɪn</span> ...<span>/</span> — <span>大约（年龄）……岁</span><span>2018Q11</span></div>\n<div><span class=\"mr-no\">12</span><span data-say=\"of one's own age\">of one's own age</span> <span>/əv wʌnz əʊn eɪdʒ/</span> — <span>同龄的</span><span>2014Q15</span></div>\n</div>\n<div><span data-say=\"be open to. be relieved of. liberate somebody from. have an effect upon. under the shadow of. play a role in. differ from. distinguish A from B. would rather than. confronted with. somewhere in one's. of one's own age.\">🔊 连读 12 条固定搭配</span></div>\n<div><b>虚拟语气的信号词</b>（12 年考了 3 次，看到就选动词原形）：<span data-say=\"recommend\">recommend</span> <span>/ˌrekəˈmend/</span> 建议 / <span data-say=\"require\">require</span> <span>/rɪˈkwaɪə(r)/</span> 要求 / <span data-say=\"suggest\">suggest</span> <span>/səˈdʒest/</span> 建议 / <span data-say=\"demand\">demand</span> <span>/dɪˈmɑːnd/</span> 要求 / <span data-say=\"insist\">insist</span> <span>/ɪnˈsɪst/</span> 坚持 + that + 主语 + <b>(should) + 动词原形</b>。如 2025Q20 \"recommends that the patient <b>follow</b>\"、2024Q7 \"requires that students <b>return</b>\"。</div>",
         "itemType": "MATERIAL",
         "sortOrder": 700000,
         "source": null,
@@ -7309,7 +7312,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "九、完形填空 30 分：最难，只求拿 10 分",
-        "content": "<div><b>这是全卷最难速成的部分，不要投入过多时间。</b>12 年 180 道完形题的考点：<b>词义辨析 9.67 题/年（64%）</b>、上下文语境 3.08 题/年、语法功能 1.17 题/年、固定搭配 1.08 题/年。词义辨析拼的是词汇量，短期难提升。</div>\n能捞分的 4 个技巧\n<table><tr><th>#</th><th>技巧</th><th>说明</th></tr><tr><td>1</td><td>先通读全文（1 分钟）</td><td>抓大意和时态，不要一上来就填空</td></tr><tr><td>2</td><td>看空格前后 1-2 句</td><td>答案线索 80% 就在前后句，尤其注意 <b>but / however / so / because</b> 这类逻辑词</td></tr><tr><td>3</td><td>固定搭配优先</td><td>像 make / take / have / give + 名词 的搭配，背过就能秒选</td></tr><tr><td>4</td><td>同词性四选一，用感情色彩排除</td><td>先判断该空要\"正面词\"还是\"负面词\"，能砍掉一半选项</td></tr></table>\n<div><b>合理预期</b>：15 题对 5-6 题 = 10-12 分。如果时间不够，<b>不要为了完形放弃阅读</b>——阅读一题 3 分，完形一题只有 2 分。</div>",
+        "content": "<div><b>这是全卷最难速成的部分，不要投入过多时间。</b>12 年 180 道完形题的考点：<b>词义辨析 9.67 题/年（64%）</b>、上下文语境 3.08 题/年、语法功能 1.17 题/年、固定搭配 1.08 题/年。词义辨析拼的是词汇量，短期难提升。</div>\n<h4>能捞分的 4 个技巧</h4>\n<table><tr><th>#</th><th>技巧</th><th>说明</th></tr><tr><td>1</td><td>先通读全文（1 分钟）</td><td>抓大意和时态，不要一上来就填空</td></tr><tr><td>2</td><td>看空格前后 1-2 句</td><td>答案线索 80% 就在前后句，尤其注意 <b>but / however / so / because</b> 这类逻辑词</td></tr><tr><td>3</td><td>固定搭配优先</td><td>像 make / take / have / give + 名词 的搭配，背过就能秒选</td></tr><tr><td>4</td><td>同词性四选一，用感情色彩排除</td><td>先判断该空要\"正面词\"还是\"负面词\"，能砍掉一半选项</td></tr></table>\n<div><b>合理预期</b>：15 题对 5-6 题 = 10-12 分。如果时间不够，<b>不要为了完形放弃阅读</b>——阅读一题 3 分，完形一题只有 2 分。</div>",
         "itemType": "MATERIAL",
         "sortOrder": 800000,
         "source": null,
@@ -9217,7 +9220,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "二、核心发现：12 道选择题里，约 9 道是「套模板」题",
-        "content": "<p>把 2024、2025 两年真题的每一道选择题逐一判定——只看「几步能出答案、套路是否固定」。</p>\n\n2024 年 12 题逐题判定\n<table><tr><th>题号</th><th>考点</th><th>解法一句话</th><th>步数</th><th>判定</th></tr><tr><td>1</td><td>极限：由 $\\lim\\limits_{x\\to 0}\\dfrac{1-e^{kx}}{x}=2$ 求 $k$</td><td>等价无穷小 $1-e^{kx}\\sim -kx\\ (x\\to 0)$</td><td>1</td><td><span>模板</span></td></tr><tr><td>2</td><td>无穷小比较：$\\ln(1+2x^{2})$ 是 $x$ 的几阶无穷小</td><td>$\\ln(1+u)\\sim u$，得 $2x^{2}$，除以 $x$ 后为高阶</td><td>1</td><td><span>模板</span></td></tr><tr><td>3</td><td>隐函数求导：$y^{3}+x^{3}-3xy=1$ 求 $f'(0)$</td><td>代 $x=0$ 得 $y=1$ → 两边求导 → 代入</td><td>2</td><td><span>模板</span></td></tr><tr><td>4</td><td>求微分：$y=x\\sin x$，求 $\\left.dy\\right|_{x=1}$</td><td>$y'=\\sin x+x\\cos x$，代值乘 $dx$</td><td>1</td><td><span>模板</span></td></tr><tr><td>5</td><td>法线斜率：$y=\\dfrac{1}{x}$ 在点 $(1,1)$ 处</td><td>$k_{1}=-1\\ \\Rightarrow\\ k_{2}=-\\dfrac{1}{k_{1}}=1$</td><td>1</td><td><span>模板</span></td></tr><tr><td>6</td><td>不定积分：$\\displaystyle\\int (2x+1)^{2}\\,dx$</td><td>展开成多项式后逐项积分</td><td>1</td><td><span>模板</span></td></tr><tr><td>7</td><td>定积分：$\\displaystyle\\int_{0}^{\\pi/2}(\\cos x+\\sin x)\\,dx$</td><td>原函数 $\\sin x-\\cos x$，代上下限</td><td>1</td><td><span>模板</span></td></tr><tr><td>8</td><td>定积分：$\\displaystyle\\int_{0}^{1}\\dfrac{1}{1+x^{2}}\\,dx$</td><td>$=\\arctan x$，得 $\\dfrac{\\pi}{4}$（背公式）</td><td>1</td><td><span>模板</span></td></tr><tr><td>9</td><td>偏导：$z=\\ln(1+xy)$，求 $\\dfrac{\\partial z}{\\partial y}$</td><td>视 $x$ 为常数，$=\\dfrac{x}{1+xy}$</td><td>1</td><td><span>模板</span></td></tr><tr><td>10</td><td>混合偏导：$z=xy+\\dfrac{y}{x}$，求 $\\dfrac{\\partial^{2}z}{\\partial x\\partial y}$</td><td>先对 $x$ 求导再对 $y$ 求导，两步</td><td>2</td><td><span>模板</span></td></tr><tr><td>11</td><td>闭区间最值：$f(x)=2x^{3}+3x^{2}-12x+14$ 在 $[-3,4]$ 上</td><td>求导找驻点 → 比较驻点值与端点值</td><td>3</td><td><span>能力</span></td></tr><tr><td>12</td><td>二阶常系数方程通解：$y''-6y'+9y=0$</td><td>特征根 $r=3$（二重）$\\Rightarrow\\ y=(C_{1}+C_{2}x)e^{3x}$</td><td>1</td><td><span>模板</span></td></tr></table>\n<div>2024：<b>模板题 11 道（77 分）</b>，能力题仅 1 道（第 11 题，7 分）。</div>\n\n2025 年 12 题逐题判定\n<table><tr><th>题号</th><th>考点</th><th>解法一句话</th><th>步数</th><th>判定</th></tr><tr><td>1</td><td>复合求导：$f(x)=\\sin 7x$，求 $f'\\!\\left(\\dfrac{\\pi}{7}\\right)$</td><td>$f'(x)=7\\cos 7x$ → 代值 $=-7$</td><td>2</td><td><span>模板</span></td></tr><tr><td>2</td><td>高阶导数：$y=2x^{3}-e^{x}$，求 $y'''$</td><td>逐阶求导 3 次</td><td>1</td><td><span>模板</span></td></tr><tr><td>3</td><td>判断 $\\dfrac{5}{x}\\cos\\dfrac{3}{x}$ 当 $x\\to 0$ 时的性质</td><td>取点列证无界 → 非无穷大（概念题）</td><td>3</td><td><span>能力</span></td></tr><tr><td>4</td><td>数列极限：用夹逼准则求 $S_{n}$ 的极限</td><td>夹逼准则，需构造不等式</td><td>3</td><td><span>能力</span></td></tr><tr><td>5</td><td>定积分几何意义：$y=x^{5}$、$x=1$ 与 $x$ 轴围成图形的面积</td><td>$S=\\displaystyle\\int_{0}^{1}x^{5}\\,dx=\\dfrac{1}{6}$</td><td>1</td><td><span>模板</span></td></tr><tr><td>6</td><td>不定积分：$\\displaystyle\\int\\left(x+\\dfrac{1}{x}\\right)^{2}dx$</td><td>展开后逐项积分</td><td>1</td><td><span>模板</span></td></tr><tr><td>7</td><td>换元积分：$F(x)$ 是 $f(x)$ 的原函数，求 $\\displaystyle\\int e^{2x}f(e^{2x})\\,dx$</td><td>令 $u=e^{2x}$ $\\Rightarrow\\ \\dfrac{1}{2}F(e^{2x})+C$</td><td>2</td><td><span>模板</span></td></tr><tr><td>8</td><td>广义积分：$\\displaystyle\\int_{0}^{+\\infty}\\dfrac{1}{(x+5)^{2}}\\,dx$</td><td>求原函数 → 取极限 $=\\dfrac{1}{5}$</td><td>1</td><td><span>模板</span></td></tr><tr><td>9</td><td>定积分：$\\displaystyle\\int_{1}^{4}\\left(x+\\dfrac{1}{x}\\right)dx$</td><td>原函数 $\\dfrac{x^{2}}{2}+\\ln x$，代上下限</td><td>1</td><td><span>模板</span></td></tr><tr><td>10</td><td>球面方程：直径端点为 $(2,-3,5)$、$(4,1,-1)$</td><td>中点即球心 → 半距求 $R^{2}$</td><td>2</td><td><span>模板</span></td></tr><tr><td>11</td><td>收敛半径：$\\displaystyle\\sum_{n=1}^{\\infty}\\dfrac{(3x-1)^{n}}{\\sqrt{n}}$</td><td>换元 $t=3x-1$，$R_{t}=1$ → 原 $R=\\dfrac{1}{3}$</td><td>2</td><td><span>模板</span></td></tr><tr><td>12</td><td>二元函数连续：求分式在 $(0,0)$ 处应取的 $a$</td><td>令 $t=xy$ → 等价无穷小展开</td><td>3</td><td><span>能力</span></td></tr></table>\n<div>2025：<b>模板题 9 道（63 分）</b>，能力题 3 道（第 3、4、12 题，21 分）。</div>\n<div>\n<b>两年取保守值：<span>9 题 × 7 分 = 63 分</span> 属于「背了公式就能做对」的题。</b><br>\n而这个数字已经把最难的一年（2025）算进去了。也就是说：<b>你只要把 4 类模板练熟，选择题就能拿 56—63 分，\n在 150 分卷里已经超过保底目标 50 分。</b>\n</div>\n\n模板题的四个「家族」（按出现频次）\n<table>\n<tr><th>家族</th><th>两年出现在</th><th>占模板题比例</th><th>特点</th></tr>\n<tr><td><b>① 积分计算</b></td><td>2024 第 6/7/8 题\\quad 2025 第 5/6/7/8/9 题</td><td><b>40%</b></td><td>公式直用 + 展开 + 代上下限，<b>0 思考量</b></td></tr>\n<tr><td><b>② 求导计算</b></td><td>2024 第 3/4/5 题\\quad 2025 第 1/2 题</td><td>25%</td><td>复合 / 高阶 / 隐函数 / 微分 $dy$ / 切线斜率</td></tr>\n<tr><td><b>③ 极限计算</b></td><td>2024 第 1/2 题</td><td>10%</td><td>等价无穷小 + 重要极限，最多两步</td></tr>\n<tr><td><b>④ 公式直用</b></td><td>2024 第 9/10/12 题\\quad 2025 第 10/11 题</td><td>25%</td><td>偏导 / 全微分 / 收敛半径 / 球面 / 二阶常微分方程</td></tr>\n</table>\n<div>\n<b>记住这个投入产出比</b>：<b>只练「积分 + 求导」两个家族，就能覆盖模板题的 65%（13/20 道），约合选择题 42—49 分</b>。\n极限和公式直用型各只需半天。这四块加起来的学习量，远小于「把教材过一遍」。\n</div>",
+        "content": "<p>把 2024、2025 两年真题的每一道选择题逐一判定——只看「几步能出答案、套路是否固定」。</p>\n\n<h4>2024 年 12 题逐题判定</h4>\n<table><tr><th>题号</th><th>考点</th><th>解法一句话</th><th>步数</th><th>判定</th></tr><tr><td>1</td><td>极限：由 $\\lim\\limits_{x\\to 0}\\dfrac{1-e^{kx}}{x}=2$ 求 $k$</td><td>等价无穷小 $1-e^{kx}\\sim -kx\\ (x\\to 0)$</td><td>1</td><td><span>模板</span></td></tr><tr><td>2</td><td>无穷小比较：$\\ln(1+2x^{2})$ 是 $x$ 的几阶无穷小</td><td>$\\ln(1+u)\\sim u$，得 $2x^{2}$，除以 $x$ 后为高阶</td><td>1</td><td><span>模板</span></td></tr><tr><td>3</td><td>隐函数求导：$y^{3}+x^{3}-3xy=1$ 求 $f'(0)$</td><td>代 $x=0$ 得 $y=1$ → 两边求导 → 代入</td><td>2</td><td><span>模板</span></td></tr><tr><td>4</td><td>求微分：$y=x\\sin x$，求 $\\left.dy\\right|_{x=1}$</td><td>$y'=\\sin x+x\\cos x$，代值乘 $dx$</td><td>1</td><td><span>模板</span></td></tr><tr><td>5</td><td>法线斜率：$y=\\dfrac{1}{x}$ 在点 $(1,1)$ 处</td><td>$k_{1}=-1\\ \\Rightarrow\\ k_{2}=-\\dfrac{1}{k_{1}}=1$</td><td>1</td><td><span>模板</span></td></tr><tr><td>6</td><td>不定积分：$\\displaystyle\\int (2x+1)^{2}\\,dx$</td><td>展开成多项式后逐项积分</td><td>1</td><td><span>模板</span></td></tr><tr><td>7</td><td>定积分：$\\displaystyle\\int_{0}^{\\pi/2}(\\cos x+\\sin x)\\,dx$</td><td>原函数 $\\sin x-\\cos x$，代上下限</td><td>1</td><td><span>模板</span></td></tr><tr><td>8</td><td>定积分：$\\displaystyle\\int_{0}^{1}\\dfrac{1}{1+x^{2}}\\,dx$</td><td>$=\\arctan x$，得 $\\dfrac{\\pi}{4}$（背公式）</td><td>1</td><td><span>模板</span></td></tr><tr><td>9</td><td>偏导：$z=\\ln(1+xy)$，求 $\\dfrac{\\partial z}{\\partial y}$</td><td>视 $x$ 为常数，$=\\dfrac{x}{1+xy}$</td><td>1</td><td><span>模板</span></td></tr><tr><td>10</td><td>混合偏导：$z=xy+\\dfrac{y}{x}$，求 $\\dfrac{\\partial^{2}z}{\\partial x\\partial y}$</td><td>先对 $x$ 求导再对 $y$ 求导，两步</td><td>2</td><td><span>模板</span></td></tr><tr><td>11</td><td>闭区间最值：$f(x)=2x^{3}+3x^{2}-12x+14$ 在 $[-3,4]$ 上</td><td>求导找驻点 → 比较驻点值与端点值</td><td>3</td><td><span>能力</span></td></tr><tr><td>12</td><td>二阶常系数方程通解：$y''-6y'+9y=0$</td><td>特征根 $r=3$（二重）$\\Rightarrow\\ y=(C_{1}+C_{2}x)e^{3x}$</td><td>1</td><td><span>模板</span></td></tr></table>\n<div>2024：<b>模板题 11 道（77 分）</b>，能力题仅 1 道（第 11 题，7 分）。</div>\n\n<h4>2025 年 12 题逐题判定</h4>\n<table><tr><th>题号</th><th>考点</th><th>解法一句话</th><th>步数</th><th>判定</th></tr><tr><td>1</td><td>复合求导：$f(x)=\\sin 7x$，求 $f'\\!\\left(\\dfrac{\\pi}{7}\\right)$</td><td>$f'(x)=7\\cos 7x$ → 代值 $=-7$</td><td>2</td><td><span>模板</span></td></tr><tr><td>2</td><td>高阶导数：$y=2x^{3}-e^{x}$，求 $y'''$</td><td>逐阶求导 3 次</td><td>1</td><td><span>模板</span></td></tr><tr><td>3</td><td>判断 $\\dfrac{5}{x}\\cos\\dfrac{3}{x}$ 当 $x\\to 0$ 时的性质</td><td>取点列证无界 → 非无穷大（概念题）</td><td>3</td><td><span>能力</span></td></tr><tr><td>4</td><td>数列极限：用夹逼准则求 $S_{n}$ 的极限</td><td>夹逼准则，需构造不等式</td><td>3</td><td><span>能力</span></td></tr><tr><td>5</td><td>定积分几何意义：$y=x^{5}$、$x=1$ 与 $x$ 轴围成图形的面积</td><td>$S=\\displaystyle\\int_{0}^{1}x^{5}\\,dx=\\dfrac{1}{6}$</td><td>1</td><td><span>模板</span></td></tr><tr><td>6</td><td>不定积分：$\\displaystyle\\int\\left(x+\\dfrac{1}{x}\\right)^{2}dx$</td><td>展开后逐项积分</td><td>1</td><td><span>模板</span></td></tr><tr><td>7</td><td>换元积分：$F(x)$ 是 $f(x)$ 的原函数，求 $\\displaystyle\\int e^{2x}f(e^{2x})\\,dx$</td><td>令 $u=e^{2x}$ $\\Rightarrow\\ \\dfrac{1}{2}F(e^{2x})+C$</td><td>2</td><td><span>模板</span></td></tr><tr><td>8</td><td>广义积分：$\\displaystyle\\int_{0}^{+\\infty}\\dfrac{1}{(x+5)^{2}}\\,dx$</td><td>求原函数 → 取极限 $=\\dfrac{1}{5}$</td><td>1</td><td><span>模板</span></td></tr><tr><td>9</td><td>定积分：$\\displaystyle\\int_{1}^{4}\\left(x+\\dfrac{1}{x}\\right)dx$</td><td>原函数 $\\dfrac{x^{2}}{2}+\\ln x$，代上下限</td><td>1</td><td><span>模板</span></td></tr><tr><td>10</td><td>球面方程：直径端点为 $(2,-3,5)$、$(4,1,-1)$</td><td>中点即球心 → 半距求 $R^{2}$</td><td>2</td><td><span>模板</span></td></tr><tr><td>11</td><td>收敛半径：$\\displaystyle\\sum_{n=1}^{\\infty}\\dfrac{(3x-1)^{n}}{\\sqrt{n}}$</td><td>换元 $t=3x-1$，$R_{t}=1$ → 原 $R=\\dfrac{1}{3}$</td><td>2</td><td><span>模板</span></td></tr><tr><td>12</td><td>二元函数连续：求分式在 $(0,0)$ 处应取的 $a$</td><td>令 $t=xy$ → 等价无穷小展开</td><td>3</td><td><span>能力</span></td></tr></table>\n<div>2025：<b>模板题 9 道（63 分）</b>，能力题 3 道（第 3、4、12 题，21 分）。</div>\n<div>\n<b>两年取保守值：<span>9 题 × 7 分 = 63 分</span> 属于「背了公式就能做对」的题。</b><br>\n而这个数字已经把最难的一年（2025）算进去了。也就是说：<b>你只要把 4 类模板练熟，选择题就能拿 56—63 分，\n在 150 分卷里已经超过保底目标 50 分。</b>\n</div>\n\n<h4>模板题的四个「家族」（按出现频次）</h4>\n<table>\n<tr><th>家族</th><th>两年出现在</th><th>占模板题比例</th><th>特点</th></tr>\n<tr><td><b>① 积分计算</b></td><td>2024 第 6/7/8 题\\quad 2025 第 5/6/7/8/9 题</td><td><b>40%</b></td><td>公式直用 + 展开 + 代上下限，<b>0 思考量</b></td></tr>\n<tr><td><b>② 求导计算</b></td><td>2024 第 3/4/5 题\\quad 2025 第 1/2 题</td><td>25%</td><td>复合 / 高阶 / 隐函数 / 微分 $dy$ / 切线斜率</td></tr>\n<tr><td><b>③ 极限计算</b></td><td>2024 第 1/2 题</td><td>10%</td><td>等价无穷小 + 重要极限，最多两步</td></tr>\n<tr><td><b>④ 公式直用</b></td><td>2024 第 9/10/12 题\\quad 2025 第 10/11 题</td><td>25%</td><td>偏导 / 全微分 / 收敛半径 / 球面 / 二阶常微分方程</td></tr>\n</table>\n<div>\n<b>记住这个投入产出比</b>：<b>只练「积分 + 求导」两个家族，就能覆盖模板题的 65%（13/20 道），约合选择题 42—49 分</b>。\n极限和公式直用型各只需半天。这四块加起来的学习量，远小于「把教材过一遍」。\n</div>",
         "itemType": "MATERIAL",
         "sortOrder": 100000,
         "source": null,
@@ -9234,7 +9237,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "三、目标与预期：保底 50 分，现实 78—95 分",
-        "content": "3.1\\quad 先定保底线：三条路径，按你剩下的时间选\n<table>\n<tr><th>路径</th><th>怎么拿</th><th>算式</th><th>建议</th></tr>\n<tr><td><b>A · 最省力</b></td><td>选择题做对 8 题</td><td>$8\\times 7=\\mathbf{56}$ 分</td>\n<td><span>首推</span> 只练选择题模板，5 周里用 3 周即可达成，性价比最高</td></tr>\n<tr><td><b>B · 稳妥</b></td><td>选择题 7 题 + 填空题 1 题</td><td>$49+7=\\mathbf{56}$ 分</td>\n<td>填空题里「凑微分」「求导为零」两类最容易，练 2 天就能锁定 1 题</td></tr>\n<tr><td><b>C · 有野心</b></td><td>选择 8 题 + 填空 2 题 + 解答第 1 题拿步骤分</td><td>$56+14+6=\\mathbf{76}$ 分</td>\n<td>解答题每题 15 分，<b>写出公式和第一步就有分</b>，别留空白</td></tr>\n</table>\n\n3.2\\quad 再算预期值：按方案走完 5 周，大概能拿多少\n<p>「保底 50 分」是最低线，不是终点。下面是按执行程度分档的预期落点——注意看第三行，那是本方案的正常预期。</p>\n<table>\n<tr><th>执行程度</th><th>选择题<br>84</th><th>填空题<br>21</th><th>解答题<br>45</th><th>预期总分</th><th>说明</th></tr>\n<tr><td>完全裸考（全靠蒙）</td><td>21</td><td>4</td><td>3</td><td><b>约 28 分</b></td>\n<td>选择题按 $1/4$ 概率蒙；填空、解答基本拿不到</td></tr>\n<tr><td>只背公式卡、不练真题</td><td>42—49</td><td>7</td><td>5—8</td><td><b>54—64 分</b></td>\n<td>公式记住了但用不熟，容易算错、忘 $+C$、符号出错</td></tr>\n<tr><td><b>按方案执行（主攻选择题）</b></td><td><b>56—63</b></td><td><b>7—14</b></td><td><b>15—18</b></td><td><b>78—95 分</b></td>\n<td><b>⭐ 本方案的现实落点，中位约 81 分</b>。每天 1.5—2 小时即可</td></tr>\n<tr><td>执行到位（练透二重积分）</td><td>63—70</td><td>14—21</td><td>21—30</td><td><b>98—121 分</b></td>\n<td>需要每天 2 小时以上，且把 11 道二重积分真题全做透</td></tr>\n</table>\n<div>\n<b>为什么预期能到 80 分以上</b>：选择题 84 分里有 63 分是「背了公式就会」的模板题，\n这一块稳定拿下 8—9 题就是 56—63 分；再加填空题最易的 1—2 题（7—14 分）、\n解答题里唯一能提前锁定的二重积分（12—15 分）和另两题的步骤分（3—6 分）——加总就是 78—98 分。\n<b>预期区间取保守值 78—95 分。</b>\n</div>\n\n3.3\\quad 预期得分来自哪里（逐题型拆解）\n<table>\n<tr><th>题型</th><th>满分</th><th>预期做对</th><th>预期得分</th><th>依据</th></tr>\n<tr><td>选择题 · 模板题</td><td>63<br><span>9 题 × 7</span></td><td>8 题</td><td><b>56</b></td>\n<td>2024、2025 两年模板题各占 11 题、9 题，题型高度重复，练熟即得分</td></tr>\n<tr><td>选择题 · 能力题</td><td>21<br><span>3 题 × 7</span></td><td>1 题</td><td><b>7</b></td>\n<td>看到夹逼、无界判定这类先标记跳过，排除 2 项后蒙，命中率约 $1/3$</td></tr>\n<tr><td>填空题</td><td>21<br><span>3 题 × 7</span></td><td>1—2 题</td><td><b>7—14</b></td>\n<td>只练「凑微分 + 全微分」两类，这两类在两年真题里都出现过</td></tr>\n<tr><td>解答题 · 二重积分</td><td>15<br><span>1 题</span></td><td>拿 12 分</td><td><b>12</b></td>\n<td>11 套卷 100% 命中，练透四步法就能拿，算错也有过程分</td></tr>\n<tr><td>解答题 · 另两题</td><td>30<br><span>2 题</span></td><td>步骤分</td><td><b>6</b></td>\n<td>写出公式 + 第一步就有 3~6 分，<b>绝不空题</b></td></tr>\n<tr><td><b>合计（中位预期）</b></td><td><b>81 / 150</b></td><td>区间 78—95 分；「选择·能力题」7 分未计入中位，计入则约 88—95 分</td></tr>\n</table>\n<div>\n  <div>整卷满分构成（150 分）</div>\n<div>\n    <div>选择题 84</div>\n<div>填空 21</div>\n<div>解答 45</div>\n  </div>\n<div>按方案执行的预期得分（约 81 分）</div>\n<div>\n    <div>选择题 56</div>\n<div>7</div>\n<div>18</div>\n<div>未拿到 ≈ 69 分</div>\n  </div>\n<div><i></i>选择题 <i></i>填空题 <i></i>解答题 <i></i>未拿到</div>\n</div>\n<div>\n<b>看这张图的两个结论</b>：① 你先要啃的是<b>最左边那一大块（选择题 84 分）</b>，它决定了整卷的成败；\n② 预期 81 分意味着<b>仍有约 69 分拿不到</b>——这不是失败，而是这套方案主动舍弃的部分（难题、证明、部分分式等），\n<b>把时间集中在能拿分的地方，才是 5 周内最合理的选择。</b>\n</div>\n\n3.4\\quad 明确不要做的事（时间不够时的取舍）\n<div>\n<ul>\n<li><b>不要</b>系统学「微分中值定理」——11 年真题里零命中（只作理论背景）。</li>\n<li><b>不要</b>花时间在「有理函数部分分式积分」「条件极值 / 拉格朗日乘数法」——真题从未直接考。</li>\n<li><b>不要</b>去啃证明题的通用技巧——三年才考 3 次，且都是「构造辅助函数求最值」同一招。</li>\n<li><b>不要</b>做机构 28 题旧结构卷的「时间模拟」——结构不对，只会打乱节奏。</li>\n</ul>\n</div>",
+        "content": "<h4>3.1\\quad 先定保底线：三条路径，按你剩下的时间选</h4>\n<table>\n<tr><th>路径</th><th>怎么拿</th><th>算式</th><th>建议</th></tr>\n<tr><td><b>A · 最省力</b></td><td>选择题做对 8 题</td><td>$8\\times 7=\\mathbf{56}$ 分</td>\n<td><span>首推</span> 只练选择题模板，5 周里用 3 周即可达成，性价比最高</td></tr>\n<tr><td><b>B · 稳妥</b></td><td>选择题 7 题 + 填空题 1 题</td><td>$49+7=\\mathbf{56}$ 分</td>\n<td>填空题里「凑微分」「求导为零」两类最容易，练 2 天就能锁定 1 题</td></tr>\n<tr><td><b>C · 有野心</b></td><td>选择 8 题 + 填空 2 题 + 解答第 1 题拿步骤分</td><td>$56+14+6=\\mathbf{76}$ 分</td>\n<td>解答题每题 15 分，<b>写出公式和第一步就有分</b>，别留空白</td></tr>\n</table>\n\n<h4>3.2\\quad 再算预期值：按方案走完 5 周，大概能拿多少</h4>\n<p>「保底 50 分」是最低线，不是终点。下面是按执行程度分档的预期落点——注意看第三行，那是本方案的正常预期。</p>\n<table>\n<tr><th>执行程度</th><th>选择题<br>84</th><th>填空题<br>21</th><th>解答题<br>45</th><th>预期总分</th><th>说明</th></tr>\n<tr><td>完全裸考（全靠蒙）</td><td>21</td><td>4</td><td>3</td><td><b>约 28 分</b></td>\n<td>选择题按 $1/4$ 概率蒙；填空、解答基本拿不到</td></tr>\n<tr><td>只背公式卡、不练真题</td><td>42—49</td><td>7</td><td>5—8</td><td><b>54—64 分</b></td>\n<td>公式记住了但用不熟，容易算错、忘 $+C$、符号出错</td></tr>\n<tr><td><b>按方案执行（主攻选择题）</b></td><td><b>56—63</b></td><td><b>7—14</b></td><td><b>15—18</b></td><td><b>78—95 分</b></td>\n<td><b>⭐ 本方案的现实落点，中位约 81 分</b>。每天 1.5—2 小时即可</td></tr>\n<tr><td>执行到位（练透二重积分）</td><td>63—70</td><td>14—21</td><td>21—30</td><td><b>98—121 分</b></td>\n<td>需要每天 2 小时以上，且把 11 道二重积分真题全做透</td></tr>\n</table>\n<div>\n<b>为什么预期能到 80 分以上</b>：选择题 84 分里有 63 分是「背了公式就会」的模板题，\n这一块稳定拿下 8—9 题就是 56—63 分；再加填空题最易的 1—2 题（7—14 分）、\n解答题里唯一能提前锁定的二重积分（12—15 分）和另两题的步骤分（3—6 分）——加总就是 78—98 分。\n<b>预期区间取保守值 78—95 分。</b>\n</div>\n\n<h4>3.3\\quad 预期得分来自哪里（逐题型拆解）</h4>\n<table>\n<tr><th>题型</th><th>满分</th><th>预期做对</th><th>预期得分</th><th>依据</th></tr>\n<tr><td>选择题 · 模板题</td><td>63<br><span>9 题 × 7</span></td><td>8 题</td><td><b>56</b></td>\n<td>2024、2025 两年模板题各占 11 题、9 题，题型高度重复，练熟即得分</td></tr>\n<tr><td>选择题 · 能力题</td><td>21<br><span>3 题 × 7</span></td><td>1 题</td><td><b>7</b></td>\n<td>看到夹逼、无界判定这类先标记跳过，排除 2 项后蒙，命中率约 $1/3$</td></tr>\n<tr><td>填空题</td><td>21<br><span>3 题 × 7</span></td><td>1—2 题</td><td><b>7—14</b></td>\n<td>只练「凑微分 + 全微分」两类，这两类在两年真题里都出现过</td></tr>\n<tr><td>解答题 · 二重积分</td><td>15<br><span>1 题</span></td><td>拿 12 分</td><td><b>12</b></td>\n<td>11 套卷 100% 命中，练透四步法就能拿，算错也有过程分</td></tr>\n<tr><td>解答题 · 另两题</td><td>30<br><span>2 题</span></td><td>步骤分</td><td><b>6</b></td>\n<td>写出公式 + 第一步就有 3~6 分，<b>绝不空题</b></td></tr>\n<tr><td><b>合计（中位预期）</b></td><td><b>81 / 150</b></td><td>区间 78—95 分；「选择·能力题」7 分未计入中位，计入则约 88—95 分</td></tr>\n</table>\n<div>\n  <div>整卷满分构成（150 分）</div>\n<div>\n    <div>选择题 84</div>\n<div>填空 21</div>\n<div>解答 45</div>\n  </div>\n<div>按方案执行的预期得分（约 81 分）</div>\n<div>\n    <div>选择题 56</div>\n<div>7</div>\n<div>18</div>\n<div>未拿到 ≈ 69 分</div>\n  </div>\n<div><i></i>选择题 <i></i>填空题 <i></i>解答题 <i></i>未拿到</div>\n</div>\n<div>\n<b>看这张图的两个结论</b>：① 你先要啃的是<b>最左边那一大块（选择题 84 分）</b>，它决定了整卷的成败；\n② 预期 81 分意味着<b>仍有约 69 分拿不到</b>——这不是失败，而是这套方案主动舍弃的部分（难题、证明、部分分式等），\n<b>把时间集中在能拿分的地方，才是 5 周内最合理的选择。</b>\n</div>\n\n<h4>3.4\\quad 明确不要做的事（时间不够时的取舍）</h4>\n<div>\n<ul>\n<li><b>不要</b>系统学「微分中值定理」——11 年真题里零命中（只作理论背景）。</li>\n<li><b>不要</b>花时间在「有理函数部分分式积分」「条件极值 / 拉格朗日乘数法」——真题从未直接考。</li>\n<li><b>不要</b>去啃证明题的通用技巧——三年才考 3 次，且都是「构造辅助函数求最值」同一招。</li>\n<li><b>不要</b>做机构 28 题旧结构卷的「时间模拟」——结构不对，只会打乱节奏。</li>\n</ul>\n</div>",
         "itemType": "MATERIAL",
         "sortOrder": 200000,
         "source": null,
@@ -9251,7 +9254,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "四、模板族 ① 积分计算（占模板题 40%，最高优先级）",
-        "content": "<div>\n<span>1</span>必背公式卡（这 8 条覆盖 90% 的积分题）\n<div>\n$$\\begin{aligned}\n&\\int x^{a}\\,\\mathrm{d}x=\\frac{x^{a+1}}{a+1}+C\\quad(a\\neq-1) & &\\int \\frac{1}{x}\\,\\mathrm{d}x=\\ln|x|+C\\\\\n&\\int e^{x}\\,\\mathrm{d}x=e^{x}+C & &\\int a^{x}\\,\\mathrm{d}x=\\frac{a^{x}}{\\ln a}+C\\\\\n&\\int \\sin x\\,\\mathrm{d}x=-\\cos x+C & &\\int \\cos x\\,\\mathrm{d}x=\\sin x+C\\\\\n&\\int \\frac{1}{1+x^{2}}\\,\\mathrm{d}x=\\arctan x+C & &\\int \\frac{1}{\\cos^{2}x}\\,\\mathrm{d}x=\\tan x+C\n\\end{aligned}$$\n</div>\n<div><b>关键提醒</b>：写不定积分<b>必须加 $+C$</b>；选择题里如果四个选项都没有 $+C$，说明它在求定积分或原函数特值。</div>\n</div>\n<div>\n<span>2</span>两种「不会做也能做」的套路\n<p><b>套路 A：凑微分（把被积式改写成 $f(u)\\cdot u'$ 的形式）</b></p>\n<div><b>①</b> 找出那个「整体」当 $u$（如 $2x+1$、$2x^{3}$、$e^{2x}$）</div>\n<div><b>②</b> 算 $\\mathrm{d}u=u'\\,\\mathrm{d}x$，把常数系数凑出来</div>\n<div><b>③</b> 变成 $\\displaystyle\\int f(u)\\,\\mathrm{d}u$ 直接套公式</div>\n<div>\n例：$\\displaystyle\\int x^{2}e^{2x^{3}}\\,\\mathrm{d}x$\n\\quad 令 $u=2x^{3}$，则 $\\mathrm{d}u=6x^{2}\\mathrm{d}x$，即 $x^{2}\\mathrm{d}x=\\dfrac{\\mathrm{d}u}{6}$\n$$\\int e^{u}\\cdot\\frac{\\mathrm{d}u}{6}=\\frac{1}{6}e^{u}+C=\\frac{1}{6}e^{2x^{3}}+C$$\n</div>\n<p><b>套路 B：先展开再逐项积（被积式是括号的平方 / 乘积时）</b></p>\n<div>\n例：$\\displaystyle\\int\\left(x+\\frac{1}{x}\\right)^{2}\\mathrm{d}x=\\int\\left(x^{2}+2+\\frac{1}{x^{2}}\\right)\\mathrm{d}x$\n$$=\\frac{x^{3}}{3}+2x-\\frac{1}{x}+C$$\n</div>\n<div><b>看到「括号的幂」先展开</b>，这是命题人送分的方式——2024 的 $\\displaystyle\\int(2x+1)^{2}\\mathrm{d}x$、2025 的 $\\displaystyle\\int\\left(x+\\dfrac{1}{x}\\right)^{2}\\mathrm{d}x$ 都是这么出的。</div>\n</div>\n<div>\n<span>3</span>定积分：牛顿—莱布尼茨公式 + 四个提速技巧\n<div>$$\\int_{a}^{b}f(x)\\,\\mathrm{d}x=F(b)-F(a)\\qquad(F'(x)=f(x))$$</div>\n<table>\n<tr><th>技巧</th><th>内容</th><th>真题</th></tr>\n<tr><td><b>① 奇偶性砍一半</b></td><td>奇函数在对称区间 $[-a,a]$ 上积分 $=0$；偶函数 $=2\\displaystyle\\int_{0}^{a}$</td><td>2024 填空第 16 题 $\\displaystyle\\int_{-1}^{1}(\\arctan x+x^{2})\\,\\mathrm{d}x$，$\\arctan x$ 部分直接扔，$=\\dfrac{2}{3}$</td></tr>\n<tr><td><b>② 展开后逐项积</b></td><td>加减法可拆开算</td><td>2024 第 7 题 $\\displaystyle\\int(\\cos x+\\sin x)\\,\\mathrm{d}x$</td></tr>\n<tr><td><b>③ 背熟特殊值</b></td><td>$\\arctan 1=\\dfrac{\\pi}{4}$，$\\ln 1=0$，$\\sin\\dfrac{\\pi}{2}=1$</td><td>2024 第 8 题得 $\\dfrac{\\pi}{4}$</td></tr>\n<tr><td><b>④ 广义积分 = 定积分后取极限</b></td><td>$\\displaystyle\\int_{a}^{+\\infty}f\\,\\mathrm{d}x=\\lim_{b\\to+\\infty}\\int_{a}^{b}f\\,\\mathrm{d}x$</td><td>2025 第 8 题 $\\displaystyle\\int_{0}^{+\\infty}\\frac{1}{(x+5)^{2}}\\,\\mathrm{d}x=\\mathbf{\\dfrac{1}{5}}$</td></tr>\n</table>\n</div>\n<div>\n<span>4</span>定积分的几何应用（面积）——只有一个公式\n<div>$$S=\\int_{a}^{b}|f(x)|\\,\\mathrm{d}x$$\n（曲线 $y=f(x)$ 与 $x$ 轴、直线 $x=a$、$x=b$ 所围成的面积）\n</div>\n<div><b>①</b> 画草图，找交点定出上下限 $a$、$b$</div>\n<div><b>②</b> 判断函数在区间上的正负（$x$ 轴上方取正）</div>\n<div><b>③</b> 套公式算定积分</div>\n<div>例：$y=x^{5}$ 与 $x=1$、$x$ 轴围成 $\\Rightarrow\\ S=\\displaystyle\\int_{0}^{1}x^{5}\\,\\mathrm{d}x=\\dfrac{1}{6}$</div>\n</div>",
+        "content": "<div>\n<h4><span class=\"mr-step\">1</span>必背公式卡（这 8 条覆盖 90% 的积分题）</h4>\n<div>\n$$\\begin{aligned}\n&\\int x^{a}\\,\\mathrm{d}x=\\frac{x^{a+1}}{a+1}+C\\quad(a\\neq-1) & &\\int \\frac{1}{x}\\,\\mathrm{d}x=\\ln|x|+C\\\\\n&\\int e^{x}\\,\\mathrm{d}x=e^{x}+C & &\\int a^{x}\\,\\mathrm{d}x=\\frac{a^{x}}{\\ln a}+C\\\\\n&\\int \\sin x\\,\\mathrm{d}x=-\\cos x+C & &\\int \\cos x\\,\\mathrm{d}x=\\sin x+C\\\\\n&\\int \\frac{1}{1+x^{2}}\\,\\mathrm{d}x=\\arctan x+C & &\\int \\frac{1}{\\cos^{2}x}\\,\\mathrm{d}x=\\tan x+C\n\\end{aligned}$$\n</div>\n<div><b>关键提醒</b>：写不定积分<b>必须加 $+C$</b>；选择题里如果四个选项都没有 $+C$，说明它在求定积分或原函数特值。</div>\n</div>\n<div>\n<h4><span class=\"mr-step\">2</span>两种「不会做也能做」的套路</h4>\n<p><b>套路 A：凑微分（把被积式改写成 $f(u)\\cdot u'$ 的形式）</b></p>\n<div><b>①</b> 找出那个「整体」当 $u$（如 $2x+1$、$2x^{3}$、$e^{2x}$）</div>\n<div><b>②</b> 算 $\\mathrm{d}u=u'\\,\\mathrm{d}x$，把常数系数凑出来</div>\n<div><b>③</b> 变成 $\\displaystyle\\int f(u)\\,\\mathrm{d}u$ 直接套公式</div>\n<div>\n例：$\\displaystyle\\int x^{2}e^{2x^{3}}\\,\\mathrm{d}x$\n\\quad 令 $u=2x^{3}$，则 $\\mathrm{d}u=6x^{2}\\mathrm{d}x$，即 $x^{2}\\mathrm{d}x=\\dfrac{\\mathrm{d}u}{6}$\n$$\\int e^{u}\\cdot\\frac{\\mathrm{d}u}{6}=\\frac{1}{6}e^{u}+C=\\frac{1}{6}e^{2x^{3}}+C$$\n</div>\n<p><b>套路 B：先展开再逐项积（被积式是括号的平方 / 乘积时）</b></p>\n<div>\n例：$\\displaystyle\\int\\left(x+\\frac{1}{x}\\right)^{2}\\mathrm{d}x=\\int\\left(x^{2}+2+\\frac{1}{x^{2}}\\right)\\mathrm{d}x$\n$$=\\frac{x^{3}}{3}+2x-\\frac{1}{x}+C$$\n</div>\n<div><b>看到「括号的幂」先展开</b>，这是命题人送分的方式——2024 的 $\\displaystyle\\int(2x+1)^{2}\\mathrm{d}x$、2025 的 $\\displaystyle\\int\\left(x+\\dfrac{1}{x}\\right)^{2}\\mathrm{d}x$ 都是这么出的。</div>\n</div>\n<div>\n<h4><span class=\"mr-step\">3</span>定积分：牛顿—莱布尼茨公式 + 四个提速技巧</h4>\n<div>$$\\int_{a}^{b}f(x)\\,\\mathrm{d}x=F(b)-F(a)\\qquad(F'(x)=f(x))$$</div>\n<table>\n<tr><th>技巧</th><th>内容</th><th>真题</th></tr>\n<tr><td><b>① 奇偶性砍一半</b></td><td>奇函数在对称区间 $[-a,a]$ 上积分 $=0$；偶函数 $=2\\displaystyle\\int_{0}^{a}$</td><td>2024 填空第 16 题 $\\displaystyle\\int_{-1}^{1}(\\arctan x+x^{2})\\,\\mathrm{d}x$，$\\arctan x$ 部分直接扔，$=\\dfrac{2}{3}$</td></tr>\n<tr><td><b>② 展开后逐项积</b></td><td>加减法可拆开算</td><td>2024 第 7 题 $\\displaystyle\\int(\\cos x+\\sin x)\\,\\mathrm{d}x$</td></tr>\n<tr><td><b>③ 背熟特殊值</b></td><td>$\\arctan 1=\\dfrac{\\pi}{4}$，$\\ln 1=0$，$\\sin\\dfrac{\\pi}{2}=1$</td><td>2024 第 8 题得 $\\dfrac{\\pi}{4}$</td></tr>\n<tr><td><b>④ 广义积分 = 定积分后取极限</b></td><td>$\\displaystyle\\int_{a}^{+\\infty}f\\,\\mathrm{d}x=\\lim_{b\\to+\\infty}\\int_{a}^{b}f\\,\\mathrm{d}x$</td><td>2025 第 8 题 $\\displaystyle\\int_{0}^{+\\infty}\\frac{1}{(x+5)^{2}}\\,\\mathrm{d}x=\\mathbf{\\dfrac{1}{5}}$</td></tr>\n</table>\n</div>\n<div>\n<h4><span class=\"mr-step\">4</span>定积分的几何应用（面积）——只有一个公式</h4>\n<div>$$S=\\int_{a}^{b}|f(x)|\\,\\mathrm{d}x$$\n（曲线 $y=f(x)$ 与 $x$ 轴、直线 $x=a$、$x=b$ 所围成的面积）\n</div>\n<div><b>①</b> 画草图，找交点定出上下限 $a$、$b$</div>\n<div><b>②</b> 判断函数在区间上的正负（$x$ 轴上方取正）</div>\n<div><b>③</b> 套公式算定积分</div>\n<div>例：$y=x^{5}$ 与 $x=1$、$x$ 轴围成 $\\Rightarrow\\ S=\\displaystyle\\int_{0}^{1}x^{5}\\,\\mathrm{d}x=\\dfrac{1}{6}$</div>\n</div>",
         "itemType": "MATERIAL",
         "sortOrder": 300000,
         "source": null,
@@ -9268,7 +9271,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "五、模板族 ② 求导计算（占模板题 25%）",
-        "content": "<div>\n<span>1</span>必背导数公式（8 条，和积分公式互为镜像）\n<div>\n$$\\begin{aligned}\n&(x^{a})'=ax^{a-1} & &(e^{x})'=e^{x} & &(a^{x})'=a^{x}\\ln a\\\\\n&(\\ln x)'=\\frac{1}{x} & &(\\sin x)'=\\cos x & &(\\cos x)'=-\\sin x\\\\\n&(\\tan x)'=\\frac{1}{\\cos^{2}x} & &(\\arctan x)'=\\frac{1}{1+x^{2}}\n\\end{aligned}$$\n</div>\n<div><b>背法</b>：先把积分表 8 条背下来，导数表就是它的逆运算——一一对应，一组一组记，半小时能默写。</div>\n</div>\n<div>\n<span>2</span>五种考法 + 各自套路\n<table>\n<tr><th>考法</th><th>套路</th><th>真题</th></tr>\n<tr><td><b>复合函数求导</b></td><td>由外向内，一层层乘（链式法则）</td><td>2025 第 1 题：$f(x)=\\sin 7x\\Rightarrow f'(x)=7\\cos 7x$，代 $x=\\dfrac{\\pi}{7}$ 得 $\\mathbf{-7}$</td></tr>\n<tr><td><b>高阶导数</b></td><td>老老实实求 $n$ 次，别跳步</td><td>2025 第 2 题：$y=2x^{3}-e^{x}$，$y'''=12-e^{x}$</td></tr>\n<tr><td><b>隐函数求导</b></td><td>① 先由方程解出对应点 ② 两边对 $x$ 求导（<b>$y$ 视为 $y(x)$，乘 $y'$</b>）③ 代点解 $y'$</td><td>2024 第 3 题：$y^{3}+x^{3}-3xy=1$，代 $x=0$ 得 $y=1$，求导后代值 $f'(0)=1$</td></tr>\n<tr><td><b>求微分 $\\mathrm{d}y$</b></td><td>先求 $y'$，再写成 $\\mathrm{d}y=y'\\,\\mathrm{d}x$，最后代值</td><td>2024 第 4 题：$y=x\\sin x\\Rightarrow \\left.\\mathrm{d}y\\right|_{x=1}=(\\sin 1+\\cos 1)\\mathrm{d}x$</td></tr>\n<tr><td><b>切线 / 法线斜率</b></td><td>$k_{1}=f'(x_{0})$；<b>$k_{2}=-\\dfrac{1}{f'(x_{0})}$</b></td><td>2024 第 5 题：$y=\\dfrac{1}{x}$ 在 $(1,1)$，$k_{1}=-1\\Rightarrow k_{2}=\\mathbf{1}$</td></tr>\n</table>\n<div><b>最容易错的两处</b>：① 隐函数求导忘了对 $y$ 乘 $y'$；② 法线斜率忘了取负倒数（写成 $-1$ 或直接抄切线斜率）。</div>\n</div>\n<div>\n<span>3</span>导数应用：闭区间最值（唯一需要「三步」的模板题）\n<div><b>①</b> 求 $f'(x)$，令 $f'(x)=0$ 解出驻点，<b>只保留落在区间 $[a,b]$ 内的</b></div>\n<div><b>②</b> 计算所有驻点的函数值 + 两个端点的函数值 $f(a)$、$f(b)$</div>\n<div><b>③</b> 比大小，最大者为最大值、最小者为最小值</div>\n<div>\n<b>高频陷阱</b>：算完驻点忘了比端点值。2024 第 11 题（$f(x)=2x^{3}+3x^{2}-12x+14$ 在 $[-3,4]$ 上）正确答案是 $142$ 和 $7$，\n其中 $\\mathbf{142}$ <b>就来自端点 $x=4$</b>，只算驻点会选错。\n</div>\n</div>",
+        "content": "<div>\n<h4><span class=\"mr-step\">1</span>必背导数公式（8 条，和积分公式互为镜像）</h4>\n<div>\n$$\\begin{aligned}\n&(x^{a})'=ax^{a-1} & &(e^{x})'=e^{x} & &(a^{x})'=a^{x}\\ln a\\\\\n&(\\ln x)'=\\frac{1}{x} & &(\\sin x)'=\\cos x & &(\\cos x)'=-\\sin x\\\\\n&(\\tan x)'=\\frac{1}{\\cos^{2}x} & &(\\arctan x)'=\\frac{1}{1+x^{2}}\n\\end{aligned}$$\n</div>\n<div><b>背法</b>：先把积分表 8 条背下来，导数表就是它的逆运算——一一对应，一组一组记，半小时能默写。</div>\n</div>\n<div>\n<h4><span class=\"mr-step\">2</span>五种考法 + 各自套路</h4>\n<table>\n<tr><th>考法</th><th>套路</th><th>真题</th></tr>\n<tr><td><b>复合函数求导</b></td><td>由外向内，一层层乘（链式法则）</td><td>2025 第 1 题：$f(x)=\\sin 7x\\Rightarrow f'(x)=7\\cos 7x$，代 $x=\\dfrac{\\pi}{7}$ 得 $\\mathbf{-7}$</td></tr>\n<tr><td><b>高阶导数</b></td><td>老老实实求 $n$ 次，别跳步</td><td>2025 第 2 题：$y=2x^{3}-e^{x}$，$y'''=12-e^{x}$</td></tr>\n<tr><td><b>隐函数求导</b></td><td>① 先由方程解出对应点 ② 两边对 $x$ 求导（<b>$y$ 视为 $y(x)$，乘 $y'$</b>）③ 代点解 $y'$</td><td>2024 第 3 题：$y^{3}+x^{3}-3xy=1$，代 $x=0$ 得 $y=1$，求导后代值 $f'(0)=1$</td></tr>\n<tr><td><b>求微分 $\\mathrm{d}y$</b></td><td>先求 $y'$，再写成 $\\mathrm{d}y=y'\\,\\mathrm{d}x$，最后代值</td><td>2024 第 4 题：$y=x\\sin x\\Rightarrow \\left.\\mathrm{d}y\\right|_{x=1}=(\\sin 1+\\cos 1)\\mathrm{d}x$</td></tr>\n<tr><td><b>切线 / 法线斜率</b></td><td>$k_{1}=f'(x_{0})$；<b>$k_{2}=-\\dfrac{1}{f'(x_{0})}$</b></td><td>2024 第 5 题：$y=\\dfrac{1}{x}$ 在 $(1,1)$，$k_{1}=-1\\Rightarrow k_{2}=\\mathbf{1}$</td></tr>\n</table>\n<div><b>最容易错的两处</b>：① 隐函数求导忘了对 $y$ 乘 $y'$；② 法线斜率忘了取负倒数（写成 $-1$ 或直接抄切线斜率）。</div>\n</div>\n<div>\n<h4><span class=\"mr-step\">3</span>导数应用：闭区间最值（唯一需要「三步」的模板题）</h4>\n<div><b>①</b> 求 $f'(x)$，令 $f'(x)=0$ 解出驻点，<b>只保留落在区间 $[a,b]$ 内的</b></div>\n<div><b>②</b> 计算所有驻点的函数值 + 两个端点的函数值 $f(a)$、$f(b)$</div>\n<div><b>③</b> 比大小，最大者为最大值、最小者为最小值</div>\n<div>\n<b>高频陷阱</b>：算完驻点忘了比端点值。2024 第 11 题（$f(x)=2x^{3}+3x^{2}-12x+14$ 在 $[-3,4]$ 上）正确答案是 $142$ 和 $7$，\n其中 $\\mathbf{142}$ <b>就来自端点 $x=4$</b>，只算驻点会选错。\n</div>\n</div>",
         "itemType": "MATERIAL",
         "sortOrder": 400000,
         "source": null,
@@ -9285,7 +9288,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "六、模板族 ③ 极限计算（占模板题 10%，半天可拿下）",
-        "content": "<div>\n<span>1</span>两个重要极限 + 等价无穷小表\n<div>\n$$\\lim_{x\\to 0}\\frac{\\sin x}{x}=1\\qquad \\lim_{x\\to\\infty}\\left(1+\\frac{1}{x}\\right)^{x}=e\\qquad \\lim_{x\\to 0}(1+x)^{\\frac{1}{x}}=e$$\n</div>\n<div>\n<b>当 $x\\to 0$ 时，以下无穷小互相等价，都可替换成 $x$：</b>\n$$\\sin x\\sim\\tan x\\sim\\arcsin x\\sim\\arctan x\\sim\\ln(1+x)\\sim e^{x}-1\\sim x$$\n$$1-\\cos x\\sim\\frac{x^{2}}{2}\\qquad (1+x)^{a}-1\\sim ax\\qquad 1-e^{kx}\\sim -kx$$\n</div>\n<div><b>用法</b>：见到「$\\dfrac{0}{0}$ 型」就把分子分母里的复杂项换成等价简单项，约分后直接得答案。<b>这是选择题里最快的解法。</b></div>\n</div>\n<div>\n<span>2</span>四种题型对照\n<table>\n<tr><th>题型</th><th>做法</th><th>真题</th></tr>\n<tr><td>$\\dfrac{0}{0}$ 型（含 $\\sin$、$\\ln$、$e^{x}$）</td><td>等价无穷小替换 → 约分</td><td>2024 第 1 题：$1-e^{kx}\\sim -kx\\Rightarrow -k=2\\Rightarrow \\mathbf{k=-2}$<br>2025 第 12 题（同型）</td></tr>\n<tr><td>无穷小的阶的比较</td><td>把两个式子都换成幂函数，比指数</td><td>2024 第 2 题：$\\ln(1+2x^{2})\\sim 2x^{2}$，比 $x$ 高阶 $\\Rightarrow$ <b>高阶无穷小</b></td></tr>\n<tr><td>$1^{\\infty}$ 型</td><td>凑成 $\\left(1+\\dfrac{1}{\\square}\\right)^{\\square}$ 的形式，答案是 $e$ 的幂</td><td>2017 第 2 题：$\\left(1+\\dfrac{2}{x}\\right)^{x}\\to e^{2}$</td></tr>\n<tr><td>有理式 $x\\to\\infty$</td><td>分子分母同除最高次幂</td><td>2020 第 9 题：$\\lim\\limits_{x\\to\\infty}\\dfrac{x^{2}-x+1}{x^{2}-x+2}=1$</td></tr>\n</table>\n<div><b>可放弃的一类</b>：夹逼准则、无界非无穷大这类「概念判定题」（2025 第 3、4 题各 7 分）。\n它们需要构造不等式或取点列，短期难以速成，<b>遇到直接猜一个，把时间留给积分题</b>。</div>\n</div>",
+        "content": "<div>\n<h4><span class=\"mr-step\">1</span>两个重要极限 + 等价无穷小表</h4>\n<div>\n$$\\lim_{x\\to 0}\\frac{\\sin x}{x}=1\\qquad \\lim_{x\\to\\infty}\\left(1+\\frac{1}{x}\\right)^{x}=e\\qquad \\lim_{x\\to 0}(1+x)^{\\frac{1}{x}}=e$$\n</div>\n<div>\n<b>当 $x\\to 0$ 时，以下无穷小互相等价，都可替换成 $x$：</b>\n$$\\sin x\\sim\\tan x\\sim\\arcsin x\\sim\\arctan x\\sim\\ln(1+x)\\sim e^{x}-1\\sim x$$\n$$1-\\cos x\\sim\\frac{x^{2}}{2}\\qquad (1+x)^{a}-1\\sim ax\\qquad 1-e^{kx}\\sim -kx$$\n</div>\n<div><b>用法</b>：见到「$\\dfrac{0}{0}$ 型」就把分子分母里的复杂项换成等价简单项，约分后直接得答案。<b>这是选择题里最快的解法。</b></div>\n</div>\n<div>\n<h4><span class=\"mr-step\">2</span>四种题型对照</h4>\n<table>\n<tr><th>题型</th><th>做法</th><th>真题</th></tr>\n<tr><td>$\\dfrac{0}{0}$ 型（含 $\\sin$、$\\ln$、$e^{x}$）</td><td>等价无穷小替换 → 约分</td><td>2024 第 1 题：$1-e^{kx}\\sim -kx\\Rightarrow -k=2\\Rightarrow \\mathbf{k=-2}$<br>2025 第 12 题（同型）</td></tr>\n<tr><td>无穷小的阶的比较</td><td>把两个式子都换成幂函数，比指数</td><td>2024 第 2 题：$\\ln(1+2x^{2})\\sim 2x^{2}$，比 $x$ 高阶 $\\Rightarrow$ <b>高阶无穷小</b></td></tr>\n<tr><td>$1^{\\infty}$ 型</td><td>凑成 $\\left(1+\\dfrac{1}{\\square}\\right)^{\\square}$ 的形式，答案是 $e$ 的幂</td><td>2017 第 2 题：$\\left(1+\\dfrac{2}{x}\\right)^{x}\\to e^{2}$</td></tr>\n<tr><td>有理式 $x\\to\\infty$</td><td>分子分母同除最高次幂</td><td>2020 第 9 题：$\\lim\\limits_{x\\to\\infty}\\dfrac{x^{2}-x+1}{x^{2}-x+2}=1$</td></tr>\n</table>\n<div><b>可放弃的一类</b>：夹逼准则、无界非无穷大这类「概念判定题」（2025 第 3、4 题各 7 分）。\n它们需要构造不等式或取点列，短期难以速成，<b>遇到直接猜一个，把时间留给积分题</b>。</div>\n</div>",
         "itemType": "MATERIAL",
         "sortOrder": 500000,
         "source": null,
@@ -9302,7 +9305,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "七、模板族 ④ 公式直用型（偏导 / 全微分 / 空间解析几何 / 级数 / 微分方程）",
-        "content": "<p>这一类没有技巧，就是「知道公式 + 小心计算」。总量小，但每道都是 7 分，性价比极高。</p>\n<div>\n<span>1</span>偏导数与全微分（2024、2025 连续两年考）\n<div>\n求 $\\dfrac{\\partial z}{\\partial x}$ 时，<b>把 $y$ 当常数</b>；求 $\\dfrac{\\partial z}{\\partial y}$ 时，<b>把 $x$ 当常数</b>。\n$$\\mathrm{d}z=\\frac{\\partial z}{\\partial x}\\,\\mathrm{d}x+\\frac{\\partial z}{\\partial y}\\,\\mathrm{d}y$$\n</div>\n<div>例：$z=\\ln(1+xy)\\Rightarrow \\dfrac{\\partial z}{\\partial y}=\\dfrac{1}{1+xy}\\cdot x=\\mathbf{\\dfrac{x}{1+xy}}$\\quad <span>2024 选择第 9 题</span></div>\n<div>例：$z=15+x^{2}y+\\cos y\\Rightarrow \\mathrm{d}z=\\mathbf{2xy\\,\\mathrm{d}x+(x^{2}-\\sin y)\\,\\mathrm{d}y}$\\quad <span>2025 填空第 18 题</span></div>\n<div>混合偏导 $\\dfrac{\\partial^{2}z}{\\partial x\\partial y}$：<b>先对一个变量求导，再对另一个变量求导</b>，顺序无影响。2024 第 10 题就是两步计算。</div>\n</div>\n<div>\n<span>2</span>空间解析几何（背 3 个公式即可）\n<table>\n<tr><th>对象</th><th>公式</th><th>真题</th></tr>\n<tr><td>球面</td><td>直径两端点 → <b>中点即球心</b>，半径 = 两端点距离的一半<br>\n$(x-a)^{2}+(y-b)^{2}+(z-c)^{2}=R^{2}$</td><td>2025 第 10 题</td></tr>\n<tr><td>平面</td><td>$Ax+By+Cz+D=0$ 的<b>法向量</b> $\\vec{n}=(A,B,C)$</td><td>2019 第 9 题</td></tr>\n<tr><td>直线</td><td>$\\dfrac{x-x_{0}}{m}=\\dfrac{y-y_{0}}{n}=\\dfrac{z-z_{0}}{p}$ 的<b>方向向量</b> $\\vec{s}=(m,n,p)$</td><td>2017 第 9 题</td></tr>\n</table>\n</div>\n<div>\n<span>3</span>幂级数收敛半径（一个公式）\n<div>$$R=\\lim_{n\\to\\infty}\\left|\\frac{a_{n}}{a_{n+1}}\\right|$$\n（其中 $a_{n}$ 是 $x^{n}$ 项的系数）</div>\n<div>例：$\\displaystyle\\sum_{n=1}^{\\infty}\\frac{(3x-1)^{n}}{\\sqrt{n}}$，令 $t=3x-1$，则 $a_{n}=\\dfrac{1}{\\sqrt{n}}$</div>\n<div>$R_{t}=\\lim\\limits_{n\\to\\infty}\\dfrac{1/\\sqrt{n}}{1/\\sqrt{n+1}}=1$，即对 $t$ 的收敛半径是 $1\\ \\Rightarrow$ 对 $x$ 的收敛半径 $R=\\mathbf{\\dfrac{1}{3}}$\\quad <span>2025 选择第 11 题</span></div>\n<div>另有两条判据要记：<b>等比级数 $\\displaystyle\\sum q^{n}$</b> 当 $|q|<1$ 时收敛；<b>$p$ 级数 $\\displaystyle\\sum\\frac{1}{n^{p}}$</b> 当 $p>1$ 时收敛。</div>\n</div>\n<div>\n<span>4</span>二阶常系数齐次线性微分方程（三种情形，背下来）\n<div>特征方程：$r^{2}+pr+q=0$（对应方程 $y''+py'+qy=0$）</div>\n<table>\n<tr><th>判别式</th><th>根的情况</th><th>通解</th></tr>\n<tr><td>$\\Delta>0$</td><td>两个不同实根 $r_{1},r_{2}$</td><td>$y=C_{1}e^{r_{1}x}+C_{2}e^{r_{2}x}$</td></tr>\n<tr><td>$\\Delta=0$</td><td>二重根 $r$</td><td><b>$y=(C_{1}+C_{2}x)e^{rx}$</b></td></tr>\n<tr><td>$\\Delta<0$</td><td>共轭复根 $\\alpha\\pm\\beta i$</td><td>$y=e^{\\alpha x}(C_{1}\\cos\\beta x+C_{2}\\sin\\beta x)$</td></tr>\n</table>\n<div>例：$y''-6y'+9y=0\\Rightarrow r^{2}-6r+9=(r-3)^{2}=0\\Rightarrow$ 二重根 $r=3\\Rightarrow y=(C_{1}+C_{2}x)e^{3x}$\\quad <span>2024 选择第 12 题</span></div>\n</div>",
+        "content": "<p>这一类没有技巧，就是「知道公式 + 小心计算」。总量小，但每道都是 7 分，性价比极高。</p>\n<div>\n<h4><span class=\"mr-step\">1</span>偏导数与全微分（2024、2025 连续两年考）</h4>\n<div>\n求 $\\dfrac{\\partial z}{\\partial x}$ 时，<b>把 $y$ 当常数</b>；求 $\\dfrac{\\partial z}{\\partial y}$ 时，<b>把 $x$ 当常数</b>。\n$$\\mathrm{d}z=\\frac{\\partial z}{\\partial x}\\,\\mathrm{d}x+\\frac{\\partial z}{\\partial y}\\,\\mathrm{d}y$$\n</div>\n<div>例：$z=\\ln(1+xy)\\Rightarrow \\dfrac{\\partial z}{\\partial y}=\\dfrac{1}{1+xy}\\cdot x=\\mathbf{\\dfrac{x}{1+xy}}$\\quad <span>2024 选择第 9 题</span></div>\n<div>例：$z=15+x^{2}y+\\cos y\\Rightarrow \\mathrm{d}z=\\mathbf{2xy\\,\\mathrm{d}x+(x^{2}-\\sin y)\\,\\mathrm{d}y}$\\quad <span>2025 填空第 18 题</span></div>\n<div>混合偏导 $\\dfrac{\\partial^{2}z}{\\partial x\\partial y}$：<b>先对一个变量求导，再对另一个变量求导</b>，顺序无影响。2024 第 10 题就是两步计算。</div>\n</div>\n<div>\n<h4><span class=\"mr-step\">2</span>空间解析几何（背 3 个公式即可）</h4>\n<table>\n<tr><th>对象</th><th>公式</th><th>真题</th></tr>\n<tr><td>球面</td><td>直径两端点 → <b>中点即球心</b>，半径 = 两端点距离的一半<br>\n$(x-a)^{2}+(y-b)^{2}+(z-c)^{2}=R^{2}$</td><td>2025 第 10 题</td></tr>\n<tr><td>平面</td><td>$Ax+By+Cz+D=0$ 的<b>法向量</b> $\\vec{n}=(A,B,C)$</td><td>2019 第 9 题</td></tr>\n<tr><td>直线</td><td>$\\dfrac{x-x_{0}}{m}=\\dfrac{y-y_{0}}{n}=\\dfrac{z-z_{0}}{p}$ 的<b>方向向量</b> $\\vec{s}=(m,n,p)$</td><td>2017 第 9 题</td></tr>\n</table>\n</div>\n<div>\n<h4><span class=\"mr-step\">3</span>幂级数收敛半径（一个公式）</h4>\n<div>$$R=\\lim_{n\\to\\infty}\\left|\\frac{a_{n}}{a_{n+1}}\\right|$$\n（其中 $a_{n}$ 是 $x^{n}$ 项的系数）</div>\n<div>例：$\\displaystyle\\sum_{n=1}^{\\infty}\\frac{(3x-1)^{n}}{\\sqrt{n}}$，令 $t=3x-1$，则 $a_{n}=\\dfrac{1}{\\sqrt{n}}$</div>\n<div>$R_{t}=\\lim\\limits_{n\\to\\infty}\\dfrac{1/\\sqrt{n}}{1/\\sqrt{n+1}}=1$，即对 $t$ 的收敛半径是 $1\\ \\Rightarrow$ 对 $x$ 的收敛半径 $R=\\mathbf{\\dfrac{1}{3}}$\\quad <span>2025 选择第 11 题</span></div>\n<div>另有两条判据要记：<b>等比级数 $\\displaystyle\\sum q^{n}$</b> 当 $|q|<1$ 时收敛；<b>$p$ 级数 $\\displaystyle\\sum\\frac{1}{n^{p}}$</b> 当 $p>1$ 时收敛。</div>\n</div>\n<div>\n<h4><span class=\"mr-step\">4</span>二阶常系数齐次线性微分方程（三种情形，背下来）</h4>\n<div>特征方程：$r^{2}+pr+q=0$（对应方程 $y''+py'+qy=0$）</div>\n<table>\n<tr><th>判别式</th><th>根的情况</th><th>通解</th></tr>\n<tr><td>$\\Delta>0$</td><td>两个不同实根 $r_{1},r_{2}$</td><td>$y=C_{1}e^{r_{1}x}+C_{2}e^{r_{2}x}$</td></tr>\n<tr><td>$\\Delta=0$</td><td>二重根 $r$</td><td><b>$y=(C_{1}+C_{2}x)e^{rx}$</b></td></tr>\n<tr><td>$\\Delta<0$</td><td>共轭复根 $\\alpha\\pm\\beta i$</td><td>$y=e^{\\alpha x}(C_{1}\\cos\\beta x+C_{2}\\sin\\beta x)$</td></tr>\n</table>\n<div>例：$y''-6y'+9y=0\\Rightarrow r^{2}-6r+9=(r-3)^{2}=0\\Rightarrow$ 二重根 $r=3\\Rightarrow y=(C_{1}+C_{2}x)e^{3x}$\\quad <span>2024 选择第 12 题</span></div>\n</div>",
         "itemType": "MATERIAL",
         "sortOrder": 600000,
         "source": null,
@@ -9336,7 +9339,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "九、解答题 3 题 45 分：二重积分 100% 必考",
-        "content": "<div>\n<b>最重要的发现</b>：把 11 套卷的解答题拉出来看——<b>二重积分出现了 11 次，11 套卷 100% 命中</b>。\n2024 第 14 题考 $\\displaystyle\\iint_{D}(x+y)\\,\\mathrm{d}x\\mathrm{d}y$（圆域），2025 第 14 题考 $\\displaystyle\\iint_{D}(4-x-y)\\,\\mathrm{d}x\\mathrm{d}y$（矩形域）。\n<b>这是整张卷里唯一可以「提前锁定」的解答题</b>，必须会。\n</div>\n<div>\n<span>1</span>解答题三题位的固定格局\n<table>\n<tr><th>题位</th><th>2024 考什么</th><th>2025 考什么</th><th>备考定位</th></tr>\n<tr><td>第 1 题</td><td>分段函数在分段点连续 → 求参数 $a$<br><span>答案 $a=1$</span></td><td>可分离变量微分方程求通解<br><span>答案 $y=Ce^{2x+\\frac{2x^{3}}{3}}$</span></td><td>「求参数 / 求通解」类，<b>套路最固定，优先攻</b></td></tr>\n<tr><td>第 2 题</td><td><b>二重积分</b>（圆域，用对称性）<br><span>答案 $\\pi$</span></td><td><b>二重积分</b>（矩形域，化累次积分）<br><span>答案 $9$</span></td><td><b>必考，必须拿满分</b></td></tr>\n<tr><td>第 3 题</td><td>幂级数展开：$y=\\dfrac{1}{1+2x}$<br><span>$\\sum(-2)^{n}x^{n}$</span></td><td>证明不等式：$a\\ln x\\le \\dfrac{x^{2}}{2}$<br><span>构造 $g(x)$ 求最值</span></td><td>「导数综合」类，<b>拿步骤分即可</b></td></tr>\n</table>\n</div>\n<div>\n<span>2</span>二重积分万能四步（背下来，直接套）\n<div><b>第一步</b>：画区域 $D$ 的草图，标出边界曲线的交点</div>\n<div><b>第二步</b>：判断用直角坐标还是极坐标——<b>区域含 $x^{2}+y^{2}$ 或圆 → 极坐标</b>；矩形 / 三角形 / 直线围成 → 直角坐标</div>\n<div><b>第三步</b>：定限（外限是常数，内限可以是函数）</div>\n<div><b>第四步</b>：先内后外逐层积分</div>\n<div>\n<b>直角坐标（X 型）</b>\n$$\\iint_{D}f(x,y)\\,\\mathrm{d}x\\mathrm{d}y=\\int_{a}^{b}\\mathrm{d}x\\int_{y_{1}(x)}^{y_{2}(x)}f(x,y)\\,\\mathrm{d}y$$\n<b>极坐标</b>\n$$x=r\\cos\\theta,\\qquad y=r\\sin\\theta,\\qquad \\mathrm{d}x\\mathrm{d}y=r\\,\\mathrm{d}r\\,\\mathrm{d}\\theta$$\n（注意末尾那个 $r$ 不能丢）\n</div>\n<div>\n<b>提速技巧</b>：区域关于 $y$ 轴对称时，若被积函数含 $x$ 的奇函数项（如 $\\displaystyle\\iint_{D}x\\,\\mathrm{d}x\\mathrm{d}y$），<b>直接写 $0$</b>。\n2024 年第 2 题就是这样——$\\displaystyle\\iint_{D}x\\,\\mathrm{d}x\\mathrm{d}y=0$，只剩 $\\displaystyle\\iint_{D}y\\,\\mathrm{d}x\\mathrm{d}y$ 要算，省一半时间。\n</div>\n</div>\n<div>\n<span>3</span>另两个模板\n<p><b>A. 可分离变量微分方程（2025 考）</b></p>\n<div><b>①</b> 把 $y'$ 写成 $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}$，整理成 $g(y)\\,\\mathrm{d}y=f(x)\\,\\mathrm{d}x$ 的形式（变量各归一边）</div>\n<div><b>②</b> 两边同时积分</div>\n<div><b>③</b> 加常数 $C$，写成 $y=\\cdots$ 的形式</div>\n<div>2025 第 13 题：$\\dfrac{y'}{1+x^{2}}=2y$\n$$\\frac{\\mathrm{d}y}{y}=2(1+x^{2})\\,\\mathrm{d}x\\ \\Longrightarrow\\ \\ln|y|=2x+\\frac{2x^{3}}{3}+C\\ \\Longrightarrow\\ y=Ce^{2x+\\frac{2x^{3}}{3}}$$\n</div>\n<p><b>B. 连续性求参数（2024 考）</b></p>\n<div><b>①</b> 在分段点处，分别算左极限、右极限、函数值</div>\n<div><b>②</b> 令三者相等，解出参数</div>\n<div>2024 第 13 题：左极限 $\\lim\\limits_{x\\to 0^{-}}\\dfrac{\\sin x}{x}=1$，右极限 $\\lim\\limits_{x\\to 0^{+}}(x+a)=a$，令两者相等 $\\Rightarrow\\ a=1$\n</div>\n<p><b>C. 证明不等式（三年考 3 次，同一招）</b></p>\n<div><b>①</b> 构造辅助函数 $g(x)=$ 左式 $-$ 右式</div>\n<div><b>②</b> 求 $g'(x)$，找驻点，判断单调性</div>\n<div><b>③</b> 求出 $g(x)$ 的最大（或最小）值，说明它 $\\le 0$（或 $\\ge 0$）</div>\n<div>2025 第 15 题：证 $a\\ln x\\le \\dfrac{x^{2}}{2}$。\n令 $g(x)=a\\ln x-\\dfrac{x^{2}}{2}$，由 $g'(x)=\\dfrac{a}{x}-x=0$ 得 $x=\\sqrt{a}$，且\n$$g(\\sqrt{a})=\\frac{a}{2}(\\ln a-1)$$\n由题设 $a\\le e$ 知 $\\ln a\\le 1$，故 $g(\\sqrt{a})\\le 0$，即 $a\\ln x\\le \\dfrac{x^{2}}{2}$ 成立。\n</div>\n</div>\n<div>\n<b>解答题的「步骤分」意识</b>：15 分一道，<b>写出公式、画出图形、写出第一步就有分</b>。\n阅卷按步给分，空着 $=0$ 分，写了前两步 $=3\\sim 6$ 分。冲刺阶段<b>宁可算错也别空题</b>。\n</div>",
+        "content": "<div>\n<b>最重要的发现</b>：把 11 套卷的解答题拉出来看——<b>二重积分出现了 11 次，11 套卷 100% 命中</b>。\n2024 第 14 题考 $\\displaystyle\\iint_{D}(x+y)\\,\\mathrm{d}x\\mathrm{d}y$（圆域），2025 第 14 题考 $\\displaystyle\\iint_{D}(4-x-y)\\,\\mathrm{d}x\\mathrm{d}y$（矩形域）。\n<b>这是整张卷里唯一可以「提前锁定」的解答题</b>，必须会。\n</div>\n<div>\n<h4><span class=\"mr-step\">1</span>解答题三题位的固定格局</h4>\n<table>\n<tr><th>题位</th><th>2024 考什么</th><th>2025 考什么</th><th>备考定位</th></tr>\n<tr><td>第 1 题</td><td>分段函数在分段点连续 → 求参数 $a$<br><span>答案 $a=1$</span></td><td>可分离变量微分方程求通解<br><span>答案 $y=Ce^{2x+\\frac{2x^{3}}{3}}$</span></td><td>「求参数 / 求通解」类，<b>套路最固定，优先攻</b></td></tr>\n<tr><td>第 2 题</td><td><b>二重积分</b>（圆域，用对称性）<br><span>答案 $\\pi$</span></td><td><b>二重积分</b>（矩形域，化累次积分）<br><span>答案 $9$</span></td><td><b>必考，必须拿满分</b></td></tr>\n<tr><td>第 3 题</td><td>幂级数展开：$y=\\dfrac{1}{1+2x}$<br><span>$\\sum(-2)^{n}x^{n}$</span></td><td>证明不等式：$a\\ln x\\le \\dfrac{x^{2}}{2}$<br><span>构造 $g(x)$ 求最值</span></td><td>「导数综合」类，<b>拿步骤分即可</b></td></tr>\n</table>\n</div>\n<div>\n<h4><span class=\"mr-step\">2</span>二重积分万能四步（背下来，直接套）</h4>\n<div><b>第一步</b>：画区域 $D$ 的草图，标出边界曲线的交点</div>\n<div><b>第二步</b>：判断用直角坐标还是极坐标——<b>区域含 $x^{2}+y^{2}$ 或圆 → 极坐标</b>；矩形 / 三角形 / 直线围成 → 直角坐标</div>\n<div><b>第三步</b>：定限（外限是常数，内限可以是函数）</div>\n<div><b>第四步</b>：先内后外逐层积分</div>\n<div>\n<b>直角坐标（X 型）</b>\n$$\\iint_{D}f(x,y)\\,\\mathrm{d}x\\mathrm{d}y=\\int_{a}^{b}\\mathrm{d}x\\int_{y_{1}(x)}^{y_{2}(x)}f(x,y)\\,\\mathrm{d}y$$\n<b>极坐标</b>\n$$x=r\\cos\\theta,\\qquad y=r\\sin\\theta,\\qquad \\mathrm{d}x\\mathrm{d}y=r\\,\\mathrm{d}r\\,\\mathrm{d}\\theta$$\n（注意末尾那个 $r$ 不能丢）\n</div>\n<div>\n<b>提速技巧</b>：区域关于 $y$ 轴对称时，若被积函数含 $x$ 的奇函数项（如 $\\displaystyle\\iint_{D}x\\,\\mathrm{d}x\\mathrm{d}y$），<b>直接写 $0$</b>。\n2024 年第 2 题就是这样——$\\displaystyle\\iint_{D}x\\,\\mathrm{d}x\\mathrm{d}y=0$，只剩 $\\displaystyle\\iint_{D}y\\,\\mathrm{d}x\\mathrm{d}y$ 要算，省一半时间。\n</div>\n</div>\n<div>\n<h4><span class=\"mr-step\">3</span>另两个模板</h4>\n<p><b>A. 可分离变量微分方程（2025 考）</b></p>\n<div><b>①</b> 把 $y'$ 写成 $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}$，整理成 $g(y)\\,\\mathrm{d}y=f(x)\\,\\mathrm{d}x$ 的形式（变量各归一边）</div>\n<div><b>②</b> 两边同时积分</div>\n<div><b>③</b> 加常数 $C$，写成 $y=\\cdots$ 的形式</div>\n<div>2025 第 13 题：$\\dfrac{y'}{1+x^{2}}=2y$\n$$\\frac{\\mathrm{d}y}{y}=2(1+x^{2})\\,\\mathrm{d}x\\ \\Longrightarrow\\ \\ln|y|=2x+\\frac{2x^{3}}{3}+C\\ \\Longrightarrow\\ y=Ce^{2x+\\frac{2x^{3}}{3}}$$\n</div>\n<p><b>B. 连续性求参数（2024 考）</b></p>\n<div><b>①</b> 在分段点处，分别算左极限、右极限、函数值</div>\n<div><b>②</b> 令三者相等，解出参数</div>\n<div>2024 第 13 题：左极限 $\\lim\\limits_{x\\to 0^{-}}\\dfrac{\\sin x}{x}=1$，右极限 $\\lim\\limits_{x\\to 0^{+}}(x+a)=a$，令两者相等 $\\Rightarrow\\ a=1$\n</div>\n<p><b>C. 证明不等式（三年考 3 次，同一招）</b></p>\n<div><b>①</b> 构造辅助函数 $g(x)=$ 左式 $-$ 右式</div>\n<div><b>②</b> 求 $g'(x)$，找驻点，判断单调性</div>\n<div><b>③</b> 求出 $g(x)$ 的最大（或最小）值，说明它 $\\le 0$（或 $\\ge 0$）</div>\n<div>2025 第 15 题：证 $a\\ln x\\le \\dfrac{x^{2}}{2}$。\n令 $g(x)=a\\ln x-\\dfrac{x^{2}}{2}$，由 $g'(x)=\\dfrac{a}{x}-x=0$ 得 $x=\\sqrt{a}$，且\n$$g(\\sqrt{a})=\\frac{a}{2}(\\ln a-1)$$\n由题设 $a\\le e$ 知 $\\ln a\\le 1$，故 $g(\\sqrt{a})\\le 0$，即 $a\\ln x\\le \\dfrac{x^{2}}{2}$ 成立。\n</div>\n</div>\n<div>\n<b>解答题的「步骤分」意识</b>：15 分一道，<b>写出公式、画出图形、写出第一步就有分</b>。\n阅卷按步给分，空着 $=0$ 分，写了前两步 $=3\\sim 6$ 分。冲刺阶段<b>宁可算错也别空题</b>。\n</div>",
         "itemType": "MATERIAL",
         "sortOrder": 800000,
         "source": null,
@@ -9370,7 +9373,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "十一、考场策略：150 分钟怎么分配",
-        "content": "<table>\n<tr><th>阶段</th><th>时间</th><th>做什么</th><th>要点</th></tr>\n<tr><td>选择题</td><td>50 分钟</td><td>12 题，平均每题 4 分钟</td><td>超过 5 分钟没思路就标记跳过，先收模板题</td></tr>\n<tr><td>填空题</td><td>15 分钟</td><td>3 题，每题 5 分钟</td><td>只写答案，<b>注意别漏单位、别忘 $+C$</b></td></tr>\n<tr><td>解答题</td><td>60 分钟</td><td>3 题，每题 20 分钟</td><td><b>先把二重积分那题做完</b>（最有把握），再攻另外两题</td></tr>\n<tr><td>检查</td><td>25 分钟</td><td>回头补跳过的题</td><td>重点复查：符号、上下限、常数 $C$、题目问的是 $\\mathrm{d}y$ 还是 $y'$</td></tr>\n</table>\n\n选择题不会做时的四招（按使用顺序）\n<div>\n<div><b>① 特殊值代入法</b>：题里有参数就代一个简单值（$0$、$1$、$-1$、$2$）进去验算，看哪个选项成立。<br>\n\\quad 例：$\\lim\\limits_{x\\to 0}\\dfrac{1-e^{kx}}{x}=2$，把 $k=-2$ 代进去试一下，立刻验证。</div>\n<div><b>② 排除法</b>：先排除明显不可能的。含绝对值的选项、符号相反的选项、量级离谱的选项优先划掉。</div>\n<div><b>③ 极端 / 端点检验</b>：把选项代回原式，或者取极限端点看趋势是否符合。</div>\n<div><b>④ 蒙题</b>：四个选项分布很均匀（全库 114 道选择题答案是 A 29 / B 29 / C 28 / D 28），<b>没有任何偏好项</b>。\n所以蒙题策略是——<b>如果前面几道连续的答案都不同，就选自己最顺手的那一项，并且整卷统一</b>。\n若已能排除 2 个选项，正确率可从 $25\\%$ 提到 $50\\%$，<b>排除了再猜，不要空着</b>。</div>\n</div>\n\n解答题抢分要点\n<div>\n<ul>\n<li><b>写公式也有分</b>：不会做，也要把用到的公式写出来（如「由牛顿—莱布尼茨公式」「特征方程 $r^{2}+pr+q=0$」），阅卷老师按步给分。</li>\n<li><b>先易后难</b>：三题里二重积分最有把握，<b>先做完它</b>，保证 15 分落袋，再处理另外两题。</li>\n<li><b>过程写清楚</b>：定限写出来、积分步骤写出中间结果，比「一步跳答案」更容易得分——即使最后算错，前几步的分也拿到了。</li>\n<li><b>不留空白</b>：空白 $=0$ 分。写「解：」+ 公式 + 第一步，至少 $3\\sim 6$ 分。</li>\n</ul>\n</div>",
+        "content": "<table>\n<tr><th>阶段</th><th>时间</th><th>做什么</th><th>要点</th></tr>\n<tr><td>选择题</td><td>50 分钟</td><td>12 题，平均每题 4 分钟</td><td>超过 5 分钟没思路就标记跳过，先收模板题</td></tr>\n<tr><td>填空题</td><td>15 分钟</td><td>3 题，每题 5 分钟</td><td>只写答案，<b>注意别漏单位、别忘 $+C$</b></td></tr>\n<tr><td>解答题</td><td>60 分钟</td><td>3 题，每题 20 分钟</td><td><b>先把二重积分那题做完</b>（最有把握），再攻另外两题</td></tr>\n<tr><td>检查</td><td>25 分钟</td><td>回头补跳过的题</td><td>重点复查：符号、上下限、常数 $C$、题目问的是 $\\mathrm{d}y$ 还是 $y'$</td></tr>\n</table>\n\n<h4>选择题不会做时的四招（按使用顺序）</h4>\n<div>\n<div><b>① 特殊值代入法</b>：题里有参数就代一个简单值（$0$、$1$、$-1$、$2$）进去验算，看哪个选项成立。<br>\n\\quad 例：$\\lim\\limits_{x\\to 0}\\dfrac{1-e^{kx}}{x}=2$，把 $k=-2$ 代进去试一下，立刻验证。</div>\n<div><b>② 排除法</b>：先排除明显不可能的。含绝对值的选项、符号相反的选项、量级离谱的选项优先划掉。</div>\n<div><b>③ 极端 / 端点检验</b>：把选项代回原式，或者取极限端点看趋势是否符合。</div>\n<div><b>④ 蒙题</b>：四个选项分布很均匀（全库 114 道选择题答案是 A 29 / B 29 / C 28 / D 28），<b>没有任何偏好项</b>。\n所以蒙题策略是——<b>如果前面几道连续的答案都不同，就选自己最顺手的那一项，并且整卷统一</b>。\n若已能排除 2 个选项，正确率可从 $25\\%$ 提到 $50\\%$，<b>排除了再猜，不要空着</b>。</div>\n</div>\n\n<h4>解答题抢分要点</h4>\n<div>\n<ul>\n<li><b>写公式也有分</b>：不会做，也要把用到的公式写出来（如「由牛顿—莱布尼茨公式」「特征方程 $r^{2}+pr+q=0$」），阅卷老师按步给分。</li>\n<li><b>先易后难</b>：三题里二重积分最有把握，<b>先做完它</b>，保证 15 分落袋，再处理另外两题。</li>\n<li><b>过程写清楚</b>：定限写出来、积分步骤写出中间结果，比「一步跳答案」更容易得分——即使最后算错，前几步的分也拿到了。</li>\n<li><b>不留空白</b>：空白 $=0$ 分。写「解：」+ 公式 + 第一步，至少 $3\\sim 6$ 分。</li>\n</ul>\n</div>",
         "itemType": "MATERIAL",
         "sortOrder": 1000000,
         "source": null,
@@ -9709,7 +9712,7 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
       },
       {
         "title": "常用角度三角函数值表",
-        "content": "考场上不现推：这张表背下来，定积分代值、面积体积、极坐标换元的最后一步全靠它。",
+        "content": "只有 6 格要背：12 年 288 题里真正要代特殊角值的只有 6 道，用到的角度就 $0$、$\\dfrac{\\pi}{2}$、$\\pi$ 三个；$120^{\\circ}$ 起的钝角 10 行一次没考，已删。$\\arctan 1=\\dfrac{\\pi}{4}$ 考了 3 题，比表里任何一格都多。",
         "itemType": "MUST_READ",
         "sortOrder": 1107000,
         "source": null,
@@ -9726,14 +9729,15 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
           "group": "H三角函数值表",
           "kind": "table",
           "tex": "",
-          "note": "考场上不现推：这张表背下来，定积分代值、面积体积、极坐标换元的最后一步全靠它。",
+          "note": "只有 6 格要背：12 年 288 题里真正要代特殊角值的只有 6 道，用到的角度就 $0$、$\\dfrac{\\pi}{2}$、$\\pi$ 三个；$120^{\\circ}$ 起的钝角 10 行一次没考，已删。$\\arctan 1=\\dfrac{\\pi}{4}$ 考了 3 题，比表里任何一格都多。",
           "table": {
             "head": [
               "角度",
               "弧度",
               "$\\sin$",
               "$\\cos$",
-              "$\\tan$"
+              "$\\tan$",
+              "12 年考频"
             ],
             "rows": [
               [
@@ -9741,127 +9745,84 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
                 "$0$",
                 "$0$",
                 "$1$",
-                "$0$"
+                "$0$",
+                "必背 · 4 题"
               ],
               [
                 "$30^{\\circ}$",
                 "$\\dfrac{\\pi}{6}$",
                 "$\\dfrac{1}{2}$",
                 "$\\dfrac{\\sqrt{3}}{2}$",
-                "$\\dfrac{\\sqrt{3}}{3}$"
+                "$\\dfrac{\\sqrt{3}}{3}$",
+                "顺手记 · 0 题"
               ],
               [
                 "$45^{\\circ}$",
                 "$\\dfrac{\\pi}{4}$",
                 "$\\dfrac{\\sqrt{2}}{2}$",
                 "$\\dfrac{\\sqrt{2}}{2}$",
-                "$1$"
+                "$1$",
+                "顺手记 · 0 题"
               ],
               [
                 "$60^{\\circ}$",
                 "$\\dfrac{\\pi}{3}$",
                 "$\\dfrac{\\sqrt{3}}{2}$",
                 "$\\dfrac{1}{2}$",
-                "$\\sqrt{3}$"
+                "$\\sqrt{3}$",
+                "顺手记 · 0 题"
               ],
               [
                 "$90^{\\circ}$",
                 "$\\dfrac{\\pi}{2}$",
                 "$1$",
                 "$0$",
-                "不存在"
-              ],
-              [
-                "$120^{\\circ}$",
-                "$\\dfrac{2\\pi}{3}$",
-                "$\\dfrac{\\sqrt{3}}{2}$",
-                "$-\\dfrac{1}{2}$",
-                "$-\\sqrt{3}$"
-              ],
-              [
-                "$135^{\\circ}$",
-                "$\\dfrac{3\\pi}{4}$",
-                "$\\dfrac{\\sqrt{2}}{2}$",
-                "$-\\dfrac{\\sqrt{2}}{2}$",
-                "$-1$"
-              ],
-              [
-                "$150^{\\circ}$",
-                "$\\dfrac{5\\pi}{6}$",
-                "$\\dfrac{1}{2}$",
-                "$-\\dfrac{\\sqrt{3}}{2}$",
-                "$-\\dfrac{\\sqrt{3}}{3}$"
+                "不存在",
+                "必背 · 4 题"
               ],
               [
                 "$180^{\\circ}$",
                 "$\\pi$",
                 "$0$",
                 "$-1$",
-                "$0$"
-              ],
-              [
-                "$210^{\\circ}$",
-                "$\\dfrac{7\\pi}{6}$",
-                "$-\\dfrac{1}{2}$",
-                "$-\\dfrac{\\sqrt{3}}{2}$",
-                "$\\dfrac{\\sqrt{3}}{3}$"
-              ],
-              [
-                "$225^{\\circ}$",
-                "$\\dfrac{5\\pi}{4}$",
-                "$-\\dfrac{\\sqrt{2}}{2}$",
-                "$-\\dfrac{\\sqrt{2}}{2}$",
-                "$1$"
-              ],
-              [
-                "$240^{\\circ}$",
-                "$\\dfrac{4\\pi}{3}$",
-                "$-\\dfrac{\\sqrt{3}}{2}$",
-                "$-\\dfrac{1}{2}$",
-                "$\\sqrt{3}$"
-              ],
-              [
-                "$270^{\\circ}$",
-                "$\\dfrac{3\\pi}{2}$",
-                "$-1$",
                 "$0$",
-                "不存在"
-              ],
-              [
-                "$300^{\\circ}$",
-                "$\\dfrac{5\\pi}{3}$",
-                "$-\\dfrac{\\sqrt{3}}{2}$",
-                "$\\dfrac{1}{2}$",
-                "$-\\sqrt{3}$"
-              ],
-              [
-                "$315^{\\circ}$",
-                "$\\dfrac{7\\pi}{4}$",
-                "$-\\dfrac{\\sqrt{2}}{2}$",
-                "$\\dfrac{\\sqrt{2}}{2}$",
-                "$-1$"
-              ],
-              [
-                "$330^{\\circ}$",
-                "$\\dfrac{11\\pi}{6}$",
-                "$-\\dfrac{1}{2}$",
-                "$\\dfrac{\\sqrt{3}}{2}$",
-                "$-\\dfrac{\\sqrt{3}}{3}$"
-              ],
-              [
-                "$360^{\\circ}$",
-                "$2\\pi$",
-                "$0$",
-                "$1$",
-                "$0$"
+                "必背 · 1 题"
               ]
             ],
+            "rowMeta": [
+              {
+                "level": "hot",
+                "tag": "必背"
+              },
+              {
+                "level": "mid",
+                "tag": "顺手记"
+              },
+              {
+                "level": "mid",
+                "tag": "顺手记"
+              },
+              {
+                "level": "mid",
+                "tag": "顺手记"
+              },
+              {
+                "level": "hot",
+                "tag": "必背"
+              },
+              {
+                "level": "hot",
+                "tag": "必背"
+              }
+            ],
             "notes": [
+              "<b>先背反三角，它比这张表考得更多</b>：$\\arctan 0=0$，$\\arctan 1=\\dfrac{\\pi}{4}$，$\\arctan(+\\infty)=\\dfrac{\\pi}{2}$。12 年考了 <b>3 题</b>（2017 第 24 题、2021 第 27 题、2024 第 8 题），全是 $\\int\\dfrac{1}{1+x^{2}}\\mathrm{d}x$，代进去就是 $\\dfrac{\\pi}{4}$（或 $\\dfrac{\\pi}{2}-\\dfrac{\\pi}{4}$）。",
+              "<b>绿底 3 行是必背</b>：$0$、$\\dfrac{\\pi}{2}$、$\\pi$。真题里要代的值全在这三行——$\\sin 0=\\cos\\dfrac{\\pi}{2}=0$，$\\cos 0=\\sin\\dfrac{\\pi}{2}=1$，$\\cos\\pi=-1$。",
+              "<b>琥珀 3 行顺手记</b>：$\\dfrac{\\pi}{6}$、$\\dfrac{\\pi}{4}$、$\\dfrac{\\pi}{3}$ 12 年没直接考过，但和必背三行是同一套口诀，一起记成本几乎为零，留着防万一。",
+              "<b>已删掉 10 行</b>：$120^{\\circ}$、$135^{\\circ}$、$150^{\\circ}$、$210^{\\circ}$…$330^{\\circ}$、$360^{\\circ}$，12 年 288 题一次都没出现。真遇上再用「符号看象限」现推，不占记忆。",
               "<b>记忆口诀</b>：$\\sin$ 在 $30^{\\circ},45^{\\circ},60^{\\circ}$ 处依次是 $\\dfrac{\\sqrt{1}}{2},\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{3}}{2}$，$\\cos$ 把这三个数倒着写。",
-              "<b>符号看象限</b>：一全正、二正弦、三正切、四余弦。",
-              "<b>常用反三角</b>：$\\arctan 1=\\dfrac{\\pi}{4}$，$\\arctan\\sqrt{3}=\\dfrac{\\pi}{3}$，$\\arcsin\\dfrac{1}{2}=\\dfrac{\\pi}{6}$。",
-              "<b>特殊情况</b>：$\\tan$ 在 $90^{\\circ}$、$270^{\\circ}$ 处不存在（对应法线是竖直线）。",
-              "<b>邻角关系</b>：$\\sin(\\pi-\\alpha)=\\sin\\alpha$，$\\cos(\\pi-\\alpha)=-\\cos\\alpha$，$\\sin(-\\alpha)=-\\sin\\alpha$，$\\cos(-\\alpha)=\\cos\\alpha$。"
+              "<b>符号看象限</b>：一全正、二正弦、三正切、四余弦；$\\tan$ 在 $90^{\\circ}$、$270^{\\circ}$ 处不存在。",
+              "<b>别在考场上现推浪费时间</b>：73 道含三角的题里只有 6 道真要代值，其余是求导、等价无穷小、套积分公式、奇偶性，这四类根本用不到这张表。"
             ]
           }
         }
@@ -9955,12 +9916,12 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
               "year": 2020,
               "number": 9,
               "score": "（4 分）",
-              "stem": "$\\lim\\limits_{x\\to 0}\\dfrac{x^2-x+1}{x^2-x+2}=$（　）。",
+              "stem": "$\\lim\\limits_{x\\to 1}\\dfrac{x^2+x+1}{x^2-x+2}=$（　）。",
               "options": [
                 {
                   "k": "A",
-                  "text": "$\\dfrac{1}{2}$",
-                  "correct": true
+                  "text": "$2$",
+                  "correct": false
                 },
                 {
                   "k": "B",
@@ -9970,17 +9931,17 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
                 {
                   "k": "C",
                   "text": "$\\dfrac{3}{2}$",
-                  "correct": false
+                  "correct": true
                 },
                 {
                   "k": "D",
-                  "text": "$2$",
+                  "text": "$\\dfrac{1}{2}$",
                   "correct": false
                 }
               ],
-              "correct": "A",
+              "correct": "C",
               "answerText": null,
-              "analysis": "当 $x\\to 0$ 时，分母 $\\ne 0$，直接代入得 $\\dfrac{0-0+1}{0-0+2}=\\dfrac{1}{2}$。"
+              "analysis": "当 $x\\to 1$ 时，分母 $=1-1+2=2\\ne 0$，直接代入得 $\\dfrac{1+1+1}{1-1+2}=\\dfrac{3}{2}$。"
             }
           ],
           "example": null
@@ -10870,9 +10831,9 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
             {
               "qtype": "填空题",
               "typeClass": "p-acc",
-              "label": "2020 年 · 第 21 题",
+              "label": "2020 年 · 第 20 题",
               "year": 2020,
-              "number": 21,
+              "number": 20,
               "score": "（4 分）",
               "stem": "方程 $y^3+\\ln y-x^2=0$ 在点 $(1,1)$ 处的隐函数 $y=y(x)$，则 $\\dfrac{dy}{dx}\\bigg|_{x=1}=$______。",
               "options": [],
@@ -12013,9 +11974,9 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
             {
               "qtype": "解答题",
               "typeClass": "p-acc",
-              "label": "2020 年 · 第 13 题",
+              "label": "2020 年 · 第 24 题",
               "year": 2020,
-              "number": 13,
+              "number": 24,
               "score": "（8 分）",
               "stem": "计算 $\\int_0^1\\sqrt[3]{1+x}\\,dx$。",
               "options": [],
@@ -12076,9 +12037,9 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
             {
               "qtype": "解答题",
               "typeClass": "p-acc",
-              "label": "2020 年 · 第 14 题",
+              "label": "2020 年 · 第 21 题",
               "year": 2020,
-              "number": 14,
+              "number": 21,
               "score": "（8 分）",
               "stem": "计算 $\\int x\\sin x\\,dx$。",
               "options": [],
@@ -12704,9 +12665,9 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
             {
               "qtype": "填空题",
               "typeClass": "p-acc",
-              "label": "2020 年 · 第 22 题",
+              "label": "2020 年 · 第 19 题",
               "year": 2020,
-              "number": 22,
+              "number": 19,
               "score": "（4 分）",
               "stem": "区域 $D=\\{(x,y)\\mid 1\\le x\\le 2,\\ 1\\le y\\le x^2\\}$ 的面积为______。",
               "options": [],
@@ -12776,19 +12737,6 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
               "correct": null,
               "answerText": "$S=\\dfrac{2}{3}$，$V=\\dfrac{16\\pi}{105}$",
               "analysis": "（1）$S=\\int_0^1(1-x^2)dx=\\left[x-\\dfrac{x^3}{3}\\right]_0^1=1-\\dfrac{1}{3}=\\dfrac{2}{3}$。\n（2）绕 $x$ 轴旋转体体积 $V=\\pi\\int_0^1(1-x^2)^2dx=\\pi\\int_0^1(1-2x^2+x^4)dx$\n$=\\pi\\left[x-\\dfrac{2x^3}{3}+\\dfrac{x^5}{5}\\right]_0^1=\\pi\\left(1-\\dfrac{2}{3}+\\dfrac{1}{5}\\right)=\\dfrac{8\\pi}{15}$。\n（注意：原 PDF 给出 $V=16\\pi/105$，经重新核算应为 $8\\pi/15$；这里保留解析过程供复核。）"
-            },
-            {
-              "qtype": "解答题",
-              "typeClass": "p-acc",
-              "label": "2020 年 · 第 15 题",
-              "year": 2020,
-              "number": 15,
-              "score": "（10 分）",
-              "stem": "设 $D$ 是由曲线 $y=\\sqrt{x}$，直线 $x=4$，$x$ 轴围成的有界区域。求 $D$ 绕 $y$ 轴旋转一周所得旋转体的体积。",
-              "options": [],
-              "correct": null,
-              "answerText": "$\\dfrac{128\\pi}{5}$",
-              "analysis": "$D$：$0\\le x\\le 4$，$0\\le y\\le\\sqrt{x}$。\n绕 $y$ 轴旋转用柱壳法：$V=2\\pi\\int_0^4 x\\cdot\\sqrt{x}\\,dx=2\\pi\\int_0^4 x^{3/2}dx=2\\pi\\cdot\\dfrac{2}{5}x^{5/2}\\bigg|_0^4=2\\pi\\cdot\\dfrac{2}{5}\\cdot 32=\\dfrac{128\\pi}{5}$。\n（原 PDF 用公式 $V=\\int_0^4 \\pi x\\,dx$ 漏掉了 $\\sqrt{x}$ 因子，得 $8\\pi$ 是错误的）"
             },
             {
               "qtype": "解答题",
@@ -14106,9 +14054,9 @@ export const BUILTIN_MUST_READ: MustReadSubject[] = [
             {
               "qtype": "解答题",
               "typeClass": "p-acc",
-              "label": "2020 年 · 第 16 题",
+              "label": "2020 年 · 第 25 题",
               "year": 2020,
-              "number": 16,
+              "number": 25,
               "score": "（10 分）",
               "stem": "求微分方程 $y''-y'-2y=0$ 的通解。",
               "options": [],

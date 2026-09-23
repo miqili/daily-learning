@@ -139,10 +139,14 @@ onMounted(load);
         <section class="me-section">
           <h2>我的学习</h2>
           <nav class="menu-card" aria-label="我的学习">
-            <button @click="showManagedNotice('错题本移动端页面将在后续页面中实现')">
+            <RouterLink to="/m/mistakes">
               <i class="menu-icon mistake-book"><BookFilled /><CloseCircleFilled class="menu-badge" /></i>
               <strong>错题本</strong><span>{{ dueMistakes }} 个错题待复习</span><RightOutlined class="menu-arrow" />
-            </button>
+            </RouterLink>
+            <RouterLink to="/m/must-read">
+              <i class="menu-icon must-read-icon"><FileTextFilled /></i>
+              <strong>必背考点</strong><span>章节正文 + 必背卡</span><RightOutlined class="menu-arrow" />
+            </RouterLink>
             <RouterLink to="/m/vocabulary">
               <i class="menu-icon word-book"><b>Aa</b></i>
               <strong>单词本</strong><span>{{ vocab?.mastered ?? 0 }} 个单词已掌握</span><RightOutlined class="menu-arrow" />
@@ -228,6 +232,7 @@ button { font: inherit; }
 .menu-card>a,.menu-card>button { width: 100%; min-height: 54px; display: grid; grid-template-columns: 35px minmax(90px,1fr) minmax(0,auto) 12px; align-items: center; gap: 10px; padding: 7px 15px; border: 0; border-bottom: 1px solid var(--me-line); background: transparent; color: var(--me-ink); text-align: left; text-decoration: none; }.menu-card>:last-child { border-bottom: 0; }.menu-card>a:active,.menu-card>button:active { background: #f6f9ff; }
 .menu-card strong { font-size: 14px; font-weight: 650; }.menu-card>*>span { overflow: hidden; color: var(--me-muted); font-size: 11px; text-align: right; text-overflow: ellipsis; white-space: nowrap; }.menu-arrow { color: #9aa7bb; font-size: 15px; }
 .menu-icon,.setting-icon { position: relative; width: 30px; height: 30px; display: grid; place-items: center; font-size: 25px; font-style: normal; line-height: 1; }.mistake-book { color: #7764ef; font-size: 27px; }.menu-badge { position: absolute; right: -1px; bottom: 0; width: 13px; height: 13px; border: 2px solid #fff; border-radius: 50%; background: #7764ef; color: #fff; font-size: 11px; }.word-book { color: #2174f5; }.word-book::before { width: 25px; height: 25px; }.word-book::after { width: 23px; height: 23px; }.word-book b { font-size: 12px; }.phrase-icon { color: #39c895; font-size: 27px; }.essay-icon { color: #f5a225; font-size: 27px; }.essay-icon::after { position: absolute; right: 3px; bottom: 1px; left: 3px; height: 2px; border-radius: 99px; background: currentColor; content: ''; }.paper-icon { color: #2b8df1; font-size: 27px; }.search-icon { color: #9a58e8; font-size: 28px; }
+.must-read-icon { color: #28b894; font-size: 25px; }
 .settings-section { margin-top: 20px; }.setting-icon { overflow: hidden; color: var(--me-blue); font-size: 25px; }.setting-icon>.anticon { display: block; max-width: 100%; max-height: 100%; line-height: 1; }
 .signout-button { width: 100%; min-height: 46px; display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 20px; border: 1px solid #e5e9f0; border-radius: 12px; background: #fff; color: #7b879a; font-size: 12px; font-weight: 650; }
 

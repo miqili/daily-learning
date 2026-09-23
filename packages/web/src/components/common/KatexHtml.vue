@@ -10,12 +10,20 @@
  * 用 katex 官方 auto-render：它遍历 DOM 只改文本节点，不碰标签与属性，
  * 因此 <table>/<ul>/<b> 等结构原样保留。
  */
-import { nextTick, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import renderMathInElement from 'katex/contrib/auto-render';
+import { normalizeBareTexSpacing } from '@/utils/texSpacing';
 
 const props = defineProps<{ html: string }>();
 
 const root = ref<HTMLElement | null>(null);
+
+/**
+ * 先归一化「数学定界符之外」的裸 LaTeX 间距命令（`\quad` / `\qquad` 等），
+ * 再交给 auto-render 处理 `$…$` / `$$…$$`。
+ * 少了这一步，章节正文里的 `3.1\quad 先定保底线` 之类会把源码原样显示出来。
+ */
+const normalizedHtml = computed(() => normalizeBareTexSpacing(props.html));
 
 function typeset() {
   if (!root.value) return;
@@ -31,12 +39,9 @@ function typeset() {
 
 onMounted(typeset);
 
-watch(
-  () => props.html,
-  () => {
-    void nextTick(typeset);
-  },
-);
+watch(normalizedHtml, () => {
+  void nextTick(typeset);
+});
 </script>
 
-<template><div ref="root" v-html="html" /></template>
+<template><div ref="root" v-html="normalizedHtml" /></template>

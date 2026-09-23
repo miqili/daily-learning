@@ -5,6 +5,55 @@ export type ErrorReason = (typeof ERROR_REASONS)[number];
 export const KNOWLEDGE_TYPES = ['NOTE', 'MATERIAL', 'LINK', 'MUST_READ'] as const;
 export type KnowledgeType = (typeof KNOWLEDGE_TYPES)[number];
 
+/**
+ * 「考点增补」四个桶：按「能不能提前背到」而不是按卷面题号划分。
+ *
+ * 取值与含义固定，前端四桶顺序也按此数组（收益从高到低）：
+ * - xigai      习概    每年损失 4.0 题（最大），可回收 ≈2.5，现在起持续补录新表述
+ * - shizheng   时政    每年损失 2.8 题，可回收 ≈2.5，回收率最高但必须考前 14 天才收
+ * - zhexue     哲学    每年损失 2.8 题，可回收 ≈1.0，靠做题不靠背
+ * - maozhongte 毛中特  每年损失 2.4 题，可回收 ≈0.8，边际最低、不加码
+ */
+export const TRADEOFF_BUCKETS = ['xigai', 'shizheng', 'zhexue', 'maozhongte'] as const;
+export type TradeoffBucket = (typeof TRADEOFF_BUCKETS)[number];
+
+/** 补录条目状态：pending=采集位已立待补录 / done=已录入 / verified=已复核可用 */
+export const TRADEOFF_STATUSES = ['pending', 'done', 'verified'] as const;
+export type TradeoffStatus = (typeof TRADEOFF_STATUSES)[number];
+
+export const TRADEOFF_BUCKET_LABELS: Record<TradeoffBucket, string> = {
+  xigai: '习概',
+  shizheng: '时政',
+  zhexue: '哲学',
+  maozhongte: '毛中特',
+};
+
+export const TRADEOFF_STATUS_LABELS: Record<TradeoffStatus, string> = {
+  pending: '待补录',
+  done: '已录入',
+  verified: '已复核',
+};
+
+/**
+ * 掌握度（学习状态），与补录流程状态 status 正交：
+ * 0=未标记 / 1=不熟 / 2=已掌握。
+ * 页面主体是给用户背诵用的，因此「不熟 / 已掌握」是主状态，
+ * status 只在折叠的「补录管理」区里出现。
+ */
+export const TRADEOFF_MASTERY = [0, 1, 2] as const;
+export type TradeoffMastery = (typeof TRADEOFF_MASTERY)[number];
+
+export const TRADEOFF_MASTERY_LABELS: Record<TradeoffMastery, string> = {
+  0: '未标记',
+  1: '不熟',
+  2: '已掌握',
+};
+
+/** 不熟 / 未掌握 的阈值：mastery 低于它就算「还没背下来」，用于生成不熟清单。 */
+export const TRADEOFF_MASTERY_UNSEEN = 0;
+export const TRADEOFF_MASTERY_WEAK = 1;
+export const TRADEOFF_MASTERY_DONE = 2;
+
 export const TASK_TYPES = ['STUDY', 'REVIEW', 'VOCABULARY', 'PRACTICE'] as const;
 export type TaskType = (typeof TASK_TYPES)[number];
 

@@ -8,6 +8,8 @@ import { listSubjects, type SubjectInfo } from '@/api/plan';
 /**
  * 移动端真题列表。
  * 录题只在别处做，这里只负责挑卷 —— 选中任意一套进入独立的做题页（/m/papers/:paperId）。
+ *
+ * 筛选用「科目 chip + 年份 chip + 搜索」，比 PC 的四维下拉更适合单手操作。
  */
 
 const route = useRoute();
@@ -16,14 +18,34 @@ const router = useRouter();
 const subjects = ref<SubjectInfo[]>([]);
 const papers = ref<PaperSummary[]>([]);
 const activeSubject = ref('ALL');
+const activeYear = ref<number | 'ALL'>('ALL');
+const keyword = ref('');
 const error = ref('');
 const busy = ref(false);
 
 const subjectTabs = computed(() => [{ name: 'ALL', label: '全部' }, ...subjects.value.map((s) => ({ name: s.name, label: s.name }))]);
 
-const filteredPapers = computed(() =>
-  activeSubject.value === 'ALL' ? papers.value : papers.value.filter((p) => p.subject === activeSubject.value),
-);
+/** 年份降序，只列库里真实存在的年份 */
+const yearTabs = computed(() => {
+  const years = [...new Set(papers.value.map((p) => p.year))].sort((a, b) => b - a);
+  return [{ value: 'ALL' as const, label: '全部年份' }, ...years.map((y) => ({ value: y, label: String(y) }))];
+});
+
+const filteredPapers = computed(() => {
+  const needle = keyword.value.trim().toLowerCase();
+  return papers.value.filter((p) => {
+    if (activeSubject.value !== 'ALL' && p.subject !== activeSubject.value) return false;
+    if (activeYear.value !== 'ALL' && p.year !== activeYear.value) return false;
+    if (!needle) return true;
+    return `${p.title} ${p.subject} ${p.year}`.toLowerCase().includes(needle);
+  });
+});
+
+function resetFilters() {
+  activeSubject.value = 'ALL';
+  activeYear.value = 'ALL';
+  keyword.value = '';
+}
 
 function subjectColor(name: string): string {
   return subjects.value.find((s) => s.name === name)?.color ?? '#64748b';
@@ -73,6 +95,8 @@ onMounted(load);
       <p v-if="error" class="study-error">{{ error }}</p>
 
       <div class="study-filter-row"><button v-for="tabItem in subjectTabs" :key="tabItem.name" class="study-filter" :class="{ active: activeSubject === tabItem.name }" @click="activeSubject = tabItem.name">{{ tabItem.label }}</button></div>
+      <div class="study-filter-row is-year"><button v-for="yearItem in yearTabs" :key="String(yearItem.value)" class="study-filter" :class="{ active: activeYear === yearItem.value }" @click="activeYear = yearItem.value">{{ yearItem.label }}</button></div>
+      <van-search v-model="keyword" shape="round" placeholder="搜年份 / 科目 / 卷名…" />
       <div v-if="busy && !papers.length" class="study-loading"><van-loading size="24">正在加载试卷…</van-loading></div>
       <div v-else class="paper-list">
         <button v-for="paper in filteredPapers" :key="paper.id" class="paper-card" @click="openPaper(paper.id)">
@@ -85,7 +109,9 @@ onMounted(load);
           <i :style="{ background: subjectColor(paper.subject) }" />
           <span class="paper-arrow">›</span>
         </button>
-        <div v-if="!filteredPapers.length" class="study-empty">暂无试卷。</div>
+        <div v-if="!filteredPapers.length" class="study-empty">
+          没有符合条件的试卷。<button class="inline-reset" @click="resetFilters">重置筛选</button>
+        </div>
       </div>
     </div>
   </main>
@@ -99,4 +125,7 @@ export default defineComponent({ name: 'MobilePapersView' });
 <style scoped>
 .papers-count { flex: 0 0 auto; padding: 4px 10px; border-radius: 8px; background: var(--study-accent-soft); color: var(--study-accent); font-size: 12px; font-weight: 600; }
 .paper-list { display: grid; gap: 9px; margin-top: 10px; }.paper-card { width: 100%; min-height:78px; display: grid; grid-template-columns: 54px 1fr 6px 12px; align-items: center; gap: 11px; padding: 14px; border: 1px solid var(--study-line); border-radius: 12px; background: var(--app-surface); color: var(--study-text); text-align: left; }.paper-year { display: grid; gap: 1px; text-align: center; }.paper-year strong { color: var(--study-accent); font-family: inherit; font-size: 20px; font-weight: 600; }.paper-year small { color: var(--study-faint); font-size: 12px; }.paper-meta { display: grid; gap: 4px; min-width: 0; }.paper-meta strong { color: var(--study-ink); font-family: inherit; font-size: 14px; line-height: 1.4; }.paper-meta span { color: var(--study-muted); font-size: 12px; }.paper-meta .paper-trust { width: fit-content; padding: 2px 6px; border-radius: 6px; background: #fff7ed; color: #9a5b13; }.paper-meta .paper-trust.verified { background: #ecfdf3; color: #18794e; }.paper-meta .paper-trust.incomplete { background: #fff1f0; color: #b42318; }.paper-card > i { width: 6px; height: 30px; border-radius: 2px; }.paper-arrow { color: var(--study-muted); }
+.study-filter-row.is-year { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+.study-filter-row.is-year .study-filter { flex: 0 0 auto; }
+.inline-reset { margin-top: 8px; min-height: 34px; padding: 0 12px; border: 1px solid var(--study-line); border-radius: 8px; background: var(--app-surface); color: var(--study-accent); font-size: 12.5px; font-weight: 600; }
 </style>

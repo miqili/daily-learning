@@ -85,7 +85,10 @@ html { min-width: 320px; background: var(--app-bg); }
 body { min-width: 320px; min-height: 100vh; margin: 0; background: var(--app-bg); }
 button, input, select, textarea { font: inherit; }
 button { cursor: pointer; }
-button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid rgba(37, 99, 235, .2); outline-offset: 2px; }
+button:focus-visible, a:focus-visible { outline: 3px solid rgba(37, 99, 235, .2); outline-offset: 2px; }
+/* 输入类控件（含 vant 搜索框 / 表单单元格）聚焦只改容器边框色。
+   禁止 box-shadow 光圈与 outline —— 全站统一，勿再补 3px 样式（2026-09-23 约定）。 */
+.m-shell input:focus, .m-shell select:focus, .m-shell textarea:focus { border-color: var(--app-primary); }
 .ant-btn-primary { box-shadow: none; }
 
 .app-canvas { min-height: 100vh; background: var(--app-bg); }
@@ -226,12 +229,14 @@ h2 { margin: 0; color: var(--app-text); font-size: 17px; line-height: 1.35; font
 
 .study-page .van-field, .study-page .van-cell { background: transparent; }
 .study-page .van-cell::after { border-color: var(--app-border); }
+.study-page .van-cell:focus-within::after { border-color: var(--app-primary); }
 .study-page .van-field__label { color: var(--app-muted); }
 .study-page .van-field__control { color: var(--app-text); }
 .study-page .van-button--primary { border-color: var(--app-primary); background: var(--app-primary); }
 .study-page .van-empty__description { color: var(--app-muted); font-family: inherit; }
 .study-page .van-search { margin-top: 12px; padding: 0; background: transparent; }
 .study-page .van-search__content { border: 1px solid var(--app-border-strong); border-radius: 10px; background: var(--app-surface); }
+.study-page .van-search__content:focus-within { border-color: var(--app-primary); }
 .study-page .van-search__action { min-width: 52px; min-height: 44px; display: grid; place-items: center; margin-left: 8px; padding: 0 12px; border-radius: 8px; background: var(--app-primary); color: #fff; font-size: 13px; font-weight: 600; }
 
 @media (max-width: 1080px) {

@@ -1635,7 +1635,7 @@ watch(activeIndex, () => {
   color: var(--wb-faint);
   transition: border-color var(--wb-dur) var(--wb-ease), box-shadow var(--wb-dur) var(--wb-ease);
 }
-.wb-search:focus-within { border-color: var(--wb-accent); box-shadow: 0 0 0 3px rgba(108, 77, 255, .1); color: var(--wb-accent); }
+.wb-search:focus-within { border-color: var(--wb-brand); color: var(--wb-brand); }
 .wb-search input { min-width: 0; flex: 1; border: 0; background: transparent; color: var(--wb-ink); font-size: 13px; outline: none; }
 .wb-search input::placeholder { color: var(--wb-faint); }
 .wb-search input::-webkit-search-cancel-button { display: none; }
